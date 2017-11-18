@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "preferGlobal": true,
   "scripts": {
     "start": "react-static start",
     "build": "react-static build",

@@ -2,8 +2,10 @@ import React from 'react'
 import { getRouteProps } from 'react-static'
 import Smackdown from 'react-smackdown'
 
-export default getRouteProps(({ tree, files }) => (
+const page = ({ doc }) => (console.log(doc),
   <div>
-    {Object.keys(files).map(f => <Smackdown source={files[f]} /> )}
+    <Smackdown source={doc.body} />
   </div>
-))
+)
+
+export default getRouteProps(page)

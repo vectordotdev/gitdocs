@@ -6,5 +6,7 @@
   "favicon": "favicon.ico",
   "cover": "cover.png",
   "repository": "github.com/react-tools/gitdocs",
-  "license"
+  "license": "MIT",
+  "root": "./docs",
+  "expanded": true
 }

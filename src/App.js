@@ -1,8 +1,9 @@
 import React from 'react'
-import { Router, Link } from 'react-static'
+import { Router, Link, getSiteProps } from 'react-static'
 import styled, { injectGlobal } from 'styled-components'
-//
 import Routes from 'react-static-routes'
+
+import Sidebar from 'components/Sidebar'
 
 injectGlobal`
   body {
@@ -16,43 +17,18 @@ injectGlobal`
 `
 
 const AppStyles = styled.div`
-  a {
-    text-decoration: none;
-    color: #108db8;
-    font-weight: bold;
-  }
-
-  nav {
-    width: 100%;
-    background: #108db8;
-
-    a {
-      color: white;
-      padding: 1rem;
-      display: inline-block;
-    }
-  }
-
-  .content {
-    padding: 1rem;
-  }
-
-  img {
-    max-width: 100%;
-  }
+  display: flex;
 `
 
-export default () => (
+const App = ({ tree }) => (
   <Router>
     <AppStyles>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/blog">Blog</Link>
-      </nav>
+      <Sidebar tree={tree} />
       <div className="content">
         <Routes />
       </div>
     </AppStyles>
   </Router>
 )
+
+export default getSiteProps(App)

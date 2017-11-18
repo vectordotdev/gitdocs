@@ -3,36 +3,47 @@ import path from 'path'
 import React, { Component } from 'react'
 import { ServerStyleSheet } from 'styled-components'
 import dirTree from 'directory-tree'
+import { getDocPath } from './src/utils'
 
-let files = {}
-const ROOT =  path.resolve(process.env.GITDOCS_CWD)
+const files = {}
+const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
-const DIST = path.resolve(ROOT, 'docsDist')
+const config = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
 
-const tree = dirTree(DOCS_SRC, { extensions:/\.md/ }, (item, nodePath) => {
+const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
   const contents = fs.readFileSync(item.path, 'utf8')
-  files[item.path] = contents
+  files[getDocPath(item.path)] = {
+    ...item,
+    body: contents,
+  }
 })
 
-const config = {
-  title: 'Documentation'
-} // pull from ./docs/config.json
-// console.log(tree)
+console.log(files)
+
+function makeDocPages (files) {
+  return Object.keys(files).map(file => ({
+    path: getDocPath(files[file].path),
+    component: 'src/containers/Docs',
+    getProps: () => ({
+      doc: files[file],
+    }),
+  }))
+}
 
 export default {
   getSiteProps: () => ({
-    title: config.title,
+    config,
+    files,
+    tree,
   }),
-  getRoutes: async () => {
+  getRoutes: () => {
+    const docPages = makeDocPages(files)
     return [
+      ...docPages,
       {
         path: '/',
         component: 'src/containers/Docs',
-         getProps: () => ({
-          tree,
-          files,
-          config,
-        }),
+        getProps: () => ({ doc: files['/readme'] })
       },
       {
         is404: true,
