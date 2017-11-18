@@ -1,0 +1,32 @@
+{
+  "name": "gitdocs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-static start",
+    "build": "react-static build",
+    "serve": "serve dist -p 3000"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "babel-register": "^6.26.0",
+    "chalk": "^2.3.0",
+    "directory-tree": "^2.0.0",
+    "raw-loader": "^0.5.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-smackdown": "^0.6.5",
+    "react-static": "^4.2.4",
+    "styled-components": "2.2.0",
+    "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "eslint-config-react-tools": "1.x.x",
+    "serve": "^6.1.0"
+  },
+  "bin": {
+    "gitdocs": "bin/gitdocs.js"
+  }
+}

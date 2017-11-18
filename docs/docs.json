@@ -1,0 +1,10 @@
+{
+  "name": "GitDocs",
+  "theme": "default",
+  "script": "custom.js",
+  "css": "custom.css",
+  "favicon": "favicon.ico",
+  "cover": "cover.png",
+  "repository": "github.com/react-tools/gitdocs",
+  "license"
+}
