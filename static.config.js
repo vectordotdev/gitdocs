@@ -14,15 +14,17 @@ const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
   const contents = fs.readFileSync(item.path, 'utf8')
   files[getDocPath(item.path)] = {
     ...item,
+    path: getDocPath(item.path),
     body: contents,
   }
 })
 
-console.log(files)
+const toc = files['/contents']
+// console.log(files)
 
 function makeDocPages (files) {
   return Object.keys(files).map(file => ({
-    path: getDocPath(files[file].path),
+    path: `${files[file].path}`,
     component: 'src/containers/Docs',
     getProps: () => ({
       doc: files[file],
@@ -35,6 +37,7 @@ export default {
     config,
     files,
     tree,
+    toc,
   }),
   getRoutes: () => {
     const docPages = makeDocPages(files)
@@ -66,6 +69,7 @@ export default {
           <Head>
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css'/>
             {renderMeta.styleTags}
           </Head>
           <Body>{children}</Body>

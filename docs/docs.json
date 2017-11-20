@@ -8,5 +8,6 @@
   "repository": "github.com/react-tools/gitdocs",
   "license": "MIT",
   "root": "./docs",
-  "expanded": true
+  "expanded": true,
+  "logo": "./logo.png"
 }

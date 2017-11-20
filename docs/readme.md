@@ -1,1 +1,1 @@
-This is the summary.
+This is the main readme. See [the quickstart](/quickstart.md) to figure out what's going on here.

@@ -2,20 +2,30 @@ import React from 'react'
 import { Link } from 'react-static'
 import { getDocPath } from 'utils'
 
-const Title = ({ name, type, path }) => {
+const Title = ({ name, type, path, doc }) => {
+  console.log(path, doc.path)
   if (type === 'directory') {
-    return <div>{name}</div>
+    return <h3>{name}</h3>
   }
 
-  return <Link to={getDocPath(path)}>{name.replace('.md', '')}</Link>
+  const className = path.includes(window.location.pathname)
+    ? 'active link'
+    : 'link'
+
+  return (
+    <Link to={getDocPath(path)} className={className}>
+      {name.replace('.md', '')}
+    </Link>
+  )
 }
 
-const SidebarItem = ({ name, children, type, path }) => (
+const SidebarItem = ({ name, children, type, path, doc }) => (
   <li>
     <Title
       name={name}
       type={type}
       path={path}
+      doc={doc}
     />
     {
       children &&
@@ -24,6 +34,7 @@ const SidebarItem = ({ name, children, type, path }) => (
           <SidebarItem
             {...c}
             key={c.path}
+            doc={doc}
           />
         ))}
       </ul>

@@ -1,34 +1,46 @@
-import React from 'react'
-import { Router, Link, getSiteProps } from 'react-static'
-import styled, { injectGlobal } from 'styled-components'
+import React, { Component } from 'react'
+import { Router, getSiteProps } from 'react-static'
+import { injectGlobal } from 'styled-components'
 import Routes from 'react-static-routes'
-
+import NProgress from 'nprogress'
 import Sidebar from 'components/Sidebar'
+import Wrapper from './Wrapper'
 
 injectGlobal`
   body {
-    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
-      'Lucida Grande', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
+    font-family: aktiv-grotesk,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue;
+    font-weight: 400;
+    font-size: 14px;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
   }
 `
 
-const AppStyles = styled.div`
-  display: flex;
-`
+class App extends Component {
+  componentDidMount () {
+    Router.subscribe(loading => {
+      if (loading) {
+        NProgress.start()
+      } else {
+        NProgress.done()
+        window.scrollTo(0, 0)
+      }
+    })
+  }
 
-const App = ({ tree }) => (
-  <Router>
-    <AppStyles>
-      <Sidebar tree={tree} />
-      <div className="content">
-        <Routes />
-      </div>
-    </AppStyles>
-  </Router>
-)
+  render () {
+    const { tree, toc } = this.props
+
+    return (
+      <Router>
+        <Wrapper>
+          <Sidebar tree={tree} toc={toc} />
+          <Routes />
+        </Wrapper>
+      </Router>
+    )
+  }
+}
 
 export default getSiteProps(App)

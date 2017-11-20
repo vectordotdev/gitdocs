@@ -1,1 +1,3 @@
-export const getDocPath = path => path.split('/docs')[1].replace('.md', '')
+export function getDocPath (path, root = '/docs') {
+  return path.split(`${root}`)[1].replace('.md', '')
+}
