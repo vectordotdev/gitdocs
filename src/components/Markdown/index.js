@@ -38,9 +38,10 @@ const syntax = {
   theme: atomOneLight,
 }
 
-const Markdown = ({ source }) => {
+const Markdown = ({ source, ...rest }) => {
   const content = (
     <Smackdown
+      {...rest}
       syntax={syntax}
       source={source}
       components={{

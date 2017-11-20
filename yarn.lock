@@ -5177,9 +5177,9 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
-react-smackdown@^0.6.5:
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/react-smackdown/-/react-smackdown-0.6.5.tgz#78e55a80280d050e1572914f7940ef92c85f86ff"
+react-smackdown@^0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/react-smackdown/-/react-smackdown-0.6.6.tgz#f3dd142921d231a9785df0188972b25de90dafde"
   dependencies:
     marked "^0.3.6"
     react-html-parser "^2.0.0"

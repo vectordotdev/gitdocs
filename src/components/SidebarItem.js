@@ -2,18 +2,18 @@ import React from 'react'
 import { Link } from 'react-static'
 import { getDocPath } from 'utils'
 
-const Title = ({ name, type, path, doc }) => {
-  console.log(path, doc.path)
+const Title = ({ name, type, path, doc = {} }) => {
   if (type === 'directory') {
     return <h3>{name}</h3>
   }
 
-  const className = path.includes(window.location.pathname)
+  const href = getDocPath(path)
+  const className = href === doc.path
     ? 'active link'
     : 'link'
 
   return (
-    <Link to={getDocPath(path)} className={className}>
+    <Link to={href} className={className}>
       {name.replace('.md', '')}
     </Link>
   )

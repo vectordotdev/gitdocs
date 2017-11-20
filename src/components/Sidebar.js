@@ -6,6 +6,7 @@ import SidebarItem from './SidebarItem'
 
 const Wrapper = styled.aside`
   flex: 1 0 auto;
+  flex-grow: 0;
   min-width: 230px;
   max-width: 230px;
   background: #f4f7fa;
@@ -63,8 +64,8 @@ const Wrapper = styled.aside`
 const Sidebar = ({ tree, toc, doc }) => (
   <Wrapper>
     <ul>
-      {toc && <Markdown source={toc.body} />}
-      {!toc && tree.children.map(c =>
+      {!toc && <Markdown source={toc.body} doc={doc} />}
+      {toc && tree.children.map(c =>
         <SidebarItem {...c} key={c.path} doc={doc} />
       )}
     </ul>

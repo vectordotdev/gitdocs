@@ -19,7 +19,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
-    "react-smackdown": "^0.6.5",
+    "react-smackdown": "^0.6.6",
     "react-static": "^4.2.4",
     "styled-components": "2.2.0",
     "yargs": "^10.0.3"

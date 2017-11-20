@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-static'
 
-const LinkRenderer = ({ children = [], href, name }) => {
+const LinkRenderer = ({ children = [], href, name, doc = {} }) => {
   if (!href && name) {
     return <a href={`#${name}`} />
   }
@@ -14,7 +14,7 @@ const LinkRenderer = ({ children = [], href, name }) => {
     ? href.replace('.md', '').toLowerCase()
     : `/${href.replace('.md', '')}`.toLowerCase()
 
-  const className = `${window.location.pathname}${window.location.hash}` === to
+  const className = doc.path === to
     ? 'link active'
     : 'link'
 
