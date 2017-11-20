@@ -15,12 +15,11 @@ const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
   files[getDocPath(item.path)] = {
     ...item,
     path: getDocPath(item.path),
-    body: contents,
+    body: contents || '',
   }
 })
 
 const toc = files['/contents']
-// console.log(files)
 
 function makeDocPages (files) {
   return Object.keys(files).map(file => ({
@@ -46,7 +45,7 @@ export default {
       {
         path: '/',
         component: 'src/containers/Docs',
-        getProps: () => ({ doc: files['/readme'] })
+        getProps: () => ({ doc: files['/readme'] }),
       },
       {
         is404: true,
@@ -69,7 +68,7 @@ export default {
           <Head>
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css'/>
+            <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
             {renderMeta.styleTags}
           </Head>
           <Body>{children}</Body>

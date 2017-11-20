@@ -64,8 +64,8 @@ const Wrapper = styled.aside`
 const Sidebar = ({ tree, toc, doc }) => (
   <Wrapper>
     <ul>
-      {!toc && <Markdown source={toc.body} doc={doc} />}
-      {toc && tree.children.map(c =>
+      {toc && <Markdown source={toc.body} doc={doc} />}
+      {!toc && tree.children.map(c =>
         <SidebarItem {...c} key={c.path} doc={doc} />
       )}
     </ul>
