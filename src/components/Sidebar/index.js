@@ -1,12 +1,11 @@
 import React from 'react'
 import { getRouteProps } from 'react-static'
-import Notebook from 'svg/Notebook'
 import Markdown from 'components/Markdown'
 import SidebarItem from './SidebarItem'
 import Wrapper from './Wrapper'
 import Header from './Header'
 
-const Sidebar = ({ tree, toc, doc, config }) => (console.log(config),
+const Sidebar = ({ tree, toc, doc, config }) => (
   <Wrapper>
     <Header>
       <a href={config.repository}>

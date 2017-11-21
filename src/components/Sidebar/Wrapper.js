@@ -16,7 +16,7 @@ export default styled.aside`
   }
 
   > ul {
-    padding: .5rem 1.5rem 1.5rem 1.5rem;
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
   }
 
   ul ul {

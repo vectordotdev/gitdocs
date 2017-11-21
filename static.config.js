@@ -6,17 +6,33 @@ import dirTree from 'directory-tree'
 import { getDocPath } from './src/utils'
 import defaults from './default.json'
 
-const files = {}
+// Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
-let customConfig = {}
+
+// Initialize files and custom config
+const files = {}
+let custom = {}
+let readme = {}
+
+// Grab optional docs.json config and warn if it doesn't exist
 try {
-  customConfig = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
+  custom = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
 } catch (e) {
   console.warn('warning: no docs.json found, you may want to add one.')
 }
-const config = { ...defaults, ...customConfig }
 
+// Grab readme and warn if it doesn't exist
+try {
+  readme = fs.readFileSync(path.resolve(ROOT, 'readme.md'), 'utf8')
+} catch (e) {
+  console.warn('warning: no readme found, you may want to add one.')
+}
+
+// Merge docs.json config with default config.json
+const config = { ...defaults, ...custom }
+
+// Pull out the markdown files in the /docs directory
 const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
   const contents = fs.readFileSync(item.path, 'utf8')
   files[getDocPath(item.path)] = {
@@ -26,8 +42,24 @@ const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
   }
 })
 
+// Add root readme to file tree
+tree.children.unshift({
+  path: `${DOCS_SRC}/readme.md`,
+  name: 'Introduction',
+  type: 'file',
+})
+
+files['/readme'] = {
+  path: '/readme',
+  name: 'Introduction',
+  type: 'file',
+  body: readme,
+}
+
+// Pull out the table of contents from the optional contents.md
 const toc = files['/contents']
 
+// Generate docs routes
 function makeDocPages (files) {
   return Object.keys(files).map(file => ({
     path: `${files[file].path}`,
