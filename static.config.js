@@ -9,11 +9,12 @@ import defaults from './default.json'
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
+console.log(ROOT, DOCS_SRC)
 
 // Initialize files and custom config
 const files = {}
 let custom = {}
-let readme = {}
+let readme = ''
 
 // Grab optional docs.json config and warn if it doesn't exist
 try {
@@ -26,7 +27,7 @@ try {
 try {
   readme = fs.readFileSync(path.resolve(ROOT, 'readme.md'), 'utf8')
 } catch (e) {
-  console.warn('warning: no readme found, you may want to add one.')
+  console.warn('warning: no readme.md found, you may want to add one.')
 }
 
 // Merge docs.json config with default config.json
