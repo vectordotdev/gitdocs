@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
 export default styled.div`
+  color: #24292e;
+  font-size: 16px;
+  line-height: 1.5;
+
   ul {
     list-style: disc;
     padding-left: 2rem;

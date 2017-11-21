@@ -9,5 +9,6 @@
   "license": "MIT",
   "root": "./docs",
   "expanded": true,
-  "logo": "./logo.png"
+  "logo": "./logo.png",
+  "minDepth": 3
 }

@@ -4,10 +4,8 @@ export default styled.main`
   display: flex;
   height: 100vh;
 
-  > div { display: flex; height: 100vh; }
-
   @media(max-width: 700px) {
-    main > div { flex-direction: column }
+    flex-direction: column
 
     aside {
       min-height: 200px;
