@@ -10,12 +10,9 @@
     "serve": "serve dist -p 3000"
   },
   "dependencies": {
-    "axios": "^0.16.2",
-    "babel-register": "^6.26.0",
     "chalk": "^2.3.0",
     "directory-tree": "^2.0.0",
     "nprogress": "^0.2.0",
-    "raw-loader": "^0.5.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",

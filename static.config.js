@@ -16,18 +16,25 @@ const files = {}
 let custom = {}
 let readme = ''
 
+// Case-insensitive check for readme.md
+const rootFiles = fs.readdirSync(ROOT)
+rootFiles.forEach(item => {
+  console.log(item, item.match(/readme.md/i))
+  if (item.match(/readme.md/i)) {
+    readme = fs.readFileSync(path.resolve(ROOT, item), 'utf8')
+  }
+})
+
+// Warn if we can't find a readme
+if (!readme.length) {
+  console.warn('warning: no readme.md found, you may want to add one.')
+}
+
 // Grab optional docs.json config and warn if it doesn't exist
 try {
   custom = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
 } catch (e) {
   console.warn('warning: no docs.json found, you may want to add one.')
-}
-
-// Grab readme and warn if it doesn't exist
-try {
-  readme = fs.readFileSync(path.resolve(ROOT, 'README.md'), 'utf8')
-} catch (e) {
-  console.warn('warning: no readme.md found, you may want to add one.')
 }
 
 // Merge docs.json config with default config.json
