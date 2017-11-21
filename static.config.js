@@ -25,7 +25,7 @@ try {
 
 // Grab readme and warn if it doesn't exist
 try {
-  readme = fs.readFileSync(path.resolve(ROOT, 'readme.md'), 'utf8')
+  readme = fs.readFileSync(path.resolve(ROOT, 'README.md'), 'utf8')
 } catch (e) {
   console.warn('warning: no readme.md found, you may want to add one.')
 }
