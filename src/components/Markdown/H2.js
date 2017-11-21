@@ -6,13 +6,15 @@ const Header = ({ children, id, ...rest }) => {
   }
 
   return (
-    <a
-      href={`#${id}`}
-      id={id}
-      style={{ color: 'rgba(0,0,0,.7)', margin: '1rem 0 0 0' }}
-    >
-      <h2>{children}</h2>
-    </a>
+    <h2>
+      <a
+        href={`#${id}`}
+        id={id}
+        style={{ color: 'rgba(0,0,0,.7)', margin: '1rem 0 0 0' }}
+      >
+        {children}
+      </a>
+    </h2>
   )
 }
 

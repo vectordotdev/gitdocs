@@ -4,11 +4,18 @@ import React, { Component } from 'react'
 import { ServerStyleSheet } from 'styled-components'
 import dirTree from 'directory-tree'
 import { getDocPath } from './src/utils'
+import defaults from './default.json'
 
 const files = {}
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
-const config = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
+let customConfig = {}
+try {
+  customConfig = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
+} catch (e) {
+  console.warn('warning: no docs.json found, you may want to add one.')
+}
+const config = { ...defaults, ...customConfig }
 
 const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
   const contents = fs.readFileSync(item.path, 'utf8')

@@ -1,16 +1,10 @@
-import React from 'react'
-import { getRouteProps } from 'react-static'
 import styled from 'styled-components'
-import Markdown from 'components/Markdown'
-import SidebarItem from './SidebarItem'
 
-const Wrapper = styled.aside`
+export default styled.aside`
   flex: 1 0 auto;
-  flex-grow: 0;
   min-width: 230px;
-  max-width: 230px;
+  max-width: 280px;
   background: #f4f7fa;
-  padding: 1.5rem;
   overflow-y: auto;
   border-right: 1px solid #DFE3E8;
   margin: 0;
@@ -19,6 +13,10 @@ const Wrapper = styled.aside`
     list-style: none;
     padding: 0;
     margin: 0 0 1.5rem 0;
+  }
+
+  > ul {
+    padding: .5rem 1.5rem 1.5rem 1.5rem;
   }
 
   ul ul {
@@ -60,16 +58,3 @@ const Wrapper = styled.aside`
     a { text-decoration: none }
   }
 `
-
-const Sidebar = ({ tree, toc, doc }) => (
-  <Wrapper>
-    <ul>
-      {toc && <Markdown source={toc.body} doc={doc} />}
-      {!toc && tree.children.map(c =>
-        <SidebarItem {...c} key={c.path} doc={doc} />
-      )}
-    </ul>
-  </Wrapper>
-)
-
-export default getRouteProps(Sidebar)

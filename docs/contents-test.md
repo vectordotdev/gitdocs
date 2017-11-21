@@ -29,6 +29,8 @@
 
 * [Templating](templating/README.md)
     * [Content References](templating/conrefs.md)
+        * [Languages](syntax/code/languages.md)
+            * [Languages](syntax/code/languages.md)
     * [Variables](templating/variables.md)
     * [Builtin](templating/builtin.md)
 * [Plugins](plugins/README.md)

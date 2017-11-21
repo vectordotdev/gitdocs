@@ -1,18 +1,20 @@
 import React from 'react'
 
-const Header = ({ children, id }) => {
+const Header = ({ children, id, ...rest }) => {
   if (!id) {
     id = children[0].toLowerCase().split(' ').join('-')
   }
 
   return (
-    <a
-      href={`#${id}`}
-      id={id}
-      style={{ color: 'rgba(0,0,0,.7)', margin: '1rem 0 0 0' }}
-    >
-      <h1>{children}</h1>
-    </a>
+    <h1>
+      <a
+        href={`#${id}`}
+        id={id}
+        style={{ color: 'rgba(0,0,0,.7)', margin: '1rem 0 0 0' }}
+      >
+        {children}
+      </a>
+    </h1>
   )
 }
 

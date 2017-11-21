@@ -4,6 +4,11 @@ export default styled.main`
   display: flex;
   height: 100vh;
 
+  section > div {
+    max-width: 775px;
+    margin: 0 auto;
+  }
+
   @media(max-width: 700px) {
     flex-direction: column
 
@@ -16,7 +21,7 @@ export default styled.main`
   }
 
   @media(min-width: 1500px) {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
     height: auto;
 

@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 
 export default styled.div`
-  color: #24292e;
-  font-size: 16px;
+  color: rgba(0,0,0,.7);
   line-height: 1.5;
+
+  h1, h2, h3 {
+    a { text-decoration: none }
+  }
 
   ul {
     list-style: disc;
@@ -15,7 +18,7 @@ export default styled.div`
   }
 
   blockquote {
-    border-left: 3px solid #b6b3da;
+    border-left: 3px solid #315FA8;
     padding-left: 1rem;
     font-style: italic;
   }
@@ -49,6 +52,7 @@ export default styled.div`
     font-family: Roboto Mono, monospace;
     border-radius: 3px;
     line-height: 19px;
+    font-size: 1em;
   }
 
   table {

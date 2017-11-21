@@ -1,11 +1,12 @@
 {
   "name": "GitDocs",
+  "version": "0.0.1",
   "theme": "default",
   "script": "custom.js",
   "css": "custom.css",
   "favicon": "favicon.ico",
   "cover": "cover.png",
-  "repository": "github.com/react-tools/gitdocs",
+  "repository": "https://github.com/react-tools/gitdocs",
   "license": "MIT",
   "root": "./docs",
   "expanded": true,

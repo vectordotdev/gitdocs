@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export default styled.section`
   color: rgba(0,0,0,.7);
   line-height: 1.75;
-  padding: 0 2rem;
+  padding: 1rem 2rem;
   font-family: "source-sans-pro", sans-serif;
   font-size: 1.1rem;
   word-wrap: break-word;

@@ -40,7 +40,7 @@ class SidebarItem extends React.Component {
     const underActiveRoute = props.doc.path.includes(getDocPath(props.path))
 
     this.state = {
-      expanded: depth < 3 || underActiveRoute
+      expanded: depth < 3 || underActiveRoute,
     }
   }
 
@@ -48,7 +48,7 @@ class SidebarItem extends React.Component {
     const depth = getDocPath(nextProps.path).split('/').length
     const underActiveRoute = nextProps.doc.path.includes(getDocPath(nextProps.path))
     this.setState({
-      expanded: depth < 3 || underActiveRoute
+      expanded: depth < 3 || underActiveRoute,
     })
   }
 
