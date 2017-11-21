@@ -9,7 +9,6 @@ import Header from './Header'
 const Sidebar = ({ tree, toc, doc, config }) => (console.log(config),
   <Wrapper>
     <Header>
-      <Notebook />
       <a href={config.repository}>
         {config.name} version {config.version}
       </a>
