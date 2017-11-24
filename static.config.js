@@ -9,17 +9,16 @@ import defaults from './default.json'
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
-console.log(ROOT, DOCS_SRC)
 
 // Initialize files and custom config
 const files = {}
+let tree = {}
 let custom = {}
 let readme = ''
 
 // Case-insensitive check for readme.md
 const rootFiles = fs.readdirSync(ROOT)
 rootFiles.forEach(item => {
-  console.log(item, item.match(/readme.md/i))
   if (item.match(/readme.md/i)) {
     readme = fs.readFileSync(path.resolve(ROOT, item), 'utf8')
   }
@@ -40,32 +39,70 @@ try {
 // Merge docs.json config with default config.json
 const config = { ...defaults, ...custom }
 
-// Pull out the markdown files in the /docs directory
-const tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
-  const contents = fs.readFileSync(item.path, 'utf8')
-  files[getDocPath(item.path)] = {
-    ...item,
-    path: getDocPath(item.path),
-    body: contents || '',
+if (false) {
+  // Pull out the markdown files in the /docs directory
+  tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
+    const contents = fs.readFileSync(item.path, 'utf8')
+    files[getDocPath(item.path)] = {
+      ...item,
+      path: getDocPath(item.path),
+      body: contents || '',
+    }
+  })
+
+  // Add root readme to file tree
+  tree.children.unshift({
+    path: `${DOCS_SRC}/readme.md`,
+    name: 'Introduction',
+    type: 'file',
+  })
+
+  files['/readme'] = {
+    path: '/readme',
+    name: 'Introduction',
+    type: 'file',
+    body: readme,
   }
-})
-
-// Add root readme to file tree
-tree.children.unshift({
-  path: `${DOCS_SRC}/readme.md`,
-  name: 'Introduction',
-  type: 'file',
-})
-
-files['/readme'] = {
-  path: '/readme',
-  name: 'Introduction',
-  type: 'file',
-  body: readme,
 }
 
-// Pull out the table of contents from the optional contents.md
-const toc = files['/contents']
+function importFile (pathToFile) {
+  try {
+    return fs.readFileSync(path.resolve(DOCS_SRC, pathToFile), 'utf8')
+  } catch (e) {
+    return ''
+  }
+}
+
+function buildTree (item, name, current) {
+  // Is this a directory?
+  const isDir = typeof item === 'object'
+
+  // Build the doc
+  const child = {
+    name,
+    path: isDir ? current : item,
+    type: isDir ? 'directory' : 'file',
+    body: isDir ? '' : importFile(item),
+  }
+
+  // Add to file list
+  if (!isDir) {
+    console.log(importFile(item))
+    files[item.replace('.md', '')] = child
+  }
+
+  if (isDir) {
+    child.children = Object.keys(item)
+      .map(k => buildTree(item[k], k, `${current}/${name}`))
+  }
+
+  return child
+}
+
+if (config.sidebar) {
+  tree = buildTree(config.sidebar, 'sidebar', '')
+  console.log(JSON.stringify(tree))
+}
 
 // Generate docs routes
 function makeDocPages (files) {
@@ -83,7 +120,6 @@ export default {
     config,
     files,
     tree,
-    toc,
   }),
   getRoutes: () => {
     const docPages = makeDocPages(files)

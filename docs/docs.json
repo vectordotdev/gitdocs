@@ -1,1 +1,14 @@
-{}
+{
+  "sidebar": {
+    "readme": "README.md",
+    "thing": "thing.md",
+    "deploying": {
+      "github": "deploying/github.md",
+      "gitlab": "deploying/gitlab.md",
+      "netlify": "deploying/netlify.md",
+      "another": {
+        "test": "testing.md"
+      }
+    }
+  }
+}
