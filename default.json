@@ -11,5 +11,5 @@
   "root": "./docs",
   "expanded": true,
   "logo": "./logo.png",
-  "minDepth": 3
+  "defaultDepth": 3
 }

@@ -27,7 +27,7 @@ const Title = ({ name, type, path, doc = {}, hasChildren, expanded }) => {
     : 'link'
 
   return (
-    <Link to={href} className={className}>
+    <Link to={`/${href}`} className={className}>
       {name.replace('.md', '')}
     </Link>
   )
@@ -36,19 +36,21 @@ const Title = ({ name, type, path, doc = {}, hasChildren, expanded }) => {
 class SidebarItem extends React.Component {
   constructor (props) {
     super(props)
+
     const depth = getDocPath(props.path).split('/').length
     const underActiveRoute = props.doc.path.includes(getDocPath(props.path))
 
     this.state = {
-      expanded: depth < 3 || underActiveRoute,
+      expanded: depth < props.config.defaultDepth || underActiveRoute,
     }
   }
 
   componentWillReceiveProps (nextProps) {
     const depth = getDocPath(nextProps.path).split('/').length
     const underActiveRoute = nextProps.doc.path.includes(getDocPath(nextProps.path))
+
     this.setState({
-      expanded: depth < 3 || underActiveRoute,
+      expanded: depth < nextProps.config.defaultDepth || underActiveRoute,
     })
   }
 
@@ -58,7 +60,7 @@ class SidebarItem extends React.Component {
   }
 
   render () {
-    const { name, children, type, path, doc } = this.props
+    const { name, children, type, path, doc, config } = this.props
 
     return (
       <li onClick={this.handleClick}>
@@ -78,6 +80,7 @@ class SidebarItem extends React.Component {
                 {...c}
                 key={c.path}
                 doc={doc}
+                config={config}
               />
             ))}
           </ul>

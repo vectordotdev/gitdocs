@@ -1,14 +1,26 @@
 {
   "sidebar": {
-    "readme": "README.md",
-    "thing": "thing.md",
+    "Introduction": "README.md",
+    "Quickstart": "quickstart.md",
+    "navigation": {
+      "contents.md": "contents.md",
+      "docs.json": "docs.md",
+      "automatic": "automatic.md"
+    },
+    "writing": {
+      "markdown": "markdown/markdown.md",
+      "syntax": "syntax/code/languagues.md"
+    },
+    "configuration": {
+      "styles": "configuration/styles.md",
+      "scripts": "configuration/scripts.md",
+      "analytics": "configuration/analytics.md"
+    },
+    "Components": "components/readme.md",
     "deploying": {
       "github": "deploying/github.md",
       "gitlab": "deploying/gitlab.md",
-      "netlify": "deploying/netlify.md",
-      "another": {
-        "test": "testing.md"
-      }
+      "netlify": "deploying/netlify.md"
     }
   }
 }

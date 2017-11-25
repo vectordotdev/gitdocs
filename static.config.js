@@ -33,13 +33,14 @@ if (!readme.length) {
 try {
   custom = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
 } catch (e) {
+  console.log(e)
   console.warn('warning: no docs.json found, you may want to add one.')
 }
 
 // Merge docs.json config with default config.json
 const config = { ...defaults, ...custom }
 
-if (false) {
+if (!config.sidebar) {
   // Pull out the markdown files in the /docs directory
   tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
     const contents = fs.readFileSync(item.path, 'utf8')
@@ -57,8 +58,8 @@ if (false) {
     type: 'file',
   })
 
-  files['/readme'] = {
-    path: '/readme',
+  files.readme = {
+    path: 'readme',
     name: 'Introduction',
     type: 'file',
     body: readme,
@@ -80,34 +81,37 @@ function buildTree (item, name, current) {
   // Build the doc
   const child = {
     name,
-    path: isDir ? current : item,
+    path: isDir ? current : getDocPath(item),
     type: isDir ? 'directory' : 'file',
     body: isDir ? '' : importFile(item),
   }
 
+  // If we're referencing the root readme, make it work
+  if (!isDir && item.match(/readme.md/i) && item.indexOf('/') === -1) {
+    child.body = readme
+  }
+
   // Add to file list
   if (!isDir) {
-    console.log(importFile(item))
-    files[item.replace('.md', '')] = child
+    files[getDocPath(item)] = child
   }
 
   if (isDir) {
     child.children = Object.keys(item)
-      .map(k => buildTree(item[k], k, `${current}/${name}`))
+      .map(k => buildTree(item[k], k, `${current}/${k}`))
   }
 
   return child
 }
 
 if (config.sidebar) {
-  tree = buildTree(config.sidebar, 'sidebar', '')
-  console.log(JSON.stringify(tree))
+  tree = buildTree(config.sidebar, '', '')
 }
 
 // Generate docs routes
 function makeDocPages (files) {
   return Object.keys(files).map(file => ({
-    path: `${files[file].path}`,
+    path: `/${files[file].path}`,
     component: 'src/containers/Docs',
     getProps: () => ({
       doc: files[file],
@@ -128,7 +132,11 @@ export default {
       {
         path: '/',
         component: 'src/containers/Docs',
-        getProps: () => ({ doc: files['/readme'] }),
+        getProps: () => ({
+          doc: config.sidebar
+            ? files[Object.keys(files)[0]]
+            : files.readme,
+        }),
       },
       {
         is404: true,

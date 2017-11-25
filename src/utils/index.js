@@ -1,5 +1,9 @@
 export function getDocPath (path, root = '/docs') {
-  return path.split(`${root}`)[1].replace('.md', '').toLowerCase()
+  if (path.includes(root)) {
+    return path.split(`${root}/`)[1].replace('.md', '').toLowerCase()
+  }
+
+  return path.replace('.md', '').toLowerCase()
 }
 
 /* eslint-disable */

@@ -11,3 +11,10 @@
 ### Resources
 
 - https://developer.atlassian.com/blog/2015/11/scripting-with-node/
+
+### React + Markdown
+- https://github.com/gatsbyjs/gatsby/issues/312#issuecomment-336681894
+- https://www.npmjs.com/package/reactdown
+- https://github.com/gatsbyjs/gatsby/pull/3012
+- http://md-to-react.surge.sh/
+- https://github.com/fazouane-marouane/remark-jsx/tree/master/packages/remark-custom-element-to-hast

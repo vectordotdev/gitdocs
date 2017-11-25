@@ -5,7 +5,7 @@ import SidebarItem from './SidebarItem'
 import Wrapper from './Wrapper'
 import Header from './Header'
 
-const Sidebar = ({ tree, toc, doc, config }) => (
+const Sidebar = ({ tree, toc, doc, config }) => (console.log(tree),
   <Wrapper>
     <Header>
       <a href={config.repository}>
@@ -14,9 +14,14 @@ const Sidebar = ({ tree, toc, doc, config }) => (
     </Header>
     <ul>
       {toc && <Markdown source={toc.body} doc={doc} />}
-      {!toc && tree.children.map(c =>
-        <SidebarItem {...c} key={c.path} doc={doc} config={config} />
-      )}
+      {!toc && tree.children.map(c => (
+        <SidebarItem
+          {...c}
+          key={c.path}
+          doc={doc}
+          config={config}
+        />
+      ))}
     </ul>
   </Wrapper>
 )
