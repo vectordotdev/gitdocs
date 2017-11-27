@@ -38,7 +38,7 @@ class SidebarItem extends React.Component {
     super(props)
 
     const depth = getDocPath(props.path).split('/').length
-    const underActiveRoute = props.doc.path.includes(getDocPath(props.path))
+    const underActiveRoute = this.getUnderActiveRoute(props)
 
     this.state = {
       expanded: depth < props.config.defaultDepth || underActiveRoute,
@@ -47,12 +47,17 @@ class SidebarItem extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const depth = getDocPath(nextProps.path).split('/').length
-    const underActiveRoute = nextProps.doc.path.includes(getDocPath(nextProps.path))
+    const underActiveRoute = this.getUnderActiveRoute(nextProps)
 
     this.setState({
       expanded: depth < nextProps.config.defaultDepth || underActiveRoute,
     })
   }
+
+  getUnderActiveRoute = props => (
+    props.doc.path.includes(getDocPath(props.path)) ||
+    (props.children && props.children.find(c => props.doc.path.includes(c.path)) !== undefined)
+  )
 
   handleClick = e => {
     e.stopPropagation()

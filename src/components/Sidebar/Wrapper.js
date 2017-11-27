@@ -23,6 +23,10 @@ export default styled.aside`
     padding-left: 15px;
   }
 
+  ul ul ul {
+    border-left: 3px solid #e4e4e4;
+  }
+
   ul li {
     margin-bottom: .75rem;
   }

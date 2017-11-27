@@ -19,3 +19,4 @@
 - https://github.com/gatsbyjs/gatsby/pull/3012
 - http://md-to-react.surge.sh/
 - https://github.com/fazouane-marouane/remark-jsx/tree/master/packages/remark-custom-element-to-hast
+- https://github.com/cerebral/marksy

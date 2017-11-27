@@ -1,6 +1,6 @@
 # GitDocs
 
-Easy to use, beautiful documentation that lives in your git repo.
+Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.
 
 ## How does it work
 

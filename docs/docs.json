@@ -8,6 +8,7 @@
   "cover": "cover.png",
   "repository": "https://github.com/react-tools/gitdocs",
   "license": "MIT",
+  "minDepth": 4,
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",
@@ -19,14 +20,16 @@
     "writing": {
       "markdown": "markdown/markdown.md",
       "syntax": "syntax/code/languagues.md",
-      "helpers": "helpers.md"
+      "components": {
+        "helpers": "helpers.md",
+        "custom": "components/readme.md"
+      }
     },
     "configuration": {
       "styles": "configuration/styles.md",
       "scripts": "configuration/scripts.md",
       "analytics": "configuration/analytics.md"
     },
-    "Components": "components/readme.md",
     "deploying": {
       "github": "deploying/github.md",
       "gitlab": "deploying/gitlab.md",
