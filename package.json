@@ -7,8 +7,7 @@
   "scripts": {
     "start": "react-static start",
     "build": "react-static build",
-    "serve": "serve dist -p 3000",
-    "release": "release-it"
+    "serve": "serve dist -p 3000"
   },
   "dependencies": {
     "chalk": "^2.3.0",
@@ -24,7 +23,6 @@
   },
   "devDependencies": {
     "eslint-config-react-tools": "1.x.x",
-    "release-it": "^5.0.0",
     "serve": "^6.1.0"
   },
   "bin": {
