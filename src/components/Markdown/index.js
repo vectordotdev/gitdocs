@@ -20,6 +20,7 @@ import H1Renderer from './H1'
 import H2Renderer from './H2'
 import H3Renderer from './H3'
 import TipRenderer from './Tip'
+import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 
@@ -54,6 +55,7 @@ const Markdown = ({ source, ...rest }) => {
         h2: H2Renderer,
         h3: H3Renderer,
         tip: TipRenderer,
+        info: InfoRenderer,
         warning: WarningRenderer,
         danger: DangerRenderer,
       }}

@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import Tip from './Tip'
 
-export default styled.div`
-  background: yellow;
-  padding: 1rem;
-  border-radius: 4px;
+export default Tip.extend`
+  border-left-color: #f7d24c;
+  background-color: #fefbed;
+  &::before { background-color: #f7d24c }
 `
