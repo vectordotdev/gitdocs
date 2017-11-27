@@ -1,4 +1,13 @@
 {
+  "name": "GitDocs",
+  "version": "0.0.1",
+  "theme": "default",
+  "script": "custom.js",
+  "css": "custom.css",
+  "favicon": "favicon.ico",
+  "cover": "cover.png",
+  "repository": "https://github.com/react-tools/gitdocs",
+  "license": "MIT",
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",
@@ -9,7 +18,8 @@
     },
     "writing": {
       "markdown": "markdown/markdown.md",
-      "syntax": "syntax/code/languagues.md"
+      "syntax": "syntax/code/languagues.md",
+      "helpers": "helpers.md"
     },
     "configuration": {
       "styles": "configuration/styles.md",

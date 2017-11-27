@@ -58,6 +58,7 @@ if (!config.sidebar) {
     type: 'file',
   })
 
+  // Add readme to file list
   files.readme = {
     path: 'readme',
     name: 'Introduction',
@@ -91,7 +92,7 @@ function buildTree (item, name, current) {
     child.body = readme
   }
 
-  // Add to file list
+  // Add to file list for convenience
   if (!isDir) {
     files[getDocPath(item)] = child
   }

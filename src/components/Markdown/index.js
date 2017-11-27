@@ -19,6 +19,9 @@ import LinkRenderer from './Link'
 import H1Renderer from './H1'
 import H2Renderer from './H2'
 import H3Renderer from './H3'
+import TipRenderer from './Tip'
+import WarningRenderer from './Warning'
+import DangerRenderer from './Danger'
 
 const syntax = {
   languages: [
@@ -50,6 +53,9 @@ const Markdown = ({ source, ...rest }) => {
         h1: H1Renderer,
         h2: H2Renderer,
         h3: H3Renderer,
+        tip: TipRenderer,
+        warning: WarningRenderer,
+        danger: DangerRenderer,
       }}
     />
   )

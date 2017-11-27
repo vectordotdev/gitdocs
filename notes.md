@@ -2,6 +2,7 @@
 
 - https://github.com/SBoudrias/Inquirer.js
 - https://github.com/tj/commander.js/
+- https://github.com/markdown-it/markdown-it#syntax-extensions
 
 ### Inspiration
 
