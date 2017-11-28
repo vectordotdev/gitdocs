@@ -25,3 +25,5 @@ We recommend configuring the sidebar navigation in `docs.json` like so:
 ```
 
 You can infinitely nest folders, although we recommend limiting this to 2 or 3 levels otherwise navigating can become tedious and it's more difficult to visualize the hierarchy.
+
+![alt text](/git-branching.png)

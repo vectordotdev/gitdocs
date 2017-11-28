@@ -20,10 +20,26 @@
 - http://md-to-react.surge.sh/
 - https://github.com/fazouane-marouane/remark-jsx/tree/master/packages/remark-custom-element-to-hast
 - https://github.com/cerebral/marksy
+- https://andreypopp.github.io/reactdown/
 
 ### Ideas
 - components for data visualization
 - runkit/codepen/codesandbox/webpackbin embeds
 - github pages mode (just react app)
 - configurable sidebar side (left|right)
-- 
+- mermaid integration https://mermaidjs.github.io/ (https://github.com/knsv/mermaid)
+- lucidchart integration
+- props tables + definitions
+- custom react/vue/etc components
+- analytics hooks
+- search build in
+- front matter for seo options and config
+
+### Components
+- steps
+- code demos
+- editor
+- embeds
+- charts
+- diagrams
+- graphs

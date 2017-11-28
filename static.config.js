@@ -9,6 +9,7 @@ import defaults from './default.json'
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
+const OUTPUT = process.env.OUTPUT
 
 // Initialize files and custom config
 const files = {}
@@ -125,6 +126,7 @@ function makeDocPages (files) {
 }
 
 export default {
+  siteRoot: '/',
   getSiteProps: () => ({
     config,
     files,
@@ -154,6 +156,18 @@ export default {
     const html = render(sheet.collectStyles(<Comp />))
     meta.styleTags = sheet.getStyleElement()
     return html
+  },
+  onStart: () => {
+    fs.copySync(
+      path.resolve(DOCS_SRC, 'public'),
+      path.resolve(ROOT, 'dist'),
+    )
+  },
+  onBuild: () => {
+    fs.copySync(
+      path.resolve(DOCS_SRC, 'public'),
+      path.resolve(ROOT, 'dist'),
+    )
   },
   Document: class CustomHtml extends Component {
     render () {

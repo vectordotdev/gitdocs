@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable */
 const yargs = require('yargs')
 const execSync = require('child_process').execSync
 const fs = require('fs-extra')
@@ -17,7 +18,7 @@ var argv = yargs
     command: 'serve [path]',
     alias: 's',
     desc: chalk.gray('serve'),
-    builder: (yargs) => yargs.options({
+    builder: yargs => yargs.options({
       'port': {
         alias: 'p',
         default: 3000,
@@ -27,7 +28,7 @@ var argv = yargs
         type: 'number'
       }
     }),
-    handler: (argv) => {
+    handler: argv => {
       execSync(
         `cd node_modules/gitdocs && node_modules/react-static/bin/react-static start`,
         {
@@ -41,7 +42,7 @@ var argv = yargs
     command: 'build [output]',
     alias: 'b',
     desc: chalk.gray('build'),
-    builder: (yargs) => yargs.options({
+    builder: yargs => yargs.options({
       'output': {
         alias: 'o',
         default: 'docs-dist',
@@ -51,12 +52,14 @@ var argv = yargs
         type: 'string'
       }
     }),
-    handler: (argv) => {
+    handler: argv => {
       console.log('outputting...', argv.output)
       execSync(
         `cd node_modules/gitdocs && node_modules/react-static/bin/react-static build`,
         {
-          env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
+          env: Object.assign({
+            GITDOCS_CWD: cwd
+          }, process.env),
           stdio: [1,2,3]
         }
       )
