@@ -6,9 +6,9 @@
   "css": "custom.css",
   "favicon": "favicon.ico",
   "cover": "cover.png",
-  "repository": "https://github.com/react-tools/gitdocs",
+  "repository": "https://github.com/timberio/gitdocs",
   "license": "MIT",
-  "minDepth": 4,
+  "minDepth": 3,
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",

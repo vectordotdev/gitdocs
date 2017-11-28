@@ -78,17 +78,21 @@ function importFile (pathToFile) {
 function buildTree (item, name, current) {
   // Is this a directory?
   const isDir = typeof item === 'object'
+  const isReadme = !isDir && item.match(/readme.md/i) && item.indexOf('/') === -1
 
   // Build the doc
   const child = {
     name,
     path: isDir ? current : getDocPath(item),
+    file: isDir
+      ? null
+      : isReadme ? item : `docs/${item}`,
     type: isDir ? 'directory' : 'file',
     body: isDir ? '' : importFile(item),
   }
 
   // If we're referencing the root readme, make it work
-  if (!isDir && item.match(/readme.md/i) && item.indexOf('/') === -1) {
+  if (!isDir && isReadme) {
     child.body = readme
   }
 
