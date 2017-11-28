@@ -9,7 +9,6 @@ import defaults from './default.json'
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
-const OUTPUT = process.env.OUTPUT
 
 // Initialize files and custom config
 const files = {}
