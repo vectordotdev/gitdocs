@@ -9,6 +9,7 @@ import defaults from './default.json'
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
 const DOCS_SRC = path.resolve(ROOT, 'docs')
+const OUTPUT = process.env.OUTPUT
 
 // Initialize files and custom config
 const files = {}
@@ -78,17 +79,21 @@ function importFile (pathToFile) {
 function buildTree (item, name, current) {
   // Is this a directory?
   const isDir = typeof item === 'object'
+  const isReadme = !isDir && item.match(/readme.md/i) && item.indexOf('/') === -1
 
   // Build the doc
   const child = {
     name,
     path: isDir ? current : getDocPath(item),
+    file: isDir
+      ? null
+      : isReadme ? item : `docs/${item}`,
     type: isDir ? 'directory' : 'file',
     body: isDir ? '' : importFile(item),
   }
 
   // If we're referencing the root readme, make it work
-  if (!isDir && item.match(/readme.md/i) && item.indexOf('/') === -1) {
+  if (!isDir && isReadme) {
     child.body = readme
   }
 
@@ -121,6 +126,7 @@ function makeDocPages (files) {
 }
 
 export default {
+  siteRoot: '/',
   getSiteProps: () => ({
     config,
     files,
@@ -150,6 +156,18 @@ export default {
     const html = render(sheet.collectStyles(<Comp />))
     meta.styleTags = sheet.getStyleElement()
     return html
+  },
+  onStart: () => {
+    fs.copySync(
+      path.resolve(DOCS_SRC, 'public'),
+      path.resolve(ROOT, 'dist'),
+    )
+  },
+  onBuild: () => {
+    fs.copySync(
+      path.resolve(DOCS_SRC, 'public'),
+      path.resolve(ROOT, 'dist'),
+    )
   },
   Document: class CustomHtml extends Component {
     render () {

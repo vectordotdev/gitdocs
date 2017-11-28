@@ -5,7 +5,7 @@ import SidebarItem from './SidebarItem'
 import Wrapper from './Wrapper'
 import Header from './Header'
 
-const Sidebar = ({ tree, toc, doc, config }) => (console.log(tree),
+const Sidebar = ({ tree, toc, doc, config }) => (
   <Wrapper>
     <Header>
       <a href={config.repository}>
