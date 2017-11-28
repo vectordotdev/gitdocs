@@ -26,6 +26,7 @@
       }
     },
     "configuration": {
+      "sidebar": "configuration/sidebar.md",
       "styles": "configuration/styles.md",
       "scripts": "configuration/scripts.md",
       "analytics": "configuration/analytics.md"

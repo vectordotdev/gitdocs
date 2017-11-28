@@ -25,3 +25,5 @@
 - components for data visualization
 - runkit/codepen/codesandbox/webpackbin embeds
 - github pages mode (just react app)
+- configurable sidebar side (left|right)
+- 

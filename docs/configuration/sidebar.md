@@ -1,7 +1,5 @@
 # Sidebar Configuration
 
-## Default
-
 By default GitDocs will automatically generate the navigation based on your `/docs` folder structure.
 
 ## Custom
@@ -10,10 +8,6 @@ We recommend configuring the sidebar navigation in `docs.json` like so:
 
 ```
 {
-  "name": "GitDocs",
-  "version": "0.0.1",
-  "repository": "https://github.com/react-tools/gitdocs",
-  "license": "MIT",
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",

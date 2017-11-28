@@ -29,11 +29,10 @@ export default styled.div`
 
   code {
     border-radius: 4px;
-    padding: .25rem .5rem;
+    padding: .05rem .25rem;
     background: #F4F5F6;
-    display: inline;
+    display: inline-block;
     line-height: 1.5;
-    word-break: break-all;
   }
 
   pre code {

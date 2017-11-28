@@ -24,10 +24,6 @@ export default styled.section`
   }
 
   .link {
-    font-size: 15px;
-    display: block;
-    padding: .2rem 0;
-
     &:hover {
       text-decoration: underline;
     }
