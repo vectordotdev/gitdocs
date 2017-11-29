@@ -14,6 +14,10 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover svg g {
+    stroke: #4688F1;
+  }
 `
 
 export default ({ onClick }) => (

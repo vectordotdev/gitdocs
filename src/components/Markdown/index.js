@@ -67,11 +67,20 @@ const compile = marksy({
   },
 })
 
-const Markdown = ({ source, ...rest }) => {
+const TOC = ({ title, id, children }) => (
+  <div>
+    <a href={`#${id}`}>{title}</a>
+    {children && children.map(c => <TOC {...c} />)}
+  </div>
+)
+
+const Markdown = ({ source }) => {
   const content = compile(source)
+  const nav = content.toc.map(t => <TOC {...t} />)
 
   return (
     <Wrapper className="markdown">
+      {nav}
       {content.tree}
     </Wrapper>
   )
