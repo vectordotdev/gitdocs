@@ -178,7 +178,6 @@ export default {
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism-coy.css" />
             {renderMeta.styleTags}
           </Head>
           <Body>{children}</Body>

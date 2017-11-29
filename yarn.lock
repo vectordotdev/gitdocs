@@ -4954,9 +4954,9 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-prismjs-components-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/prismjs-components-loader/-/prismjs-components-loader-2.0.0.tgz#2cb9bbdd011d5d56b6a66f67981e6acb61957360"
+prism-themes@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/prism-themes/-/prism-themes-1.0.0.tgz#58089547ed39df273e5195e1628c69177341bf88"
 
 prismjs@^1.8.4:
   version "1.8.4"

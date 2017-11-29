@@ -12,21 +12,53 @@ import TipRenderer from './Tip'
 import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
-require('prismjs/components/prism-jsx.js')
+
+const highlight = (code, language) => {
+  try {
+    return Prism.highlight(code, Prism.languages[language], language)
+  } catch (e) {
+    console.warn(`Ensure your language ${language} is defined in docs.json`)
+    return escapeHTML(code)
+  }
+}
+
+/* eslint-disable react/no-danger */
+const PreRenderer = ({ code, language, children }) => {
+  console.log(code, language, children)
+  if (!language && !children) return <pre className={`language-${language}`}>{code}</pre>
+  if (children && !code && !language) return <code className={`language-${language}`}>{children}</code>
+
+  return (
+    <pre className={`language-${language}`}>
+      <code
+        dangerouslySetInnerHTML={{
+          __html: highlight(code, language),
+        }}
+      />
+    </pre>
+  )
+}
+/* eslint-enable react/no-danger */
 
 const compile = marksy({
   createElement,
-  highlight: (language, code) => {
-    console.log('local', Prism)
-    if (!language) return escapeHTML(code)
-    return Prism.highlight(code, Prism.languages[language], language)
-  },
+  // highlight: (language, code) => {
+  //   if (!language) return escapeHTML(code)
+  //   try {
+  //     return Prism.highlight(code, Prism.languages[language], language)
+  //   } catch (e) {
+  //     console.warn(`Ensure your language ${language} is defined in docs.json`)
+  //     return escapeHTML(code)
+  //   }
+  // },
   elements: {
     i: IconRenderer,
     a: LinkRenderer,
     h1: H1Renderer,
     h2: H2Renderer,
     h3: H3Renderer,
+    pre: PreRenderer,
+    code: PreRenderer,
   },
   components: {
     Tip: TipRenderer,
@@ -38,7 +70,6 @@ const compile = marksy({
 
 const Markdown = ({ source, ...rest }) => {
   const content = compile(source)
-  console.log(content)
 
   return (
     <Wrapper className="markdown">

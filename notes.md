@@ -37,7 +37,6 @@
 - layout options
 - optional home page
 
-
 ### Components
 - steps
 - code demos

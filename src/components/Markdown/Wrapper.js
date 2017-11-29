@@ -30,14 +30,12 @@ export default styled.div`
   code {
     border-radius: 4px;
     padding: .05rem .25rem;
-    background: #F4F5F6;
     display: inline-block;
-    line-height: 1.5;
+    font-size: 1.1rem !important;
   }
 
   pre code {
     font-size: 1.1rem;
-    color: #343240;
     border: none;
     word-break: break-all;
     white-space: pre-wrap;
@@ -46,12 +44,11 @@ export default styled.div`
 
   pre {
     border-radius: 4px;
-    background: #F4F5F6 !important;
-    color: #343240;
     font-family: Roboto Mono, monospace;
     border-radius: 3px;
     line-height: 19px;
     font-size: 1em;
+    padding: .5rem;
   }
 
   table {
@@ -93,23 +90,5 @@ export default styled.div`
     margin: 24px 0;
     background-color: #e7e7e7;
     border: 0;
-  }
-
-  code.hljs.shell:before, code.hljs.bash:before {
-    content: "$";
-    margin-right: 5px;
-    color: #b4b1d8;
-  }
-
-  .hljs {
-    background: #F4F5F6;
-  }
-
-  .hljs-string {
-    color: #955CCB;
-  }
-
-  .hljs-attr {
-    color: #4078f2;
   }
 `

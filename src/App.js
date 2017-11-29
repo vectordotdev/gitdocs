@@ -2,21 +2,25 @@ import React, { Component } from 'react'
 import { Router, getSiteProps } from 'react-static'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
+import Prism from 'prismjs'
 import Sidebar from 'components/Sidebar'
 import 'styles/global'
 import Wrapper from './Wrapper'
 
-const Prism = require('prismjs')
-
 class App extends Component {
   componentWillMount () {
-    console.log(this.props.config)
-    this.props.config.languages.forEach(l => {
-      if (!Prism.languages[l]) {
-        require('prismjs/components/prism-' + l + '.js')
+    console.log('will mount')
+    const { languages, theme } = this.props.config
+
+    languages.forEach(lang => {
+      if (!Prism.languages[lang]) {
+        require(`prismjs/components/prism-${lang}.js`)
       }
     })
-    console.log(Prism)
+
+    if (theme) {
+      require(`prism-themes/themes/${theme}.css`)
+    }
   }
 
   componentDidMount () {

@@ -5,6 +5,7 @@
   "script": "custom.js",
   "css": "custom.css",
   "favicon": "favicon.ico",
+  "theme": "prism-ghcolors",
   "cover": "cover.png",
   "repository": "https://github.com/react-tools/gitdocs",
   "license": "MIT",
