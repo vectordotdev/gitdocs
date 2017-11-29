@@ -5,8 +5,8 @@ import SidebarItem from './SidebarItem'
 import Wrapper from './Wrapper'
 import Header from './Header'
 
-const Sidebar = ({ tree, toc, doc, config }) => (
-  <Wrapper>
+const Sidebar = ({ tree, toc, doc, config, sidebarIsOpen, onToggle }) => (
+  <Wrapper sidebarIsOpen={sidebarIsOpen}>
     <Header>
       <a href={config.repository}>
         {config.name} version {config.version}

@@ -2,8 +2,9 @@ import styled from 'styled-components'
 
 export default styled.aside`
   flex: 1 0 auto;
-  min-width: 230px;
-  max-width: 280px;
+  transition: all .1s ease-in-out;
+  min-width: ${props => props.sidebarIsOpen ? '230px' : '0'};
+  max-width: ${props => props.sidebarIsOpen ? '280px' : '0'};
   background: #f4f7fa;
   overflow-y: auto;
   border-right: 1px solid #DFE3E8;

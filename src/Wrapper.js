@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export default styled.main`
   display: flex;
   height: 100vh;
+  position: relative;
 
   section > div {
     max-width: 775px;
