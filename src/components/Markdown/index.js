@@ -1,18 +1,7 @@
-import React from 'react'
-import Smackdown from 'react-smackdown'
-import {
-  javascript,
-  ruby,
-  elixir,
-  shell,
-  json,
-  sql,
-  yaml,
-  ini,
-  bash,
-  diff,
-} from 'react-syntax-highlighter/dist/languages'
-import { atomOneLight } from 'react-syntax-highlighter/dist/styles'
+import React, { createElement } from 'react'
+import marksy from 'marksy/components'
+import Prism from 'prismjs'
+import escapeHTML from 'escape-html'
 import Wrapper from './Wrapper'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
@@ -23,48 +12,37 @@ import TipRenderer from './Tip'
 import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
+require('prismjs/components/prism-jsx.js')
 
-const syntax = {
-  languages: [
-    { name: 'js', syntax: javascript },
-    { name: 'ruby', syntax: ruby },
-    { name: 'elixir', syntax: elixir },
-    { name: 'shell', syntax: shell },
-    { name: 'json', syntax: json },
-    { name: 'sql', syntax: sql },
-    { name: 'yaml', syntax: yaml },
-    { name: 'ini', syntax: ini },
-    { name: 'bash', syntax: bash },
-    { name: 'diff', syntax: diff },
-  ],
-  showLineNumbers: true,
-  lineNumberStyle: { opacity: 0.5 },
-  theme: atomOneLight,
-}
+const compile = marksy({
+  createElement,
+  highlight: (language, code) => {
+    console.log('local', Prism)
+    if (!language) return escapeHTML(code)
+    return Prism.highlight(code, Prism.languages[language], language)
+  },
+  elements: {
+    i: IconRenderer,
+    a: LinkRenderer,
+    h1: H1Renderer,
+    h2: H2Renderer,
+    h3: H3Renderer,
+  },
+  components: {
+    Tip: TipRenderer,
+    Info: InfoRenderer,
+    Warning: WarningRenderer,
+    Danger: DangerRenderer,
+  },
+})
 
 const Markdown = ({ source, ...rest }) => {
-  const content = (
-    <Smackdown
-      {...rest}
-      syntax={syntax}
-      source={source}
-      components={{
-        i: IconRenderer,
-        a: LinkRenderer,
-        h1: H1Renderer,
-        h2: H2Renderer,
-        h3: H3Renderer,
-        tip: TipRenderer,
-        info: InfoRenderer,
-        warning: WarningRenderer,
-        danger: DangerRenderer,
-      }}
-    />
-  )
+  const content = compile(source)
+  console.log(content)
 
   return (
-    <Wrapper className="markdown" key="md-remark">
-      {content}
+    <Wrapper className="markdown">
+      {content.tree}
     </Wrapper>
   )
 }
