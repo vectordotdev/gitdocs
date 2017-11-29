@@ -1,18 +1,7 @@
-import React from 'react'
-import Smackdown from 'react-smackdown'
-import {
-  javascript,
-  ruby,
-  elixir,
-  shell,
-  json,
-  sql,
-  yaml,
-  ini,
-  bash,
-  diff,
-} from 'react-syntax-highlighter/dist/languages'
-import { atomOneLight } from 'react-syntax-highlighter/dist/styles'
+import React, { createElement } from 'react'
+import marksy from 'marksy/components'
+import Prism from 'prismjs'
+import escapeHTML from 'escape-html'
 import Wrapper from './Wrapper'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
@@ -24,47 +13,67 @@ import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 
-const syntax = {
-  languages: [
-    { name: 'js', syntax: javascript },
-    { name: 'ruby', syntax: ruby },
-    { name: 'elixir', syntax: elixir },
-    { name: 'shell', syntax: shell },
-    { name: 'json', syntax: json },
-    { name: 'sql', syntax: sql },
-    { name: 'yaml', syntax: yaml },
-    { name: 'ini', syntax: ini },
-    { name: 'bash', syntax: bash },
-    { name: 'diff', syntax: diff },
-  ],
-  showLineNumbers: true,
-  lineNumberStyle: { opacity: 0.5 },
-  theme: atomOneLight,
+const highlight = (code, language) => {
+  try {
+    return Prism.highlight(code, Prism.languages[language], language)
+  } catch (e) {
+    console.warn(`Ensure your language ${language} is defined in docs.json`)
+    return escapeHTML(code)
+  }
 }
 
-const Markdown = ({ source, ...rest }) => {
-  const content = (
-    <Smackdown
-      {...rest}
-      syntax={syntax}
-      source={source}
-      components={{
-        i: IconRenderer,
-        a: LinkRenderer,
-        h1: H1Renderer,
-        h2: H2Renderer,
-        h3: H3Renderer,
-        tip: TipRenderer,
-        info: InfoRenderer,
-        warning: WarningRenderer,
-        danger: DangerRenderer,
-      }}
-    />
-  )
+/* eslint-disable react/no-danger */
+const PreRenderer = ({ code, language, children }) => {
+  console.log(code, language, children)
+  if (!language && !children) return <pre className={`language-${language}`}>{code}</pre>
+  if (children && !code && !language) return <code className={`language-${language}`}>{children}</code>
 
   return (
-    <Wrapper className="markdown" key="md-remark">
-      {content}
+    <pre className={`language-${language}`}>
+      <code
+        dangerouslySetInnerHTML={{
+          __html: highlight(code, language),
+        }}
+      />
+    </pre>
+  )
+}
+/* eslint-enable react/no-danger */
+
+const compile = marksy({
+  createElement,
+  // highlight: (language, code) => {
+  //   if (!language) return escapeHTML(code)
+  //   try {
+  //     return Prism.highlight(code, Prism.languages[language], language)
+  //   } catch (e) {
+  //     console.warn(`Ensure your language ${language} is defined in docs.json`)
+  //     return escapeHTML(code)
+  //   }
+  // },
+  elements: {
+    i: IconRenderer,
+    a: LinkRenderer,
+    h1: H1Renderer,
+    h2: H2Renderer,
+    h3: H3Renderer,
+    pre: PreRenderer,
+    code: PreRenderer,
+  },
+  components: {
+    Tip: TipRenderer,
+    Info: InfoRenderer,
+    Warning: WarningRenderer,
+    Danger: DangerRenderer,
+  },
+})
+
+const Markdown = ({ source, ...rest }) => {
+  const content = compile(source)
+
+  return (
+    <Wrapper className="markdown">
+      {content.tree}
     </Wrapper>
   )
 }

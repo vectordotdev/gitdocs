@@ -34,6 +34,8 @@
 - analytics hooks
 - search build in
 - front matter for seo options and config
+- layout options
+- optional home page
 
 ### Components
 - steps

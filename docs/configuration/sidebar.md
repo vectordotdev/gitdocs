@@ -6,7 +6,7 @@ By default GitDocs will automatically generate the navigation based on your `/do
 
 We recommend configuring the sidebar navigation in `docs.json` like so:
 
-```
+```json
 {
   "sidebar": {
     "Introduction": "README.md",

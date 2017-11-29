@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Prism from 'prismjs'
 import { AppContainer } from 'react-hot-loader'
 
 // Your top level component
