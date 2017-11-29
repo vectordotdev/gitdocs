@@ -9,18 +9,13 @@ import Wrapper from './Wrapper'
 
 class App extends Component {
   componentWillMount () {
-    console.log('will mount')
-    const { languages, theme } = this.props.config
+    const { languages } = this.props.config
 
     languages.forEach(lang => {
       if (!Prism.languages[lang]) {
         require(`prismjs/components/prism-${lang}.js`)
       }
     })
-
-    if (theme) {
-      require(`prism-themes/themes/${theme}.css`)
-    }
   }
 
   componentDidMount () {

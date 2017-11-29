@@ -24,7 +24,6 @@ const highlight = (code, language) => {
 
 /* eslint-disable react/no-danger */
 const PreRenderer = ({ code, language, children }) => {
-  console.log(code, language, children)
   if (!language && !children) return <pre className={`language-${language}`}>{code}</pre>
   if (children && !code && !language) return <code className={`language-${language}`}>{children}</code>
 

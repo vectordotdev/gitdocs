@@ -9,7 +9,7 @@ const cwd = process.cwd()
 // commands:
 // serve (port, version)
 // build (version, output)
-// init (@config)
+// init (@config) (create /doc, /docs/public, docs.json, etc)
 
 var argv = yargs
   .version()
