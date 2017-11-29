@@ -12,6 +12,7 @@ import TipRenderer from './Tip'
 import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
+import Contents from './Contents'
 
 const highlight = (code, language) => {
   try {
@@ -41,15 +42,6 @@ const PreRenderer = ({ code, language, children }) => {
 
 const compile = marksy({
   createElement,
-  // highlight: (language, code) => {
-  //   if (!language) return escapeHTML(code)
-  //   try {
-  //     return Prism.highlight(code, Prism.languages[language], language)
-  //   } catch (e) {
-  //     console.warn(`Ensure your language ${language} is defined in docs.json`)
-  //     return escapeHTML(code)
-  //   }
-  // },
   elements: {
     i: IconRenderer,
     a: LinkRenderer,
@@ -67,20 +59,12 @@ const compile = marksy({
   },
 })
 
-const TOC = ({ title, id, children }) => (
-  <div>
-    <a href={`#${id}`}>{title}</a>
-    {children && children.map(c => <TOC {...c} />)}
-  </div>
-)
-
 const Markdown = ({ source }) => {
   const content = compile(source)
-  const nav = content.toc.map(t => <TOC {...t} />)
 
   return (
     <Wrapper className="markdown">
-      {nav}
+      <Contents toc={content.toc} />
       {content.tree}
     </Wrapper>
   )
