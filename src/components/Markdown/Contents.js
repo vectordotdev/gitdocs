@@ -8,6 +8,26 @@ const Wrapper = styled.div`
   right: 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  background: #F9F9F9;
+
+  @media(max-width: 1100px) {
+    display: none;
+  }
+
+  h3 {
+    text-transform: uppercase;
+    color: #999999;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  a {
+    color: #444;
+    font-size: 14px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   > ul, > ul > ul {
     padding-left: 0;
@@ -39,8 +59,13 @@ const Contents = ({ title, id, children, index = 0 }) => (
   </ul>
 )
 
-export default ({ toc }) => (
-  <Wrapper>
-    {toc.map(t => <Contents key={t.title} {...t} />)}
-  </Wrapper>
-)
+export default ({ toc }) => {
+  if (!toc.length) return null
+
+  return (
+    <Wrapper>
+      <h3>Outline</h3>
+      {toc.map(t => <Contents key={t.title} {...t} />)}
+    </Wrapper>
+  )
+}
