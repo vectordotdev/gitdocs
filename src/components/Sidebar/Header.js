@@ -11,4 +11,8 @@ export default styled.div`
   font-weight: 700;
   font-size: .75rem;
   a { color: inherit }
+
+  @media (min-width: 1500px) {
+    border-bottom: none;
+  }
 `

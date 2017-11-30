@@ -19,6 +19,14 @@ const Wrapper = styled.div`
   &:hover svg g {
     stroke: #4688F1;
   }
+
+  @media (min-width: 1500px) {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    float: left;
+  }
 `
 
 export default ({ onClick }) => (

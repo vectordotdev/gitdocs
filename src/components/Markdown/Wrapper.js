@@ -32,6 +32,7 @@ export default styled.div`
     padding: .05rem .25rem;
     display: inline-block;
     font-size: 1.1rem !important;
+    border: none !important;
   }
 
   pre code {

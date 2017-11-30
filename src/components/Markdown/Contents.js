@@ -10,8 +10,9 @@ const Wrapper = styled.div`
   float: right;
   margin-left: 15px;
 
-  @media(max-width: 1100px) {
-    display: none;
+  @media(max-width: 720px) {
+    float: none;
+    width: 100%;
   }
 
   h3 {
@@ -24,6 +25,9 @@ const Wrapper = styled.div`
   a {
     color: #444;
     font-size: 14px;
+    display: block;
+    padding: .2rem 0;
+
     &:hover {
       text-decoration: underline;
     }

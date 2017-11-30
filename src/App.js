@@ -11,6 +11,7 @@ import Wrapper from './Wrapper'
 class App extends Component {
   state = {
     sidebarIsOpen: true,
+    width: null,
   }
 
   componentWillMount () {
@@ -31,6 +32,21 @@ class App extends Component {
         NProgress.done()
         window.scrollTo(0, 0)
       }
+    })
+
+    this.setState({
+      sidebarIsOpen: window && window.innerWidth > 700,
+      width: window && window.innerWidth,
+    })
+
+    window.addEventListener('resize', this.updateDimensions)
+  }
+
+  updateDimensions = e => {
+    // TODO: Debounce this
+    this.setState({
+      width: e.target.innerWidth,
+      sidebarIsOpen: e.target.innerWidth > 700
     })
   }
 

@@ -6,7 +6,7 @@ export default styled.main`
   position: relative;
 
   section > div {
-    max-width: 775px;
+    max-width: 800px;
     margin: 0 auto;
   }
 

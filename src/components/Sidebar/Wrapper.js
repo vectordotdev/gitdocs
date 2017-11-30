@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export default styled.aside`
   flex: 1 0 auto;
@@ -9,6 +9,19 @@ export default styled.aside`
   overflow-y: auto;
   border-right: 1px solid #DFE3E8;
   margin: 0;
+
+  @media(max-width: 700px) {
+    width: 0;
+  }
+
+  ${props => props.sidebarIsOpen && css`
+    @media(max-width: 700px) {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+  `}
 
   ul {
     list-style: none;
