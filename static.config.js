@@ -178,10 +178,15 @@ export default {
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
-            <link rel="stylesheet" href={`https://unpkg.com/prism-themes@1.0.0/themes/${config.theme}.css`} />
             {renderMeta.styleTags}
+            {
+              config.theme &&
+              <link rel="stylesheet" href={`https://unpkg.com/prism-themes@1.0.0/themes/${config.theme}.css`} />
+            }
+            <link rel="stylesheet" href="/custom.css" />
           </Head>
           <Body>{children}</Body>
+          <script src="/custom.js" />
         </Html>
       )
     }

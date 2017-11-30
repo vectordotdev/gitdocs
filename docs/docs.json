@@ -9,7 +9,7 @@
   "repository": "https://github.com/timberio/gitdocs",
   "license": "MIT",
   "minDepth": 3,
-  "languages": ["jsx", "ruby", "bash", "json"],
+  "languages": ["jsx", "graphql", "bash", "json"],
   "theme": "prism-ghcolors",
   "sidebar": {
     "Introduction": "README.md",

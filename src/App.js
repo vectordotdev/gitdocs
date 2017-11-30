@@ -45,7 +45,7 @@ class App extends Component {
     // TODO: Debounce this
     this.setState({
       width: e.target.innerWidth,
-      sidebarIsOpen: e.target.innerWidth > 700
+      sidebarIsOpen: e.target.innerWidth > 700,
     })
   }
 

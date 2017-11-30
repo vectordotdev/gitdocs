@@ -4,7 +4,7 @@ Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.
 
 ## How does it work
 
-`gitdocs` is distributed as a package on npm. It is a cli that you can simply install it with `npm install gitdocs -g`. You can run `gitdocs serve` to preview your docs or `gitdocs build` to generate a static site wherever you like.
+`gitdocs` is distributed as a package on npm. It is a cli that you can simply install with `npm install gitdocs -g`. You can run `gitdocs serve` to preview your docs or `gitdocs build` to generate a static site wherever you like.
 
 ## Installation
 

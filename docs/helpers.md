@@ -12,13 +12,6 @@ You have a variety of helpers to built in which can help you call out important 
 
 This is an `inline` example
 
-Here's some ruby
-```ruby
-def thing(things)
-  puts things
-end
-```
-
 ```
 <warning>This is a warning</warning>
 ```
