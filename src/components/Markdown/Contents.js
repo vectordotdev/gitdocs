@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   padding: 15px;
-  position: fixed;
-  top: 15px;
-  right: 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background: #F9F9F9;
+  width: 220px;
+  float: right;
+  margin-left: 15px;
 
   @media(max-width: 1100px) {
     display: none;

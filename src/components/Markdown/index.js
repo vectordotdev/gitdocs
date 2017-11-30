@@ -61,10 +61,11 @@ const compile = marksy({
 
 const Markdown = ({ source }) => {
   const content = compile(source)
+  const toc = <Contents toc={content.toc} />
+  content.tree.unshift(toc)
 
   return (
     <Wrapper className="markdown">
-      <Contents toc={content.toc} />
       {content.tree}
     </Wrapper>
   )
