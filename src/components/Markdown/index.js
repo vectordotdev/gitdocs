@@ -25,8 +25,15 @@ const highlight = (code, language) => {
 
 /* eslint-disable react/no-danger */
 const PreRenderer = ({ code, language, children }) => {
-  if (!language && !children) return <pre className={`language-${language}`}>{code}</pre>
-  if (children && !code && !language) return <code className={`language-${language}`}>{children}</code>
+  // <pre>
+  if (!language && !children) {
+    return <pre className={`language-${language}`}>{code}</pre>
+  }
+
+  // <code>
+  if (children && !code && !language) {
+    return <code className={`language-${language}`}>{children}</code>
+  }
 
   return (
     <pre className={`language-${language}`}>
@@ -61,7 +68,7 @@ const compile = marksy({
 
 const Markdown = ({ source }) => {
   const content = compile(source)
-  const toc = <Contents toc={content.toc} />
+  const toc = <Contents toc={content.toc} key="markdown-toc" />
   content.tree.unshift(toc)
 
   return (

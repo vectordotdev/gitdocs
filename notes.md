@@ -36,6 +36,8 @@
 - front matter for seo options and config
 - layout options
 - optional home page
+- ascii cinema plugin
+- custom plugin system
 
 ### Components
 - steps

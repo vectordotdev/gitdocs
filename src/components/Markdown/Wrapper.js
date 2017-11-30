@@ -31,12 +31,10 @@ export default styled.div`
     border-radius: 4px;
     padding: .05rem .25rem;
     display: inline-block;
-    font-size: 1.1rem !important;
     border: none !important;
   }
 
   pre code {
-    font-size: 1.1rem;
     border: none;
     word-break: break-all;
     white-space: pre-wrap;
