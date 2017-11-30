@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Hamburger from 'svg/Hamburger'
 
 const Wrapper = styled.div`
@@ -27,10 +27,17 @@ const Wrapper = styled.div`
   @media (max-width: 720px) {
     float: left;
   }
+
+  ${props => props.sidebarIsOpen && css`
+    @media (max-width: 720px) {
+      left: 190px;
+      top: 6px;
+    }
+  `}
 `
 
-export default ({ onClick }) => (
-  <Wrapper onClick={onClick}>
+export default props => (
+  <Wrapper {...props}>
     <Hamburger />
   </Wrapper>
 )

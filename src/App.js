@@ -10,8 +10,8 @@ import Wrapper from './Wrapper'
 
 class App extends Component {
   state = {
-    sidebarIsOpen: true,
-    width: null,
+    sidebarIsOpen: window ? window.innerWidth > 700 : true,
+    width: window && window.innerWidth,
   }
 
   componentWillMount () {
@@ -34,12 +34,11 @@ class App extends Component {
       }
     })
 
-    this.setState({
-      sidebarIsOpen: window && window.innerWidth > 700,
-      width: window && window.innerWidth,
-    })
-
     window.addEventListener('resize', this.updateDimensions)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.updateDimensions)
   }
 
   updateDimensions = e => {
@@ -68,7 +67,10 @@ class App extends Component {
             config={config}
             sidebarIsOpen={this.state.sidebarIsOpen}
           />
-          <Toggle onClick={this.handleSidebarToggle} />
+          <Toggle
+            onClick={this.handleSidebarToggle}
+            sidebarIsOpen={this.state.sidebarIsOpen}
+          />
           <Routes />
         </Wrapper>
       </Router>
