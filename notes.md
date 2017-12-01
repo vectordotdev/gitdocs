@@ -38,6 +38,7 @@
 - optional home page
 - ascii cinema plugin
 - custom plugin system
+- link to specific line in code (ex. #section-name-L22)
 
 ### Components
 - steps
@@ -47,3 +48,6 @@
 - charts
 - diagrams
 - graphs
+
+### Jekyll Insp.
+- https://github.com/poole/poole

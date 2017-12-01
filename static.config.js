@@ -5,6 +5,8 @@ import { ServerStyleSheet } from 'styled-components'
 import dirTree from 'directory-tree'
 import { getDocPath } from './src/utils'
 import defaults from './default.json'
+import { javascript } from 'react-syntax-highlighter/languages/hljs'
+console.log(javascript.toString())
 
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
@@ -38,7 +40,25 @@ try {
 }
 
 // Merge docs.json config with default config.json
-const config = { ...defaults, ...custom }
+let config = {
+  syntaxes: {},
+  ...defaults,
+  ...custom,
+}
+
+if (config.languages) {
+  config.languages.forEach(l => {
+    try {
+      const lang = require(`react-syntax-highlighter/languages/hljs/${l}`).default
+      config.syntaxes[l] = lang
+      console.log(typeof lang)
+    } catch (e) {
+      //
+    }
+  })
+}
+
+console.log(config.syntaxes)
 
 if (!config.sidebar) {
   // Pull out the markdown files in the /docs directory
@@ -179,10 +199,6 @@ export default {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
             {renderMeta.styleTags}
-            {
-              config.theme &&
-              <link rel="stylesheet" href={`https://unpkg.com/prism-themes@1.0.0/themes/${config.theme}.css`} />
-            }
             <link rel="stylesheet" href="/custom.css" />
           </Head>
           <Body>{children}</Body>

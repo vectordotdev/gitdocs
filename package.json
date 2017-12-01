@@ -22,6 +22,8 @@
     "react-router": "^4.2.0",
     "react-smackdown": "^0.6.6",
     "react-static": "^4.2.4",
+    "react-syntax-highlighter": "^6.0.4",
+    "remark-vdom": "^4.1.1",
     "styled-components": "2.2.0",
     "yargs": "^10.0.3"
   },

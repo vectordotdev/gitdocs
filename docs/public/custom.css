@@ -2,117 +2,85 @@
  * Custom theme from Timber.io (http://timber.io)
  */
 
-code[class*="language-"],
-pre[class*="language-"] {
-    color: #393A34;
-    font-family: Menlo, Monaco, "Courier New", monospace;
-    direction: ltr;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    font-size: 0.95em;
-    line-height: 1.2em;
+ .hljs {
+   display: block;
+   overflow-x: auto;
+   padding: 0.5em;
+   color: #383a42;
+   background: #F9F9F9;
+   font-family: Menlo, Monaco, "Courier New", monospace;
+   font-size: 14.5px;
+   line-height: 1.4;
+ }
 
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
+ .hljs-comment,
+ .hljs-quote {
+   color: #999999;
+   font-style: italic;
+ }
 
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-}
+ .hljs-doctag,
+ .hljs-keyword,
+ .hljs-formula {
+   color: #069;
+ }
 
-pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
-code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
-    background: #b3d4fc;
-}
+ .hljs-section,
+ .hljs-name,
+ .hljs-selector-tag,
+ .hljs-deletion,
+ .hljs-subst {
+   color: #e45649;
+ }
 
-pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
-code[class*="language-"]::selection, code[class*="language-"] ::selection {
-    background: #b3d4fc;
-}
+ .hljs-literal {
+   color: #0184bb;
+ }
 
-/* Code blocks */
-pre[class*="language-"] {
-    padding: 1em;
-    margin: .5em 0;
-    overflow: auto;
-    border: 1px solid #FFF;
-    background-color: #F9F9F9;
-}
+ .hljs-string,
+ .hljs-regexp,
+ .hljs-addition,
+ .hljs-attribute,
+ .hljs-meta-string {
+   color: #CA3818;
+ }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-}
+ .hljs-built_in,
+ .hljs-class .hljs-title {
+   color: #078;
+ }
 
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-    padding: .2em;
-    padding-top: 1px; padding-bottom: 1px;
-    background: #f8f8f8;
-    border: 1px solid #dddddd;
-}
+ .hljs-attr,
+ .hljs-variable,
+ .hljs-template-variable,
+ .hljs-type,
+ .hljs-selector-class,
+ .hljs-selector-attr,
+ .hljs-selector-pseudo {
+   color: #3EA988;
+ }
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-    color: #999988; font-style: italic;
-}
+ .hljs-number {
+   color: #FF6600;
+ }
 
-.token.namespace {
-    opacity: .7;
-}
+ .hljs-symbol,
+ .hljs-bullet,
+ .hljs-link,
+ .hljs-meta,
+ .hljs-selector-id,
+ .hljs-title {
+   color: #4078f2;
+ }
 
-.token.string,
-.token.attr-value {
-    color: #CA3818;
-}
-.token.punctuation,
-.token.operator {
-    color: #393A34; /* no highlight */
-}
+ .hljs-emphasis {
+   font-style: italic;
+ }
 
-.token.entity,
-.token.url,
-.token.symbol,
-.token.number,
-.token.boolean,
-.token.variable,
-.token.constant,
-.token.property,
-.token.regex,
-.token.inserted {
-    color: #069;
-}
+ .hljs-strong {
+   font-weight: bold;
+ }
 
-.token.atrule,
-.token.keyword,
-.token.attr-name,
-.language-autohotkey .token.selector {
-    color: #069;
-}
-
-.token.function,
-.token.deleted,
-.language-autohotkey .token.tag {
-    color: #11AAAC;
-}
-
-.token.tag,
-.token.selector,
-.language-autohotkey .token.keyword {
-    color: #00009f;
-}
-
-.token.important,
-.token.function,
-.token.bold {
-    font-weight: bold;
-}
-
-.token.italic {
-    font-style: italic;
-}
+ .hljs-link {
+   text-decoration: underline;
+ }

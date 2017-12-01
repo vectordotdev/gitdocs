@@ -6,7 +6,7 @@ By default GitDocs will automatically generate the navigation based on your `/do
 
 We recommend configuring the sidebar navigation in `docs.json` like so:
 
-```json
+```json_line-numbers
 {
   "sidebar": {
     "Introduction": "README.md",
@@ -44,7 +44,7 @@ module Graphql = struct
 end
 ```
 
-```javascript
+```javascript+line-numbers
 const highlight = (code, language) => {
   try {
     return Prism.highlight(code, Prism.languages[language], language)

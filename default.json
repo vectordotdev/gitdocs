@@ -12,5 +12,6 @@
   "root": "./docs",
   "expanded": true,
   "logo": "./logo.png",
-  "defaultDepth": 3
+  "defaultDepth": 3,
+  "showLineNumbers": true
 }

@@ -5,7 +5,26 @@ export default styled.div`
   line-height: 1.5;
 
   h1, h2, h3 {
-    a { text-decoration: none }
+    position: relative;
+
+    a {
+      text-decoration: none;
+      display: block;
+    }
+
+    svg {
+      position: absolute;
+      display: none;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 16px;
+      width: 16px;
+    }
+
+    &:hover svg {
+      display: inherit;
+    }
   }
 
   ul {
@@ -23,8 +42,18 @@ export default styled.div`
     font-style: italic;
   }
 
-  pre, code {
-    font-family: monospace;
+  pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  pre.hljs {
+    white-space: inherit;
+  }
+
+  pre.line-numbers {
+    
   }
 
   code {
@@ -32,13 +61,6 @@ export default styled.div`
     padding: .05rem .25rem;
     display: inline-block;
     border: none !important;
-  }
-
-  pre code {
-    border: none;
-    word-break: break-all;
-    white-space: pre-wrap;
-    display: inline-block !important;
   }
 
   pre {

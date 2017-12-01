@@ -15,13 +15,17 @@ class App extends Component {
   }
 
   componentWillMount () {
-    const { languages } = this.props.config
+    const { languages, highlighter } = this.props.config
+    console.log(this.props.config)
 
-    languages.forEach(lang => {
-      if (!Prism.languages[lang]) {
-        require(`prismjs/components/prism-${lang}.js`)
-      }
-    })
+    if (highlighter === 'prism') {
+      // Prism relies on registering with a global object
+      languages.forEach(lang => {
+        if (!Prism.languages[lang]) {
+          require(`prismjs/components/prism-${lang}.js`)
+        }
+      })
+    }
   }
 
   componentDidMount () {
