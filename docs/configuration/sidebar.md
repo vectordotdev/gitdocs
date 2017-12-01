@@ -44,7 +44,7 @@ module Graphql = struct
 end
 ```
 
-```javascript+line-numbers
+```javascript_no-line-numbers
 const highlight = (code, language) => {
   try {
     return Prism.highlight(code, Prism.languages[language], language)

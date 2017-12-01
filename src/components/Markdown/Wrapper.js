@@ -43,17 +43,7 @@ export default styled.div`
   }
 
   pre {
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word;
-  }
 
-  pre.hljs {
-    white-space: inherit;
-  }
-
-  pre.line-numbers {
-    
   }
 
   code {
@@ -63,13 +53,16 @@ export default styled.div`
     border: none !important;
   }
 
-  pre {
-    border-radius: 4px;
-    font-family: Roboto Mono, monospace;
-    border-radius: 3px;
-    line-height: 19px;
-    font-size: 1em;
-    padding: .5rem;
+  pre code {
+    display: inherit;
+  }
+
+  pre code.line-numbers {
+    white-space: pre;
+  }
+
+  pre code.no-line-numbers {
+    white-space: pre-wrap;
   }
 
   table {

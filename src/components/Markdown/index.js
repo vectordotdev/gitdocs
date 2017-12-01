@@ -51,8 +51,7 @@ const highlight = (code, language) => {
 // }
 /* eslint-enable react/no-danger */
 
-const CodeRenderer = ({ code, language, children, ...rest }) => {
-  console.log(language, rest)
+const CodeRenderer = ({ code, language, children, context }) => {
   if (!language && !children) {
     return <pre>{code}</pre>
   }
@@ -62,11 +61,18 @@ const CodeRenderer = ({ code, language, children, ...rest }) => {
     return <code>{children}</code>
   }
 
-  const shouldShowLineNumbers = language.includes('no-line-numbers')
-    ? false
-    : language.includes('line-numbers')
-      ? true
-      : showLineNumbers
+  let shouldShowLineNumbers = context.showLineNumbers
+
+  // Handle toggling of line numbers in markdown
+  if (language.includes('no-line-numbers')) {
+    shouldShowLineNumbers = false
+    language.replace('_no-line-numbers', '')
+  } else if (language.includes('line-numbers')) {
+    shouldShowLineNumbers = true
+    language.replace('_line-numbers', '')
+  }
+
+  const langClass = `syntax-${language} ${shouldShowLineNumbers ? 'line-numbers' : 'no-line-numbers'}`
 
   const props = {
     language,
@@ -74,7 +80,9 @@ const CodeRenderer = ({ code, language, children, ...rest }) => {
     showLineNumbers: shouldShowLineNumbers,
     lineNumberStyle: { opacity: 0.3 },
     children: code,
-    className: `syntax-${language}`
+    codeTagProps: {
+      className: langClass,
+    },
   }
 
   // Highlight.js doesn't support jsx yet :/
