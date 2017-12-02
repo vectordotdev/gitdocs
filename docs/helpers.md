@@ -1,24 +1,29 @@
 You have a variety of helpers to built in which can help you call out important content or visually separate aspects of your documentation.
 
+## Callouts
+
+### Tips
 ```jsx
 <Tip>This is a tip</Tip>
 ```
 <Tip>This is a tip</Tip>
 
+
+### Info
 ```
-<info>Here's some info</info>
+<Info>Here's some info</Info>
 ```
 <Info>Here's some info</Info>
 
-This is an `inline` example
-
+### Warning
 ```
-<warning>This is a warning</warning>
+<Warning>This is a warning</Warning>
 ```
 <Warning>This is a warning</Warning>
 
+### Danger
 ```
-<danger>This is dangerous</danger>
+<Danger>This is dangerous</Danger>
 ```
 <Danger>This is dangerous</Danger>
 
@@ -33,6 +38,14 @@ This is an `inline` example
 <steps></steps>
 ```
 
+## Inline
+
 ```
-<highlight></highlight>
+<Highlight></Highlight>
 ```
+
+<Highlight>Highlighted!</Highlight>
+
+This is me writing some stuff and look <Highlight>I am highlighted!</Highlight>, isn't that cool?
+
+### This header is <Highlight>highlighted</Highlight>

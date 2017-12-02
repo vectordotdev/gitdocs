@@ -1,7 +1,7 @@
 import React, { PureComponent, createElement } from 'react'
 import marksy from 'marksy/components'
 import SyntaxHighlighter from 'react-syntax-highlighter'
-import PrismHighlighter from 'react-syntax-highlighter/prism'
+// import PrismHighlighter from 'react-syntax-highlighter/prism'
 import Wrapper from './Wrapper'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
@@ -12,6 +12,7 @@ import TipRenderer from './Tip'
 import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
+import HighlightRenderer from './Highlight'
 import Contents from './Contents'
 
 const CodeRenderer = ({ code, language, children, context }) => {
@@ -44,15 +45,14 @@ const CodeRenderer = ({ code, language, children, context }) => {
     showLineNumbers: shouldShowLineNumbers,
     lineNumberStyle: { opacity: 0.3 },
     children: code,
-    // style: context.theme ? themes[context.theme] : '',
     codeTagProps: {
       className: langClass,
     },
   }
 
-  if (context.highlighter === 'prism') {
-    return <PrismHighlighter {...props} />
-  }
+  // if (context.highlighter === 'prism') {
+  //   return <PrismHighlighter {...props} />
+  // }
 
   return (
     <SyntaxHighlighter {...props} />
@@ -68,13 +68,13 @@ const compile = marksy({
     h2: H2Renderer,
     h3: H3Renderer,
     code: CodeRenderer,
-    pre: CodeRenderer,
   },
   components: {
     Tip: TipRenderer,
     Info: InfoRenderer,
     Warning: WarningRenderer,
     Danger: DangerRenderer,
+    Highlight: HighlightRenderer,
   },
 })
 
