@@ -1,10 +1,7 @@
 import React, { PureComponent, createElement } from 'react'
 import marksy from 'marksy/components'
-import Prism from 'prismjs'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import PrismHighlighter from 'react-syntax-highlighter/prism'
-import { atomOneLight } from 'react-syntax-highlighter/styles/hljs'
-import escapeHTML from 'escape-html'
 import Wrapper from './Wrapper'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
@@ -16,40 +13,6 @@ import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 import Contents from './Contents'
-
-const highlight = (code, language) => {
-  try {
-    return Prism.highlight(code, Prism.languages[language], language)
-  } catch (e) {
-    console.warn(`Ensure your language ${language} is defined in docs.json`)
-    return escapeHTML(code)
-  }
-}
-
-/* eslint-disable react/no-danger */
-// const PreRenderer = ({ code, language, children }) => {
-//   console.log(language)
-//   // <pre>
-//   if (!language && !children) {
-//     return <pre className={`language-${language} line-numbers`}>{code}</pre>
-//   }
-//
-//   // <code>
-//   if (children && !code && !language) {
-//     return <code className={`language-${language}`}>{children}</code>
-//   }
-//
-//   return (
-//     <pre className={`language-${language} line-numbers`}>
-//       <code
-//         dangerouslySetInnerHTML={{
-//           __html: highlight(code, language),
-//         }}
-//       />
-//     </pre>
-//   )
-// }
-/* eslint-enable react/no-danger */
 
 const CodeRenderer = ({ code, language, children, context }) => {
   if (!language && !children) {
@@ -66,27 +29,28 @@ const CodeRenderer = ({ code, language, children, context }) => {
   // Handle toggling of line numbers in markdown
   if (language.includes('no-line-numbers')) {
     shouldShowLineNumbers = false
-    language.replace('_no-line-numbers', '')
+    language = language.replace('_no-line-numbers', '')
   } else if (language.includes('line-numbers')) {
     shouldShowLineNumbers = true
-    language.replace('_line-numbers', '')
+    language = language.replace('_line-numbers', '')
   }
 
   const langClass = `syntax-${language} ${shouldShowLineNumbers ? 'line-numbers' : 'no-line-numbers'}`
 
   const props = {
     language,
-    useInlineStyles: false,
+    useInlineStyles: context.theme !== undefined,
+    style: context.theme,
     showLineNumbers: shouldShowLineNumbers,
     lineNumberStyle: { opacity: 0.3 },
     children: code,
+    // style: context.theme ? themes[context.theme] : '',
     codeTagProps: {
       className: langClass,
     },
   }
 
-  // Highlight.js doesn't support jsx yet :/
-  if (language === 'jsx') {
+  if (context.highlighter === 'prism') {
     return <PrismHighlighter {...props} />
   }
 
@@ -104,6 +68,7 @@ const compile = marksy({
     h2: H2Renderer,
     h3: H3Renderer,
     code: CodeRenderer,
+    pre: CodeRenderer,
   },
   components: {
     Tip: TipRenderer,
@@ -113,14 +78,21 @@ const compile = marksy({
   },
 })
 
-class Markdown extends React.Component {
+class Markdown extends PureComponent {
   render () {
-    const { source, config } = this.props
+    const { source, config = {} } = this.props
     const content = compile(source, null, {
       showLineNumbers: config.showLineNumbers,
+      highlighter: config.highlighter,
+      theme: config.theme,
     })
-    const toc = <Contents toc={content.toc} key="markdown-toc" />
-    content.tree.unshift(toc)
+
+    console.log(config.theme)
+
+    if (config.tableOfContents) {
+      const toc = <Contents toc={content.toc} key="markdown-toc" />
+      content.tree.unshift(toc)
+    }
 
     return (
       <Wrapper className="markdown">

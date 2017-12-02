@@ -10,13 +10,13 @@ Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.
 
 Using npm:
 
-```shell
+```bash
 npm i -g gitdocs
 ```
 
 Using Yarn:
 
-```shell
+```bash
 yarn global add gitdocs
 ```
 
@@ -24,7 +24,7 @@ yarn global add gitdocs
 
 Assuming you have a folder with markdown files at `/docs`, you can automatically preview your docs site by running.
 
-```shell
+```bash
 gitdocs serve
 ```
 

@@ -43,7 +43,10 @@ export default styled.div`
   }
 
   pre {
-
+    background: #F9F9F9;
+    border-radius: 4px;
+    padding: .5rem !important;
+    white-space: pre-wrap;
   }
 
   code {
@@ -51,10 +54,15 @@ export default styled.div`
     padding: .05rem .25rem;
     display: inline-block;
     border: none !important;
+    background: #F9F9F9;
+    color: #e45649;
+    font-size: 14px;
   }
 
   pre code {
     display: inherit;
+    color: inherit;
+    background: none;
   }
 
   pre code.line-numbers {

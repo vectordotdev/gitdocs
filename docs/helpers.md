@@ -32,3 +32,7 @@ This is an `inline` example
 ```
 <steps></steps>
 ```
+
+```
+<highlight></highlight>
+```

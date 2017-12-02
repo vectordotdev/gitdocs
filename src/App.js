@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Router, getSiteProps } from 'react-static'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
-import Prism from 'prismjs'
 import Sidebar from 'components/Sidebar'
 import Toggle from 'elements/Toggle'
 import 'styles/global'
@@ -12,20 +11,6 @@ class App extends Component {
   state = {
     sidebarIsOpen: window ? window.innerWidth > 700 : true,
     width: window && window.innerWidth,
-  }
-
-  componentWillMount () {
-    const { languages, highlighter } = this.props.config
-    console.log(this.props.config)
-
-    if (highlighter === 'prism') {
-      // Prism relies on registering with a global object
-      languages.forEach(lang => {
-        if (!Prism.languages[lang]) {
-          require(`prismjs/components/prism-${lang}.js`)
-        }
-      })
-    }
   }
 
   componentDidMount () {

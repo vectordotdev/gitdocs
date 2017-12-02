@@ -5,8 +5,6 @@ import { ServerStyleSheet } from 'styled-components'
 import dirTree from 'directory-tree'
 import { getDocPath } from './src/utils'
 import defaults from './default.json'
-import { javascript } from 'react-syntax-highlighter/languages/hljs'
-console.log(javascript.toString())
 
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
@@ -40,7 +38,7 @@ try {
 }
 
 // Merge docs.json config with default config.json
-let config = {
+const config = {
   syntaxes: {},
   ...defaults,
   ...custom,
@@ -56,6 +54,14 @@ if (config.languages) {
       //
     }
   })
+}
+
+if (config.theme) {
+  if (config.highlighter === 'prism') {
+    config.theme = require(`react-syntax-highlighter/styles/prism/${config.theme}`).default
+  } else {
+    config.theme = require(`react-syntax-highlighter/styles/hljs/${config.theme}`).default
+  }
 }
 
 console.log(config.syntaxes)

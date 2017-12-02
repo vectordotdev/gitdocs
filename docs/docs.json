@@ -10,9 +10,10 @@
   "license": "MIT",
   "minDepth": 3,
   "languages": ["jsx", "graphql", "bash", "json", "ocaml"],
-  "theme": "atom-one-light",
-  "highlighter": "highlight.js",
+  "theme": "coy",
+  "highlighter": "prism",
   "showLineNumbers": true,
+  "tableOfContents": true,
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",

@@ -12,7 +12,6 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "directory-tree": "^2.0.0",
-    "escape-html": "^1.0.3",
     "marksy": "^5.0.0",
     "nprogress": "^0.2.0",
     "prism-themes": "^1.0.0",
