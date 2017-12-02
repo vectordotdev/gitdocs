@@ -22,7 +22,7 @@ const Footer = styled.div`
   }
 `
 
-const page = ({ doc, config }) => (console.log(config),
+const page = ({ doc, config }) => (
   <Doc>
     <Markdown
       source={doc.body}

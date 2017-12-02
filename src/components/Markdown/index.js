@@ -87,8 +87,6 @@ class Markdown extends PureComponent {
       theme: config.theme,
     })
 
-    console.log(config.theme)
-
     if (config.tableOfContents) {
       const toc = <Contents toc={content.toc} key="markdown-toc" />
       content.tree.unshift(toc)

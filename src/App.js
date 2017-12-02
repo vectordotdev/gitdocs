@@ -9,8 +9,8 @@ import Wrapper from './Wrapper'
 
 class App extends Component {
   state = {
-    sidebarIsOpen: window ? window.innerWidth > 700 : true,
-    width: window && window.innerWidth,
+    sidebarIsOpen: true,//window ? window.innerWidth > 700 : true,
+    width: 500,// window && window.innerWidth,
   }
 
   componentDidMount () {
@@ -23,11 +23,11 @@ class App extends Component {
       }
     })
 
-    window.addEventListener('resize', this.updateDimensions)
+    // window && window.addEventListener('resize', this.updateDimensions)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.updateDimensions)
+    // window && window.removeEventListener('resize', this.updateDimensions)
   }
 
   updateDimensions = e => {

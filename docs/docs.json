@@ -8,7 +8,7 @@
   "cover": "cover.png",
   "repository": "https://github.com/timberio/gitdocs",
   "license": "MIT",
-  "minDepth": 3,
+  "defaultDepth": 2,
   "languages": ["jsx", "graphql", "bash", "json", "ocaml"],
   "theme": "coy",
   "highlighter": "prism",
