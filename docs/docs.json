@@ -10,8 +10,8 @@
   "license": "MIT",
   "defaultDepth": 2,
   "languages": ["jsx", "graphql", "bash", "json", "ocaml"],
-  "theme": "coy",
-  "highlighter": "prism",
+  "theme": "atom-one-light",
+  "highlighter": "highlight.js",
   "showLineNumbers": true,
   "tableOfContents": true,
   "sidebar": {

@@ -1,8 +1,7 @@
 import React, { PureComponent, createElement } from 'react'
 import marksy from 'marksy/components'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-// import PrismHighlighter from 'react-syntax-highlighter/prism'
 import Wrapper from './Wrapper'
+import CodeRenderer from './Code'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
 import H1Renderer from './H1'
@@ -14,50 +13,6 @@ import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 import HighlightRenderer from './Highlight'
 import Contents from './Contents'
-
-const CodeRenderer = ({ code, language, children, context }) => {
-  if (!language && !children) {
-    return <pre>{code}</pre>
-  }
-
-  // <code>
-  if (children && !code && !language) {
-    return <code>{children}</code>
-  }
-
-  let shouldShowLineNumbers = context.showLineNumbers
-
-  // Handle toggling of line numbers in markdown
-  if (language.includes('no-line-numbers')) {
-    shouldShowLineNumbers = false
-    language = language.replace('_no-line-numbers', '')
-  } else if (language.includes('line-numbers')) {
-    shouldShowLineNumbers = true
-    language = language.replace('_line-numbers', '')
-  }
-
-  const langClass = `syntax-${language} ${shouldShowLineNumbers ? 'line-numbers' : 'no-line-numbers'}`
-
-  const props = {
-    language,
-    useInlineStyles: context.theme !== undefined,
-    style: context.theme,
-    showLineNumbers: shouldShowLineNumbers,
-    lineNumberStyle: { opacity: 0.3 },
-    children: code,
-    codeTagProps: {
-      className: langClass,
-    },
-  }
-
-  // if (context.highlighter === 'prism') {
-  //   return <PrismHighlighter {...props} />
-  // }
-
-  return (
-    <SyntaxHighlighter {...props} />
-  )
-}
 
 const compile = marksy({
   createElement,
