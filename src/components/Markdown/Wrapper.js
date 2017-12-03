@@ -14,16 +14,18 @@ export default styled.div`
 
     svg {
       position: absolute;
-      display: none;
+      padding-right: 10px;
       left: -25px;
       top: 50%;
       transform: translateY(-50%);
       height: 16px;
-      width: 16px;
+      width: 25px;
+
+      g { fill: #FFF }
     }
 
-    &:hover svg {
-      display: inherit;
+    &:hover svg, svg:hover{
+      g { fill: inherit; }
     }
   }
 

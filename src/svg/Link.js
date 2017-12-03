@@ -11,7 +11,6 @@ const Link = ({
       <path data-color="color-2" d="M7.586 15l7.413-7.414L16.414 9 9 16.415z" />
     </g>
   </svg>
-
 )
 
 export default Link

@@ -1,6 +1,6 @@
 import React from 'react'
 import SyntaxHighlighter from 'react-syntax-highlighter'
-// import PrismHighlighter from 'react-syntax-highlighter/prism'
+import PrismHighlighter from 'react-syntax-highlighter/prism'
 
 export default options => ({ className, children }) => {
   const language = className ? className.split('-')[0] : null
@@ -35,9 +35,9 @@ export default options => ({ className, children }) => {
     },
   }
 
-  // if (options.highlighter === 'prism') {
-  //   return <PrismHighlighter {...props} />
-  // }
+  if (options.highlighter === 'prism') {
+    return <PrismHighlighter {...props} />
+  }
 
   return (
     <SyntaxHighlighter {...props} />

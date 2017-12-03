@@ -24,6 +24,7 @@
     "rehype-slug": "^2.0.1",
     "remark-parse": "^4.0.0",
     "remark-rehype": "^2.0.1",
+    "remark-toc": "^4.0.1",
     "styled-components": "2.2.0",
     "unified": "^6.1.6",
     "yargs": "^10.0.3"

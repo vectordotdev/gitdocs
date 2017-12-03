@@ -6,13 +6,11 @@ import raw from 'rehype-raw'
 import slugify from 'rehype-slug'
 import autolink from 'rehype-autolink-headings'
 import reactify from 'rehype-react'
+import toc from 'remark-toc'
 import Wrapper from './Wrapper'
 import CodeRenderer from './Code'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
-import H1Renderer from './H1'
-import H2Renderer from './H2'
-import H3Renderer from './H3'
 import TipRenderer from './Tip'
 import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
@@ -22,21 +20,28 @@ import Contents from './Contents'
 
 const makeComponents = options =>  ({
   a: LinkRenderer,
+  i: IconRenderer,
   tip: TipRenderer,
   info: InfoRenderer,
   warning: WarningRenderer,
   danger: DangerRenderer,
   highlight: HighlightRenderer,
   code: CodeRenderer(options),
-  inlineCode: null,
 })
+
+const tree = {
+  type: 'element',
+  tagName: 'i',
+  properties: { className: 'link' },
+}
 
 const makeProcessor = options => unified()
   .use(remarkParse)
+  .use(toc)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(raw)
   .use(slugify)
-  .use(autolink)
+  .use(autolink, { content: tree })
   .use(reactify, {
     createElement: React.createElement,
     components: makeComponents(options),
