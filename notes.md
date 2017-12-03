@@ -21,6 +21,7 @@
 - https://github.com/fazouane-marouane/remark-jsx/tree/master/packages/remark-custom-element-to-hast
 - https://github.com/cerebral/marksy
 - https://andreypopp.github.io/reactdown/
+- https://github.com/rexxars/react-markdown (keep an eye on this)
 
 ### Ideas
 - components for data visualization

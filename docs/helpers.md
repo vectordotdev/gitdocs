@@ -3,10 +3,15 @@ You have a variety of helpers to built in which can help you call out important 
 ## Callouts
 
 ### Tips
-```jsx
+
+```javascript
 <Tip>This is a tip</Tip>
+<Tip>Second one </Tip>
 ```
-<Tip>This is a tip</Tip>
+
+<Tip color="blue">This is a tip</Tip>
+
+This is an example of `inline code things` right here.
 
 
 ### Info
@@ -47,5 +52,3 @@ You have a variety of helpers to built in which can help you call out important 
 <Highlight>Highlighted!</Highlight>
 
 This is me writing some stuff and look <Highlight>I am highlighted!</Highlight>, isn't that cool?
-
-### This header is <Highlight>highlighted</Highlight>
