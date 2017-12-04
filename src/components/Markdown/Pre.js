@@ -37,6 +37,8 @@ export default options => ({ children, className }) => {
     [`language-${language}`]: true,
   })
 
+  console.log(options)
+
   const props = {
     language,
     useInlineStyles: theme !== undefined,
@@ -45,7 +47,7 @@ export default options => ({ children, className }) => {
     lineNumberStyle: { opacity: 0.3 },
     className: wrapperClass,
     children: codeString,
-    PreTag: props => <pre className={wrapperClass}>{props.children}</pre>,
+    PreTag: props => <pre className={wrapperClass} {...props} />,
     codeTagProps: {
       className: langClass,
     },

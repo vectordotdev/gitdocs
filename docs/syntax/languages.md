@@ -59,7 +59,3 @@ const highlight = (code, language) => {
   }
 }
 ```
-
-### collapse
-
-Look!

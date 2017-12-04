@@ -10,6 +10,7 @@
   "defaultDepth": 2,
   "languages": ["jsx", "graphql", "bash", "json", "ocaml"],
   "highlighter": "prism",
+  "theme": "duotone-sea",
   "showLineNumbers": true,
   "tableOfContents": true,
   "sidebar": {

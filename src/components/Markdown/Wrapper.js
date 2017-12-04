@@ -48,6 +48,12 @@ export default styled.div`
     font-size: 14px;
   }
 
+  p > code, div > code, ul > code, ol > code, li > code {
+    border-radius: 4px;
+    padding: .05rem .25rem !important;
+    display: inline-block;
+  }
+
   pre .line-numbers {
     white-space: pre;
   }
