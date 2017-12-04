@@ -35,11 +35,15 @@ class App extends Component {
     //   })
     // }
 
-    // window && window.addEventListener('resize', this.updateDimensions)
+    if (window) {
+      window.addEventListener('resize', this.updateDimensions)
+    }
   }
 
   componentWillUnmount () {
-    // window && window.removeEventListener('resize', this.updateDimensions)
+    if (window) {
+      window.removeEventListener('resize', this.updateDimensions)
+    }
   }
 
   updateDimensions = e => {
