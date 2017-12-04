@@ -59,3 +59,11 @@ const highlight = (code, language) => {
   }
 }
 ```
+
+```shell
+curl https://api.stripe.com/v1/subscriptions \
+   -u sk_test_BQokikJOvBiI2HlWgH4olfQ2: \
+   -d customer=cus_4fdAW5ftNQow1a \
+   -d plan=pro-monthly \
+   -H "Stripe-Account: {CONNECTED_STRIPE_ACCOUNT_ID}"
+```

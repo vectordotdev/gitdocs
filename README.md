@@ -17,6 +17,7 @@ Using npm:
 
 ```bash
 npm i -g gitdocs
+npm start
 ```
 
 Using Yarn:

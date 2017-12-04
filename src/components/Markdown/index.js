@@ -6,7 +6,6 @@ import frontmatter from 'remark-frontmatter'
 import raw from 'rehype-raw'
 import slugify from 'rehype-slug'
 import autolink from 'rehype-autolink-headings'
-// import reactify from 'rehype-react'
 import collapse from 'remark-collapse'
 import toc from 'remark-toc'
 import reactify from './reactify'
@@ -31,7 +30,7 @@ const makeComponents = options => ({
   danger: DangerRenderer,
   highlight: HighlightRenderer,
   code: CodeRenderer(options),
-  pre: PreRenderer(options)
+  pre: PreRenderer(options),
 })
 
 const linkHAST = {

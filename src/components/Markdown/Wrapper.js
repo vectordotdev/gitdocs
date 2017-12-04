@@ -62,6 +62,24 @@ export default styled.div`
     white-space: pre-wrap;
   }
 
+  pre.language-bash .react-syntax-highlighter-line-number,
+  pre.language-shell .react-syntax-highlighter-line-number {
+    font-size: 1px;
+    letter-spacing: -1px;
+  }
+
+  pre.language-bash .react-syntax-highlighter-line-number:first-child::before,
+  pre.language-shell .react-syntax-highlighter-line-number:first-child::before {
+    content: '$';
+  }}
+
+  pre.language-bash .react-syntax-highlighter-line-number::before,
+  pre.language-shell .react-syntax-highlighter-line-number::before {
+    content: '>';
+    font-size: 14px;
+    color: inherit;
+  }}
+
   table {
     display: block;
     width: 100%;
