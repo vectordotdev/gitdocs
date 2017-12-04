@@ -44,7 +44,6 @@ const config = {
 }
 
 if (config.theme) {
-  console.log(config)
   if (config.highlighter === 'prism') {
     config.theme = require(`react-syntax-highlighter/styles/prism/${config.theme}`).default
   } else {
