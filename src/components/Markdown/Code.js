@@ -3,7 +3,12 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import PrismHighlighter from 'react-syntax-highlighter/prism'
 
 export default options => ({ className, children }) => {
-  const language = className ? className.split('-')[0] : null
+  console.log(className, children)
+  const language = className
+    ? className.indexOf('-')
+      ? className.split('-')[1]
+      : null
+    : null
 
   if (!language) {
     return <code>{children}</code>

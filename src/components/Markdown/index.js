@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import unified from 'unified'
-import remarkParse from 'remark-parse'
-import remarkRehype from 'remark-rehype'
+import parse from 'remark-parse'
+import rehype from 'remark-rehype'
+import frontmatter from 'remark-frontmatter'
 import raw from 'rehype-raw'
 import slugify from 'rehype-slug'
 import autolink from 'rehype-autolink-headings'
@@ -35,10 +36,16 @@ const tree = {
   properties: { className: 'link' },
 }
 
+function getFrontMatter () {
+  return dir => console.log(dir.children.find(c => c.type === 'yaml'))
+}
+
 const makeProcessor = options => unified()
-  .use(remarkParse)
+  .use(parse)
+  .use(frontmatter, ['yaml'])
+  .use(getFrontMatter)
   .use(toc)
-  .use(remarkRehype, { allowDangerousHTML: true })
+  .use(rehype, { allowDangerousHTML: true })
   .use(raw)
   .use(slugify)
   .use(autolink, { content: tree })
@@ -58,7 +65,8 @@ class Markdown extends PureComponent {
     }
 
     const processor = makeProcessor(options)
-    const processed = processor.processSync(source).contents
+    const processed = processor.processSync(source)
+    console.log(processed)
 
     // if (config.tableOfContents) {
     //   const toc = <Contents toc={content.toc} key="markdown-toc" />
@@ -67,7 +75,7 @@ class Markdown extends PureComponent {
 
     return (
       <Wrapper className="markdown">
-        {processed}
+        {processed.contents}
       </Wrapper>
     )
   }

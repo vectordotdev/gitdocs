@@ -47,8 +47,15 @@ export default styled.div`
   pre {
     background: #F9F9F9;
     border-radius: 4px;
-    padding: .5rem !important;
     white-space: pre-wrap;
+  }
+
+  pre > div {
+    border-radius: 4px;
+  }
+
+  pre > code {
+    padding: .5rem;
   }
 
   code {
