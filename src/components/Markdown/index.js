@@ -12,6 +12,7 @@ import toc from 'remark-toc'
 import reactify from './reactify'
 import Wrapper from './Wrapper'
 import CodeRenderer from './Code'
+import PreRenderer from './Pre'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
 import TipRenderer from './Tip'
@@ -20,12 +21,6 @@ import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 import HighlightRenderer from './Highlight'
 // import Contents from './Contents'
-//
-
-const PreRenderer = options => ({ children, ...rest }) => {
-  console.log(rest)
-  return <pre>{children}</pre>
-}
 
 const makeComponents = options => ({
   a: LinkRenderer,
@@ -39,7 +34,7 @@ const makeComponents = options => ({
   pre: PreRenderer(options)
 })
 
-const tree = {
+const linkHAST = {
   type: 'element',
   tagName: 'i',
   properties: { className: 'link' },
@@ -58,7 +53,7 @@ const makeProcessor = options => unified()
   .use(rehype, { allowDangerousHTML: true })
   .use(raw)
   .use(slugify)
-  .use(autolink, { content: tree })
+  .use(autolink, { content: linkHAST })
   .use(reactify, {
     createElement: React.createElement,
     components: makeComponents(options),

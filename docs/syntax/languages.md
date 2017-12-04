@@ -1,5 +1,7 @@
 # Languages
 
+Here's an `inline code` example too.
+
 ```ocaml
 module Graphql = struct
   (* ... *)
@@ -50,9 +52,9 @@ const highlight = (code, language) => {
 ```javascript
 const highlight = (code, language) => {
   try {
-*   return Prism.highlight(code, Prism.languages[language], language)
+    return Prism.highlight(code, Prism.languages[language], language)
   } catch (e) {
-    `console.warn(`Ensure your language ${language} is defined in docs.json`)`
+    console.warn(`Ensure your language ${language} is defined in docs.json`)
     return escapeHTML(code)
   }
 }

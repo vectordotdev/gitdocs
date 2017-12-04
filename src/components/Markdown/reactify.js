@@ -47,7 +47,6 @@ function rehype2react(options) {
 
   /* Wrap `createElement` to pass components in. */
   function h(name, props, children) {
-    console.log(name, props)
     var component = has(components, name) ? components[name] : name;
     return createElement(component, props, children);
   }

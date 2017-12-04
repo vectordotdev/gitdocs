@@ -44,16 +44,7 @@ export default styled.div`
     font-style: italic;
   }
 
-  pre > pre {
-    margin: 0;
-    font-size: 14px;
-  }
-
-  p > code, div > code, ul > code, ol > code, li > code {
-    border-radius: 4px;
-    padding: .05rem .25rem !important;
-    display: inline-block;
-    border: none !important;
+  pre, code {
     font-size: 14px;
   }
 
