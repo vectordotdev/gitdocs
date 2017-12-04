@@ -15,30 +15,24 @@
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",
-    "navigation": {
-      "contents.md": "contents.md",
-      "docs.json": "docs.md",
-      "automatic": "automatic.md"
-    },
     "writing": {
       "Markdown": "markdown/markdown.md",
       "Syntax": "syntax/languages.md",
-      "Table of contents": "writing/toc.md",
-      "components": {
-        "helpers": "writing/helpers.md",
-        "custom": "components/readme.md"
-      }
+      "Table of contents": "writing/table-of-contents.md"
+    },
+    "components": {
+      "Helpers": "components/helpers.md",
+      "Custom": "components/custom.md"
     },
     "configuration": {
-      "sidebar": "configuration/sidebar.md",
-      "styles": "configuration/styles.md",
-      "scripts": "configuration/scripts.md",
-      "analytics": "configuration/analytics.md"
+      "Sidebar": "configuration/sidebar.md",
+      "Styles": "configuration/styles.md",
+      "Scripts": "configuration/scripts.md"
     },
     "deploying": {
-      "github": "deploying/github.md",
-      "gitlab": "deploying/gitlab.md",
-      "netlify": "deploying/netlify.md"
+      "Github": "deploying/github.md",
+      "Gitlab": "deploying/gitlab.md",
+      "Netlify": "deploying/netlify.md"
     }
   }
 }

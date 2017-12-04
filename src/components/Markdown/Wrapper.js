@@ -80,6 +80,10 @@ export default styled.div`
     color: inherit;
   }}
 
+  ul p {
+    margin: 0;
+  }
+
   table {
     display: block;
     width: 100%;
