@@ -39,32 +39,18 @@ try {
 
 // Merge docs.json config with default config.json
 const config = {
-  syntaxes: {},
   ...defaults,
   ...custom,
 }
 
-if (config.languages) {
-  config.languages.forEach(l => {
-    try {
-      const lang = require(`react-syntax-highlighter/languages/hljs/${l}`).default
-      config.syntaxes[l] = lang
-      console.log(typeof lang)
-    } catch (e) {
-      //
-    }
-  })
-}
-
 if (config.theme) {
+  console.log(config)
   if (config.highlighter === 'prism') {
     config.theme = require(`react-syntax-highlighter/styles/prism/${config.theme}`).default
   } else {
     config.theme = require(`react-syntax-highlighter/styles/hljs/${config.theme}`).default
   }
 }
-
-console.log(config.syntaxes)
 
 if (!config.sidebar) {
   // Pull out the markdown files in the /docs directory
@@ -97,6 +83,7 @@ function importFile (pathToFile) {
   try {
     return fs.readFileSync(path.resolve(DOCS_SRC, pathToFile), 'utf8')
   } catch (e) {
+    console.warn(`warning: could not find file ${pathToFile}`)
     return ''
   }
 }

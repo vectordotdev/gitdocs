@@ -6,8 +6,10 @@ import frontmatter from 'remark-frontmatter'
 import raw from 'rehype-raw'
 import slugify from 'rehype-slug'
 import autolink from 'rehype-autolink-headings'
-import reactify from 'rehype-react'
+// import reactify from 'rehype-react'
+import collapse from 'remark-collapse'
 import toc from 'remark-toc'
+import reactify from './reactify'
 import Wrapper from './Wrapper'
 import CodeRenderer from './Code'
 import IconRenderer from './Icon'
@@ -17,9 +19,15 @@ import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 import HighlightRenderer from './Highlight'
-import Contents from './Contents'
+// import Contents from './Contents'
+//
 
-const makeComponents = options =>  ({
+const PreRenderer = options => ({ children, ...rest }) => {
+  console.log(rest)
+  return <pre>{children}</pre>
+}
+
+const makeComponents = options => ({
   a: LinkRenderer,
   i: IconRenderer,
   tip: TipRenderer,
@@ -28,6 +36,7 @@ const makeComponents = options =>  ({
   danger: DangerRenderer,
   highlight: HighlightRenderer,
   code: CodeRenderer(options),
+  pre: PreRenderer(options)
 })
 
 const tree = {
@@ -41,9 +50,10 @@ function getFrontMatter () {
 }
 
 const makeProcessor = options => unified()
-  .use(parse)
+  .use(parse, { highlightLines: true })
   .use(frontmatter, ['yaml'])
   .use(getFrontMatter)
+  .use(collapse, { test: 'collapse' })
   .use(toc)
   .use(rehype, { allowDangerousHTML: true })
   .use(raw)
@@ -66,7 +76,6 @@ class Markdown extends PureComponent {
 
     const processor = makeProcessor(options)
     const processed = processor.processSync(source)
-    console.log(processed)
 
     // if (config.tableOfContents) {
     //   const toc = <Contents toc={content.toc} key="markdown-toc" />

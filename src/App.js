@@ -23,6 +23,18 @@ class App extends Component {
       }
     })
 
+    // if (config.languages) {
+    //   config.languages.forEach(l => {
+    //     try {
+    //       const lang = require(`react-syntax-highlighter/languages/hljs/${l}`).default
+    //       config.syntaxes[l] = lang
+    //       console.log(typeof lang)
+    //     } catch (e) {
+    //       //
+    //     }
+    //   })
+    // }
+
     // window && window.addEventListener('resize', this.updateDimensions)
   }
 

@@ -1,7 +1,6 @@
 {
   "name": "GitDocs",
   "version": "0.0.1",
-  "theme": "default",
   "script": "custom.js",
   "css": "custom.css",
   "favicon": "favicon.ico",
@@ -10,8 +9,7 @@
   "license": "MIT",
   "defaultDepth": 2,
   "languages": ["jsx", "graphql", "bash", "json", "ocaml"],
-  "theme": "atom-one-dark",
-  "highlighter": "highlight.js",
+  "highlighter": "prism",
   "showLineNumbers": true,
   "tableOfContents": true,
   "sidebar": {
@@ -24,7 +22,7 @@
     },
     "writing": {
       "markdown": "markdown/markdown.md",
-      "syntax": "syntax/code/languagues.md",
+      "syntax": "syntax/languages.md",
       "components": {
         "helpers": "helpers.md",
         "custom": "components/readme.md"

@@ -44,41 +44,24 @@ export default styled.div`
     font-style: italic;
   }
 
-  pre {
-    background: #F9F9F9;
-    border-radius: 4px;
-    white-space: pre-wrap;
-  }
-
-  pre > div {
-    border-radius: 4px;
-  }
-
-  pre > code {
-    padding: .5rem;
-  }
-
-  code {
-    border-radius: 4px;
-    padding: .05rem .25rem;
-    display: inline-block;
-    border: none !important;
-    background: #F9F9F9;
-    color: #e45649;
+  pre > pre {
+    margin: 0;
     font-size: 14px;
   }
 
-  pre code {
-    display: inherit;
-    color: inherit;
-    background: none;
+  p > code, div > code, ul > code, ol > code, li > code {
+    border-radius: 4px;
+    padding: .05rem .25rem !important;
+    display: inline-block;
+    border: none !important;
+    font-size: 14px;
   }
 
-  pre code.line-numbers {
+  pre .line-numbers {
     white-space: pre;
   }
 
-  pre code.no-line-numbers {
+  pre .no-line-numbers {
     white-space: pre-wrap;
   }
 
