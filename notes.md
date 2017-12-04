@@ -21,6 +21,7 @@
 - https://github.com/fazouane-marouane/remark-jsx/tree/master/packages/remark-custom-element-to-hast
 - https://github.com/cerebral/marksy
 - https://andreypopp.github.io/reactdown/
+- https://github.com/rexxars/react-markdown (keep an eye on this)
 
 ### Ideas
 - components for data visualization
@@ -38,6 +39,10 @@
 - optional home page
 - ascii cinema plugin
 - custom plugin system
+- link to specific line in code (ex. #section-name-L22)
+- Next/Last page https://cl.ly/3n3g3Q2t2L1l
+- language selection (intl)
+- version selection
 
 ### Components
 - steps
@@ -47,3 +52,11 @@
 - charts
 - diagrams
 - graphs
+
+### Jekyll Insp.
+- https://github.com/poole/poole
+
+### Issues
+- Syntaxes get passed through config object properly
+- Refractor includes hastscript which includes camelcase, that breaks in uglify
+- Marksy code override needs tracker context

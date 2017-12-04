@@ -24,7 +24,10 @@ const Footer = styled.div`
 
 const page = ({ doc, config }) => (
   <Doc>
-    <Markdown source={doc.body} />
+    <Markdown
+      source={doc.body}
+      config={config}
+    />
     <Footer>
       {
         config.repository &&

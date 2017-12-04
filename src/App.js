@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Router, getSiteProps } from 'react-static'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
-import Prism from 'prismjs'
 import Sidebar from 'components/Sidebar'
 import Toggle from 'elements/Toggle'
 import 'styles/global'
@@ -10,18 +9,8 @@ import Wrapper from './Wrapper'
 
 class App extends Component {
   state = {
-    sidebarIsOpen: window ? window.innerWidth > 700 : true,
-    width: window && window.innerWidth,
-  }
-
-  componentWillMount () {
-    const { languages } = this.props.config
-
-    languages.forEach(lang => {
-      if (!Prism.languages[lang]) {
-        require(`prismjs/components/prism-${lang}.js`)
-      }
-    })
+    sidebarIsOpen: true,//window ? window.innerWidth > 700 : true,
+    width: 500,// window && window.innerWidth,
   }
 
   componentDidMount () {
@@ -34,11 +23,11 @@ class App extends Component {
       }
     })
 
-    window.addEventListener('resize', this.updateDimensions)
+    // window && window.addEventListener('resize', this.updateDimensions)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.updateDimensions)
+    // window && window.removeEventListener('resize', this.updateDimensions)
   }
 
   updateDimensions = e => {

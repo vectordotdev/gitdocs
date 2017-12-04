@@ -44,7 +44,7 @@ module Graphql = struct
 end
 ```
 
-```javascript
+```
 const highlight = (code, language) => {
   try {
     return Prism.highlight(code, Prism.languages[language], language)
@@ -55,6 +55,16 @@ const highlight = (code, language) => {
 }
 ```
 
+```javascript
+const highlight = (code, language) => {
+  try {
+    return Prism.highlight(code, Prism.languages[language], language)
+  } catch (e) {
+    console.warn(`Ensure your language ${language} is defined in docs.json`)
+    return escapeHTML(code)
+  }
+}
+```
 
 You can infinitely nest folders, although we recommend limiting this to 2 or 3 levels otherwise navigating can become tedious and it's more difficult to visualize the hierarchy.
 

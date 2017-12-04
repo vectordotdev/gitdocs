@@ -1,12 +1,14 @@
 import React from 'react'
+import Link from 'svg/Link'
 
-const Header = ({ children, id, ...rest }) => {
+const Header = ({ children, id }) => {
   if (!id) {
     id = children[0].toLowerCase().split(' ').join('-')
   }
 
   return (
     <h3>
+      <Link />
       <a
         href={`#${id}`}
         id={id}

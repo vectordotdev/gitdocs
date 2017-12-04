@@ -20,6 +20,7 @@ const Wrapper = styled.div`
     color: #999999;
     margin: 0;
     font-size: 12px;
+    letter-spacing: .025rem;
   }
 
   a {

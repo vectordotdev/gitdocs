@@ -1,3 +1,8 @@
+---
+layout: post
+title: Blogging Like a Hacker
+---
+
 # GitDocs
 
 Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.

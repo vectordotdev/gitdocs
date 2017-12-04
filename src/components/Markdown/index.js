@@ -1,81 +1,84 @@
-import React, { createElement } from 'react'
-import marksy from 'marksy/components'
-import Prism from 'prismjs'
-import escapeHTML from 'escape-html'
+import React, { PureComponent } from 'react'
+import unified from 'unified'
+import parse from 'remark-parse'
+import rehype from 'remark-rehype'
+import frontmatter from 'remark-frontmatter'
+import raw from 'rehype-raw'
+import slugify from 'rehype-slug'
+import autolink from 'rehype-autolink-headings'
+import reactify from 'rehype-react'
+import toc from 'remark-toc'
 import Wrapper from './Wrapper'
+import CodeRenderer from './Code'
 import IconRenderer from './Icon'
 import LinkRenderer from './Link'
-import H1Renderer from './H1'
-import H2Renderer from './H2'
-import H3Renderer from './H3'
 import TipRenderer from './Tip'
 import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
+import HighlightRenderer from './Highlight'
 import Contents from './Contents'
 
-const highlight = (code, language) => {
-  try {
-    return Prism.highlight(code, Prism.languages[language], language)
-  } catch (e) {
-    console.warn(`Ensure your language ${language} is defined in docs.json`)
-    return escapeHTML(code)
-  }
-}
-
-/* eslint-disable react/no-danger */
-const PreRenderer = ({ code, language, children }) => {
-  // <pre>
-  if (!language && !children) {
-    return <pre className={`language-${language}`}>{code}</pre>
-  }
-
-  // <code>
-  if (children && !code && !language) {
-    return <code className={`language-${language}`}>{children}</code>
-  }
-
-  return (
-    <pre className={`language-${language}`}>
-      <code
-        dangerouslySetInnerHTML={{
-          __html: highlight(code, language),
-        }}
-      />
-    </pre>
-  )
-}
-/* eslint-enable react/no-danger */
-
-const compile = marksy({
-  createElement,
-  elements: {
-    i: IconRenderer,
-    a: LinkRenderer,
-    h1: H1Renderer,
-    h2: H2Renderer,
-    h3: H3Renderer,
-    pre: PreRenderer,
-    code: PreRenderer,
-  },
-  components: {
-    Tip: TipRenderer,
-    Info: InfoRenderer,
-    Warning: WarningRenderer,
-    Danger: DangerRenderer,
-  },
+const makeComponents = options =>  ({
+  a: LinkRenderer,
+  i: IconRenderer,
+  tip: TipRenderer,
+  info: InfoRenderer,
+  warning: WarningRenderer,
+  danger: DangerRenderer,
+  highlight: HighlightRenderer,
+  code: CodeRenderer(options),
 })
 
-const Markdown = ({ source }) => {
-  const content = compile(source)
-  const toc = <Contents toc={content.toc} key="markdown-toc" />
-  content.tree.unshift(toc)
+const tree = {
+  type: 'element',
+  tagName: 'i',
+  properties: { className: 'link' },
+}
 
-  return (
-    <Wrapper className="markdown">
-      {content.tree}
-    </Wrapper>
-  )
+function getFrontMatter () {
+  return dir => console.log(dir.children.find(c => c.type === 'yaml'))
+}
+
+const makeProcessor = options => unified()
+  .use(parse)
+  .use(frontmatter, ['yaml'])
+  .use(getFrontMatter)
+  .use(toc)
+  .use(rehype, { allowDangerousHTML: true })
+  .use(raw)
+  .use(slugify)
+  .use(autolink, { content: tree })
+  .use(reactify, {
+    createElement: React.createElement,
+    components: makeComponents(options),
+  })
+
+class Markdown extends PureComponent {
+  render () {
+    const { source, config = {} } = this.props
+
+    const options = {
+      showLineNumbers: config.showLineNumbers,
+      highlighter: config.highlighter,
+      theme: config.theme,
+    }
+
+    const processor = makeProcessor(options)
+    const processed = processor.processSync(source)
+    console.log(processed)
+
+    // if (config.tableOfContents) {
+    //   const toc = <Contents toc={content.toc} key="markdown-toc" />
+    //   content.tree.unshift(toc)
+    // }
+
+    return (
+      <Wrapper className="markdown">
+        {processed.contents}
+      </Wrapper>
+    )
+  }
 }
 
 export default Markdown

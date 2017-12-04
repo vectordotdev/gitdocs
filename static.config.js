@@ -38,7 +38,33 @@ try {
 }
 
 // Merge docs.json config with default config.json
-const config = { ...defaults, ...custom }
+const config = {
+  syntaxes: {},
+  ...defaults,
+  ...custom,
+}
+
+if (config.languages) {
+  config.languages.forEach(l => {
+    try {
+      const lang = require(`react-syntax-highlighter/languages/hljs/${l}`).default
+      config.syntaxes[l] = lang
+      console.log(typeof lang)
+    } catch (e) {
+      //
+    }
+  })
+}
+
+if (config.theme) {
+  if (config.highlighter === 'prism') {
+    config.theme = require(`react-syntax-highlighter/styles/prism/${config.theme}`).default
+  } else {
+    config.theme = require(`react-syntax-highlighter/styles/hljs/${config.theme}`).default
+  }
+}
+
+console.log(config.syntaxes)
 
 if (!config.sidebar) {
   // Pull out the markdown files in the /docs directory
@@ -179,10 +205,6 @@ export default {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
             {renderMeta.styleTags}
-            {
-              config.theme &&
-              <link rel="stylesheet" href={`https://unpkg.com/prism-themes@1.0.0/themes/${config.theme}.css`} />
-            }
             <link rel="stylesheet" href="/custom.css" />
           </Head>
           <Body>{children}</Body>

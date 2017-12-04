@@ -5,7 +5,28 @@ export default styled.div`
   line-height: 1.5;
 
   h1, h2, h3 {
-    a { text-decoration: none }
+    position: relative;
+
+    a {
+      text-decoration: none;
+      display: block;
+    }
+
+    svg {
+      position: absolute;
+      padding-right: 10px;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 16px;
+      width: 25px;
+
+      g { fill: #FFF }
+    }
+
+    &:hover svg, svg:hover{
+      g { fill: inherit; }
+    }
   }
 
   ul {
@@ -23,8 +44,18 @@ export default styled.div`
     font-style: italic;
   }
 
-  pre, code {
-    font-family: monospace;
+  pre {
+    background: #F9F9F9;
+    border-radius: 4px;
+    white-space: pre-wrap;
+  }
+
+  pre > div {
+    border-radius: 4px;
+  }
+
+  pre > code {
+    padding: .5rem;
   }
 
   code {
@@ -32,22 +63,23 @@ export default styled.div`
     padding: .05rem .25rem;
     display: inline-block;
     border: none !important;
+    background: #F9F9F9;
+    color: #e45649;
+    font-size: 14px;
   }
 
   pre code {
-    border: none;
-    word-break: break-all;
-    white-space: pre-wrap;
-    display: inline-block !important;
+    display: inherit;
+    color: inherit;
+    background: none;
   }
 
-  pre {
-    border-radius: 4px;
-    font-family: Roboto Mono, monospace;
-    border-radius: 3px;
-    line-height: 19px;
-    font-size: 1em;
-    padding: .5rem;
+  pre code.line-numbers {
+    white-space: pre;
+  }
+
+  pre code.no-line-numbers {
+    white-space: pre-wrap;
   }
 
   table {

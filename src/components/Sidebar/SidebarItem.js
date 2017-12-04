@@ -41,7 +41,7 @@ class SidebarItem extends React.Component {
     const underActiveRoute = this.getUnderActiveRoute(props)
 
     this.state = {
-      expanded: depth < props.config.defaultDepth || underActiveRoute,
+      expanded: depth <= props.config.defaultDepth || underActiveRoute,
     }
   }
 
@@ -50,7 +50,7 @@ class SidebarItem extends React.Component {
     const underActiveRoute = this.getUnderActiveRoute(nextProps)
 
     this.setState({
-      expanded: depth < nextProps.config.defaultDepth || underActiveRoute,
+      expanded: depth <= nextProps.config.defaultDepth || underActiveRoute,
     })
   }
 

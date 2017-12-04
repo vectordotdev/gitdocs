@@ -9,6 +9,7 @@ export default styled.aside`
   overflow-y: auto;
   border-right: 1px solid #DFE3E8;
   margin: 0;
+  z-index: 99;
 
   @media(max-width: 700px) {
     width: 0;
