@@ -14,7 +14,7 @@ export default options => ({ children, className }) => {
   // data-lines="1-3"
   // diff format
   const childProps = children[0].props
-  const language = getLanguage(className || childProps.className)
+  const language = childProps ? getLanguage(className || childProps.className) : null
 
   const { theme, highlighter, showLineNumbers } = options
   const isPrism = highlighter && highlighter.includes('prism')

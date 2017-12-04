@@ -5,4 +5,5 @@ export default styled.p`
   background: #FDF37D;
   display: inline-block;
   padding: .05rem .2rem;
+  margin: 0;
 `

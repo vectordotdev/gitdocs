@@ -4,15 +4,14 @@
   "script": "custom.js",
   "css": "custom.css",
   "favicon": "favicon.ico",
-  "cover": "cover.png",
+  "cover": "docs-cover.png",
   "repository": "https://github.com/timberio/gitdocs",
   "license": "MIT",
   "defaultDepth": 2,
-  "languages": ["jsx", "graphql", "bash", "json", "ocaml"],
+  "languages": ["jsx", "bash", "json", "ocaml"],
   "highlighter": "highlight",
   "theme": "atom-one-light",
   "showLineNumbers": true,
-  "tableOfContents": true,
   "sidebar": {
     "Introduction": "README.md",
     "Quickstart": "quickstart.md",
@@ -22,10 +21,11 @@
       "automatic": "automatic.md"
     },
     "writing": {
-      "markdown": "markdown/markdown.md",
-      "syntax": "syntax/languages.md",
+      "Markdown": "markdown/markdown.md",
+      "Syntax": "syntax/languages.md",
+      "Table of contents": "writing/toc.md",
       "components": {
-        "helpers": "helpers.md",
+        "helpers": "writing/helpers.md",
         "custom": "components/readme.md"
       }
     },

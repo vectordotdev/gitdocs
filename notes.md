@@ -14,6 +14,7 @@
 ### Resources
 
 - https://developer.atlassian.com/blog/2015/11/scripting-with-node/
+- https://sthom.kiwi/posts/react-in-markdown-updated/
 
 ### React + Markdown
 - https://github.com/gatsbyjs/gatsby/issues/312#issuecomment-336681894
@@ -24,6 +25,7 @@
 - https://github.com/cerebral/marksy
 - https://andreypopp.github.io/reactdown/
 - https://github.com/rexxars/react-markdown (keep an eye on this)
+- https://github.com/phenomic/phenomic/search?utf8=%E2%9C%93&q=remark
 
 ### Ideas
 - components for data visualization

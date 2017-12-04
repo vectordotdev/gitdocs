@@ -43,7 +43,7 @@ This is an example of `inline code things` right here.
 <steps></steps>
 ```
 
-## Inline
+## Highlight
 
 ```
 <Highlight></Highlight>
