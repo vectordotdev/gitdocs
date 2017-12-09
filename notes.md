@@ -10,6 +10,7 @@
 - https://docute.js.org
 - https://github.com/rhiokim/flybook
 - https://tapdaq.com/docs
+- https://amplitude.github.io/redux-query/#/mounting (look at repl)
 
 ### Resources
 
@@ -47,6 +48,8 @@
 - Next/Last page https://cl.ly/3n3g3Q2t2L1l
 - language selection (intl)
 - version selection
+- custom styling for a changelog.md
+- overview page like https://timber.io/docs
 
 ### Components
 - steps
