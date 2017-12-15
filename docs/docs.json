@@ -33,6 +33,7 @@
       "Github": "deploying/github.md",
       "Gitlab": "deploying/gitlab.md",
       "Netlify": "deploying/netlify.md"
-    }
+    },
+    "Development": "development.md"
   }
 }
