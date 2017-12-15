@@ -16,7 +16,7 @@ The sidebar configuration supports the following options:
 }
 ```
 
-## Custom Structuure
+## Custom Structure
 
 We recommend configuring the sidebar navigation in `docs.json` like so:
 
