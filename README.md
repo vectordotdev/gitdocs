@@ -38,7 +38,7 @@ gitdocs serve
 and build your site to any destination with:
 
 ```bash
-gitocs build --output="docs-dist"
+gitdocs build --output="docs-dist"
 ```
 
 - The `readme.md` in your repo will be used as the default homepage for your docs
