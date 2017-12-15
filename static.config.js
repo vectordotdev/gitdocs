@@ -1,4 +1,5 @@
 import fs from 'fs-extra'
+import merge from 'lodash.merge'
 import path from 'path'
 import React, { Component } from 'react'
 import { ServerStyleSheet } from 'styled-components'
@@ -38,11 +39,7 @@ try {
 }
 
 // Merge docs.json config with default config.json
-// TODO: make this a deep merge
-const config = {
-  ...defaults,
-  ...custom,
-}
+const config = merge(defaults, custom)
 
 if (config.theme) {
   if (config.highlighter === 'prism') {
