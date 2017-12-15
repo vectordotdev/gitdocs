@@ -7,33 +7,36 @@
   "cover": "docs-cover.png",
   "repository": "https://github.com/timberio/gitdocs",
   "license": "MIT",
-  "defaultDepth": 2,
   "languages": ["jsx", "bash", "json", "ocaml"],
   "highlighter": "highlight",
   "theme": "atom-one-light",
   "showLineNumbers": true,
   "sidebar": {
-    "Introduction": "README.md",
-    "Quickstart": "quickstart.md",
-    "writing": {
-      "Markdown": "markdown/markdown.md",
-      "Syntax": "syntax/languages.md",
-      "Table of contents": "writing/table-of-contents.md"
-    },
-    "components": {
-      "Helpers": "components/helpers.md",
-      "Custom": "components/custom.md"
-    },
-    "configuration": {
-      "Sidebar": "configuration/sidebar.md",
-      "Styles": "configuration/styles.md",
-      "Scripts": "configuration/scripts.md"
-    },
-    "deploying": {
-      "Github": "deploying/github.md",
-      "Gitlab": "deploying/gitlab.md",
-      "Netlify": "deploying/netlify.md"
-    },
-    "Development": "development.md"
+    "defaultDepth": 2,
+    "position": "left",
+    "items": {
+      "Introduction": "README.md",
+      "Quickstart": "quickstart.md",
+      "writing": {
+        "Markdown": "markdown/markdown.md",
+        "Syntax": "syntax/languages.md",
+        "Table of contents": "writing/table-of-contents.md"
+      },
+      "components": {
+        "Helpers": "components/helpers.md",
+        "Custom": "components/custom.md"
+      },
+      "configuration": {
+        "Sidebar": "configuration/sidebar.md",
+        "Styles": "configuration/styles.md",
+        "Scripts": "configuration/scripts.md"
+      },
+      "deploying": {
+        "Github": "deploying/github.md",
+        "Gitlab": "deploying/gitlab.md",
+        "Netlify": "deploying/netlify.md"
+      },
+      "Development": "development.md"
+    }
   }
 }

@@ -38,6 +38,7 @@ try {
 }
 
 // Merge docs.json config with default config.json
+// TODO: make this a deep merge
 const config = {
   ...defaults,
   ...custom,
@@ -51,7 +52,7 @@ if (config.theme) {
   }
 }
 
-if (!config.sidebar) {
+if (!config.sidebar || !config.sidebar.items) {
   // Pull out the markdown files in the /docs directory
   tree = dirTree(DOCS_SRC, { extensions: /\.md/ }, item => {
     const contents = fs.readFileSync(item.path, 'utf8')
@@ -121,8 +122,8 @@ function buildTree (item, name, current) {
   return child
 }
 
-if (config.sidebar) {
-  tree = buildTree(config.sidebar, '', '')
+if (config.sidebar && config.sidebar.items) {
+  tree = buildTree(config.sidebar.items, '', '')
 }
 
 // Generate docs routes

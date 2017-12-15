@@ -10,7 +10,10 @@
   "root": "./docs",
   "expanded": true,
   "logo": "./logo.png",
-  "defaultDepth": 3,
   "showLineNumbers": true,
-  "highlighter": "prism"
+  "highlighter": "prism",
+  "sidebar": {
+    "defaultDepth": 3,
+    "position": "left"
+  }
 }
