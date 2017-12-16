@@ -7,9 +7,15 @@ export default styled.aside`
   max-width: ${props => props.sidebarIsOpen ? '280px' : '0'};
   background: #f4f7fa;
   overflow-y: auto;
-  border-right: 1px solid #DFE3E8;
   margin: 0;
   z-index: 99;
+
+  ${props => {
+    if (props.position === 'left') {
+      return css`border-right: 1px solid #DFE3E8;`
+    }
+    return css`border-left: 1px solid #DFE3E8;`
+  }}
 
   @media(max-width: 700px) {
     width: 0;
@@ -18,7 +24,7 @@ export default styled.aside`
   ${props => props.sidebarIsOpen && css`
     @media(max-width: 700px) {
       position: fixed;
-      left: 0;
+      ${props => props.position === 'left' ? css`left: 0;` : css`right: 0;`}
       top: 0;
       bottom: 0;
     }

@@ -62,21 +62,29 @@ class App extends Component {
 
   render () {
     const { tree, toc, config } = this.props
+    const sideBarRight = config.sidebar && config.sidebar.position === 'right'
+    const sidebar = (
+      <Sidebar
+        tree={tree}
+        toc={toc}
+        config={config}
+        sidebarIsOpen={this.state.sidebarIsOpen}
+      />
+    )
+    const toggle = (
+      <Toggle
+        onClick={this.handleSidebarToggle}
+        sidebarIsOpen={this.state.sidebarIsOpen}
+        position={config.sidebar.position}
+      />
+    )
 
     return (
       <Router>
         <Wrapper>
-          <Sidebar
-            tree={tree}
-            toc={toc}
-            config={config}
-            sidebarIsOpen={this.state.sidebarIsOpen}
-          />
-          <Toggle
-            onClick={this.handleSidebarToggle}
-            sidebarIsOpen={this.state.sidebarIsOpen}
-          />
+          {!sideBarRight && [sidebar, toggle]}
           <Routes />
+          {sideBarRight && [toggle, sidebar]}
         </Wrapper>
       </Router>
     )

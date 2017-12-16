@@ -6,7 +6,7 @@ import Wrapper from './Wrapper'
 import Header from './Header'
 
 const Sidebar = ({ tree, toc, doc, config, sidebarIsOpen }) => (
-  <Wrapper sidebarIsOpen={sidebarIsOpen} className="sidebar">
+  <Wrapper sidebarIsOpen={sidebarIsOpen} className="sidebar" position={config.sidebar.position}>
     <Header>
       <a href={config.repository}>
         {config.name} version {config.version}
