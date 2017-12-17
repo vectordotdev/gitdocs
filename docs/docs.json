@@ -1,5 +1,6 @@
 {
   "name": "GitDocs",
+  "title": "GitDocs",
   "version": "0.0.1",
   "script": "custom.js",
   "css": "custom.css",

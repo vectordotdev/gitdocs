@@ -190,6 +190,7 @@ export default {
             <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css" />
             {renderMeta.styleTags}
             <link rel="stylesheet" href="/custom.css" />
+            <title>{config.title}</title>
           </Head>
           <Body>{children}</Body>
           <script src="/custom.js" />
