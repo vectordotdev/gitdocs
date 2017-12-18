@@ -1,10 +1,22 @@
 #!/usr/bin/env node
 /* eslint-disable */
-const yargs = require('yargs')
+const chalk = require('chalk')
 const execSync = require('child_process').execSync
 const fs = require('fs-extra')
-const chalk = require('chalk')
+const isGlobal = require('is-global')
+const path = require('path')
+const yargs = require('yargs')
+
 const cwd = process.cwd()
+
+// 3 possible cases:
+//    Global install - need to go up and into node modules to find react static
+//    Local install - need to go up and directly to react static because we're already in node-modules
+//    Local dev - same as global
+const reactStatic = isGlobal() || !__dirname.includes('/node_modules/') ?
+  path.join(__dirname, '/../node_modules/react-static/bin/react-static') :
+  path.join(__dirname, '../../react-static/bin/react-static')
+const reactStaticWorkDir = path.join(__dirname, '..')
 
 // commands:
 // serve (port, version)
@@ -30,8 +42,9 @@ var argv = yargs
     }),
     handler: argv => {
       execSync(
-        `cd node_modules/gitdocs && node_modules/react-static/bin/react-static start`,
+        `${reactStatic} start`,
         {
+          cwd: reactStaticWorkDir,
           env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
           stdio: [1,2,3]
         }
@@ -55,15 +68,18 @@ var argv = yargs
     handler: argv => {
       console.log('outputting...', argv.output)
       execSync(
-        `cd node_modules/gitdocs && node_modules/react-static/bin/react-static build`,
+        `${reactStatic} build`,
         {
+          cwd: reactStaticWorkDir,
           env: Object.assign({
             GITDOCS_CWD: cwd
           }, process.env),
           stdio: [1,2,3]
         }
       )
-      fs.copySync('node_modules/gitdocs/dist', argv.output)
+
+      const distDir = path.join(cwd, 'dist')
+      fs.copySync(distDir, argv.output)
     }
   })
   .demand(1, "must provide a valid command")
