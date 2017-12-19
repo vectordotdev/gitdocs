@@ -89,7 +89,7 @@ var argv = yargs
         }
       )
 
-      const distDir = path.join(cwd, 'dist')
+      const distDir = path.join(reactStaticWorkDir, 'dist')
       fs.copySync(distDir, argv.output)
     }
   })
