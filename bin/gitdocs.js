@@ -184,6 +184,32 @@ var argv = yargs
       console.log(chalk.green('Run `gitdocs serve` to see your documentation.'))
     }
   })
+  .command({
+    command: 'init',
+    alias: 'i',
+    desc: chalk.gray('init'),
+    builder: yargs => yargs.options({
+      'location': {
+        alias: 'l',
+        default: 'gh-pages',
+        desc: chalk.gray('deploy.location'),
+        nargs: 1,
+        requiresArg: true,
+        type: 'string'
+      }
+    }),
+    handler: async argv => {
+      switch(argv.location) {
+        case 'gh-pages':
+          const handler = require('./deploy/gh-pages')
+          const config = require('../docs/docs.json')
+          handler(config)
+        default:
+          console.error(chalk.red(`Unknown deploy location ${argv.location} provided.`))
+          process.exit(1)
+      }
+    }
+  })
   .demand(1, "must provide a valid command")
   .help("h")
   .alias("h", "help")
