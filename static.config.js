@@ -39,7 +39,12 @@ try {
 }
 
 // Merge docs.json config with default config.json
-const config = merge(defaults, custom)
+// Dynamic options come from the command line
+// and override values in the config file
+const dynamicOptions = {
+  version: process.env.version,
+}
+const config = merge(defaults, custom, dynamicOptions)
 
 if (config.theme) {
   if (config.highlighter === 'prism') {

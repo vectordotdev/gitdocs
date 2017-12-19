@@ -50,6 +50,13 @@ var argv = yargs
         nargs: 1,
         requiresArg: true,
         type: 'string'
+      },
+      'version': {
+        alias: 'v',
+        desc: chalk.gray('build.version'),
+        nargs: 1,
+        requiresArg: false,
+        type: 'string'
       }
     }),
     handler: argv => {
@@ -58,7 +65,8 @@ var argv = yargs
         `cd node_modules/gitdocs && node_modules/react-static/bin/react-static build`,
         {
           env: Object.assign({
-            GITDOCS_CWD: cwd
+            GITDOCS_CWD: cwd,
+            version: argv.version,
           }, process.env),
           stdio: [1,2,3]
         }
