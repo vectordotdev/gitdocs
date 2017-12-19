@@ -169,13 +169,11 @@ var argv = yargs
           errorOnExist: true
         })
       } catch (err) {
-        if (err.code !== 'EEXIST') {
-          console.error(chalk.red('Could not write readme file.'))
-          throw err
-        } else {
-          console.warn(chalk.yellow('Readme file already exists and was left unchanged.'))
-        }
+        console.warn(chalk.yellow('Readme file already exists and was left unchanged.'))
       }
+
+      console.log(chalk.green('Initialization complete!'))
+      console.log(chalk.green('Run `gitdocs serve` to see your documentation.'))
     }
   })
   .demand(1, "must provide a valid command")

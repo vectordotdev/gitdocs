@@ -29,6 +29,12 @@ yarn global add gitdocs
 
 ## Quick Start
 
+You can create an initialize a new project using the following command. You will be prompted to name the project and provide a link to the repository URL.
+
+```bash
+gitdocs init
+```
+
 Assuming you have a folder with markdown files at `/docs`, you can automatically preview your docs site by running:
 
 ```bash
