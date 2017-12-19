@@ -21,6 +21,23 @@ const reactStatic = isGlobal() || !__dirname.includes('/node_modules/') ?
   path.join(__dirname, '../../react-static/bin/react-static')
 const reactStaticWorkDir = path.join(__dirname, '..')
 
+const buildHandler = argv => {
+  console.log('outputting...', argv.output)
+  execSync(
+    `${reactStatic} build`,
+    {
+      cwd: reactStaticWorkDir,
+      env: Object.assign({
+        GITDOCS_CWD: cwd
+      }, process.env),
+      stdio: [1,2,3]
+    }
+  )
+
+  const distDir = path.join(reactStaticWorkDir, 'dist')
+  fs.copySync(distDir, argv.output)
+}
+
 // commands:
 // serve (port, version)
 // build (version, output)
@@ -185,9 +202,9 @@ var argv = yargs
     }
   })
   .command({
-    command: 'init',
-    alias: 'i',
-    desc: chalk.gray('init'),
+    command: 'deploy [location]',
+    alias: 'd',
+    desc: chalk.gray('deploy'),
     builder: yargs => yargs.options({
       'location': {
         alias: 'l',
@@ -199,11 +216,15 @@ var argv = yargs
       }
     }),
     handler: async argv => {
+      // Need to build first
+      buildHandler({ output: 'docs-dist' })
+
       switch(argv.location) {
         case 'gh-pages':
           const handler = require('./deploy/gh-pages')
-          const config = require('../docs/docs.json')
+          const config = require(path.join(cwd, 'docs', 'docs.json'))
           handler(config)
+          break;
         default:
           console.error(chalk.red(`Unknown deploy location ${argv.location} provided.`))
           process.exit(1)
