@@ -174,13 +174,13 @@ export default {
   onStart: () => {
     fs.copySync(
       path.resolve(DOCS_SRC, 'public'),
-      path.resolve(ROOT, 'dist'),
+      path.resolve(process.cwd(), 'dist'),
     )
   },
   onBuild: () => {
     fs.copySync(
       path.resolve(DOCS_SRC, 'public'),
-      path.resolve(ROOT, 'dist'),
+      path.resolve(process.cwd(), 'dist'),
     )
   },
   Document: class CustomHtml extends Component {
