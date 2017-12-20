@@ -73,7 +73,7 @@ var argv = yargs
     }
   })
   .command({
-    command: 'build [output] [version]',
+    command: 'build [output] [doc-version]',
     alias: 'b',
     desc: chalk.gray('build'),
     builder: yargs => yargs.options({
