@@ -6,6 +6,7 @@ const fs = require('fs-extra')
 const inquirer = require('inquirer')
 const isGlobal = require('is-global')
 const merge = require('lodash.merge')
+const serve = require('serve')
 const path = require('path')
 const yargs = require('yargs')
 
@@ -52,24 +53,32 @@ var argv = yargs
     alias: 's',
     desc: chalk.gray('serve'),
     builder: yargs => yargs.options({
-      'port': {
-        alias: 'p',
+      port: {
+        alias: 'P',
         default: 3000,
-        desc: chalk.gray('serve.port'),
+        desc: chalk.gray('Port to use. Only applies if a path is specified.'),
         nargs: 1,
         requiresArg: true,
         type: 'number'
       }
     }),
     handler: argv => {
-      execSync(
-        `${reactStatic} start`,
-        {
-          cwd: reactStaticWorkDir,
-          env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
-          stdio: [1,2,3]
-        }
-      )
+      if (argv.path) {
+        console.log(chalk.green(`Serving ${argv.path}`))
+        serve(argv.path, {
+          port: argv.port,
+        })
+      } else {
+        console.log('No path specified. Falling back to react-static dev server.')
+        execSync(
+          `${reactStatic} start`,
+          {
+            cwd: reactStaticWorkDir,
+            env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
+            stdio: [1,2,3]
+          }
+        )
+      }
     }
   })
   .command({

@@ -18,21 +18,22 @@
     "items": {
       "Introduction": "README.md",
       "Quickstart": "quickstart.md",
-      "writing": {
+      "CLI": "command-line-interface.md",
+      "Writing": {
         "Markdown": "markdown/markdown.md",
         "Syntax": "syntax/languages.md",
         "Table of contents": "writing/table-of-contents.md"
       },
-      "components": {
+      "Components": {
         "Helpers": "components/helpers.md",
         "Custom": "components/custom.md"
       },
-      "configuration": {
+      "Configuration": {
         "Sidebar": "configuration/sidebar.md",
         "Styles": "configuration/styles.md",
         "Scripts": "configuration/scripts.md"
       },
-      "deploying": {
+      "Deploying": {
         "Github": "deploying/github.md",
         "Gitlab": "deploying/gitlab.md",
         "Netlify": "deploying/netlify.md"
