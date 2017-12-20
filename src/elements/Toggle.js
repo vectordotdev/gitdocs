@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   border: 1px solid #ddd;
   position: relative;
   top: 15px;
-  ${props => props.position === 'right' ? css`right: 15px;` : css`left: 15px;` }
+  ${props => (props.position === 'right' ? css`right: 15px;` : css`left: 15px;`)}
   cursor: pointer;
   border-radius: 4px;
   display: flex;
@@ -25,12 +25,12 @@ const Wrapper = styled.div`
   }
 
   @media (max-width: 720px) {
-    ${props => props.position === 'left' ? css`float: left;` : css`float: right;`}
+    ${props => (props.position === 'left' ? css`float: left;` : css`float: right;`)}
   }
 
   ${props => props.sidebarIsOpen && css`
     @media (max-width: 720px) {
-      ${props => props.position === 'left' ? css`left: 245px;` : css`right: 245px;`}
+      ${props => (props.position === 'left' ? css`left: 245px;` : css`right: 245px;`)}
       top: 6px;
     }
   `}

@@ -2,7 +2,7 @@ import React from 'react'
 import Checkmark from 'svg/Checkmark'
 import Link from 'svg/Link'
 
-const Icon = ({ className, children }) => {
+const Icon = ({ className }) => {
   switch (className) {
     case 'doc-plus':
       return <Checkmark />

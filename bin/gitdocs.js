@@ -113,7 +113,7 @@ var argv = yargs
       console.log(chalk.green('Initializing GitDocs project'))
 
       const docs = path.join(cwd, 'docs')
-      const public = path.join(docs, 'public')
+      const publicDir = path.join(docs, 'public')
 
       try {
         console.log(`Creating doc directory: ${docs}`)
@@ -128,8 +128,8 @@ var argv = yargs
       }
 
       try {
-        console.log(`Creating public directory: ${public}`)
-        await fs.mkdir(public)
+        console.log(`Creating public directory: ${publicDir}`)
+        await fs.mkdir(publicDir)
       } catch (err) {
         if (err.code !== 'EEXIST') {
           console.error(chalk.red('Could not create public directory'))

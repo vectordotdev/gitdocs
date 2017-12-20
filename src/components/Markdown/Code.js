@@ -1,7 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-import PrismHighlighter from 'react-syntax-highlighter/prism'
 
 export default options => ({ children }) => {
   const { theme, highlighter } = options

@@ -47,7 +47,7 @@ export default options => ({ children, className }) => {
     lineNumberStyle: { opacity: 0.3 },
     className: wrapperClass,
     children: codeString,
-    PreTag: props => (console.log(props), <pre {...props} className={wrapperClass} />),
+    PreTag: props => (<pre {...props} className={wrapperClass} />),
     codeTagProps: {
       className: langClass,
     },
