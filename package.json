@@ -8,7 +8,8 @@
     "start": "react-static start",
     "build": "react-static build",
     "serve": "serve dist -p 3000",
-    "lint": "eslint . -c .eslintrc.js"
+    "lint": "eslint . -c .eslintrc.js",
+    "test": "jest"
   },
   "dependencies": {
     "chalk": "^2.3.0",
@@ -38,9 +39,16 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "eslint-config-react-tools": "1.x.x"
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint-config-react-tools": "1.x.x",
+    "jest": "^22.0.3",
+    "jest-cli": "^22.0.3"
   },
   "bin": {
     "gitdocs": "bin/gitdocs.js"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "./.jest.setup.js"
   }
 }
