@@ -32,13 +32,13 @@
     "remark-parse": "^4.0.0",
     "remark-rehype": "^2.0.1",
     "remark-toc": "^4.0.1",
+    "serve": "^6.1.0",
     "styled-components": "2.2.0",
     "unified": "^6.1.6",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "eslint-config-react-tools": "1.x.x",
-    "serve": "^6.1.0"
+    "eslint-config-react-tools": "1.x.x"
   },
   "bin": {
     "gitdocs": "bin/gitdocs.js"
