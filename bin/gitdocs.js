@@ -206,6 +206,14 @@ var argv = yargs
     alias: 'd',
     desc: chalk.gray('deploy'),
     builder: yargs => yargs.options({
+      'force': {
+        alias: 'f',
+        default: false,
+        desc: chalk.gray('Force overriding deploy directory'),
+        nargs: 0,
+        requiresArg: false,
+        type: Boolean,
+      },
       'location': {
         alias: 'l',
         default: 'gh-pages',
@@ -223,7 +231,7 @@ var argv = yargs
         case 'gh-pages':
           const handler = require('./deploy/gh-pages')
           const config = require(path.join(cwd, 'docs', 'docs.json'))
-          handler(config)
+          handler(config, argv.force)
           break;
         default:
           console.error(chalk.red(`Unknown deploy location ${argv.location} provided.`))
