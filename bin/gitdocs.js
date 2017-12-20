@@ -28,7 +28,8 @@ const buildHandler = argv => {
     {
       cwd: reactStaticWorkDir,
       env: Object.assign({
-        GITDOCS_CWD: cwd
+        GITDOCS_CWD: cwd,
+        version: argv['doc-version'],
       }, process.env),
       stdio: [1,2,3]
     }
@@ -84,31 +85,16 @@ var argv = yargs
         requiresArg: true,
         type: 'string'
       },
-      'version': {
+      'doc-version': {
         alias: 'v',
-        desc: chalk.gray('build.version'),
+        default: '',
+        desc: chalk.gray('Version to display. Overrides the version in docs.json'),
         nargs: 1,
         requiresArg: false,
         type: 'string'
       }
     }),
-    handler: argv => {
-      console.log('outputting...', argv.output)
-      execSync(
-        `${reactStatic} build`,
-        {
-          cwd: reactStaticWorkDir,
-          env: Object.assign({
-            GITDOCS_CWD: cwd,
-            version: argv.version,
-          }, process.env),
-          stdio: [1,2,3]
-        }
-      )
-
-      const distDir = path.join(reactStaticWorkDir, 'dist')
-      fs.copySync(distDir, argv.output)
-    }
+    handler: buildHandler,
   })
   .command({
     command: 'init',
