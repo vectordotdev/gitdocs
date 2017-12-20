@@ -3,8 +3,8 @@ import styled, { css } from 'styled-components'
 export default styled.aside`
   flex: 1 0 auto;
   transition: all .1s ease-in-out;
-  min-width: ${props => props.sidebarIsOpen ? '230px' : '0'};
-  max-width: ${props => props.sidebarIsOpen ? '280px' : '0'};
+  min-width: ${props => (props.sidebarIsOpen ? '230px' : '0')};
+  max-width: ${props => (props.sidebarIsOpen ? '280px' : '0')};
   background: #f4f7fa;
   overflow-y: auto;
   margin: 0;
@@ -24,7 +24,7 @@ export default styled.aside`
   ${props => props.sidebarIsOpen && css`
     @media(max-width: 700px) {
       position: fixed;
-      ${props => props.position === 'left' ? css`left: 0;` : css`right: 0;`}
+      ${props => (props.position === 'left' ? css`left: 0;` : css`right: 0;`)}
       top: 0;
       bottom: 0;
     }

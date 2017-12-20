@@ -9,8 +9,8 @@ import Wrapper from './Wrapper'
 
 class App extends Component {
   state = {
-    sidebarIsOpen: true,//window ? window.innerWidth > 700 : true,
-    width: 500,// window && window.innerWidth,
+    sidebarIsOpen: true, // window ? window.innerWidth > 700 : true,
+    width: 500, // window && window.innerWidth,
   }
 
   componentDidMount () {
