@@ -41,8 +41,9 @@ try {
 // Merge docs.json config with default config.json
 // Dynamic options come from the command line
 // and override values in the config file
-const dynamicOptions = {
-  version: process.env.version,
+const dynamicOptions = {}
+if (process.env.version) {
+  dynamicOptions.version = process.env.version
 }
 const config = merge(defaults, custom, dynamicOptions)
 

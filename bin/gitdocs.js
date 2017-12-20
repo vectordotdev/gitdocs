@@ -21,6 +21,24 @@ const reactStatic = isGlobal() || !__dirname.includes('/node_modules/') ?
   path.join(__dirname, '../../react-static/bin/react-static')
 const reactStaticWorkDir = path.join(__dirname, '..')
 
+const buildHandler = argv => {
+  console.log('outputting...', argv.output)
+  execSync(
+    `${reactStatic} build`,
+    {
+      cwd: reactStaticWorkDir,
+      env: Object.assign({
+        GITDOCS_CWD: cwd,
+        version: argv['doc-version'],
+      }, process.env),
+      stdio: [1,2,3]
+    }
+  )
+
+  const distDir = path.join(reactStaticWorkDir, 'dist')
+  fs.copySync(distDir, argv.output)
+}
+
 // commands:
 // serve (port, version)
 // build (version, output)
@@ -55,7 +73,7 @@ var argv = yargs
     }
   })
   .command({
-    command: 'build [output] [version]',
+    command: 'build [output] [doc-version]',
     alias: 'b',
     desc: chalk.gray('build'),
     builder: yargs => yargs.options({
@@ -67,31 +85,16 @@ var argv = yargs
         requiresArg: true,
         type: 'string'
       },
-      'version': {
+      'doc-version': {
         alias: 'v',
-        desc: chalk.gray('build.version'),
+        default: '',
+        desc: chalk.gray('Version to display. Overrides the version in docs.json'),
         nargs: 1,
         requiresArg: false,
         type: 'string'
       }
     }),
-    handler: argv => {
-      console.log('outputting...', argv.output)
-      execSync(
-        `${reactStatic} build`,
-        {
-          cwd: reactStaticWorkDir,
-          env: Object.assign({
-            GITDOCS_CWD: cwd,
-            version: argv.version,
-          }, process.env),
-          stdio: [1,2,3]
-        }
-      )
-
-      const distDir = path.join(reactStaticWorkDir, 'dist')
-      fs.copySync(distDir, argv.output)
-    }
+    handler: buildHandler,
   })
   .command({
     command: 'init',
@@ -182,6 +185,44 @@ var argv = yargs
 
       console.log(chalk.green('Initialization complete!'))
       console.log(chalk.green('Run `gitdocs serve` to see your documentation.'))
+    }
+  })
+  .command({
+    command: 'deploy [location]',
+    alias: 'd',
+    desc: chalk.gray('deploy'),
+    builder: yargs => yargs.options({
+      'force': {
+        alias: 'f',
+        default: false,
+        desc: chalk.gray('Force overriding deploy directory'),
+        nargs: 0,
+        requiresArg: false,
+        type: Boolean,
+      },
+      'location': {
+        alias: 'l',
+        default: 'gh-pages',
+        desc: chalk.gray('deploy.location'),
+        nargs: 1,
+        requiresArg: true,
+        type: 'string'
+      }
+    }),
+    handler: async argv => {
+      // Need to build first
+      buildHandler({ output: 'docs-dist' })
+
+      switch(argv.location) {
+        case 'gh-pages':
+          const handler = require('./deploy/gh-pages')
+          const config = require(path.join(cwd, 'docs', 'docs.json'))
+          handler(config, argv.force)
+          break;
+        default:
+          console.error(chalk.red(`Unknown deploy location ${argv.location} provided.`))
+          process.exit(1)
+      }
     }
   })
   .demand(1, "must provide a valid command")
