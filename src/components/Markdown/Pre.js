@@ -37,8 +37,6 @@ export default options => ({ children, className }) => {
     [`language-${language}`]: true,
   })
 
-  console.log(options)
-
   const props = {
     language,
     useInlineStyles: theme !== undefined,
