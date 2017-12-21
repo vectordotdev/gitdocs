@@ -49,6 +49,7 @@
     "gitdocs": "bin/gitdocs.js"
   },
   "jest": {
+    "moduleDirectories": ["node_modules", "src"],
     "setupTestFrameworkScriptFile": "./.jest.setup.js"
   }
 }
