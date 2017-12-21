@@ -22,7 +22,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
-    "react-static": "^4.6.0",
+    "react-static": "^4.7.1",
     "react-syntax-highlighter": "^6.0.4",
     "rehype-autolink-headings": "^2.0.2",
     "rehype-raw": "^2.0.0",
