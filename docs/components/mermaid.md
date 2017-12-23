@@ -68,7 +68,7 @@ Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an 
 </Mermaid>
 ```
 
-<Mermaid config={ barGap: 10 }>
+<Mermaid config={{barGap:10}}>
 gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD

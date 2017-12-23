@@ -47,7 +47,22 @@ function rehype2react(options) {
 
   /* Wrap `createElement` to pass components in. */
   function h(name, props, children) {
-    var component = has(components, name) ? components[name] : name;
-    return createElement(component, props, children);
+    const component = has(components, name) ? components[name] : name;
+
+    const realProps = {
+      ...props
+    }
+
+    const propNames = Object.keys(realProps)
+    for (let i = 0; i < propNames.length; ++i) {
+      const name = propNames[i]
+      const prop = props[name]
+      if (typeof prop === 'string' && prop.length > 4 && prop.match(/\{\{.+\}\}/)) {
+        // Object prop to convert
+        console.log(prop)
+      }
+    }
+
+    return createElement(component, realProps, children);
   }
 }
