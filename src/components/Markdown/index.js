@@ -19,6 +19,7 @@ import InfoRenderer from './Info'
 import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 import HighlightRenderer from './Highlight'
+import Mermaid from './Mermaid'
 // import Contents from './Contents'
 
 const makeComponents = options => ({
@@ -31,6 +32,7 @@ const makeComponents = options => ({
   highlight: HighlightRenderer,
   code: CodeRenderer(options),
   pre: PreRenderer(options),
+  mermaid: Mermaid,
 })
 
 const linkHAST = {

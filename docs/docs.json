@@ -26,7 +26,8 @@
       },
       "Components": {
         "Helpers": "components/helpers.md",
-        "Custom": "components/custom.md"
+        "Custom": "components/custom.md",
+        "Mermaid JS": "components/mermaid.md"
       },
       "Configuration": {
         "Sidebar": "configuration/sidebar.md",
