@@ -1,17 +1,11 @@
 #!/usr/bin/env node
 /* eslint-disable */
 const chalk = require('chalk')
-const execSync = require('child_process').execSync
-const fs = require('fs-extra')
-const inquirer = require('inquirer')
 const isGlobal = require('is-global')
-const merge = require('lodash.merge')
-const serve = require('serve')
 const path = require('path')
 const yargs = require('yargs')
 
 const cwd = process.cwd()
-const defaults = require('../default.json')
 
 // 3 possible cases:
 //    Global install - need to go up and into node modules to find react static
@@ -22,23 +16,9 @@ const reactStatic = isGlobal() || !__dirname.includes('/node_modules/') ?
   path.join(__dirname, '../../react-static/bin/react-static')
 const reactStaticWorkDir = path.join(__dirname, '..')
 
-const buildHandler = argv => {
-  console.log('outputting...', argv.output)
-  execSync(
-    `${reactStatic} build`,
-    {
-      cwd: reactStaticWorkDir,
-      env: Object.assign({
-        GITDOCS_CWD: cwd,
-        version: argv['doc-version'],
-      }, process.env),
-      stdio: [1,2,3]
-    }
-  )
-
-  const distDir = path.join(reactStaticWorkDir, 'dist')
-  fs.copySync(distDir, argv.output)
-}
+const buildHandler = require('./commands/build')
+const initHandler = require('./commands/init')
+const serveHandler = require('./commands/serve')
 
 // commands:
 // serve (port, version)
@@ -63,22 +43,12 @@ var argv = yargs
       }
     }),
     handler: argv => {
-      if (argv.path) {
-        console.log(chalk.green(`Serving ${argv.path}`))
-        serve(argv.path, {
-          port: argv.port,
-        })
-      } else {
-        console.log('No path specified. Falling back to react-static dev server.')
-        execSync(
-          `${reactStatic} start`,
-          {
-            cwd: reactStaticWorkDir,
-            env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
-            stdio: [1,2,3]
-          }
-        )
-      }
+      serveHandler({
+        argv,
+        cwd,
+        reactStatic,
+        reactStaticWorkDir,
+      })
     }
   })
   .command({
@@ -103,98 +73,22 @@ var argv = yargs
         type: 'string'
       }
     }),
-    handler: buildHandler,
+    handler: argv => {
+      buildHandler({
+        argv,
+        cwd,
+        reactStatic,
+        reactStaticWorkDir,
+      })
+    },
   })
   .command({
     command: 'init',
     alias: 'i',
     desc: chalk.gray('init'),
     handler: async argv => {
-      console.log(chalk.green('Initializing GitDocs project'))
-
-      const docs = path.join(cwd, 'docs')
-      const publicDir = path.join(docs, 'public')
-
-      try {
-        console.log(`Creating doc directory: ${docs}`)
-        fs.mkdirSync(docs)
-      } catch (err) {
-        if (err.code !== 'EEXIST') {
-          console.error(chalk.red('Could not create doc directory'))
-          throw err
-        } else {
-          console.warn(chalk.yellow('Docs directory already exists.'))
-        }
-      }
-
-      try {
-        console.log(`Creating public directory: ${publicDir}`)
-        await fs.mkdir(publicDir)
-      } catch (err) {
-        if (err.code !== 'EEXIST') {
-          console.error(chalk.red('Could not create public directory'))
-          throw err
-        } else {
-          console.warn(chalk.yellow('Public directory already exists.'))
-        }
-      }
-
-      // Create default config & welcome file
-      const answers = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'name',
-          message: 'What should we name this project?',
-          default: 'my-documentation',
-        },
-        {
-          type: 'input',
-          name: 'repository',
-          message: 'URL of the repository where this documentation is stored.'
-        }
-      ])
-
-      const configFile = path.join(docs, 'docs.json')
-      const config = merge(defaults, {
-        name: answers.name,
-        repository: answers.repository,
-        title: answers.name,
-        version: '0.0.1',
-        sidebar: {
-          items: {
-            'Introduction': 'introduction.md'
-          }
-        }
-      })
-
-      try {
-        console.log(`Writing default config file as ${configFile}`)
-        const fp = await fs.open(configFile, 'wx')
-        await fs.write(fp, JSON.stringify(config, null, 2))
-      } catch (err) {
-        if (err.code !== 'EEXIST') {
-          console.error(chalk.red('Could not write config file.'))
-          throw err
-        } else {
-          console.warn(chalk.yellow('docs.json file already exists and was left unchanged.'))
-        }
-      }
-
-      const readme = path.join(__dirname, '../init/introduction.md')
-      const outputReadme = path.join(docs, 'introduction.md')
-      try {
-        console.log(`Writing default readme as ${outputReadme}`)
-        await fs.copy(readme, outputReadme, {
-          overwrite: false,
-          errorOnExist: true
-        })
-      } catch (err) {
-        console.warn(chalk.yellow('Readme file already exists and was left unchanged.'))
-      }
-
-      console.log(chalk.green('Initialization complete!'))
-      console.log(chalk.green('Run `gitdocs serve` to see your documentation.'))
-    }
+      await initHandler(argv, cwd) 
+    },
   })
   .command({
     command: 'deploy [location]',
@@ -220,11 +114,16 @@ var argv = yargs
     }),
     handler: async argv => {
       // Need to build first
-      buildHandler({ output: 'docs-dist' })
+      buildHandler({
+        argv: { output: 'docs-dist' },
+        cwd,
+        reactStatic,
+        reactStaticWorkDir,
+      })
 
       switch(argv.location) {
         case 'gh-pages':
-          const handler = require('./deploy/gh-pages')
+          const handler = require('./commands/deploy/gh-pages')
           const config = require(path.join(cwd, 'docs', 'docs.json'))
           handler(config, argv.force)
           break;
