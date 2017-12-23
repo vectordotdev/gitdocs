@@ -6345,8 +6345,8 @@ react-side-effect@^1.1.0:
     shallowequal "^1.0.1"
 
 react-static@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/react-static/-/react-static-4.8.2.tgz#69d3b2ee0275e2d270385a9a66e0c834302c1298"
+  version "4.8.3"
+  resolved "https://registry.yarnpkg.com/react-static/-/react-static-4.8.3.tgz#7a943a96cc5211f236aef9809a3e9558ea3acbf6"
   dependencies:
     "@types/react" "^16.0.18"
     "@types/react-helmet" "^5.0.3"
