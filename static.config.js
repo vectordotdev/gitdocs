@@ -163,6 +163,11 @@ export default {
       {
         is404: true,
         component: 'src/containers/404',
+        getProps: () => ({
+          doc: {
+            path: '',
+          },
+        })
       },
     ]
   },
