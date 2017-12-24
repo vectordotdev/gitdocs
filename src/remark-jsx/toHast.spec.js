@@ -214,6 +214,16 @@ describe('JSX to HAST transpiler', () => {
       })
     })
 
+    test('Array attribute', () => {
+      const jsx = '<Test attr={[1, 2, 3]}></Test>'
+      const ast = getJSXAst(jsx)
+      const hast = astToHast(ast, defaultPosition)
+      const root = hast[0]
+      expect(root.properties).toEqual({
+        attr: [1, 2, 3],
+      })
+    })
+
     describe('Object attributes', () => {
       test('Object with properties', () => {
         const jsx = '<Test attr={{ prop: 400 }}></Test>'
@@ -264,6 +274,126 @@ describe('JSX to HAST transpiler', () => {
             },
           },
           children: [],
+        })
+      })
+    })
+
+    describe('Binary Expressions', () => {
+      describe('Numerical expressions', () => {
+        test('Addition', () => {
+          const jsx = '<Test attr={1 + 2}/>'
+          const ast = getJSXAst(jsx)
+          const hast = astToHast(ast, defaultPosition)
+          const root = hast[0]
+          expect(root.properties).toEqual({
+            attr: 3,
+          })
+        })
+
+        test('Order of operations', () => {
+          const jsx = '<Test attr={4 + 2 * 3}/>'
+          const ast = getJSXAst(jsx)
+          const hast = astToHast(ast, defaultPosition)
+          const root = hast[0]
+          expect(root.properties).toEqual({
+            attr: 10,
+          })
+        })
+      })
+    })
+
+    describe('Array methods', () => {
+      test('Simple array generator', () => {
+        const jsx = '<Test attr={ [1,2,3].map(x => 2 * x) } />'
+        const ast = getJSXAst(jsx)
+        const hast = astToHast(ast, defaultPosition)
+        const root = hast[0]
+        expect(root.properties).toEqual({
+          attr: [2, 4, 6],
+        })
+      })
+
+      test('Array generates JSX', () => {
+        const jsx = '<Test>{ [1,2,3].map(x => (<Test2>{x}</Test2>)) }</Test>'
+        const ast = getJSXAst(jsx)
+        const hast = astToHast(ast, defaultPosition)
+        const root = hast[0]
+
+        expect(root.children.length).toBe(3)
+        expect(root.children[0]).toEqual({
+          type: 'element',
+          tagName: 'test2',
+          properties: {},
+          children: [{
+            type: 'text',
+            value: '1',
+            position: {
+              start: {
+                offset: -1,
+              },
+              end: {
+                offset: -1
+              },
+            },
+          }],
+          position: {
+            start: {
+              offset: 52,
+            },
+            end: {
+              offset: 70,
+            },
+          },
+        })
+        expect(root.children[1]).toEqual({
+          type: 'element',
+          tagName: 'test2',
+          properties: {},
+          children: [{
+            type: 'text',
+            value: '2',
+            position: {
+              start: {
+                offset: -1,
+              },
+              end: {
+                offset: -1
+              },
+            },
+          }],
+          position: {
+            start: {
+              offset: 52,
+            },
+            end: {
+              offset: 70,
+            },
+          },
+        })
+        expect(root.children[2]).toEqual({
+          type: 'element',
+          tagName: 'test2',
+          properties: {},
+          children: [{
+            type: 'text',
+            value: '3',
+            position: {
+              start: {
+                offset: -1,
+              },
+              end: {
+                offset: -1
+              },
+            },
+          }],
+          position: {
+            start: {
+              offset: 52,
+            },
+            end: {
+              offset: 70,
+            },
+          },
         })
       })
     })
