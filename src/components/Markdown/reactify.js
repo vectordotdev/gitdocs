@@ -53,15 +53,15 @@ function rehype2react(options) {
       ...props
     }
 
-    const propNames = Object.keys(realProps)
-    for (let i = 0; i < propNames.length; ++i) {
-      const name = propNames[i]
-      const prop = props[name]
-      if (typeof prop === 'string' && prop.length > 4 && prop.match(/\{\{.+\}\}/)) {
-        // Object prop to convert
-        console.log(prop)
-      }
-    }
+    // const propNames = Object.keys(realProps)
+    // for (let i = 0; i < propNames.length; ++i) {
+    //   const name = propNames[i]
+    //   const prop = props[name]
+    //   if (typeof prop === 'string' && prop.length > 4 && prop.match(/\{\{.+\}\}/)) {
+    //     // Object prop to convert
+    //     console.log(prop)
+    //   }
+    // }
 
     return createElement(component, realProps, children);
   }
