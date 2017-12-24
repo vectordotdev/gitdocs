@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 
 const Wrapper = styled.div`
   width: ${props => props.width}px;
-  ${props => props.height ? css`height: ${props.height}px;` : ''}
+  ${props => (props.height ? css`height: ${props.height}px;` : '')}
   > svg {
     height: 100%;
     width: 100%;
@@ -48,8 +48,7 @@ class Mermaid extends Component {
         dangerouslySetInnerHTML={{ __html: diagram }}
         height={height}
         width={width}
-      >
-      </Wrapper>
+      />
     )
   }
 }
