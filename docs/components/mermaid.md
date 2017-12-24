@@ -63,12 +63,12 @@ gantt
 Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an option `config` parameter that points to an object with the properties you want to configure.
 
 ```markdown
-<Mermaid config={{ gantt: {barGap: 10 }}}>
+<Mermaid config={{ gantt: {barGap: 20 }}}>
 
 </Mermaid>
 ```
 
-<Mermaid config={{ gantt: { barGap: 10 } }}>
+<Mermaid config={{ gantt: { barGap: 20 } }}>
 gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD
