@@ -1,5 +1,5 @@
 import merge from 'lodash.merge'
-import mermaid, { mermaidAPI } from 'mermaid';
+import mermaid, { mermaidAPI } from 'mermaid'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
@@ -7,8 +7,7 @@ import styled, { css } from 'styled-components'
 const Wrapper = styled.div`
   width: ${props => props.width}px;
   ${props => props.height ? css`height: ${props.height}px;` : ''}
-
-  svg {
+  > svg {
     height: 100%;
     width: 100%;
   }
@@ -16,19 +15,19 @@ const Wrapper = styled.div`
 
 class Mermaid extends Component {
   state = {
-    diagram: ''
+    diagram: '',
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { children, config, height, width } = this.props
     const defaultConfig = {
       // If this is true, mermaid tries to re-render
       // using window.addEventListener('loaded', ...)
-      // which screws it all up. 
+      // which screws it all up.
       startOnLoad: false,
       gantt: {
         useWidth: width,
-        useHeight: height ? height : null,
+        useHeight: height || null,
       },
     }
     const mermaidConfig = merge(defaultConfig, config)
@@ -41,10 +40,12 @@ class Mermaid extends Component {
     })
   }
 
-  render() {
+  render () {
     const { height, width } = this.props
-    return (<Wrapper
-        dangerouslySetInnerHTML={{ __html: this.state.diagram }}
+    const { diagram } = this.state
+    return (
+      <Wrapper
+        dangerouslySetInnerHTML={{ __html: diagram }}
         height={height}
         width={width}
       >
@@ -62,7 +63,7 @@ Mermaid.propsTypes = {
 Mermaid.defaultProps = {
   config: {},
   height: null,
-  width: 800
+  width: 800,
 }
 
 export default Mermaid

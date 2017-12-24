@@ -1,106 +1,106 @@
-var attributeName = '[a-zA-Z_:][a-zA-Z0-9:._-]*';
-var unquoted = '[^"\'=<>`\\u0000-\\u0020]+';
-var singleQuoted = '\'[^\']*\'';
-var doubleQuoted = '"[^"]*"';
-var reactObj = '\{\{.+\}\}';
-var attributeValue = '(?:' + unquoted + '|' + singleQuoted + '|' + doubleQuoted + '|' + reactObj + ')';
-var attribute = '(?:\\s+' + attributeName + '(?:\\s*=\\s*' + attributeValue + ')?)';
-var openTag = '<[A-Za-z][A-Za-z0-9\\-]*' + attribute + '*\\s*\\/?>';
-var closeTag = '<\\/[A-Za-z][A-Za-z0-9\\-]*\\s*>';
-var openCloseTag = new RegExp('^(?:' + openTag + '|' + closeTag + ')');
-var C_TAB = '\t';
-var C_SPACE = ' ';
-var C_NEWLINE = '\n';
-var C_LT = '<';
+const attributeName = '[a-zA-Z_:][a-zA-Z0-9:._-]*'
+const unquoted = '[^"\'=<>`\\u0000-\\u0020]+'
+const singleQuoted = '\'[^\']*\''
+const doubleQuoted = '"[^"]*"'
+const reactObj = '\{\{.+\}\}'
+const attributeValue = `(?:${unquoted}|${singleQuoted}|${doubleQuoted}|${reactObj})`
+const attribute = `(?:\\s+${attributeName}(?:\\s*=\\s*${attributeValue})?)`
+const openTag = `<[A-Za-z][A-Za-z0-9\\-]*${attribute}*\\s*\\/?>`
+const closeTag = '<\\/[A-Za-z][A-Za-z0-9\\-]*\\s*>'
+const openCloseTag = new RegExp(`^(?:${openTag}|${closeTag})`)
+const C_TAB = '\t'
+const C_SPACE = ' '
+const C_NEWLINE = '\n'
+const C_LT = '<'
 
-function blockReact(eat, value, silent) {
-  var self = this;
-  var blocks = self.options.blocks;
-  var length = value.length;
-  var index = 0;
-  var next;
-  var line;
-  var offset;
-  var character;
-  var count;
-  var sequence;
-  var subvalue;
+function blockReact (eat, value, silent) {
+  const self = this
+  const blocks = self.options.blocks
+  const length = value.length
+  let index = 0
+  let next
+  let line
+  let offset
+  let character
+  let count
+  let sequence
+  let subvalue
 
-  var sequences = [
-    [new RegExp(openCloseTag.source + '\\s*$'), /^$/, false]
-  ];
+  const sequences = [
+    [new RegExp(`${openCloseTag.source}\\s*$`), /^$/, false],
+  ]
 
   /* Eat initial spacing. */
   while (index < length) {
-    character = value.charAt(index);
+    character = value.charAt(index)
 
     if (character !== C_TAB && character !== C_SPACE) {
-      break;
+      break
     }
 
-    index++;
+    index++
   }
 
   if (value.charAt(index) !== C_LT) {
-    return;
+    return
   }
 
-  next = value.indexOf(C_NEWLINE, index + 1);
-  next = next === -1 ? length : next;
-  line = value.slice(index, next);
-  offset = -1;
-  count = sequences.length;
+  next = value.indexOf(C_NEWLINE, index + 1)
+  next = next === -1 ? length : next
+  line = value.slice(index, next)
+  offset = -1
+  count = sequences.length
 
   while (++offset < count) {
     if (sequences[offset][0].test(line)) {
-      sequence = sequences[offset];
-      break;
+      sequence = sequences[offset]
+      break
     }
   }
 
   if (!sequence) {
-    return;
+    return
   }
 
   if (silent) {
-    return sequence[2];
+    return sequence[2]
   }
 
-  index = next;
+  index = next
 
   if (!sequence[1].test(line)) {
     while (index < length) {
-      next = value.indexOf(C_NEWLINE, index + 1);
-      next = next === -1 ? length : next;
-      line = value.slice(index + 1, next);
+      next = value.indexOf(C_NEWLINE, index + 1)
+      next = next === -1 ? length : next
+      line = value.slice(index + 1, next)
 
       if (sequence[1].test(line)) {
         if (line) {
-          index = next;
+          index = next
         }
 
-        break;
+        break
       }
 
-      index = next;
+      index = next
     }
   }
 
-  subvalue = value.slice(0, index);
+  subvalue = value.slice(0, index)
 
-  return eat(subvalue)({type: 'html', value: subvalue});
+  return eat(subvalue)({ type: 'html', value: subvalue })
 }
 
-function reactParser() {
-  var Parser = this.Parser;
-  var tokenizers = Parser.prototype.blockTokenizers;
-  var methods = Parser.prototype.blockMethods;
+function reactParser () {
+  const Parser = this.Parser
+  const tokenizers = Parser.prototype.blockTokenizers
+  const methods = Parser.prototype.blockMethods
 
   /* Add an inline tokenizer (defined in the following example). */
-  tokenizers.react = blockReact;
+  tokenizers.react = blockReact
 
   /* Run it just before `footnote`. */
-  methods.splice(methods.indexOf('footnote'), 0, 'react');
+  methods.splice(methods.indexOf('footnote'), 0, 'react')
 }
 
 module.exports = reactParser

@@ -1,16 +1,16 @@
 import { parse } from 'acorn-jsx'
 
 
-function getTagName(expression) {
-  return expression.expression.openingElement.name.name.toLowerCase()
+function getTagName (expression) {
+  return expression.openingElement.name.name.toLowerCase()
 }
 
-function convertProperties(expression) {
-  const attributes = expression.expression.openingElement.attributes || []
+function convertProperties (expression) {
+  const attributes = expression.openingElement.attributes || []
   const len = attributes.length
-  let props = {}
+  const props = {}
 
-  for (let i = 0; i < len; ++i) {
+  for (let i = 0; i < len; i += 1) {
     // Check each attribute and get it's value
     const attribute = attributes[i]
     const name = getAttributeName(attribute)
@@ -22,11 +22,11 @@ function convertProperties(expression) {
 }
 
 
-function getAttributeName(attribute) {
+function getAttributeName (attribute) {
   return attribute.name.name
 }
 
-function getAttributeValue(attribute) {
+function getAttributeValue (attribute) {
   switch (attribute.value.type) {
     case 'JSXExpressionContainer':
       return getJSXExpressionAttributeValue(attribute)
@@ -37,23 +37,25 @@ function getAttributeValue(attribute) {
   }
 }
 
-function getJSXExpressionAttributeValue(attribute) {
+function getJSXExpressionAttributeValue (attribute) {
   const expression = attribute.value.expression
 
   switch (expression.type) {
     case 'ObjectExpression':
       return parseObjectExpression(expression)
+    case 'Literal':
+      return expression.value
     default:
       throw new Error(`Unknown JSX Attribute Expression type of ${expression.type}`)
   }
 }
- 
-function parseObjectExpression(attributeExpression) {
+
+function parseObjectExpression (attributeExpression) {
   const properties = attributeExpression.properties || []
   const len = properties.length
-  let obj = {}
+  const obj = {}
 
-  for (let i = 0; i < len; ++i) {
+  for (let i = 0; i < len; i += 1) {
     const prop = properties[i]
     const key = getPropKey(prop.key)
     const value = getPropValue(prop.value)
@@ -63,7 +65,7 @@ function parseObjectExpression(attributeExpression) {
   return obj
 }
 
-function getPropKey(key) {
+function getPropKey (key) {
   switch (key.type) {
     case 'Identifier':
       return key.name
@@ -72,7 +74,7 @@ function getPropKey(key) {
   }
 }
 
-function getPropValue(value) {
+function getPropValue (value) {
   switch (value.type) {
     case 'Literal':
       return value.value
@@ -83,33 +85,17 @@ function getPropValue(value) {
   }
 }
 
-function convertExpression(expression, position) {
-  const expressionChildren = expression.expression.children || []
-  const children = expressionChildren.map((child) => convertJSX(child, position))
-  const properties = convertProperties(expression)
-
-  return {
-    type: 'element',
-    tagName: getTagName(expression),
-    children,
-    properties,
-    position: {
-      start: {
-        line: position.start.line,
-        column: position.start.column,
-        offset: position.start.offset + expression.start,
-      },
-      end: {
-        line: position.end.line,
-        column: position.end.column,
-        offset: position.start.offset + expression.end,
-      }
-    }
+function convertExpression (expression, position) {
+  switch (expression.type) {
+    case 'JSXElement':
+      return convertJSXElement(expression, position)
+    default:
+      throw new Error(`Unknown expression type ${expression.type} encountered.`)
   }
 }
 
 
-function convertText(element, position) {
+function convertJSXText (element, position) {
   return {
     type: 'text',
     value: element.value,
@@ -119,50 +105,73 @@ function convertText(element, position) {
       },
       end: {
         offset: position.start.offset + element.end,
-      }
-    }
+      },
+    },
+  }
+}
+
+function convertJSXElement (element, position) {
+  const children = element.children.map(child => convertJSX(child, position))
+  const properties = convertProperties(element)
+
+  return {
+    type: 'element',
+    tagName: getTagName(element),
+    children,
+    properties,
+    position: {
+      // TODO: calculate line and columns for start and end ???
+      start: {
+        offset: position.start.offset + element.start,
+      },
+      end: {
+        offset: position.start.offset + element.end,
+      },
+    },
   }
 }
 
 
-function convertJSX(element, position) {
+function convertJSX (element, position) {
   // Return HAST for a single child element
   switch (element.type) {
+    case 'JSXElement':
+      return convertJSXElement(element, position)
     case 'JSXText':
-      return convertText(element, position)
+      return convertJSXText(element, position)
     default:
       throw new Error(`Unknown type ${element.type}`)
   }
 }
 
 
-function convertElement(element, position) {
+function convertTopLevel (element, position) {
   // Return HAST for a single top level element
   switch (element.type) {
     case 'ExpressionStatement':
-      return convertExpression(element, position)
+      return convertExpression(element.expression, position)
     default:
       throw new Error(`Unknown AST element type ${element.type}`)
   }
 }
 
 
-function astToHast(ast, position) {
+export function astToHast (ast, position) {
   if (!ast.body) {
     throw new Error('No body to convert')
   }
-  const elements = ast.body.map((element) => convertElement(element, position))
+  const elements = ast.body.map(element => convertTopLevel(element, position))
   return elements
 }
 
 
-function jsx() {
-  return (root) => {
+export default function jsx () {
+  return root => {
     const children = root.children
 
     const splices = []
 
-    for (let i = 0; i < children.length; ++i) {
+    for (let i = 0; i < children.length; i += 1) {
       const child = children[i]
 
       if (child.type === 'raw') {
@@ -174,20 +183,16 @@ function jsx() {
           })
           const elements = astToHast(ast, child.position)
           splices.push([i, elements])
-          // console.dir(ast)
         } catch (err) {
-          console.log(err)
-          break;
+          break
         }
       }
     }
 
-    for (let i = 0; i < splices.length; ++ i) {
+    for (let i = 0; i < splices.length; i += 1) {
       const index = splices[i][0]
       const elements = splices[i][1]
       Array.prototype.splice.apply(children, [index, 1].concat(elements))
     }
   }
 }
-
-module.exports = jsx

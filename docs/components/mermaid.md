@@ -60,9 +60,9 @@ gantt
 
 ## Custom Configs
 
-Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an option `config` parameter that points to an object with the properties you want to configure.
+Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an optional `config` parameter that points to an object with the properties you want to configure.
 
-```markdown
+```jsx
 <Mermaid config={{ gantt: {barGap: 20 }}}>
 gantt
     title A Gantt Diagram

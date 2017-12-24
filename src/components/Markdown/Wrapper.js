@@ -109,7 +109,7 @@ export default styled.div`
     background-color: #f8f8f8;
   }
 
-  svg {
+  > svg {
     height: 18px;
     width: 18px;
     margin-right: .5rem;
