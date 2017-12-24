@@ -1,8 +1,11 @@
+// Parser to detect JSX blocks based on
+// https://github.com/remarkjs/remark/blob/master/packages/remark-parse/lib/tokenize/html-block.js
+
 const attributeName = '[a-zA-Z_:][a-zA-Z0-9:._-]*'
 const unquoted = '[^"\'=<>`\\u0000-\\u0020]+'
 const singleQuoted = '\'[^\']*\''
 const doubleQuoted = '"[^"]*"'
-const reactObj = '\{\{.+\}\}'
+const reactObj = '{{.+}}'
 const attributeValue = `(?:${unquoted}|${singleQuoted}|${doubleQuoted}|${reactObj})`
 const attribute = `(?:\\s+${attributeName}(?:\\s*=\\s*${attributeValue})?)`
 const openTag = `<[A-Za-z][A-Za-z0-9\\-]*${attribute}*\\s*\\/?>`
@@ -14,17 +17,13 @@ const C_NEWLINE = '\n'
 const C_LT = '<'
 
 function blockReact (eat, value, silent) {
-  const self = this
-  const blocks = self.options.blocks
   const length = value.length
   let index = 0
   let next
   let line
   let offset
   let character
-  let count
   let sequence
-  let subvalue
 
   const sequences = [
     [new RegExp(`${openCloseTag.source}\\s*$`), /^$/, false],
@@ -49,7 +48,7 @@ function blockReact (eat, value, silent) {
   next = next === -1 ? length : next
   line = value.slice(index, next)
   offset = -1
-  count = sequences.length
+  const count = sequences.length
 
   while (++offset < count) {
     if (sequences[offset][0].test(line)) {
@@ -86,8 +85,7 @@ function blockReact (eat, value, silent) {
     }
   }
 
-  subvalue = value.slice(0, index)
-
+  const subvalue = value.slice(0, index)
   return eat(subvalue)({ type: 'html', value: subvalue })
 }
 
@@ -99,8 +97,8 @@ function reactParser () {
   /* Add an inline tokenizer (defined in the following example). */
   tokenizers.react = blockReact
 
-  /* Run it just before `footnote`. */
-  methods.splice(methods.indexOf('footnote'), 0, 'react')
+  /* Run it just after `html`. */
+  methods.splice(methods.indexOf('html') + 1, 0, 'react')
 }
 
 module.exports = reactParser
