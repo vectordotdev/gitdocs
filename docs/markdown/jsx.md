@@ -29,7 +29,7 @@ will generate
 
 ## Call Expressions
 
-The following functions can be called expressions
+The following functions can be called from expressions
 
 * `Array.prototype.join`
 * `Array.prototype.map`
