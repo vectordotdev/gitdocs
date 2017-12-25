@@ -277,7 +277,17 @@ You can also use raw HTML in your Markdown, and it'll mostly work pretty well.
   <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
 </dl>
 
-Underscores
+## Embedded JSX
+
+You can also use embedded JSX in your Markdown, and if you stay within the limits of the parser it should work okay.
+
+You can embed different property types including strings, numbers, and objects.
+
+```jsx
+<ReactComponent stringProp="abc" numberProp={45} objectProp={{ prop: "val" }} />
+```
+
+More details are in the [JSX markdown documentation](jsx.md)
 
 ## Line Breaks
 
