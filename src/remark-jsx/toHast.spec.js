@@ -409,5 +409,16 @@ describe('JSX to HAST transpiler', () => {
         })
       })
     })
+
+    describe('Global variables', () => {
+      test('Cannot access window', () => {
+        const jsx = '<Test attr={window.__testprop}/>'
+        const ast = getJSXAst(jsx)
+
+        expect(() => {
+          const hast = astToHast(ast, defaultPosition)
+        }).toThrow()
+      })
+    })
   })
 })

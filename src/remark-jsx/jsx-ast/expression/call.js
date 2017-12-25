@@ -1,5 +1,7 @@
 const handlers = {
+  'join': Array.prototype.join,
   'map': Array.prototype.map,
+  'split': String.prototype.split,
 }
 
 function getMethod(method) {

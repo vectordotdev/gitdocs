@@ -15,7 +15,6 @@ export default function createExpressionParser() {
     try {
       return handlers[expression.type](expression, identifierMap)
     } catch (err) {
-      console.log(err)
       throw new Error(`Unknown JSX Expression type of ${expression.type} seen.`)
     }
   }
