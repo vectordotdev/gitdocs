@@ -5,6 +5,7 @@ import createCallParser from './call'
 import createIdentifierParser from './identifier'
 import createJsxParser from './jsx'
 import createLiteralParser from './literal'
+import createMemberParser from './member'
 import createObjectParser from './object'
 import createArrowFunctionParser from './arrowFunction';
 
@@ -14,6 +15,7 @@ export default function createExpressionParser() {
     try {
       return handlers[expression.type](expression, identifierMap)
     } catch (err) {
+      console.log(err)
       throw new Error(`Unknown JSX Expression type of ${expression.type} seen.`)
     }
   }
@@ -26,6 +28,7 @@ export default function createExpressionParser() {
   handlers['JSXElement'] = createJsxParser(parser)
   handlers['Literal'] = createLiteralParser(parser)
   handlers['ObjectExpression'] = createObjectParser(parser)
+  handlers['MemberExpression'] = createMemberParser(parser)
 
   return parser
 }

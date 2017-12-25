@@ -397,5 +397,17 @@ describe('JSX to HAST transpiler', () => {
         })
       })
     })
+
+    describe('Array properties', () => {
+      test('Should let the user access the length property', () => {
+        const jsx = '<Test attr={[1,4,5].length}/>'
+        const ast = getJSXAst(jsx)
+        const hast = astToHast(ast, defaultPosition)
+        const root = hast[0]
+        expect(root.properties).toEqual({
+          attr: 3,
+        })
+      })
+    })
   })
 })
