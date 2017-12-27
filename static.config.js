@@ -209,4 +209,25 @@ export default {
       )
     }
   },
+  webpack: (config, { defaultLoaders }) => {
+    // We replace the existing JS rule with one, that also transforms from
+    // remark-collapse
+    config.module.rules = [{
+      oneOf: [
+        {
+          test: /\.(js|jsx)$/,
+          // remark-collapse has ES6 so we need to babel it
+          exclude: new RegExp(`${defaultLoaders.jsLoader.exclude}/(?!(remark-collapse)\/)`),
+          use: [
+            {
+              loader: 'babel-loader',
+            },
+          ],
+        },
+        defaultLoaders.cssLoader,
+        defaultLoaders.fileLoader,
+      ],
+    }]
+    return config
+  }
 }
