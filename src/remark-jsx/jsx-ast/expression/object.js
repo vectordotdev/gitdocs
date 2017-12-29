@@ -18,19 +18,19 @@ function getPropValue (value, parseObjectExpression, identifierMap) {
   }
 }
 
-export default function createObjectExpressionParser(evaluateExpression) {
+export default function createObjectExpressionParser (evaluateExpression) {
   const parseObjectExpression = (attributeExpression, identifierMap) => {
     const properties = attributeExpression.properties || []
     const len = properties.length
     const obj = {}
-  
+
     for (let i = 0; i < len; i += 1) {
       const prop = properties[i]
       const key = getPropKey(prop.key)
       const value = getPropValue(prop.value, parseObjectExpression, identifierMap)
       obj[key] = value
     }
-  
+
     return obj
   }
   return parseObjectExpression

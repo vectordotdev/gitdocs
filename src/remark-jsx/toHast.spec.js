@@ -332,7 +332,7 @@ describe('JSX to HAST transpiler', () => {
                 offset: -1,
               },
               end: {
-                offset: -1
+                offset: -1,
               },
             },
           }],
@@ -357,7 +357,7 @@ describe('JSX to HAST transpiler', () => {
                 offset: -1,
               },
               end: {
-                offset: -1
+                offset: -1,
               },
             },
           }],
@@ -382,7 +382,7 @@ describe('JSX to HAST transpiler', () => {
                 offset: -1,
               },
               end: {
-                offset: -1
+                offset: -1,
               },
             },
           }],
@@ -416,7 +416,7 @@ describe('JSX to HAST transpiler', () => {
         const ast = getJSXAst(jsx)
 
         expect(() => {
-          const hast = astToHast(ast, defaultPosition)
+          astToHast(ast, defaultPosition)
         }).toThrow()
       })
     })

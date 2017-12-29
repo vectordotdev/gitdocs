@@ -1,10 +1,10 @@
 const handlers = {
-  'join': Array.prototype.join,
-  'map': Array.prototype.map,
-  'split': String.prototype.split,
+  join: Array.prototype.join,
+  map: Array.prototype.map,
+  split: String.prototype.split,
 }
 
-function getMethod(method) {
+function getMethod (method) {
   try {
     return handlers[method]
   } catch (err) {
@@ -12,7 +12,7 @@ function getMethod(method) {
   }
 }
 
-export default function createCallExpressionParser(evaluateExpression) {
+export default function createCallExpressionParser (evaluateExpression) {
   return (expression, identifierMap) => {
     const callee = evaluateExpression(expression.callee.object, identifierMap)
     const method = getMethod(expression.callee.property.name)

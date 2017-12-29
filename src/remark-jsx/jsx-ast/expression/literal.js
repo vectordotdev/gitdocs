@@ -1,5 +1,3 @@
-export default function createLiteralParser() {
-  return (expression) => {
-    return expression.value
-  }
+export default function createLiteralParser () {
+  return expression => expression.value
 }

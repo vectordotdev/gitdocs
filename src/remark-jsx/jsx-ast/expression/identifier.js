@@ -1,5 +1,3 @@
-export default function createIdentifierParser() {
-  return (expression, identifierMap) => {
-    return identifierMap[expression.name]
-  }
+export default function createIdentifierParser () {
+  return (expression, identifierMap) => identifierMap[expression.name]
 }

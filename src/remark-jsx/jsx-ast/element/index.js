@@ -31,7 +31,7 @@ export function convertJSX (element, position, identifierMap) {
         value: exp.toString(),
         start: -1,
         end: -1,
-      }, { start: { offset: 0 }, end: { offset: 0 }})
+      }, { start: { offset: 0 }, end: { offset: 0 } })
     case 'JSXText':
       return convertJSXText(element, position)
     default:
