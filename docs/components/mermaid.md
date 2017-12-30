@@ -46,7 +46,7 @@ gantt
 </Mermaid>
 ```
 
-<Mermaid width=400>
+<Mermaid width="400">
 gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD
@@ -60,15 +60,23 @@ gantt
 
 ## Custom Configs
 
-Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an option `config` parameter that points to an object with the properties you want to configure.
+Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an optional `config` parameter that points to an object with the properties you want to configure.
 
-```markdown
-<Mermaid config={ barGap: 10 }>
-
+```jsx
+<Mermaid config={{ gantt: {barGap: 20 }}}>
+gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    another task      : 24d
 </Mermaid>
 ```
 
-<Mermaid config={ barGap: 10 }>
+<Mermaid config={{ gantt: { barGap: 20 } }}>
 gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD

@@ -21,6 +21,7 @@
       "CLI": "command-line-interface.md",
       "Writing": {
         "Markdown": "markdown/markdown.md",
+        "JSX": "markdown/jsx.md",
         "Syntax": "syntax/languages.md",
         "Table of contents": "writing/table-of-contents.md"
       },

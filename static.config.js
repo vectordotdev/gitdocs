@@ -167,7 +167,7 @@ export default {
           doc: {
             path: '',
           },
-        })
+        }),
       },
     ]
   },

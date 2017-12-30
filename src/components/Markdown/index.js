@@ -8,18 +8,22 @@ import slugify from 'rehype-slug'
 import autolink from 'rehype-autolink-headings'
 import collapse from 'remark-collapse'
 import toc from 'remark-toc'
-import reactify from './reactify'
-import Wrapper from './Wrapper'
+
+import reactParser from 'remark-jsx/parser'
+import jsx from 'remark-jsx/toHast'
+
 import CodeRenderer from './Code'
-import PreRenderer from './Pre'
-import IconRenderer from './Icon'
-import LinkRenderer from './Link'
-import TipRenderer from './Tip'
-import InfoRenderer from './Info'
-import WarningRenderer from './Warning'
 import DangerRenderer from './Danger'
 import HighlightRenderer from './Highlight'
+import IconRenderer from './Icon'
+import InfoRenderer from './Info'
+import LinkRenderer from './Link'
 import Mermaid from './Mermaid'
+import PreRenderer from './Pre'
+import reactify from './reactify'
+import TipRenderer from './Tip'
+import WarningRenderer from './Warning'
+import Wrapper from './Wrapper'
 // import Contents from './Contents'
 
 const makeComponents = options => ({
@@ -45,13 +49,17 @@ function getFrontMatter () {
   return dir => console.log(dir.children.find(c => c.type === 'yaml'))
 }
 
+
 const makeProcessor = options => unified()
-  .use(parse, { highlightLines: true })
+  .use(parse, {
+    highlightLines: true,
+  })
+  .use(reactParser)
   .use(frontmatter, ['yaml'])
-  .use(getFrontMatter)
   .use(collapse, { test: 'collapse' })
   .use(toc)
   .use(rehype, { allowDangerousHTML: true })
+  .use(jsx)
   .use(raw)
   .use(slugify)
   .use(autolink, { content: linkHAST })
