@@ -57,11 +57,6 @@ const handler = async (argv, cwd) => {
     repository: answers.repository,
     title: answers.name,
     version: '0.0.1',
-    sidebar: {
-      items: {
-        Introduction: 'introduction.md',
-      },
-    },
   })
 
   try {

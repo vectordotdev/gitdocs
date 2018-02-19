@@ -11,7 +11,7 @@ const Header = styled.h3`
   cursor: pointer;
 `
 
-const Title = ({ name, type, path, doc = {}, hasChildren, expanded }) => {
+const Title = ({ name, type, path, hasChildren, expanded }) => {
   if (type === 'directory') {
     return (
       <Header>
@@ -21,14 +21,11 @@ const Title = ({ name, type, path, doc = {}, hasChildren, expanded }) => {
     )
   }
 
-  const href = getDocPath(path)
-  const className = href === doc.path
-    ? 'active link'
-    : 'link'
+  const formattedName = name.substring(0, 1).toUpperCase() + name.substring(1).replace('.md', '')
 
   return (
-    <Link to={`/${href}`} className={className}>
-      {name.replace('.md', '')}
+    <Link to={`/${path}`} exact activeClassName="active">
+      {formattedName}
     </Link>
   )
 }
@@ -54,10 +51,9 @@ class SidebarItem extends React.Component {
     })
   }
 
-  getUnderActiveRoute = props => (
+  getUnderActiveRoute = props =>
     props.doc.path.includes(getDocPath(props.path)) ||
     (props.children && props.children.find(c => props.doc.path.includes(c.path)) !== undefined)
-  )
 
   handleClick = e => {
     e.stopPropagation()
@@ -77,19 +73,12 @@ class SidebarItem extends React.Component {
           hasChildren={children}
           expanded={this.state.expanded}
         />
-        {
-          this.state.expanded && children &&
-          <ul>
-            {children.map(c => (
-              <SidebarItem
-                {...c}
-                key={c.path}
-                doc={doc}
-                config={config}
-              />
-            ))}
-          </ul>
-        }
+        {this.state.expanded &&
+          children && (
+            <ul>
+              {children.map(c => <SidebarItem {...c} key={c.path} doc={doc} config={config} />)}
+            </ul>
+          )}
       </li>
     )
   }

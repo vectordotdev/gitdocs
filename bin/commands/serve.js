@@ -9,14 +9,12 @@ const handler = ({ argv, cwd, reactStatic, reactStaticWorkDir }) => {
       port: argv.port,
     })
   } else {
-    console.log('No path specified. Falling back to react-static dev server.')
-    execSync(
-      `${reactStatic} start`,
-      {
-        cwd: reactStaticWorkDir,
-        env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
-        stdio: [1, 2, 3],
-      })
+    console.log('Serving from ./docs...')
+    execSync(`${reactStatic} start`, {
+      cwd: reactStaticWorkDir,
+      env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
+      stdio: [process.stdin, process.stdout, process.stderr],
+    })
   }
 }
 

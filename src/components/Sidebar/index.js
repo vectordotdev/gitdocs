@@ -1,5 +1,5 @@
 import React from 'react'
-import { getRouteProps } from 'react-static'
+import { withRouteData } from 'react-static'
 import Markdown from 'components/Markdown'
 import SidebarItem from './SidebarItem'
 import Wrapper from './Wrapper'
@@ -14,16 +14,9 @@ const Sidebar = ({ tree, toc, doc, config, sidebarIsOpen }) => (
     </Header>
     <ul>
       {toc && <Markdown source={toc.body} doc={doc} />}
-      {!toc && tree.children.map(c => (
-        <SidebarItem
-          {...c}
-          key={c.path}
-          doc={doc}
-          config={config}
-        />
-      ))}
+      {!toc && tree.map(c => <SidebarItem {...c} key={c.path} doc={doc} config={config} />)}
     </ul>
   </Wrapper>
 )
 
-export default getRouteProps(Sidebar)
+export default withRouteData(Sidebar)

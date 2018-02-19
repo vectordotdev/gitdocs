@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getSiteProps, getRouteProps } from 'react-static'
+import { withSiteData, withRouteData } from 'react-static'
 import Markdown from 'components/Markdown'
 import Doc from 'components/Doc'
 import GitHub from 'svg/GitHub'
@@ -39,4 +39,4 @@ const page = ({ doc, config }) => (
   </Doc>
 )
 
-export default getSiteProps(getRouteProps(page))
+export default withSiteData(withRouteData(page))

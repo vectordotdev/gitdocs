@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Router, getSiteProps } from 'react-static'
+import { hot } from 'react-hot-loader'
+import React, { Component, Fragment } from 'react'
+import { Router, withSiteData, onLoading } from 'react-static'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
 import Sidebar from 'components/Sidebar'
@@ -14,12 +15,11 @@ class App extends Component {
   }
 
   componentDidMount () {
-    Router.subscribe(loading => {
+    onLoading(loading => {
       if (loading) {
         NProgress.start()
       } else {
         NProgress.done()
-        window.scrollTo(0, 0)
       }
     })
 
@@ -64,12 +64,7 @@ class App extends Component {
     const { tree, toc, config } = this.props
     const sideBarRight = config.sidebar && config.sidebar.position === 'right'
     const sidebar = (
-      <Sidebar
-        tree={tree}
-        toc={toc}
-        config={config}
-        sidebarIsOpen={this.state.sidebarIsOpen}
-      />
+      <Sidebar tree={tree} toc={toc} config={config} sidebarIsOpen={this.state.sidebarIsOpen} />
     )
     const toggle = (
       <Toggle
@@ -82,13 +77,23 @@ class App extends Component {
     return (
       <Router>
         <Wrapper>
-          {!sideBarRight && [sidebar, toggle]}
+          {!sideBarRight && (
+            <Fragment>
+              {sidebar}
+              {toggle}
+            </Fragment>
+          )}
           <Routes />
-          {sideBarRight && [toggle, sidebar]}
+          {sideBarRight && (
+            <Fragment>
+              {toggle}
+              {sidebar}
+            </Fragment>
+          )}
         </Wrapper>
       </Router>
     )
   }
 }
 
-export default getSiteProps(App)
+export default hot(module)(withSiteData(App))
