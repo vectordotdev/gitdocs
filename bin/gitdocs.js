@@ -11,10 +11,7 @@ const cwd = process.cwd()
 //    Global install - need to go up and into node modules to find react static
 //    Local install - need to go up and directly to react static because we're already in node-modules
 //    Local dev - same as global
-const reactStatic =
-  isGlobal() || !__dirname.includes('/node_modules/')
-    ? path.join(__dirname, '/../node_modules/react-static/bin/react-static')
-    : path.join(__dirname, '../../react-static/bin/react-static')
+const reactStatic = require.resolve('react-static/bin/react-static')
 const reactStaticWorkDir = path.join(__dirname, '..')
 
 const buildHandler = require('./commands/build')
