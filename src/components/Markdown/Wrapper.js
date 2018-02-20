@@ -44,14 +44,23 @@ export default styled.div`
     font-style: italic;
   }
 
-  pre, code {
-    font-size: 14px;
-  }
-
-  p > code, div > code, ul > code, ol > code, li > code {
+  code {
+    font-size: .9em;
+    background: rgba(0, 0, 0, .05);
     border-radius: 4px;
     padding: .05rem .25rem !important;
     display: inline-block;
+    margin: 0;
+  }
+
+  pre {
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.45;
+
+    code {
+      background: initial;
+    }
   }
 
   pre .line-numbers {

@@ -3,37 +3,33 @@ import styled, { css } from 'styled-components'
 import Hamburger from 'svg/Hamburger'
 
 const Wrapper = styled.div`
+  position: absolute;
   height: 35px;
   width: 35px;
   border: 1px solid #ddd;
-  position: relative;
-  top: 15px;
-  ${props => (props.position === 'right' ? css`right: 15px;` : css`left: 15px;`)}
+  background: white;
+  margin: 6px;
   cursor: pointer;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.2s ease-out;
+
+  ${props => (props.position === 'right' ? css`right: 100%;` : css`left: 100%;`)};
+
+  ${props =>
+    props.position === 'left' && props.sidebarIsOpen && css`transform: translateX(-47px);`};
 
   &:hover svg g {
-    stroke: #4688F1;
+    stroke: #4688f1;
   }
 
   @media (min-width: 1500px) {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
-
-  @media (max-width: 720px) {
-    ${props => (props.position === 'left' ? css`float: left;` : css`float: right;`)}
-  }
-
-  ${props => props.sidebarIsOpen && css`
-    @media (max-width: 720px) {
-      ${props => (props.position === 'left' ? css`left: 245px;` : css`right: 245px;`)}
-      top: 6px;
-    }
-  `}
 `
 
 export default props => (

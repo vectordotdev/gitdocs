@@ -1,14 +1,17 @@
 import { hot } from 'react-hot-loader'
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Router, withSiteData, onLoading } from 'react-static'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
+//
 import Sidebar from 'components/Sidebar'
-import Toggle from 'elements/Toggle'
 import 'styles/global'
 import Wrapper from './Wrapper'
+import defaultSidebar from '../default.json'
 
 class App extends Component {
+  static defaultProps = defaultSidebar
+
   state = {
     sidebarIsOpen: true, // window ? window.innerWidth > 700 : true,
     width: 500, // window && window.innerWidth,
@@ -23,20 +26,12 @@ class App extends Component {
       }
     })
 
-    // if (config.languages) {
-    //   config.languages.forEach(l => {
-    //     try {
-    //       const lang = require(`react-syntax-highlighter/languages/hljs/${l}`).default
-    //       config.syntaxes[l] = lang
-    //       console.log(typeof lang)
-    //     } catch (e) {
-    //       //
-    //     }
-    //   })
-    // }
-
     if (window) {
       window.addEventListener('resize', this.updateDimensions)
+      this.setState({
+        width: window.innerWidth,
+        sidebarIsOpen: window.innerWidth > 700,
+      })
     }
   }
 
@@ -44,6 +39,12 @@ class App extends Component {
     if (window) {
       window.removeEventListener('resize', this.updateDimensions)
     }
+  }
+
+  onSidebarToggle = () => {
+    this.setState({
+      sidebarIsOpen: !this.state.sidebarIsOpen,
+    })
   }
 
   updateDimensions = e => {
@@ -54,42 +55,20 @@ class App extends Component {
     })
   }
 
-  handleSidebarToggle = () => {
-    this.setState({
-      sidebarIsOpen: !this.state.sidebarIsOpen,
-    })
-  }
-
   render () {
-    const { tree, toc, config } = this.props
-    const sideBarRight = config.sidebar && config.sidebar.position === 'right'
-    const sidebar = (
-      <Sidebar tree={tree} toc={toc} config={config} sidebarIsOpen={this.state.sidebarIsOpen} />
-    )
-    const toggle = (
-      <Toggle
-        onClick={this.handleSidebarToggle}
-        sidebarIsOpen={this.state.sidebarIsOpen}
-        position={config.sidebar.position}
-      />
-    )
+    const { tree, config } = this.props
+    const { sidebarIsOpen } = this.state
 
     return (
-      <Router>
-        <Wrapper>
-          {!sideBarRight && (
-            <Fragment>
-              {sidebar}
-              {toggle}
-            </Fragment>
-          )}
+      <Router scrollToHashOffset={-40}>
+        <Wrapper sidebarIsOpen={sidebarIsOpen}>
+          <Sidebar
+            tree={tree}
+            config={config}
+            sidebarIsOpen={sidebarIsOpen}
+            onSidebarToggle={this.onSidebarToggle}
+          />
           <Routes />
-          {sideBarRight && (
-            <Fragment>
-              {toggle}
-              {sidebar}
-            </Fragment>
-          )}
         </Wrapper>
       </Router>
     )

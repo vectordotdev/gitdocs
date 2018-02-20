@@ -1,26 +1,25 @@
 import styled from 'styled-components'
 
 export default styled.section`
-  color: rgba(0,0,0,.7);
+  color: rgba(0, 0, 0, 0.7);
   line-height: 1.75;
   padding: 1rem 2rem;
-  font-family: "source-sans-pro", sans-serif;
-  font-size: 1.1rem;
+  font-family: 'source-sans-pro', sans-serif;
   word-wrap: break-word;
   flex: 1 1 auto;
   overflow-y: scroll;
 
   .header {
     display: block;
-    font-family: "source-sans-pro", sans-serif;
+    font-family: 'source-sans-pro', sans-serif;
     font-weight: 600;
     font-size: 16px;
-    color: #3D4A67;
-    letter-spacing: .11px;
+    color: #3d4a67;
+    letter-spacing: 0.11px;
     text-decoration: none;
     border-bottom: 1px solid #dde1eb;
-    padding: .5rem 0;
-    margin: .5rem 0;
+    padding: 0.5rem 0;
+    margin: 0.5rem 0;
   }
 
   .link {
@@ -47,7 +46,7 @@ export default styled.section`
     }
 
     > p:last-child {
-      margin-bottom: 0
+      margin-bottom: 0;
     }
 
     ol,

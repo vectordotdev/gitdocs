@@ -8,13 +8,10 @@ injectGlobal`
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-family: "futura-pt", sans-serif;
+    font-size: 16px;
   }
 
   .powered { display: none }
-
-  main > div {
-    overflow: hidden;
-  }
 
   a {
     text-decoration: none;
@@ -86,6 +83,31 @@ injectGlobal`
   h1 {
     font-size: 2em;
     margin: .67em 0;
+  }
+
+  h2 {
+    font-size: 1.7em;
+    margin: .3em 0;
+  }
+
+  h3 {
+    font-size: 1.5em;
+    margin: .3em 0;
+  }
+
+  h4 {
+    font-size: 1.3em;
+    margin: .3em 0;
+  }
+
+  h5 {
+    font-size: 1.2em;
+    margin: .3em 0;
+  }
+
+  h6 {
+    font-size: 1.1em;
+    margin: .3em 0;
   }
 
   figcaption,

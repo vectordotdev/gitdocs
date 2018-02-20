@@ -6,7 +6,6 @@ import { ServerStyleSheet } from 'styled-components'
 import dirTree from 'directory-tree'
 import frontMatter from 'gray-matter'
 //
-import { getDocPath } from './src/utils'
 import defaults from './default.json'
 
 // Get proper docs paths for the current repo
@@ -17,18 +16,18 @@ const DOCS_SRC = path.resolve(ROOT, 'docs')
 const files = []
 let tree = {}
 let customConfig = {}
-let readmeContent
+let hasReadme
 
 // Case-insensitive check for readme.md
 const rootFiles = fs.readdirSync(ROOT)
 rootFiles.forEach(item => {
   if (item.match(/README.md/i)) {
-    readmeContent = fs.readFileSync(path.resolve(ROOT, item), 'utf8')
+    hasReadme = !!fs.readFileSync(path.resolve(ROOT, item), 'utf8')
   }
 })
 
 // Warn if we can't find a readme
-if (!readmeContent) {
+if (!hasReadme) {
   console.warn('warning: no README.md found, you may want to add one.')
 }
 
@@ -49,76 +48,112 @@ if (process.env.version) {
 }
 const config = merge(defaults, customConfig, dynamicOptions)
 
-if (config.theme) {
-  if (config.highlighter === 'prism') {
-    config.theme = require(`react-syntax-highlighter/styles/prism/${config.theme}`).default // eslint-disable-line
-  } else {
-    config.theme = require(`react-syntax-highlighter/styles/hljs/${config.theme}`).default // eslint-disable-line
-  }
+if (config.syntax) {
+  process.env.GITDOCS_SYNTAX = JSON.stringify(config.syntax)
 }
 
 if (config.sidebar && config.sidebar.items) {
-  tree = buildTree(config.sidebar.items, '', '')
+  tree = mapTree(config.sidebar.items, item => ({
+    ...item,
+    src: path.resolve(DOCS_SRC, item.src),
+  }))
 } else {
   // Pull out the markdown files in the /docs directory
   tree = dirTree(DOCS_SRC, { extensions: /\.md/ }).children
 
   // Add root readme to file tree
   tree.unshift({
-    path: `${ROOT}/README.md`,
     name: 'Introduction',
-    type: 'file',
+    src: 'README.md',
     order: -Infinity,
   })
 
   // Filter out public and empty directories
-  tree = tree.filter(
-    d => d.name !== 'public' && (d.type === 'directory' ? d.children.length > 0 : true),
-  )
+  tree = tree.filter(d => d.name !== 'public')
+}
 
-  tree = mapTree(tree, item => {
-    const contents = fs.readFileSync(item.path, 'utf8')
-    const { data: { title, order = 0 }, content: body = '' } = frontMatter(contents)
+tree = mapTree(tree, (item, i) => {
+  const fullFileName = item.src.split('#')[0]
+  const fileName = fullFileName.replace('.md', '')
+  try {
+    const contents = fs.readFileSync(path.resolve(ROOT, fullFileName), 'utf8')
+    let name = item.name || `${fileName.substring(0, 1).toUpperCase()}${fileName.substring(1)}`
+    let order = 0
+    let body = contents
+
+    const editPath = item.src.replace(ROOT, '') // remove filesystem root prefix
+
+    const link = editPath
+      .replace('/docs', '') // remove docs prefix
+      .replace('.md', '') // remove suffix
+      .replace('README', '') // turn root README into index
+
+    const myPath = link.split('#')[0]
+
+    if (!config.sidebar || !config.sidebar.items) {
+      const { data, content = '' } = frontMatter(contents)
+      name = data.title
+      order = typeof data.order !== 'undefined' ? data.order : order
+      body = content
+    }
+
+    if (fullFileName === path.resolve(ROOT, 'README.md')) {
+      body = body
+        .split('](/docs/')
+        .join('](/')
+        .split('](docs/')
+        .join('](')
+    }
+
     const newItem = {
       ...item,
-      name: title || `${item.name.substring(0, 1).toUpperCase()}${item.name.substring(1)}`,
-      path: getDocPath(item.path),
-      order: typeof item.order !== 'undefined' ? item.order : order,
+      index: i,
+      name,
+      order,
+      link,
+      path: myPath,
+      editPath,
     }
     files.push({
       ...newItem,
       body,
     })
     return newItem
-  })
-}
+  } catch (e) {
+    console.warn(`warning: could not find file ${fileName}`)
+    process.exit(1)
+  }
+})
 
 export default {
   getSiteData: () => ({
     config,
     tree,
   }),
-  getRoutes: () => [
-    // Build the routes
-    ...Object.keys(files)
-      .map(key => files[key])
-      .map(file => ({
-        path: `/${file.path}`,
-        component: 'src/containers/Docs',
+  getRoutes: () => {
+    const routes = [
+      // Build the routes
+      ...files
+        .filter((value, index, self) => self.findIndex(d => d.path === value.path) === index)
+        .map(file => ({
+          path: file.path,
+          component: 'src/containers/Docs',
+          getData: () => ({
+            doc: file,
+          }),
+        })),
+      {
+        is404: true,
+        component: 'src/containers/404',
         getData: () => ({
-          doc: file,
+          doc: {
+            path: '',
+          },
         }),
-      })),
-    {
-      is404: true,
-      component: 'src/containers/404',
-      getData: () => ({
-        doc: {
-          path: '',
-        },
-      }),
-    },
-  ],
+      },
+    ]
+    return routes
+  },
   renderToHtml: (render, Comp, meta) => {
     const sheet = new ServerStyleSheet()
     const html = render(sheet.collectStyles(<Comp />))
@@ -176,57 +211,30 @@ export default {
   },
 }
 
-function buildTree (item, name, current) {
-  // Is this a directory?
-  const isDir = typeof item === 'object'
-  const isReadme = !isDir && item.match(/readme.md/i) && item.indexOf('/') === -1
-
-  // Build the doc
-  const child = {
-    name,
-    path: isDir ? current : getDocPath(item),
-    file: isDir ? null : isReadme ? item : `docs/${item}`,
-    type: isDir ? 'directory' : 'file',
-    body: isDir ? '' : importFile(item),
-  }
-
-  // If we're referencing the root readme, make it work
-  if (!isDir && isReadme) {
-    child.body = readmeContent
-  }
-
-  // Add to file list for convenience
-  if (!isDir) {
-    files[getDocPath(item)] = child
-  }
-
-  if (isDir) {
-    child.children = Object.keys(item).map(k => buildTree(item[k], k, `${current}/${k}`))
-  }
-
-  return current ? child : child.children
-}
-
 function mapTree (item, cb) {
   if (typeof item === 'object' && Array.isArray(item)) {
     return item
       .map(child => mapTree(child, cb))
-      .sort((a, b) => (a.order > b.order ? 1 : a.order < b.order ? -1 : 0))
+      .map((child, i) => ({ ...child, index: i }))
+      .filter(d => (d.children ? d.children.length : true))
+      .sort(
+        (a, b) =>
+          (a.order > b.order
+            ? 1
+            : a.order < b.order ? -1 : a.index > b.index ? 1 : a.index < b.index ? -1 : 0),
+      )
   }
   if (item.children) {
     item.children = item.children
       .map(child => mapTree(child, cb))
-      .sort((a, b) => (a.order > b.order ? 1 : a.order < b.order ? -1 : 0))
-    return item
+      .map((child, i) => ({ ...child, index: i }))
+      .filter(d => (d.children ? d.children.length : true))
+      .sort(
+        (a, b) =>
+          (a.order > b.order
+            ? 1
+            : a.order < b.order ? -1 : a.index > b.index ? 1 : a.index < b.index ? -1 : 0),
+      )
   }
   return cb(item)
-}
-
-function importFile (pathToFile) {
-  try {
-    return fs.readFileSync(path.resolve(DOCS_SRC, pathToFile), 'utf8')
-  } catch (e) {
-    console.warn(`warning: could not find file ${pathToFile}`)
-    return ''
-  }
 }

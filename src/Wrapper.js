@@ -1,40 +1,25 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export default styled.main`
-  display: flex;
-  height: 100vh;
   position: relative;
+  transition: all 0.2s ease-out;
+  margin: 0 auto;
 
-  section > div {
+  > section {
     max-width: 800px;
     margin: 0 auto;
   }
 
-  @media(max-width: 700px) {
-    flex-direction: column
-
-    aside {
-      min-height: 200px;
-      width: 100%;
-      background: #F4F3FB;
-      overflow: scroll;
-    }
+  @media (min-width: 700px) and (max-width: 1499px) {
+    ${props => props.sidebarIsOpen && css`padding-left: 280px;`};
   }
 
-  @media(min-width: 1500px) {
+  @media (min-width: 1500px) {
+    padding-left: 280px;
     max-width: 1200px;
-    margin: 0 auto;
-    height: auto;
 
-    aside {
-      height: auto;
-      background: #FFF;
-      margin: 2rem 0;
-      padding-top: 0;
-
-      .back {
-        border: none;
-      }
+    > section {
+      max-width: 920px;
     }
   }
 `

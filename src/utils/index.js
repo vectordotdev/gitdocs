@@ -1,11 +1,3 @@
-export function getDocPath (path) {
-  const root = '/docs'
-  if (path.includes(root)) {
-    return path.split(`${root}/`)[1].replace('.md', '')
-  }
-  return ''
-}
-
 /* eslint-disable */
 function setValue(object, objPath, value) {
   var a = objPath

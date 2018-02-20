@@ -1,7 +1,7 @@
 module.exports = {
   extends: 'react-tools',
   env: {
-    "jest/globals": true
+    'jest/globals': true,
   },
   plugins: ['jest'],
 }

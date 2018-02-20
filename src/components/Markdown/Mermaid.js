@@ -1,13 +1,12 @@
 import merge from 'lodash.merge'
-import mermaid, { mermaidAPI } from 'mermaid'
+import { mermaidAPI } from 'mermaid'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 
 const Wrapper = styled.div`
   width: ${props => props.width}px;
-  ${props => (props.height ? css`height: ${props.height}px;` : '')}
-  > svg {
+  ${props => (props.height ? css`height: ${props.height}px;` : '')} > svg {
     height: 100%;
     width: 100%;
   }
@@ -43,13 +42,7 @@ class Mermaid extends Component {
   render () {
     const { height, width } = this.props
     const { diagram } = this.state
-    return (
-      <Wrapper
-        dangerouslySetInnerHTML={{ __html: diagram }}
-        height={height}
-        width={width}
-      />
-    )
+    return <Wrapper dangerouslySetInnerHTML={{ __html: diagram }} height={height} width={width} />
   }
 }
 

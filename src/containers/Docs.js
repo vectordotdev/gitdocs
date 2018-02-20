@@ -18,23 +18,19 @@ const Footer = styled.div`
   svg {
     height: 20px;
     width: 20px;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 `
 
 const page = ({ doc, config }) => (
   <Doc className="doc">
-    <Markdown
-      source={doc.body}
-      config={config}
-    />
+    <Markdown source={doc.body} config={config} />
     <Footer>
-      {
-        config.repository &&
-        <a href={`${config.repository}/blob/master/${doc.file}`}>
+      {config.repository && (
+        <a href={`${config.repository}/blob/master${doc.editPath}`}>
           <GitHub /> Edit this page
         </a>
-      }
+      )}
     </Footer>
   </Doc>
 )

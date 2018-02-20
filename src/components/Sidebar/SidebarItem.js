@@ -1,7 +1,6 @@
 import React from 'react'
-import { Link } from 'react-static'
+import { Link, withRouter } from 'react-static'
 import styled from 'styled-components'
-import { getDocPath } from 'utils'
 import Caret from 'svg/Caret'
 
 const Header = styled.h3`
@@ -11,21 +10,19 @@ const Header = styled.h3`
   cursor: pointer;
 `
 
-const Title = ({ name, type, path, hasChildren, expanded }) => {
-  if (type === 'directory') {
+const Title = ({ name, link, hasChildren, expanded, ...rest }) => {
+  if (hasChildren && !link) {
     return (
-      <Header>
+      <Header {...rest}>
         {name}
-        {hasChildren && <Caret degrees={expanded ? 0 : -90} color="#AAB0B9" />}
+        {<Caret degrees={expanded ? 0 : -90} color="#AAB0B9" />}
       </Header>
     )
   }
 
-  const formattedName = name.substring(0, 1).toUpperCase() + name.substring(1).replace('.md', '')
-
   return (
-    <Link to={`/${path}`} exact activeClassName="active">
-      {formattedName}
+    <Link to={link} exact activeClassName="active">
+      {name}
     </Link>
   )
 }
@@ -34,49 +31,61 @@ class SidebarItem extends React.Component {
   constructor (props) {
     super(props)
 
-    const depth = getDocPath(props.path).split('/').length
+    const { item, config } = props
+
+    const depth = item.path.split('/').length
     const underActiveRoute = this.getUnderActiveRoute(props)
 
     this.state = {
-      expanded: depth <= props.config.defaultDepth || underActiveRoute,
+      expanded:
+        depth <= config.sidebar.defaultDepth ||
+        underActiveRoute ||
+        typeof item.expanded !== 'undefined'
+          ? item.expanded
+          : true,
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const depth = getDocPath(nextProps.path).split('/').length
-    const underActiveRoute = this.getUnderActiveRoute(nextProps)
-
-    this.setState({
-      expanded: depth <= nextProps.config.defaultDepth || underActiveRoute,
-    })
+    if (
+      this.props.location &&
+      this.props.location.pathname !== nextProps.location.pathname &&
+      this.getUnderActiveRoute(nextProps)
+    ) {
+      this.setState({
+        expanded: true,
+      })
+    }
   }
 
-  getUnderActiveRoute = props =>
-    props.doc.path.includes(getDocPath(props.path)) ||
-    (props.children && props.children.find(c => props.doc.path.includes(c.path)) !== undefined)
-
-  handleClick = e => {
+  onToggleExpander = e => {
     e.stopPropagation()
     this.setState({ expanded: !this.state.expanded })
   }
 
+  getUnderActiveRoute = props =>
+    props.location &&
+    (props.item.path.includes(props.location.pathname) ||
+      (props.children && props.children.find(c => props.doc.path.includes(c.path)) !== undefined))
+
   render () {
-    const { name, children, type, path, doc, config } = this.props
+    const { item: { name, children, link }, config } = this.props
+
+    const expanded = link || this.state.expanded
 
     return (
-      <li onClick={this.handleClick}>
+      <li>
         <Title
           name={name}
-          type={type}
-          path={path}
-          doc={doc}
+          link={link}
           hasChildren={children}
-          expanded={this.state.expanded}
+          expanded={expanded}
+          onClick={this.onToggleExpander}
         />
-        {this.state.expanded &&
+        {expanded &&
           children && (
             <ul>
-              {children.map(c => <SidebarItem {...c} key={c.path} doc={doc} config={config} />)}
+              {children.map(item => <SidebarItem item={item} key={item.link} config={config} />)}
             </ul>
           )}
       </li>
@@ -84,4 +93,4 @@ class SidebarItem extends React.Component {
   }
 }
 
-export default SidebarItem
+export default withRouter(SidebarItem)

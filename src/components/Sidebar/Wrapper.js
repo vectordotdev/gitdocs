@@ -1,43 +1,52 @@
 import styled, { css } from 'styled-components'
 
 export default styled.aside`
-  flex: 1 0 auto;
-  transition: all .1s ease-in-out;
-  min-width: ${props => (props.sidebarIsOpen ? '230px' : '0')};
-  max-width: ${props => (props.sidebarIsOpen ? '280px' : '0')};
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 280px;
   background: #f4f7fa;
-  overflow-y: auto;
   margin: 0;
   z-index: 99;
+  box-shadow: 1px 0 0 0 #dfe3e8, 1px 0 0 0 #dfe3e8;
+  transition: all 0.2s ease-out;
 
-  ${props => {
-    if (props.position === 'left') {
-      return css`border-right: 1px solid #DFE3E8;`
+  > .inner {
+    height: 100%;
+    overflow-y: auto;
+
+    > ul {
+      padding: 1rem 1rem 1.5rem 1rem;
     }
-    return css`border-left: 1px solid #DFE3E8;`
-  }}
-
-  @media(max-width: 700px) {
-    width: 0;
   }
 
-  ${props => props.sidebarIsOpen && css`
-    @media(max-width: 700px) {
-      position: fixed;
-      ${props => (props.position === 'left' ? css`left: 0;` : css`right: 0;`)}
-      top: 0;
-      bottom: 0;
-    }
-  `}
+  ${props =>
+    (props.position === 'left'
+      ? css`
+          left: 0;
+          transform: translateX(-100%);
+          ${props.sidebarIsOpen && css`transform: translateX(0);`};
+        `
+      : css`
+          right: 0;
+          transform: translateX(100%);
+          ${props.sidebarIsOpen && css`transform: translateX(0);`};
+        `)};
+
+  @media (min-width: 1500px) {
+    position: fixed;
+    background: #fff;
+    margin: 2rem 0;
+    padding-top: 0;
+    left: 50%;
+    transform: translateX(-600px);
+  }
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0 0 1.5rem 0;
-  }
-
-  > ul {
-    padding: 1rem 1.5rem 1.5rem 1.5rem;
   }
 
   ul ul {
@@ -49,11 +58,11 @@ export default styled.aside`
   }
 
   ul li {
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
   }
 
   li > ul {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     margin-bottom: 0;
   }
 
@@ -65,7 +74,7 @@ export default styled.aside`
     display: block;
 
     &.active {
-      color: #4688F1;
+      color: #4688f1;
     }
 
     &:hover {
@@ -73,13 +82,17 @@ export default styled.aside`
     }
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     text-transform: uppercase;
-    letter-spacing: .05em;
+    letter-spacing: 0.05em;
     color: #919eab;
     font-weight: 700;
-    font-size: .75rem;
+    font-size: 0.75rem;
 
-    a { text-decoration: none }
+    a {
+      text-decoration: none;
+    }
   }
 `

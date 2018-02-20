@@ -8,10 +8,12 @@
   "repository": "https://github.com/react-tools/gitdocs",
   "license": "MIT",
   "root": "./docs",
-  "expanded": true,
   "logo": "./logo.png",
-  "showLineNumbers": true,
-  "highlighter": "prism",
+  "syntax": {
+    "showLineNumbers": true,
+    "highlighter": "hljs",
+    "theme": "atom-one-dark"
+  },
   "sidebar": {
     "defaultDepth": 3,
     "position": "left"
