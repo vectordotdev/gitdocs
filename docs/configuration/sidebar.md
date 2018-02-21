@@ -7,36 +7,43 @@ By default GitDocs will automatically generate the navigation based on your `/do
 The sidebar configuration supports the following options:
 
 ```javascript
-{
-  // Number of levels of the navigation will be expanded by default
-  defaultDepth: 2,
-
-  // Location of the sidebar. Either "left" or "right"
-  position: "left",
+export default {
+  sidebar: {
+    // Number of levels of the navigation will be expanded by default
+    defaultDepth: 2,
+    // Location of the sidebar. Either "left" or "right"
+    position: "left",
+  }
 }
 ```
 
 ## Custom Structure
 
-We recommend configuring the sidebar navigation in `docs.json` like so:
+If you would rather define a custom structure for your sidebar, you can configure it in `docs.js` like so:
 
-```json
-{
-  "sidebar": {
-    "position": "left",
-    "items": {
-      "Introduction": "README.md",
-      "Quickstart": "quickstart.md",
-      "Writing": {
-        "markdown": "markdown/markdown.md",
-        "syntax": "syntax/code/languagues.md",
-        "Components": {
-          "helpers": "helpers.md",
-          "custom": "components/readme.md"
-        }
-      }
-    }
-  }
+```javascript
+export default {
+  sidebar: {
+    position: 'left',
+    items: [
+      { name: 'Introduction', src: 'README.md' },
+      { name: 'Quickstart', src: 'quickstart.md' },
+      {
+        name: 'Writing',
+        children: [
+          { name: 'markdown', src: 'markdown/markdown.md' },
+          { name: 'syntax', src: 'syntax/code/languagues.md' },
+          {
+            name: 'Components',
+            children: [
+              { name: 'helpers', src: 'helpers.md' },
+              { name: 'custom', src: 'components/readme.md' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 }
 ```
 

@@ -1,8 +1,8 @@
-const chalk = require('chalk')
-const execSync = require('child_process').execSync
-const serve = require('serve')
+import chalk from 'chalk'
+import { execSync } from 'child_process'
+import serve from 'serve'
 
-const handler = ({ argv, cwd, reactStatic, reactStaticWorkDir }) => {
+export default function handler ({ argv, cwd, reactStatic, reactStaticWorkDir }) {
   if (argv.path) {
     console.log(chalk.green(`Serving ${argv.path}`))
     serve(argv.path, {
@@ -17,5 +17,3 @@ const handler = ({ argv, cwd, reactStatic, reactStaticWorkDir }) => {
     })
   }
 }
-
-module.exports = handler

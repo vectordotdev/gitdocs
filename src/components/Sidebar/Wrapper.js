@@ -14,10 +14,12 @@ export default styled.aside`
 
   > .inner {
     height: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 
     > ul {
       padding: 1rem 1rem 1.5rem 1rem;
+      overflow-y: auto;
     }
   }
 

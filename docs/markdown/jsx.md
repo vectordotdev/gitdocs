@@ -2,12 +2,13 @@
 
 You can also use arrow functions and more advanced expressions, provided the function does not use any input other than literals. The following will work and will evaluate the property to `'abc'`.
 
+<react><ul><li>Test!</li></ul></react>
 
 ## Arrow Functions
 
-Simple arrow functions can be run from JSX. The body of the function can only access variables that are defined in the scope of the function. Access global variables is not allowed. 
+Simple arrow functions can be run from JSX. The body of the function can only access variables that are defined in the scope of the function. Access global variables is not allowed.
 
-You can use these functions to generate JSX dynamically if needed. 
+You can use these functions to generate JSX dynamically if needed.
 
 ```jsx
 <ReactComponent>
@@ -43,4 +44,4 @@ The GitDocs JSX markdown processor supports accessing object properties, such as
 <ReactComponent attr={[3, 4].length} />
 ```
 
-will set the attribute named `attr` to `2`. 
+will set the attribute named `attr` to `2`.

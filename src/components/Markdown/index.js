@@ -10,7 +10,6 @@ import Mermaid from './Mermaid'
 import Tip from './Tip'
 import Warning from './Warning'
 import Wrapper from './Wrapper'
-// import Contents from './Contents'
 
 const configSyntax = JSON.parse(process.env.GITDOCS_SYNTAX)
 
@@ -21,9 +20,11 @@ if (configSyntax.theme) {
   if (configSyntax.highlighter === 'prism') {
     theme = require(`react-syntax-highlighter/dist/styles/prism/${configSyntax.theme // eslint-disable-line
     }`).default
-  } else {
+  } else if (configSyntax.highlighter === 'hljs') {
     theme = require(`react-syntax-highlighter/dist/styles/hljs/${configSyntax.theme // eslint-disable-line
     }`).default
+  } else {
+    console.warn(`Unsupported highlighter option was found: ${configSyntax.highlighter}`)
   }
 }
 
@@ -46,6 +47,7 @@ const renderers = {
   danger: Danger,
   highlight: Highlight,
   mermaid: Mermaid,
+  react: props => <strong>{props.children}</strong>,
 }
 
 class Markdown extends PureComponent {

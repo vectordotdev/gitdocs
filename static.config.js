@@ -6,7 +6,7 @@ import { ServerStyleSheet } from 'styled-components'
 import dirTree from 'directory-tree'
 import frontMatter from 'gray-matter'
 //
-import defaults from './default.json'
+import defaults from './default.js'
 
 // Get proper docs paths for the current repo
 const ROOT = path.resolve(process.env.GITDOCS_CWD || process.cwd())
@@ -31,15 +31,15 @@ if (!hasReadme) {
   console.warn('warning: no README.md found, you may want to add one.')
 }
 
-// Grab optional docs.json config and warn if it doesn't exist
+// Grab optional docs.js config and warn if it doesn't exist
 try {
-  customConfig = JSON.parse(fs.readFileSync(path.resolve(DOCS_SRC, 'docs.json')))
+  customConfig = require(path.resolve(DOCS_SRC, 'docs.js')).default // eslint-disable-line
 } catch (e) {
   console.log(e)
-  console.warn('warning: no docs.json found, you may want to add one.')
+  console.warn('warning: no docs.js found, you may want to add one.')
 }
 
-// Merge docs.json config with default config.json
+// Merge docs.js config with default config.js
 // Dynamic options come from the command line
 // and override values in the config file
 const dynamicOptions = {}
@@ -55,7 +55,7 @@ if (config.syntax) {
 if (config.sidebar && config.sidebar.items) {
   tree = mapTree(config.sidebar.items, item => ({
     ...item,
-    src: path.resolve(DOCS_SRC, item.src),
+    src: item.src ? path.resolve(DOCS_SRC, item.src) : '',
   }))
 } else {
   // Pull out the markdown files in the /docs directory
@@ -72,14 +72,13 @@ if (config.sidebar && config.sidebar.items) {
   tree = tree.filter(d => d.name !== 'public')
 }
 
-tree = mapTree(tree, (item, i) => {
+tree = mapTree(tree, item => {
   const fullFileName = item.src.split('#')[0]
   const fileName = fullFileName.replace('.md', '')
   try {
-    const contents = fs.readFileSync(path.resolve(ROOT, fullFileName), 'utf8')
+    const fileContent = item.src ? fs.readFileSync(path.resolve(ROOT, fullFileName), 'utf8') : ''
     let name = item.name || `${fileName.substring(0, 1).toUpperCase()}${fileName.substring(1)}`
     let order = 0
-    let body = contents
 
     const editPath = item.src.replace(ROOT, '') // remove filesystem root prefix
 
@@ -90,12 +89,17 @@ tree = mapTree(tree, (item, i) => {
 
     const myPath = link.split('#')[0]
 
-    if (!config.sidebar || !config.sidebar.items) {
-      const { data, content = '' } = frontMatter(contents)
-      name = data.title
-      order = typeof data.order !== 'undefined' ? data.order : order
-      body = content
+    // Parse front-matter
+    const { data: meta, content } = frontMatter(fileContent)
+
+    if (meta.title) {
+      name = meta.title
     }
+    if (typeof meta.order !== 'undefined') {
+      order = meta.order
+    }
+
+    let body = content
 
     if (fullFileName === path.resolve(ROOT, 'README.md')) {
       body = body
@@ -107,12 +111,12 @@ tree = mapTree(tree, (item, i) => {
 
     const newItem = {
       ...item,
-      index: i,
       name,
       order,
       link,
       path: myPath,
       editPath,
+      meta,
     }
     files.push({
       ...newItem,
@@ -120,7 +124,7 @@ tree = mapTree(tree, (item, i) => {
     })
     return newItem
   } catch (e) {
-    console.warn(`warning: could not find file ${fileName}`)
+    console.warn(`Error! Could not find file: ${fileName}`)
     process.exit(1)
   }
 })
@@ -134,7 +138,9 @@ export default {
     const routes = [
       // Build the routes
       ...files
-        .filter((value, index, self) => self.findIndex(d => d.path === value.path) === index)
+        .filter(
+          (value, index, self) => value.src && self.findIndex(d => d.path === value.path) === index,
+        )
         .map(file => ({
           path: file.path,
           component: 'src/containers/Docs',
@@ -214,8 +220,8 @@ export default {
 function mapTree (item, cb) {
   if (typeof item === 'object' && Array.isArray(item)) {
     return item
-      .map(child => mapTree(child, cb))
       .map((child, i) => ({ ...child, index: i }))
+      .map(child => mapTree(child, cb))
       .filter(d => (d.children ? d.children.length : true))
       .sort(
         (a, b) =>
@@ -226,8 +232,8 @@ function mapTree (item, cb) {
   }
   if (item.children) {
     item.children = item.children
-      .map(child => mapTree(child, cb))
       .map((child, i) => ({ ...child, index: i }))
+      .map(child => mapTree(child, cb))
       .filter(d => (d.children ? d.children.length : true))
       .sort(
         (a, b) =>

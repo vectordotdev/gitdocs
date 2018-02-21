@@ -1,8 +1,17 @@
 import React from 'react'
+import styled from 'styled-components'
 //
 
+const Wrapper = styled.div`padding: 1rem;`
+
 export default () => (
-  <div>
-    <h1>404 - Oh no's! We couldn't find that page :(</h1>
-  </div>
+  <Wrapper>
+    <h1>
+      404{' '}
+      <span role="img" aria-label="sad-face">
+        😔
+      </span>
+    </h1>
+    <p>We couldn't find the page you're looking for.</p>
+  </Wrapper>
 )

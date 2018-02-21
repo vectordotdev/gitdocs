@@ -1,12 +1,12 @@
-const chalk = require('chalk')
-const fs = require('fs-extra')
-const inquirer = require('inquirer')
-const merge = require('lodash.merge')
-const path = require('path')
+import chalk from 'chalk'
+import fs from 'fs-extra'
+import inquirer from 'inquirer'
+import merge from 'lodash.merge'
+import path from 'path'
 
-const defaults = require('../../default.json')
+import defaults from '../../default.js'
 
-const handler = async (argv, cwd) => {
+export default async function handler (argv, cwd) {
   console.log(chalk.green('Initializing GitDocs project'))
 
   const docs = path.join(cwd, 'docs')
@@ -87,5 +87,3 @@ const handler = async (argv, cwd) => {
   console.log(chalk.green('Initialization complete!'))
   console.log(chalk.green('Run `gitdocs serve` to see your documentation.'))
 }
-
-module.exports = handler

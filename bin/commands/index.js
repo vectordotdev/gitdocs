@@ -1,29 +1,27 @@
-#!/usr/bin/env node
-/* eslint-disable */
-const chalk = require('chalk')
-const isGlobal = require('is-global')
-const path = require('path')
-const yargs = require('yargs')
+import chalk from 'chalk'
+import path from 'path'
+import yargs from 'yargs'
+
+import buildHandler from './build'
+import initHandler from './init'
+import serveHandler from './serve'
 
 const cwd = process.cwd()
 
 // 3 possible cases:
 //    Global install - need to go up and into node modules to find react static
-//    Local install - need to go up and directly to react static because we're already in node-modules
+//    Local install - need to go up and directly to react static because we're
+//        already in node-modules
 //    Local dev - same as global
 const reactStatic = require.resolve('react-static/bin/react-static')
-const reactStaticWorkDir = path.join(__dirname, '..')
-
-const buildHandler = require('./commands/build')
-const initHandler = require('./commands/init')
-const serveHandler = require('./commands/serve')
+const reactStaticWorkDir = path.join(__dirname, '../..')
 
 // commands:
 // serve (port, version)
 // build (version, output)
 // init (@config) (create /doc, /docs/public, docs.json, etc)
 
-var argv = yargs
+const argv = yargs
   .version()
   .usage('Usage: gitdocs <command> [options]')
   .command({
@@ -137,3 +135,5 @@ var argv = yargs
   .demand(1, 'must provide a valid command')
   .help('h')
   .alias('h', 'help').argv
+
+export default argv

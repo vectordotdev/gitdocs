@@ -82,32 +82,32 @@ injectGlobal`
 
   h1 {
     font-size: 2em;
-    margin: .67em 0;
+    margin: 1rem 0 .2rem;
   }
 
   h2 {
     font-size: 1.7em;
-    margin: .3em 0;
+    margin: 1rem 0 .2rem;
   }
 
   h3 {
     font-size: 1.5em;
-    margin: .3em 0;
+    margin: 1rem 0 .2rem;
   }
 
   h4 {
     font-size: 1.3em;
-    margin: .3em 0;
+    margin: 1rem 0 .2rem;
   }
 
   h5 {
     font-size: 1.2em;
-    margin: .3em 0;
+    margin: 1rem 0 .2rem;
   }
 
   h6 {
     font-size: 1.1em;
-    margin: .3em 0;
+    margin: 1rem 0 .2rem;
   }
 
   figcaption,

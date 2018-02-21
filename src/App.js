@@ -7,10 +7,12 @@ import NProgress from 'nprogress'
 import Sidebar from 'components/Sidebar'
 import 'styles/global'
 import Wrapper from './Wrapper'
-import defaultSidebar from '../default.json'
+import defaultConfig from '../default.js'
 
 class App extends Component {
-  static defaultProps = defaultSidebar
+  static defaultProps = {
+    config: defaultConfig,
+  }
 
   state = {
     sidebarIsOpen: true, // window ? window.innerWidth > 700 : true,

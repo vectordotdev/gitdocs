@@ -44,22 +44,28 @@ export default styled.div`
     font-style: italic;
   }
 
-  code {
+  & :not(pre) > code {
     font-size: .9em;
-    background: rgba(0, 0, 0, .05);
     border-radius: 4px;
-    padding: .05rem .25rem !important;
     display: inline-block;
     margin: 0;
+    padding: .05rem .25rem !important;
+    background: rgba(0, 0, 0, .05);
   }
 
   pre {
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: .9rem;
     line-height: 1.45;
+    display: block;
+    overflow-x: auto;
+    color: rgb(56, 58, 66);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.5em;
 
-    code {
-      background: initial;
+    pre {
+      padding: 0 !important;
+      margin: 0 !important;
     }
   }
 

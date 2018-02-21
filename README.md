@@ -1,7 +1,7 @@
----
-layout: post
+<!-- ---
 title: Blogging Like a Hacker
----
+layout: post
+--- -->
 
 # GitDocs
 
@@ -9,7 +9,7 @@ Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.
 
 ## How does it work?
 
-It turns markdown files in your `/docs` folder (or wherever you choose) into rich, interactive documentation. Out of the box you get helpers like [syntax highlighting](syntax/languages) using [Prism](prismjs.com) or [Highlight.js](https://highlightjs.org/), callouts like [Tip](writing/helpers#tip), <Highlight>highlight</Highlight> and much more. You can even extend GitDocs to support custom components using libraries like React and Vue.
+It turns markdown files in your `/docs` folder (or wherever you choose) into rich, interactive documentation. Out of the box you get helpers like [syntax highlighting](syntax/languages) using [Prism](prismjs.com) or [Highlight.js](https://highlightjs.org/), callouts like [Tip](components/helpers#tip), <Highlight>highlight</Highlight> and much more. You can even extend GitDocs to support custom components using libraries like React and Vue.
 
 `gitdocs` is distributed as a package on npm. It is a cli that you can simply install with `npm install gitdocs -g`. You can run `gitdocs serve` to preview your docs or `gitdocs build` to generate a static site wherever you like.
 

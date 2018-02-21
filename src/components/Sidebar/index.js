@@ -19,7 +19,7 @@ const Sidebar = ({ tree, config, sidebarIsOpen, onSidebarToggle }) => (
           <a href={config.repository}>{config.name}</a> <span>v. {config.version}</span>
         </span>
       </Header>
-      <ul>{tree.map(item => <SidebarItem item={item} key={item.path} config={config} />)}</ul>
+      <ul>{tree.map(item => <SidebarItem item={item} key={item.name} config={config} />)}</ul>
     </div>
   </Wrapper>
 )

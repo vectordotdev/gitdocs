@@ -49,6 +49,7 @@ class SidebarItem extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (
       this.props.location &&
+      nextProps.location &&
       this.props.location.pathname !== nextProps.location.pathname &&
       this.getUnderActiveRoute(nextProps)
     ) {
@@ -85,7 +86,7 @@ class SidebarItem extends React.Component {
         {expanded &&
           children && (
             <ul>
-              {children.map(item => <SidebarItem item={item} key={item.link} config={config} />)}
+              {children.map(item => <SidebarItem item={item} key={item.name} config={config} />)}
             </ul>
           )}
       </li>

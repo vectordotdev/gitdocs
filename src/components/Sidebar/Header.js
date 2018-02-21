@@ -4,7 +4,7 @@ export default styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #dfe3e8;
-  padding: 1rem 1.5rem;
+  padding: 1.1rem 1.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #919eab;

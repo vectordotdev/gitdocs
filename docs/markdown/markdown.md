@@ -15,6 +15,7 @@ Note that there is also a [Cheatsheet specific to Markdown Here](./Markdown-Here
 #### H4
 ##### H5
 ###### H6
+```
 
 ## Emphasis
 
@@ -37,8 +38,7 @@ Combined emphasis with **asterisks and _underscores_**.
 Strikethrough uses two tildes. ~~Scratch this.~~
 
 ## Lists
-
-(In this example, leading and trailing spaces are shown with with dots: ⋅)
+In this example, leading and trailing spaces are shown with with dots: (⋅)
 
 ```
 1. First ordered list item
