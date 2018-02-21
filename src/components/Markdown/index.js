@@ -47,7 +47,6 @@ const renderers = {
   danger: Danger,
   highlight: Highlight,
   mermaid: Mermaid,
-  react: props => <strong>{props.children}</strong>,
 }
 
 class Markdown extends PureComponent {

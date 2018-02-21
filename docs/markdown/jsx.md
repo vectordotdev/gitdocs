@@ -1,8 +1,7 @@
 # JSX in Markdown
 
-You can also use arrow functions and more advanced expressions, provided the function does not use any input other than literals. The following will work and will evaluate the property to `'abc'`.
-
-<react><ul><li>Test!</li></ul></react>
+Coming soon... stay tuned!
+<!-- You can also use arrow functions and more advanced expressions, provided the function does not use any input other than literals. The following will work and will evaluate the property to `'abc'`.
 
 ## Arrow Functions
 
@@ -44,4 +43,4 @@ The GitDocs JSX markdown processor supports accessing object properties, such as
 <ReactComponent attr={[3, 4].length} />
 ```
 
-will set the attribute named `attr` to `2`.
+will set the attribute named `attr` to `2`. -->

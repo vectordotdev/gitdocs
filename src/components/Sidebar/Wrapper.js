@@ -39,7 +39,7 @@ export default styled.aside`
   @media (min-width: 1500px) {
     position: fixed;
     background: #fff;
-    margin: 2rem 0;
+    margin: 2rem 0 0;
     padding-top: 0;
     left: 50%;
     transform: translateX(-600px);
@@ -48,7 +48,7 @@ export default styled.aside`
   ul {
     list-style: none;
     padding: 0;
-    margin: 0 0 1.5rem 0;
+    margin: 0;
   }
 
   ul ul {

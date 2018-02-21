@@ -30,7 +30,7 @@ gantt
 
 ## Configuring Sizes
 
-The `<Mermaid>` component supports `width` and `height` attributes to override the size of the diagram SVG. 
+The `<Mermaid>` component supports `width` and `height` attributes to override the size of the diagram SVG.
 
 ```markdown
 <Mermaid width="400px">
@@ -58,12 +58,12 @@ gantt
     another task      : 24d
 </Mermaid>
 
-## Custom Configs
+<!-- ## Custom Configs
 
 Each Mermaid diagram is highly customizable. The `<Mermaid>` component takes an optional `config` parameter that points to an object with the properties you want to configure.
 
 ```jsx
-<Mermaid config={{ gantt: {barGap: 20 }}}>
+<Mermaid config="{{ gantt: {barGap: 20 }}}">
 gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD
@@ -76,7 +76,7 @@ gantt
 </Mermaid>
 ```
 
-<Mermaid config={{ gantt: { barGap: 20 } }}>
+<Mermaid config="{{ gantt: { barGap: 20 } }}">
 gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD
@@ -86,4 +86,4 @@ gantt
     section Another
     Task in sec      :2014-01-12  , 12d
     another task      : 24d
-</Mermaid>
+</Mermaid> -->
