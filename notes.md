@@ -1,3 +1,5 @@
+"Git based documentation & knowledge base."
+
 ### Worth checking out
 
 * https://github.com/SBoudrias/Inquirer.js
@@ -14,6 +16,11 @@
 * https://developer.paciellogroup.com/blog/2017/09/infusion-an-inclusive-documentation-builder/
 * https://docs.resin.io/raspberrypi3/nodejs/getting-started/#introduction
 * https://twitter.com/mjackson/status/953818596211294208
+* https://developer.kayako.com/api/v1/users/activities/
+* https://docusaurus.io/docs/en/api-pages.html
+* https://docs.smooch.io/changelog/
+* https://help.helpjuice.com/Internal-Knowledge-Bases/can-i-hide-some-categories-questions-from-public
+* https://stripe.com/atlas/guides
 
 ### Resources
 
