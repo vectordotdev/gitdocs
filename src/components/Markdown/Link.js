@@ -10,7 +10,12 @@ const LinkRenderer = ({ children = [], href, name, doc = {} }) => {
     return <a href={href}>{children}</a>
   }
 
-  const className = doc.path === href ? 'link active' : 'link'
+  const to =
+    href.charAt(0) === '/'
+      ? href.replace('.md', '').toLowerCase()
+      : `/${href.replace('.md', '')}`.toLowerCase()
+
+  const className = doc.path === to ? 'link active' : 'link'
 
   if (href.charAt(0) === '/') {
     return (
