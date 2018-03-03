@@ -73,7 +73,7 @@ if (config.sidebar && config.sidebar.items) {
 }
 
 tree = mapTree(tree, item => {
-  const fullFileName = item.src.split('#')[0]
+  const fullFileName = item.src ? item.src.split('#')[0] : ''
   const fileName = fullFileName.replace('.md', '')
   try {
     const fileContent = item.src ? fs.readFileSync(path.resolve(ROOT, fullFileName), 'utf8') : ''
@@ -139,7 +139,7 @@ export default {
       // Build the routes
       ...files
         .filter(
-          (value, index, self) => value.src && self.findIndex(d => d.path === value.path) === index,
+          (value, index, self) => value.src && self.findIndex(d => d.path === value.path) === index
         )
         .map(file => ({
           path: file.path,
@@ -225,9 +225,9 @@ function mapTree (item, cb) {
       .filter(d => (d.children ? d.children.length : true))
       .sort(
         (a, b) =>
-          (a.order > b.order
+          a.order > b.order
             ? 1
-            : a.order < b.order ? -1 : a.index > b.index ? 1 : a.index < b.index ? -1 : 0),
+            : a.order < b.order ? -1 : a.index > b.index ? 1 : a.index < b.index ? -1 : 0
       )
   }
   if (item.children) {
@@ -237,9 +237,9 @@ function mapTree (item, cb) {
       .filter(d => (d.children ? d.children.length : true))
       .sort(
         (a, b) =>
-          (a.order > b.order
+          a.order > b.order
             ? 1
-            : a.order < b.order ? -1 : a.index > b.index ? 1 : a.index < b.index ? -1 : 0),
+            : a.order < b.order ? -1 : a.index > b.index ? 1 : a.index < b.index ? -1 : 0
       )
   }
   return cb(item)

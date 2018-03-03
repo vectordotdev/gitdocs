@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   name: 'GitDocs',
   version: '0.0.1',
   script: 'custom.js',

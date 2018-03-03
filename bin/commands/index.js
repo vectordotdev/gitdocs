@@ -1,10 +1,10 @@
-import chalk from 'chalk'
-import path from 'path'
-import yargs from 'yargs'
+const chalk = require('chalk')
+const path = require('path')
+const yargs = require('yargs')
 
-import buildHandler from './build'
-import initHandler from './init'
-import serveHandler from './serve'
+const buildHandler = require('./build')
+const initHandler = require('./init')
+const serveHandler = require('./serve')
 
 const cwd = process.cwd()
 
@@ -21,7 +21,7 @@ const reactStaticWorkDir = path.join(__dirname, '../..')
 // build (version, output)
 // init (@config) (create /doc, /docs/public, docs.json, etc)
 
-const argv = yargs
+yargs // eslint-disable-line
   .version()
   .usage('Usage: gitdocs <command> [options]')
   .command({
@@ -135,5 +135,3 @@ const argv = yargs
   .demand(1, 'must provide a valid command')
   .help('h')
   .alias('h', 'help').argv
-
-export default argv
