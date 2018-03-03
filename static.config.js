@@ -33,7 +33,7 @@ if (!hasReadme) {
 
 // Grab optional docs.js config and warn if it doesn't exist
 try {
-  customConfig = require(path.resolve(DOCS_SRC, 'docs.js')).default // eslint-disable-line
+  customConfig = require(path.resolve(DOCS_SRC, 'docs.js')) // eslint-disable-line
 } catch (e) {
   console.log(e)
   console.warn('warning: no docs.js found, you may want to add one.')
@@ -46,7 +46,8 @@ const dynamicOptions = {}
 if (process.env.version) {
   dynamicOptions.version = process.env.version
 }
-const config = merge(defaults, customConfig, dynamicOptions)
+
+const config = merge({}, defaults, customConfig, dynamicOptions)
 
 if (config.syntax) {
   process.env.GITDOCS_SYNTAX = JSON.stringify(config.syntax)
@@ -58,6 +59,7 @@ if (config.sidebar && config.sidebar.items) {
     src: item.src ? path.resolve(DOCS_SRC, item.src) : '',
   }))
 } else {
+  console.log('hello')
   // Pull out the markdown files in the /docs directory
   tree = dirTree(DOCS_SRC, { extensions: /\.md/ }).children
 
@@ -124,7 +126,7 @@ tree = mapTree(tree, item => {
     })
     return newItem
   } catch (e) {
-    console.warn(`Error! Could not find file: ${fileName}`)
+    console.warn(`Error! Could not find file: ${fileName} from `, JSON.stringify(item, null, 2))
     process.exit(1)
   }
 })
