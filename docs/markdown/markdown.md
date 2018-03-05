@@ -287,7 +287,7 @@ You can embed different property types including strings, numbers, and objects.
 <ReactComponent stringProp="abc" numberProp={45} objectProp={{ prop: "val" }} />
 ```
 
-More details are in the [JSX markdown documentation](jsx.md)
+More details are in the [JSX markdown documentation](jsx)
 
 ## Line Breaks
 

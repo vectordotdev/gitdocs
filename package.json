@@ -29,7 +29,7 @@
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
     "react-smackdown": "^0.8.7",
-    "react-static": "^5.2.0",
+    "react-static": "5.4.0-beta.2",
     "react-syntax-highlighter": "^6.0.4",
     "serve": "^6.1.0",
     "styled-components": "2.2.0",

@@ -25,7 +25,7 @@ The build command builds your documentation for release. The command takes two (
 
 `gitdocs serve [path]`
 
-The serve command lets you preview your documentation locally. The command takes a single optional positional argument. If this argument is not specified, the `react-static` dev server is used to display the documentation. This 
+The serve command lets you preview your documentation locally. The command takes a single optional positional argument. If this argument is not specified, the `react-static` dev server is used to display the documentation. This
 
 | Argument | Optional? | Default | Use |
 | -------- | --------- | ------- | --- |
@@ -46,4 +46,4 @@ Additionally, the following flags may be used:
 
 The deploy command will build your documentation and deploy it to a location of your choosing. The location is specified using a position argument. Currently the following values are supported
 
-* ['gh-pages'](/deploying/github.md)
+* ['gh-pages'](/deploying/github)

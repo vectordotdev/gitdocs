@@ -4,7 +4,7 @@ GitDocs offers extremely flexible and performant syntax highlighting for hundred
 
 ### Pick Your Highlighter
 
-GitDocs has out of the box support for both [Prism](prismjs.com) or [Highlight.js](https://highlightjs.org/), Prism is the default but you can easily override this by specifying
+GitDocs has out of the box support for both [Prism](https://prismjs.com) or [Highlight.js](https://highlightjs.org/), Prism is the default but you can easily override this by specifying
 
 ```json
 highlighter: "highlight.js"
