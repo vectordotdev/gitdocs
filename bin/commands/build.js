@@ -1,21 +1,20 @@
-const { execSync } = require('child_process')
-const fs = require('fs-extra')
+/* eslint-disable import/first, import/no-dynamic-require */
+require('babel-register')
+require('react-static/lib/utils/binHelper')
 const path = require('path')
+const { build } = require('react-static/node')
 
-module.exports = function buildHandler ({ argv, cwd, reactStatic, reactStaticWorkDir }) {
-  console.log(`Building your docs at "${argv.output}"`)
-  execSync(`${reactStatic} build`, {
-    cwd: reactStaticWorkDir,
-    env: Object.assign(
-      {
-        GITDOCS_CWD: cwd,
-        version: argv['doc-version'],
-      },
-      process.env
-    ),
-    stdio: [process.stdin, process.stdout, process.stderr],
-  })
+const getConfig = require(path.resolve(__dirname, '../../static.config.js')).default
 
-  const distDir = path.join(reactStaticWorkDir, 'dist')
-  fs.copySync(distDir, argv.output)
+module.exports = function buildHandler ({ output, docVersion }) {
+  console.log(`Building your docs at: "${output}"`)
+  try {
+    const config = getConfig({ output, docVersion })
+    return build({
+      config,
+      silent: false,
+    })
+  } catch (err) {
+    console.log(err)
+  }
 }

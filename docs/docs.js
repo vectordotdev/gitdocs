@@ -1,11 +1,6 @@
 module.exports = {
   name: 'GitDocs',
   title: 'GitDocs',
-  version: '0.0.1',
-  script: 'custom.js',
-  css: 'custom.css',
-  favicon: 'favicon.ico',
-  cover: 'docs-cover.png',
   repository: 'https://github.com/timberio/gitdocs',
   license: 'MIT',
   syntax: {

@@ -30,6 +30,14 @@ yargs // eslint-disable-line
     desc: chalk.gray('serve'),
     builder: yargs =>
       yargs.options({
+        output: {
+          alias: 'o',
+          default: 'docs-dist',
+          desc: chalk.gray('build.output'),
+          nargs: 1,
+          requiresArg: true,
+          type: 'string',
+        },
         port: {
           alias: 'P',
           default: 3000,
@@ -39,12 +47,11 @@ yargs // eslint-disable-line
           type: 'number',
         },
       }),
-    handler: argv => {
+    handler: ({ port, path, output }) => {
       serveHandler({
-        argv,
-        cwd,
-        reactStatic,
-        reactStaticWorkDir,
+        output,
+        port,
+        path,
       })
     },
   })
@@ -71,12 +78,10 @@ yargs // eslint-disable-line
           type: 'string',
         },
       }),
-    handler: argv => {
+    handler: ({ output, docVersion }) => {
       buildHandler({
-        argv,
-        cwd,
-        reactStatic,
-        reactStaticWorkDir,
+        output,
+        docVersion,
       })
     },
   })

@@ -1,19 +1,24 @@
+/* eslint-disable import/first, import/no-dynamic-require */
+require('babel-register')
+require('react-static/lib/utils/binHelper')
+const nodePath = require('path')
+const { start } = require('react-static/node')
 const chalk = require('chalk')
-const { execSync } = require('child_process')
 const serve = require('serve')
 
-module.exports = function handler ({ argv, cwd, reactStatic, reactStaticWorkDir }) {
-  if (argv.path) {
-    console.log(chalk.green(`Serving ${argv.path}`))
-    serve(argv.path, {
-      port: argv.port,
+const getConfig = require(nodePath.resolve(__dirname, '../../static.config.js')).default
+
+module.exports = function handler ({ output, port, path }) {
+  if (path) {
+    console.log(chalk.green(`Serving from: ${path}`))
+    serve(path, {
+      port,
     })
   } else {
-    console.log('Serving from ./docs...')
-    execSync(`${reactStatic} start`, {
-      cwd: reactStaticWorkDir,
-      env: Object.assign({ GITDOCS_CWD: cwd }, process.env),
-      stdio: [process.stdin, process.stdout, process.stderr],
+    console.log('Serving from: docs...')
+    const config = getConfig({ output })
+    start({
+      config,
     })
   }
 }
