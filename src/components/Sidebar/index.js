@@ -16,7 +16,7 @@ export default function Sidebar ({ tree, config, sidebarIsOpen, onSidebarToggle 
       <div className="inner">
         <Header position={config.sidebar.position}>
           <span>
-            <a href={config.repository}>{config.name}</a> <span>v. {config.version}</span>
+            <a href={config.repository}>{config.name}</a>
           </span>
         </Header>
         <ul>{tree.map(item => <SidebarItem item={item} key={item.name} config={config} />)}</ul>
