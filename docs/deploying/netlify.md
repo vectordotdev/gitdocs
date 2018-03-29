@@ -1,3 +1,0 @@
-# Netlify
-
-Coming soon...

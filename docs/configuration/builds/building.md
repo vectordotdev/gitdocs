@@ -1,3 +1,0 @@
-### Building
-
-Here's how you build it...

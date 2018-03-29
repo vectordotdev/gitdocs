@@ -1,57 +1,67 @@
 {
-  "name": "gitdocs",
-  "version": "1.5.16",
-  "main": "index.js",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/timberio/gitdocs.git"
-  },
-  "preferGlobal": true,
-  "scripts": {
-    "start": "bin/gitdocs serve",
-    "build": "bin/gitdocs build",
-    "serve": "serve docs-dist -p 3000",
-    "lint": "eslint . -c .eslintrc.js",
-    "test": "jest"
-  },
-  "dependencies": {
-    "chalk": "^2.3.0",
-    "classnames": "^2.2.5",
-    "directory-tree": "^2.0.0",
-    "gray-matter": "^3.1.1",
-    "inquirer": "^4.0.1",
-    "is-global": "^0.1.0",
-    "lodash.merge": "^4.6.0",
-    "mermaid": "^7.1.1",
-    "nprogress": "^0.2.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-router": "^4.2.0",
-    "react-smackdown": "^0.8.7",
-    "react-static": "^5.6.8",
-    "react-syntax-highlighter": "^6.0.4",
-    "serve": "^6.1.0",
-    "styled-components": "2.2.0",
-    "unified": "^6.1.6",
-    "yargs": "^10.0.3"
-  },
-  "devDependencies": {
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "eslint-config-react-tools": "1.x.x",
-    "eslint-plugin-jest": "^21.5.0",
-    "jest": "^22.0.3",
-    "jest-cli": "^22.0.3"
-  },
-  "bin": {
-    "gitdocs": "bin/gitdocs"
-  },
-  "jest": {
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
-    "setupTestFrameworkScriptFile": "./.jest.setup.js"
-  }
+	"name": "gitdocs",
+	"version": "2.0.0",
+	"description": "Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.",
+	"license": "MIT",
+	"homepage": "https://github.com/timberio/gitdocs#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/timberio/gitdocs.git"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"keywords": [
+		"documentation",
+		"static",
+		"markdown",
+		"react",
+		"docs"
+	],
+	"files": [
+		"bin/",
+		"dist/",
+		"license.md",
+		"readme.md"
+	],
+	"main": "dist/index.js",
+	"bin": {
+		"gitdocs": "bin/gitdocs"
+	},
+	"scripts": {
+		"test:lint": "echo 'no linting in place yet' && exit 0",
+		"test:unit": "ava 'src/**/*.spec.js'",
+		"test:integration": "ava 'tests/**/*.test.js'",
+		"test": "npm-run-all test:*",
+		"prebuild": "rm -rf dist",
+		"build": "babel src -d dist",
+		"watch": "npm run build -- -w"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.0.0-beta.42",
+		"@babel/core": "^7.0.0-beta.42",
+		"@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.42",
+		"@babel/register": "^7.0.0-beta.42",
+		"ava": "^0.25.0",
+		"npm-run-all": "^4.1.2",
+		"sinon": "^4.4.9"
+	},
+	"dependencies": {
+		"chalk": "^2.3.2",
+		"minimist": "^1.2.0"
+	},
+	"babel": {
+		"plugins": [
+			"@babel/plugin-transform-modules-commonjs"
+		],
+		"ignore": [
+			"**/*.{spec,test}.js"
+		]
+	},
+	"ava": {
+		"require": [
+			"@babel/register",
+			"./tests/helpers.js"
+		]
+	}
 }

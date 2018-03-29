@@ -1,6 +1,6 @@
 # License
 
-Copyright (c) 2016, Timber Technologies, Inc.
+Copyright (c) 2018, Timber Technologies, Inc.
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
