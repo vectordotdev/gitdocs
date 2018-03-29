@@ -29,7 +29,7 @@
 		"gitdocs": "bin/gitdocs"
 	},
 	"scripts": {
-		"test:lint": "echo 'no linting in place yet' && exit 0",
+		"test:lint": "eslint bin src tests",
 		"test:unit": "ava 'src/**/*.spec.js'",
 		"test:integration": "ava 'tests/**/*.test.js'",
 		"test": "npm-run-all test:*",
@@ -43,6 +43,8 @@
 		"@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.42",
 		"@babel/register": "^7.0.0-beta.42",
 		"ava": "^0.25.0",
+		"eslint": "^4.19.1",
+		"eslint-config-timber": "^1.0.0",
 		"npm-run-all": "^4.1.2",
 		"nyc": "^11.6.0",
 		"sinon": "^4.4.9"
@@ -50,6 +52,9 @@
 	"dependencies": {
 		"chalk": "^2.3.2",
 		"minimist": "^1.2.0"
+	},
+	"eslintConfig": {
+		"extends": "timber"
 	},
 	"babel": {
 		"plugins": [
