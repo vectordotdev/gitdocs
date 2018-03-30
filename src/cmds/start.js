@@ -1,7 +1,13 @@
 import chalk from 'chalk'
+import { generateRoutes } from '../utils/routes'
 
-export default async function () {
-  console.log('start')
+export default async function (config, args) {
+  const routes = await generateRoutes(
+    config.baseDir,
+    config.get('output')
+  )
+
+  console.log(JSON.stringify(routes))
 }
 
 export const menu = `

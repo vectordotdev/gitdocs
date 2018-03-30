@@ -9,9 +9,7 @@ const FILENAMES = [
 ]
 
 const DEFAULTS = {
-  docs: {
-
-  },
+  output: 'docs/dist',
   sidebar: {
 
   },

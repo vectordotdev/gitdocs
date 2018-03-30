@@ -21,7 +21,7 @@ export default async function () {
     // run the command, or show the help menu
     args.help || args.mainCmd === 'help'
       ? emit.log(module.menu, true)
-      : await module.default(args, config)
+      : await module.default(config, args)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       err = `"${args.mainCmd}" is not a valid gitdocs command`
