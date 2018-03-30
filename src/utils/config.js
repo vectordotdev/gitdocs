@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
+import deepmerge from 'deepmerge'
 
 const FILENAMES = {
   docs: 'docs.json',
@@ -29,10 +30,8 @@ export default function (dir = 'docs') {
 
     try {
       const filename = path.resolve(baseDir, FILENAMES[namespace])
-
-      const data = fs.pathExistsSync(filename)
-        ? fs.readJsonSync(filename)
-        : DEFAULTS[namespace]
+      const userData = fs.pathExistsSync(filename) ? fs.readJsonSync(filename) : {}
+      const data = deepmerge(DEFAULTS[namespace], userData)
 
       return key ? data[key] : data
     } catch (err) {
