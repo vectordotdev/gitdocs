@@ -1,12 +1,12 @@
 import path from 'path'
 import fs from 'fs-extra'
 import deepmerge from 'deepmerge'
+import objectPath from 'object-path'
 
-const FILENAMES = {
-  docs: 'docs.json',
-  sidebar: 'sidebar.json',
-  theme: 'theme.json'
-}
+const FILENAMES = [
+  '.gitdocs',
+  '.gitdocs.json'
+]
 
 const DEFAULTS = {
   docs: {
@@ -20,39 +20,52 @@ const DEFAULTS = {
   }
 }
 
-export default function (dir = 'docs') {
-  const baseDir = path.resolve(process.cwd(), dir, 'config')
+function findConfig () {
+  const filename = FILENAMES.find(fs.pathExistsSync)
+  return filename ? path.resolve(filename) : null
+}
 
-  const get = (namespace, key) => {
-    if (!FILENAMES[namespace]) {
-      throw new Error(`"${namespace}.json" is not a valid config file`)
-    }
+function get (key) {
+  const configFile = findConfig()
 
-    try {
-      const filename = path.resolve(baseDir, FILENAMES[namespace])
-      const userData = fs.pathExistsSync(filename) ? fs.readJsonSync(filename) : {}
-      const data = deepmerge(DEFAULTS[namespace], userData)
-
-      return key ? data[key] : data
-    } catch (err) {
-      // make sure config value has valid json
-      throw new Error(`Could not read config file at ${filename}`)
-    }
+  // no custom user config
+  if (!configFile) {
+    return DEFAULTS
   }
 
-  const save = (namespace, key, value) => {
-    const data = get(namespace)
-    const filename = path.resolve(baseDir, FILENAMES[namespace])
+  try {
+    const userData = fs.readJsonSync(configFile)
+    const mergedData = deepmerge(DEFAULTS, userData)
 
-    data[key] = value
-
-    fs.outputJsonSync(filename, data, {
-      spaces: 2
-    })
+    return key
+      ? objectPath.get(mergedData, key.split('.'))
+      : mergedData
+  } catch (err) {
+    // make sure config value has valid json
+    throw new Error(`Could not read ${configFile}. Is it valid JSON?`)
   }
+}
+
+function set (key, value) {
+  const configFile = findConfig()
+  const data = get()
+
+  objectPath.set(data, key, value)
+
+  fs.outputJsonSync(configFile, data, {
+    spaces: 2
+  })
+}
+
+export default function (dir) {
+  const baseDir = path.resolve(
+    process.cwd(),
+    dir || 'docs'
+  )
 
   return {
+    baseDir,
     get,
-    save
+    set
   }
 }
