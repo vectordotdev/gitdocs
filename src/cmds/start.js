@@ -11,5 +11,4 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
-    ${chalk.italic.dim('no options yet')}
-`
+    ${chalk.italic.dim('no options yet')}`

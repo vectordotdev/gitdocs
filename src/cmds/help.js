@@ -10,11 +10,12 @@ export const menu = `
 
   ${chalk.bold.underline('commands')}
 
-    start ${chalk.dim('................')} runs the development server
-    build ${chalk.dim('................')} creates a static production bundle
-    help ${chalk.dim('.................')} show the help menu for a command
+    start ${chalk.dim('...................')} runs the development server
+    build ${chalk.dim('...................')} creates a static production bundle
+    help ${chalk.dim('....................')} show the help menu for a command
 
   ${chalk.bold.underline('options')}
 
-    --help ${chalk.dim('...............')} display the usage menu for a command
-    --version ${chalk.dim('............')} show the version number`
+    --directory, -d ${chalk.dim('.........')} the base documentation directory
+    --help, -h ${chalk.dim('..............')} display the usage menu for a command
+    --version, -v ${chalk.dim('...........')} show the version number`

@@ -7,6 +7,7 @@ export function parseArgv () {
       'version'
     ],
     alias: {
+      directory: ['d'],
       help: ['h'],
       version: ['v']
     }
