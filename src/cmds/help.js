@@ -10,6 +10,7 @@ export const menu = `
 
   ${chalk.bold.underline('commands')}
 
+    init ${chalk.dim('....................')} initialize a new project
     start ${chalk.dim('...................')} runs the development server
     build ${chalk.dim('...................')} creates a static production bundle
     help ${chalk.dim('....................')} show the help menu for a command
