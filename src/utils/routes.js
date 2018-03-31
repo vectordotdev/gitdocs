@@ -43,5 +43,6 @@ export async function generateRoutes (baseDir, outputDir) {
     return info
   }
 
-  return (await walk(baseDir)).children
+  const tree = await walk(baseDir)
+  return tree ? tree.children : []
 }

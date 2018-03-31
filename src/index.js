@@ -1,4 +1,5 @@
 import emit from './utils/emit'
+import getConfig from './utils/config'
 import { parseArgv } from './utils/arguments'
 import { version } from '../package.json'
 
@@ -6,6 +7,9 @@ export default async function () {
   const args = parseArgv()
 
   try {
+    // create config getter/setter
+    const config = getConfig(args.config)
+
     // show gitdocs version
     if (args.version) {
       return emit.log(`v${version}`)
@@ -17,7 +21,7 @@ export default async function () {
     // run the command, or show the help menu
     args.help || args.mainCmd === 'help'
       ? emit.log(module.menu, true)
-      : await module.default(args)
+      : await module.default(config, args)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       err = `"${args.mainCmd}" is not a valid gitdocs command`

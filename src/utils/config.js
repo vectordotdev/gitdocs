@@ -1,7 +1,7 @@
-import path from 'path'
 import fs from 'fs-extra'
 import deepmerge from 'deepmerge'
 import objectPath from 'object-path'
+import emit from './emit'
 
 const FILENAMES = [
   '.gitdocs',
@@ -19,44 +19,42 @@ const DEFAULTS = {
   }
 }
 
-function findConfig () {
-  const filename = FILENAMES.find(fs.pathExistsSync)
-  return filename ? path.resolve(filename) : null
-}
-
-function get (key) {
-  const configFile = findConfig()
-
-  // no custom user config
-  if (!configFile) {
-    return DEFAULTS
-  }
-
+function safeRead (file) {
   try {
-    const userData = fs.readJsonSync(configFile)
-    const mergedData = deepmerge(DEFAULTS, userData)
-
-    return key
-      ? objectPath.get(mergedData, key.split('.'))
-      : mergedData
+    return fs.readJsonSync(file)
   } catch (err) {
-    // make sure config value has valid json
-    throw new Error(`Could not read ${configFile}. Is it valid JSON?`)
+    throw new Error(`Could not read config file: ${file}`)
   }
 }
 
-function set (key, value) {
-  const configFile = findConfig()
-  const data = get()
+export default function (customFile) {
+  if (customFile) {
+    // prioritize custom config file if passed
+    FILENAMES.unshift(customFile)
 
-  objectPath.set(data, key, value)
+    if (!fs.pathExistsSync(customFile)) {
+      emit.warn(`"${customFile}" was not found, falling back to default config file`)
+    }
+  }
 
-  fs.outputJsonSync(configFile, data, {
-    spaces: 2
-  })
-}
+  const configFile = FILENAMES.find(fs.pathExistsSync)
+  const config = configFile
+    ? deepmerge(DEFAULTS, safeRead(configFile))
+    : DEFAULTS
 
-export default {
-  get,
-  set
+  return {
+    get: (key) => {
+      return key
+        ? objectPath.get(config, key.split('.'))
+        : config
+    },
+
+    set: (key, value) => {
+      objectPath.set(config, key, value)
+
+      fs.outputJsonSync(configFile, config, {
+        spaces: 2
+      })
+    }
+  }
 }

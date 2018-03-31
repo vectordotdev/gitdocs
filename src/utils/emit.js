@@ -4,6 +4,10 @@ function log (msg, bottomPad) {
   process.stdout.write(`${msg}${bottomPad ? '\n' : ''}`)
 }
 
+function warn (msg) {
+  process.stderr.write(chalk.yellow(`Warning: ${msg}\n`))
+}
+
 function error (err, exit) {
   err.name !== 'Error' && err.stack
     ? process.stderr.write(chalk.dim(err.stack))
@@ -14,5 +18,6 @@ function error (err, exit) {
 
 export default {
   log,
+  warn,
   error
 }

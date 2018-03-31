@@ -1,8 +1,7 @@
 import chalk from 'chalk'
-import config from '../utils/config'
 import { generateRoutes } from '../utils/routes'
 
-export default async function (args) {
+export default async function (config, args) {
   const routes = await generateRoutes(
     args._[1] || config.get('root'),
     config.get('output')

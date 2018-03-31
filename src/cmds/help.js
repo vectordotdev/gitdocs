@@ -16,5 +16,6 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
+    --config, -c ${chalk.dim('............')} customize the config file location
     --help, -h ${chalk.dim('..............')} display the usage menu for a command
     --version, -v ${chalk.dim('...........')} show the version number`
