@@ -8,7 +8,9 @@ export function parseArgv () {
     ],
     alias: {
       help: ['h'],
-      version: ['v']
+      version: ['v'],
+      // cmds/build
+      output: ['o']
     }
   })
 

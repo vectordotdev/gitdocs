@@ -4,7 +4,7 @@ import { generateRoutes } from '../utils/routes'
 
 export default async function (args) {
   const routes = await generateRoutes(
-    config.get('root'),
+    args._[1] || config.get('root'),
     config.get('output')
   )
 
@@ -14,7 +14,7 @@ export default async function (args) {
 export const menu = `
   ${chalk.bold.underline('usage')}
 
-    gitdocs start [options]
+    gitdocs start [dir] [options]
 
   ${chalk.bold.underline('options')}
 

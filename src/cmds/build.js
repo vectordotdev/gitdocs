@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 
 export default async function (args) {
+  // args.output
   console.log('build')
 }
 
@@ -11,4 +12,4 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
-    ${chalk.italic.dim('no options yet')}`
+    --output, -o ${chalk.dim('..............')} compile files into this directory`
