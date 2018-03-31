@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 module.exports = {
-  context: path.resolve(__dirname, '../templates/react'),
+  context: path.resolve(__dirname, '../sites/react'),
   entry: ['react-hot-loader/patch', './index.js'],
   module: {
     rules: [
@@ -14,10 +14,9 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env', 'react'],
+              presets: ['@babel/preset-env', '@babel/preset-react'],
             },
           },
-          { loader: 'eslint-loader' },
         ],
       },
       {

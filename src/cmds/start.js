@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import fs from 'fs-extra'
 import { generateRoutes } from '../utils/routes'
 import startDevServer from '../react/start'
 
@@ -10,7 +11,9 @@ export default async function (config, args) {
 
   console.log(JSON.stringify(routes))
 
-  // Start webpack development server, pass in proper directories
+  fs.mkdirSync('./node_modules/gitdocs/dist/sites/react/docs')
+  fs.copySync('./docs', './node_modules/gitdocs/dist/sites/react/docs')
+  process.chdir('./node_modules/gitdocs/dist')
   startDevServer()
 }
 
