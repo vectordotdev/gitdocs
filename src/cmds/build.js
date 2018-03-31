@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 
-export default async function (config, args) {
+export default async function (args) {
   console.log('build')
 }
 

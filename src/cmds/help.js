@@ -16,6 +16,5 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
-    --directory, -d ${chalk.dim('.........')} the base documentation directory
     --help, -h ${chalk.dim('..............')} display the usage menu for a command
     --version, -v ${chalk.dim('...........')} show the version number`

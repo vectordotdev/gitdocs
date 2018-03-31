@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs-extra'
-import objectPath from 'object-path'
 
 export async function generateRoutes (baseDir, outputDir) {
   if (!await fs.pathExists(baseDir)) {
@@ -37,7 +36,7 @@ export async function generateRoutes (baseDir, outputDir) {
 
       info.inputFile = filename
       info.outputFile = filename
-        .replace(baseDir, path.resolve(outputDir))
+        .replace(baseDir, outputDir)
         .replace(extension, '.html')
     }
 

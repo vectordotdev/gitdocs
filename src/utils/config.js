@@ -9,6 +9,7 @@ const FILENAMES = [
 ]
 
 const DEFAULTS = {
+  root: 'docs',
   output: 'docs/dist',
   sidebar: {
 
@@ -55,15 +56,7 @@ function set (key, value) {
   })
 }
 
-export default function (dir) {
-  const baseDir = path.resolve(
-    process.cwd(),
-    dir || 'docs'
-  )
-
-  return {
-    baseDir,
-    get,
-    set
-  }
+export default {
+  get,
+  set
 }
