@@ -34,12 +34,12 @@
 		"test:integration": "ava 'tests/**/*.test.js'",
 		"test": "npm-run-all test:*",
 		"prebuild": "rm -rf dist",
-		"build": "babel src -d dist",
+		"build": "babel src -d dist && npm run copy:templates",
+		"copy:templates": "cp -R templates/ dist/templates",
 		"watch": "npm run build -- -w"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.42",
-		"@babel/core": "^7.0.0-beta.42",
 		"@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.42",
 		"@babel/register": "^7.0.0-beta.42",
 		"ava": "^0.25.0",
@@ -50,11 +50,28 @@
 		"sinon": "^4.4.9"
 	},
 	"dependencies": {
+		"@babel/core": "^7.0.0-beta.42",
+		"@babel/preset-env": "^7.0.0-beta.42",
+		"@babel/preset-react": "^7.0.0-beta.42",
+		"babel-loader": "^7.1.4",
 		"chalk": "^2.3.2",
 		"deepmerge": "^2.1.0",
+		"eslint-loader": "^2.0.0",
 		"fs-extra": "^5.0.0",
+		"html-loader": "^0.5.5",
+		"html-webpack-plugin": "^3.1.0",
 		"minimist": "^1.2.0",
-		"object-path": "^0.11.4"
+		"object-path": "^0.11.4",
+		"raw-loader": "^0.5.1",
+		"react": "^16.3.0",
+		"react-dom": "^16.3.0",
+		"react-helmet": "^5.2.0",
+		"react-hot-loader": "^4.0.0",
+		"react-router-dom": "^4.2.2",
+		"styled-components": "^3.2.5",
+		"webpack": "^4.4.1",
+		"webpack-cli": "^2.0.13",
+		"webpack-dev-server": "^3.1.1"
 	},
 	"eslintConfig": {
 		"extends": "timber"
