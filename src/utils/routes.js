@@ -10,9 +10,10 @@ export async function generateRoutes (baseDir, outputDir) {
     const stats = await fs.stat(filename)
     const extension = path.extname(filename)
     const basename = path.basename(filename, extension)
+    const isIndex = basename === 'index'
 
     const info = {
-      path: `/${basename === 'index' ? '' : basename}`
+      path: `/${isIndex ? '' : basename}`
     }
 
     // don't include any files/folders that start with underscore
@@ -37,7 +38,7 @@ export async function generateRoutes (baseDir, outputDir) {
       info.inputFile = filename
       info.outputFile = filename
         .replace(baseDir, outputDir)
-        .replace(extension, '.html')
+        .replace(extension, isIndex ? '.html' : '/index.html')
     }
 
     return info
