@@ -3,15 +3,21 @@ import fs from 'fs-extra'
 import objectPath from 'object-path'
 
 export async function generateRoutes (baseDir, outputDir) {
-  const excludePattern = /^_/
+  if (!await fs.pathExists(baseDir)) {
+    throw new Error('Could not find any documentation')
+  }
 
   const walk = async filename => {
     const stats = await fs.stat(filename)
     const extension = path.extname(filename)
     const basename = path.basename(filename, extension)
-    const info = { path: `/${basename === 'index' ? '' : basename}` }
 
-    if (excludePattern.test(basename)) {
+    const info = {
+      path: `/${basename === 'index' ? '' : basename}`
+    }
+
+    // don't include any files/folders that start with underscore
+    if (/^_/.test(basename)) {
       return
     }
 
@@ -25,7 +31,11 @@ export async function generateRoutes (baseDir, outputDir) {
     }
 
     if (stats.isFile()) {
-      info.markdownFile = filename
+      if (extension !== '.md') {
+        return
+      }
+
+      info.inputFile = filename
       info.outputFile = filename
         .replace(baseDir, path.resolve(outputDir))
         .replace(extension, '.html')
@@ -34,6 +44,5 @@ export async function generateRoutes (baseDir, outputDir) {
     return info
   }
 
-  const tree = await walk(baseDir)
-  return tree.children
+  return (await walk(baseDir)).children
 }

@@ -5,8 +5,10 @@ function log (msg, bottomPad) {
 }
 
 function error (err, exit) {
-  process.stderr.write(chalk.red('Error:', err.message || err))
-  // err.stack && process.stderr.write(`\n${chalk.dim(err.stack)}`)
+  err.name !== 'Error' && err.stack
+    ? process.stderr.write(chalk.dim(err.stack))
+    : process.stderr.write(chalk.red(err.message || err))
+
   exit && process.exit(1)
 }
 
