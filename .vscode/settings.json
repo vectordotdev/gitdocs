@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": true,
+  // turn it off for JS
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "git.ignoreLimitWarning": true
+}

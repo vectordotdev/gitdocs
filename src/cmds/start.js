@@ -1,20 +1,20 @@
 import chalk from 'chalk'
-import fs from 'fs-extra'
 import { generateRoutes } from '../utils/routes'
-import startDevServer from '../react/start'
+import serve from '../config/react/serve'
 
-export default async function (config, args) {
+export default async function(config, args) {
   const routes = await generateRoutes(
     args._[1] || config.get('root'),
-    config.get('output')
+    config.get('output'),
   )
 
-  console.log(JSON.stringify(routes))
+  // console.log(JSON.stringify(routes))
 
-  fs.mkdirSync('./node_modules/gitdocs/dist/sites/react/docs')
-  fs.copySync('./docs', './node_modules/gitdocs/dist/sites/react/docs')
-  process.chdir('./node_modules/gitdocs/dist')
-  startDevServer()
+  // fs.mkdirSync('./node_modules/gitdocs/dist/sites/react/docs')
+  // fs.copySync('./docs', './node_modules/gitdocs/dist/sites/react/docs')
+  // process.chdir('./node_modules/gitdocs/dist')
+  // globby, chokedir
+  serve(args, config.get())
 }
 
 export const menu = `
@@ -24,4 +24,5 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
-    ${chalk.italic.dim('no options yet')}`
+    ${chalk.italic.dim('no options yet')}
+`

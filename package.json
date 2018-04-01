@@ -44,7 +44,7 @@
 		"@babel/register": "^7.0.0-beta.42",
 		"ava": "^1.0.0-beta.3",
 		"eslint": "^4.19.1",
-		"eslint-config-timber": "^1.0.4",
+		"eslint-config-timber": "^1.0.6",
 		"npm-run-all": "^4.1.2",
 		"nyc": "^11.6.0",
 		"sinon": "^4.4.9"
@@ -55,26 +55,44 @@
 		"@babel/preset-react": "^7.0.0-beta.42",
 		"babel-loader": "^8.0.0-beta.2",
 		"chalk": "^2.3.2",
+		"debug": "^3.1.0",
 		"deepmerge": "^2.1.0",
+		"detect-port": "^1.2.2",
 		"eslint-loader": "^2.0.0",
 		"fs-extra": "^5.0.0",
 		"html-loader": "^0.5.5",
 		"html-webpack-plugin": "^3.1.0",
+		"inquirer": "^5.2.0",
 		"minimist": "^1.2.0",
 		"object-path": "^0.11.4",
+		"opn": "^5.3.0",
 		"raw-loader": "^0.5.1",
 		"react": "^16.3.0",
 		"react-dom": "^16.3.0",
 		"react-helmet": "^5.2.0",
 		"react-hot-loader": "^4.0.0",
 		"react-router-dom": "^4.2.2",
+		"resolve": "^1.6.0",
 		"styled-components": "^3.2.5",
 		"webpack": "^4.4.1",
 		"webpack-cli": "^2.0.13",
-		"webpack-dev-server": "^3.1.1"
+		"webpack-dev-server": "^3.1.1",
+		"webpack-merge": "^4.1.2"
 	},
 	"eslintConfig": {
-		"extends": "timber"
+		"extends": "timber",
+		"rules": {
+			"no-underscore-dangle": 0,
+			"class-methods-use-this": 0,
+			"arrow-body-style": 0,
+			"prefer-const": 0,
+			"import/prefer-default-export": 0,
+			"no-console": 0,
+			"import/no-dynamic-require": 0,
+			"global-require": 0,
+			"no-param-reassign": 0,
+			"consistent-return": 0
+		}
 	},
 	"babel": {
 		"plugins": [

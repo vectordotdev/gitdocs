@@ -6,6 +6,18 @@
 * https://github.com/tj/commander.js/
 * https://github.com/markdown-it/markdown-it#syntax-extensions
 
+### Static site generators:
+* https://github.com/phenomic/phenomic
+* https://github.com/jaredpalmer/razzle
+* https://github.com/markdalgleish/static-site-generator-webpack-plugin
+* https://serverless.com/framework/docs/
+* https://ticky.github.io/markdown-component-loader/
+* https://github.com/static-dev/spike
+* https://serverless.com/framework/docs/
+* https://github.com/kentor/tiny-ssg
+* https://antwar.js.org
+* https://github.com/cuttlebelle/cuttlebelle
+
 ### Inspiration
 
 * https://github.com/QingWei-Li/docsify-cli/blob/master/bin/docsify

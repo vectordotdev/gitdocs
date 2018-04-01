@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 
-const req = require.context('./docs', true)
+const req = require.context(`${process.cwd}/docs`, true, /^\.\/.*\.md$/)
 const files = req.keys().map(k => ({
   file: k,
   contents: req(k),
