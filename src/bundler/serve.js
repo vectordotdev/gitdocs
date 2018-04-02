@@ -4,6 +4,8 @@ import WebpackDevServer from 'webpack-dev-server'
 import HtmlWebPackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
+import { DEFAULT_PORT } from './constants'
+
 const defaults = {
   context: path.resolve(__dirname, '../sites/react'),
   entry: ['./src/index.js'],
@@ -45,8 +47,6 @@ const defaults = {
   mode: 'development',
 }
 
-const port = 8080
-
 const options = {
   stats: { colors: true },
 }
@@ -55,7 +55,7 @@ export default (args, config) => {
   const compiler = webpack(merge(config, defaults))
   const server = new WebpackDevServer(compiler, options)
 
-  server.listen(port, 'localhost', err => {
+  server.listen(DEFAULT_PORT, 'localhost', err => {
     if (err) {
       console.log(err)
     }
