@@ -38,12 +38,17 @@ export async function generateRoutes (baseDir, outputDir) {
       info.inputFile = filename
       info.outputFile = filename
         .replace(baseDir, outputDir)
-        .replace(extension, isIndex ? '.html' : '/index.html')
+        .replace(
+          // remove dot from extension and add escaped dot
+          new RegExp(`\\.${extension.slice(1)}$`),
+          isIndex ? '.html' : '/index.html'
+        )
     }
 
     return info
   }
 
   const tree = await walk(baseDir)
+  // don't care about the base directory info, just the children
   return tree ? tree.children : []
 }
