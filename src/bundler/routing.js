@@ -2,16 +2,22 @@ import path from 'path'
 import fs from 'fs-extra'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import { StaticRouter, Route } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import helmet from 'react-helmet'
 import pathExtra from '../utils/path'
-import Application from './application'
+import Application from '../components'
+import Page from '../components/page'
 
-export function renderTree (tree, location) {
+export function renderTree (componentProps) {
   const rendered = renderToString(
-    <Application location={location}>
-      {renderRoutes(tree)}
-    </Application>
+    <StaticRouter
+      context={componentProps}
+      location={componentProps.route.path}>
+      <Application {...componentProps}>
+        {renderRoutes(componentProps.tree)}
+      </Application>
+    </StaticRouter>
   )
 
   return {
@@ -31,18 +37,15 @@ export async function generateTree (baseDir, outputDir) {
 
   const _walk = async file => {
     const stats = await fs.stat(file)
-    const basename = path.basename(file)
     const extension = path.extname(file)
 
-    if (excludePattern.test(basename)) {
+    if (excludePattern.test(path.basename(file))) {
       return
     }
 
     if (stats.isDirectory()) {
       const ls = await fs.readdir(file)
-      return Promise.all(
-        ls.map(child => _walk(`${file}/${child}`))
-      )
+      return Promise.all(ls.sort().map(child => _walk(`${file}/${child}`)))
     }
 
     if (stats.isFile()) {
@@ -57,10 +60,11 @@ export async function generateTree (baseDir, outputDir) {
       }
 
       tree.push({
+        file,
         exact: true,
         path: pathExtra.replaceBase(pathExtra.routify(file), baseDir, ''),
         output: pathExtra.replaceBase(pathExtra.htmlify(file), baseDir, outputDir),
-        component: () => <div>{file}</div>
+        component: props => <Page {...props.staticContext} />
       })
     }
   }
