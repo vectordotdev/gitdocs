@@ -10,7 +10,7 @@ const FILENAMES = [
 
 const DEFAULTS = {
   root: 'docs',
-  output: 'docs/dist',
+  output: 'docs_dist',
   sidebar: {
 
   },

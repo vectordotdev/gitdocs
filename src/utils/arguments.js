@@ -9,9 +9,7 @@ export function parseArgv () {
     alias: {
       config: ['c'],
       help: ['h'],
-      version: ['v'],
-      // cmds/build
-      output: ['o']
+      version: ['v']
     }
   })
 

@@ -1,8 +1,11 @@
 import chalk from 'chalk'
+import templates from '../bundler/templates'
 
 export default async function (config, args) {
-  // args.output
-  console.log('build')
+  await templates(
+    config.get('root'),
+    config.get('output')
+  )
 }
 
 export const menu = `
@@ -12,4 +15,4 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
-    --output, -o ${chalk.dim('..............')} compile files into this directory`
+    ${chalk.italic.dim('no options yet')}`
