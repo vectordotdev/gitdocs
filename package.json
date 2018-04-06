@@ -39,11 +39,7 @@
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.44",
-		"@babel/core": "^7.0.0-beta.44",
 		"@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
-		"@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.44",
-		"@babel/plugin-transform-react-jsx": "^7.0.0-beta.44",
-		"@babel/register": "^7.0.0-beta.44",
 		"ava": "^0.25.0",
 		"eslint": "^4.19.1",
 		"eslint-config-timber": "^1.0.6",
@@ -52,10 +48,16 @@
 		"sinon": "^4.5.0"
 	},
 	"dependencies": {
+		"@babel/core": "^7.0.0-beta.44",
+		"@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.44",
+		"@babel/plugin-transform-react-jsx": "^7.0.0-beta.44",
+		"@babel/register": "^7.0.0-beta.44",
 		"chalk": "^2.3.2",
 		"deepmerge": "^2.1.0",
 		"fs-extra": "^5.0.0",
+		"glob": "^7.1.2",
 		"html-minifier": "^3.5.13",
+		"markdown-to-jsx": "^6.6.1",
 		"memory-fs": "^0.4.1",
 		"minimist": "^1.2.0",
 		"object-path": "^0.11.4",
@@ -65,7 +67,6 @@
 		"react-router": "^4.2.0",
 		"react-router-config": "^1.0.0-beta.4",
 		"react-router-dom": "^4.2.2",
-		"showdown": "^1.8.6",
 		"webpack": "^4.5.0"
 	},
 	"eslintConfig": {

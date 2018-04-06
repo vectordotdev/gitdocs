@@ -1,11 +1,16 @@
 import chalk from 'chalk'
-import templates from '../bundler/templates'
+import { generateRouteTree } from '../bundler/routing'
+import { findComponents } from '../bundler/components'
+import { staticOutput } from '../bundler/static'
 
 export default async function (config, args) {
-  await templates(
-    config.get('root'),
-    config.get('output')
-  )
+  const base = config.get('root')
+  const output = config.get('output')
+
+  const tree = await generateRouteTree(base, output)
+  const components = await findComponents(base)
+
+  await staticOutput(tree, components, output)
 }
 
 export const menu = `

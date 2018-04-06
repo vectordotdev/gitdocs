@@ -1,5 +1,5 @@
 import test from 'ava'
-import path from './path'
+import * as path from './path'
 
 test('removeExt', t => {
   t.is(path.removeExt('foo.js'), 'foo')

@@ -1,6 +1,6 @@
 import minimist from 'minimist'
 
-export function parseArgv () {
+export default function () {
   const argv = minimist(process.argv.slice(2), {
     boolean: [
       'help',

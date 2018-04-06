@@ -1,9 +1,6 @@
-import fs from 'fs-extra'
 import { minify } from 'html-minifier'
-import { generateTree, renderTree } from './routing'
-import markdown from './markdown'
 
-function _html (data) {
+export default async function (data) {
   const {
     helmet,
     rendered,
@@ -31,19 +28,4 @@ function _html (data) {
   `, {
     collapseWhitespace: true
   })
-}
-
-export default async function (root, output) {
-  await fs.emptyDir(output)
-  const tree = await generateTree(root, output)
-
-  await Promise.all(tree.map(async route => {
-    console.log(`processing ${route.path}`)
-
-    const body = await markdown(route)
-    await fs.outputFile(route.output, _html({
-      ...await renderTree({ body, route, tree }),
-      bundleFile: 'bundle.js'
-    }))
-  }))
 }

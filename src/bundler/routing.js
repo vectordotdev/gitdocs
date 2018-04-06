@@ -1,74 +1,36 @@
 import path from 'path'
 import fs from 'fs-extra'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { StaticRouter, Route } from 'react-router-dom'
-import { renderRoutes } from 'react-router-config'
-import helmet from 'react-helmet'
-import pathExtra from '../utils/path'
-import Application from '../components'
+import { megaGlob } from '../utils/filesystem'
+import { replaceBase, removeExt, routify, htmlify } from '../utils/path'
 import Page from '../components/page'
 
-export function renderTree (componentProps) {
-  const rendered = renderToString(
-    <StaticRouter
-      context={componentProps}
-      location={componentProps.route.path}>
-      <Application {...componentProps}>
-        {renderRoutes(componentProps.tree)}
-      </Application>
-    </StaticRouter>
-  )
-
-  return {
-    rendered,
-    helmet: helmet.renderStatic()
-  }
-}
-
-export async function generateTree (baseDir, outputDir) {
+export async function generateRouteTree (baseDir, outputDir) {
   if (!await fs.pathExists(baseDir)) {
     throw new Error(`Could not find any documentation in ${baseDir}`)
   }
 
-  const tree = []
-  const excludePattern = /^_/
-  const extensions = ['.md']
+  const files = await megaGlob(`${baseDir}/**/*.md`, {
+    ignore: ['**/_*/**']
+  })
 
-  const _walk = async file => {
-    const stats = await fs.stat(file)
-    const extension = path.extname(file)
+  const tree = await Promise.all(
+    files.map(async file => {
+      const ext = path.extname(file)
+      const index = `${removeExt(file)}/index${ext}`
 
-    if (excludePattern.test(path.basename(file))) {
-      return
-    }
-
-    if (stats.isDirectory()) {
-      const ls = await fs.readdir(file)
-      return Promise.all(ls.sort().map(child => _walk(`${file}/${child}`)))
-    }
-
-    if (stats.isFile()) {
-      const indexPath = `${pathExtra.removeExt(file)}/index${extension}`
-
-      if (await fs.pathExists(indexPath)) {
-        throw new Error(`Conflicting files were found:\n\t- ${file}\n\t- ${indexPath}`)
+      if (await fs.pathExists(index)) {
+        throw new Error(`Conflicting files were found:\n\t- ${file}\n\t- ${index}`)
       }
 
-      if (extensions.indexOf(extension) === -1) {
-        return
-      }
-
-      tree.push({
-        file,
+      return {
         exact: true,
-        path: pathExtra.replaceBase(pathExtra.routify(file), baseDir, ''),
-        output: pathExtra.replaceBase(pathExtra.htmlify(file), baseDir, outputDir),
+        path: replaceBase(routify(file), baseDir, ''),
+        output: replaceBase(htmlify(file), baseDir, outputDir),
+        body: await fs.readFile(file, 'utf8'),
         component: props => <Page {...props.staticContext} />
-      })
-    }
-  }
+      }
+    })
+  )
 
-  await _walk(baseDir)
-  return tree
+  return tree.sort((a, b) => a.path > b.path)
 }

@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import deepmerge from 'deepmerge'
 import objectPath from 'object-path'
-import emit from './emit'
+import { warn } from './emit'
 
 const FILENAMES = [
   '.gitdocs',
@@ -10,7 +10,7 @@ const FILENAMES = [
 
 const DEFAULTS = {
   root: 'docs',
-  output: 'docs_dist',
+  output: 'docs/_dist',
   sidebar: {
 
   },
@@ -19,7 +19,7 @@ const DEFAULTS = {
   }
 }
 
-function safeRead (file) {
+function _safeRead (file) {
   try {
     return fs.readJsonSync(file)
   } catch (err) {
@@ -33,13 +33,13 @@ export default function (customFile) {
     FILENAMES.unshift(customFile)
 
     if (!fs.pathExistsSync(customFile)) {
-      emit.warn(`"${customFile}" was not found, falling back to default config file`)
+      warn(`"${customFile}" was not found, falling back to default config file`)
     }
   }
 
   const configFile = FILENAMES.find(fs.pathExistsSync)
   const config = configFile
-    ? deepmerge(DEFAULTS, safeRead(configFile))
+    ? deepmerge(DEFAULTS, _safeRead(configFile))
     : DEFAULTS
 
   return {

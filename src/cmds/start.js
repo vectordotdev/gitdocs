@@ -7,7 +7,7 @@ export default async function (config, args) {
 export const menu = `
   ${chalk.bold.underline('usage')}
 
-    gitdocs start [dir] [options]
+    gitdocs start [options]
 
   ${chalk.bold.underline('options')}
 

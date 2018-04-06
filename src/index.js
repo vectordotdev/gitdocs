@@ -1,10 +1,10 @@
-import emit from './utils/emit'
 import getConfig from './utils/config'
-import { parseArgv } from './utils/arguments'
+import getArguments from './utils/arguments'
+import { log, error } from './utils/emit'
 import { version } from '../package.json'
 
 export default async function () {
-  const args = parseArgv()
+  const args = getArguments()
 
   try {
     // create config getter/setter
@@ -12,7 +12,7 @@ export default async function () {
 
     // show gitdocs version
     if (args.version) {
-      return emit.log(`v${version}`)
+      return log(`v${version}`)
     }
 
     // pull in module for the command
@@ -20,13 +20,13 @@ export default async function () {
 
     // run the command, or show the help menu
     args.help || args.mainCmd === 'help'
-      ? emit.log(module.menu, true)
+      ? log(`${module.menu}\n`)
       : await module.default(config, args)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       err = `"${args.mainCmd}" is not a valid gitdocs command`
     }
 
-    emit.error(err, true)
+    error(err, true)
   }
 }
