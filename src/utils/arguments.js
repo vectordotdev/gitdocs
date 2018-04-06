@@ -3,13 +3,17 @@ import minimist from 'minimist'
 export default function () {
   const argv = minimist(process.argv.slice(2), {
     boolean: [
+      // all commands
       'help',
       'version'
     ],
     alias: {
+      // all commands
       config: ['c'],
       help: ['h'],
-      version: ['v']
+      version: ['v'],
+      // init command
+      name: ['n']
     }
   })
 

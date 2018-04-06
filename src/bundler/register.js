@@ -8,7 +8,7 @@ const NODE_MODULES = path.resolve(
 
 register({
   plugins: [
-    '@babel/plugin-transform-modules-commonjs',
-    '@babel/plugin-transform-react-jsx'
+    `${NODE_MODULES}/@babel/plugin-transform-modules-commonjs`,
+    `${NODE_MODULES}/@babel/plugin-transform-react-jsx`
   ]
 })

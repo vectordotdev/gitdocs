@@ -20,6 +20,7 @@
 	],
 	"files": [
 		"bin/",
+		"boilerplate/",
 		"dist/",
 		"license.md",
 		"readme.md"

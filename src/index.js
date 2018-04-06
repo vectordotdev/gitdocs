@@ -8,7 +8,7 @@ export default async function () {
 
   try {
     // create config getter/setter
-    const config = getConfig(args.config)
+    const config = await getConfig(args.config)
 
     // show gitdocs version
     if (args.version) {

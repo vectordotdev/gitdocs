@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
+import React from 'react'
 import { megaGlob } from '../utils/filesystem'
 import { replaceBase, removeExt, routify, htmlify } from '../utils/path'
 import Page from '../components/page'
@@ -10,6 +11,7 @@ export async function generateRouteTree (baseDir, outputDir) {
   }
 
   const files = await megaGlob(`${baseDir}/**/*.md`, {
+    nodir: true,
     ignore: ['**/_*/**']
   })
 

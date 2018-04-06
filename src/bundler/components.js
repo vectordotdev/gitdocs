@@ -1,7 +1,7 @@
-import './register'
 import path from 'path'
 import React from 'react'
 import { megaGlob } from '../utils/filesystem'
+import './register'
 
 const COMPONENTS_DIR = '_components'
 
@@ -12,7 +12,9 @@ export async function findComponents (baseDir) {
   const files = await megaGlob([
     `${dir}/*.js`,
     `${dir}/*/index.js`
-  ])
+  ], {
+    nodir: true
+  })
 
   // so components don't have to require react
   global.React = React
@@ -23,7 +25,12 @@ export async function findComponents (baseDir) {
       : path.basename(file, '.js')
 
     const module = require(file)
-    componentMap[name] = module.default || module
+    componentMap[name] = {
+      component: module.default || module,
+      props: {
+        // any extra props for custom components?
+      }
+    }
   })
 
   return componentMap
