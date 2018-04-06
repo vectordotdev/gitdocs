@@ -12,7 +12,7 @@ export async function generateRouteTree (baseDir, outputDir) {
 
   const files = await megaGlob(`${baseDir}/**/*.md`, {
     nodir: true,
-    ignore: ['**/_*/**']
+    ignore: ['**/_*/**'],
   })
 
   const tree = await Promise.all(
@@ -29,9 +29,9 @@ export async function generateRouteTree (baseDir, outputDir) {
         path: replaceBase(routify(file), baseDir, ''),
         output: replaceBase(htmlify(file), baseDir, outputDir),
         body: await fs.readFile(file, 'utf8'),
-        component: props => <Page {...props.staticContext} />
+        component: props => <Page {...props.staticContext} />,
       }
-    })
+    }),
   )
 
   return tree.sort((a, b) => a.path > b.path)

@@ -24,7 +24,7 @@ export default async function () {
       : await module.default(config, args)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
-      err = `"${args.mainCmd}" is not a valid gitdocs command`
+      return error(`"${args.mainCmd}" is not a valid gitdocs command`, true)
     }
 
     error(err, true)

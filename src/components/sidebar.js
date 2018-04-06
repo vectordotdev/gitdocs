@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 export default function (props) {
   return (
     <ul>
-      {props.routes.map((route, key) =>
-        <li key={key}>
+      {props.routes.map(route => (
+        <li key={`nav-${route.path}`}>
           <Link to={route.path}>{route.path}</Link>
-        </li>)}
+        </li>
+      ))}
     </ul>
   )
 }

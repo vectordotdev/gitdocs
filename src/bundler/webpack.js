@@ -11,8 +11,8 @@ export default function () {
     entry: `${TEMPLATE_DIR}/index.js`,
     output: {
       path: OUTPUT_DIR,
-      filename: 'bundle.js'
-    }
+      filename: 'bundle.js',
+    },
   })
 
   return new Promise((resolve, reject) => {

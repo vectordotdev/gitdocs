@@ -11,9 +11,9 @@ export async function findComponents (baseDir) {
   const dir = path.resolve(baseDir, COMPONENTS_DIR)
   const files = await megaGlob([
     `${dir}/*.js`,
-    `${dir}/*/index.js`
+    `${dir}/*/index.js`,
   ], {
-    nodir: true
+    nodir: true,
   })
 
   // so components don't have to require react
@@ -29,7 +29,7 @@ export async function findComponents (baseDir) {
       component: module.default || module,
       props: {
         // any extra props for custom components?
-      }
+      },
     }
   })
 

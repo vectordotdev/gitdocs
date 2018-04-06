@@ -4,7 +4,7 @@ export default async function (data) {
   const {
     helmet,
     rendered,
-    bundleFile
+    bundleFile,
   } = data
 
   return minify(`
@@ -26,6 +26,6 @@ export default async function (data) {
       </body>
     </html>
   `, {
-    collapseWhitespace: true
+    collapseWhitespace: true,
   })
 }

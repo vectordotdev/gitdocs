@@ -5,11 +5,11 @@ import objectPath from 'object-path'
 
 const FILENAMES = [
   '.gitdocs',
-  '.gitdocs.json'
+  '.gitdocs.json',
 ]
 
 const JSON_FORMAT = {
-  spaces: 2
+  spaces: 2,
 }
 
 const DEFAULT_CONFIG = {
@@ -20,7 +20,7 @@ const DEFAULT_CONFIG = {
   },
   theme: {
 
-  }
+  },
 }
 
 async function _safeRead (file) {
@@ -71,6 +71,6 @@ export default async function (customFile) {
       }
 
       await fs.outputJson(FILENAMES[0], newConfig, JSON_FORMAT)
-    }
+    },
   }
 }

@@ -8,10 +8,11 @@ import template from './template'
 import Application from '../components'
 
 export async function renderTree (props) {
-  const rendered = renderToString(
+  const app = (
     <StaticRouter
       context={props}
-      location={props.route.path}>
+      location={props.route.path}
+    >
       <Application {...props}>
         {renderRoutes(props.tree)}
       </Application>
@@ -19,8 +20,8 @@ export async function renderTree (props) {
   )
 
   return {
-    rendered,
-    helmet: helmet.renderStatic()
+    rendered: renderToString(app),
+    helmet: helmet.renderStatic(),
   }
 }
 

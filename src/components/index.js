@@ -11,7 +11,8 @@ export default function (props) {
       </Helmet>
 
       <Sidebar
-        routes={props.tree} />
+        routes={props.tree}
+      />
 
       <Switch>
         {props.children}

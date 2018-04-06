@@ -5,7 +5,7 @@ export default function () {
     boolean: [
       // all commands
       'help',
-      'version'
+      'version',
     ],
     alias: {
       // all commands
@@ -13,8 +13,8 @@ export default function () {
       help: ['h'],
       version: ['v'],
       // init command
-      name: ['n']
-    }
+      name: ['n'],
+    },
   })
 
   // running `help <cmd>` works the same as `<cmd> --help`

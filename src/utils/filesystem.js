@@ -9,8 +9,8 @@ export async function megaGlob (patterns, opts = {}) {
         glob(pattern, opts, (err, data) => {
           err ? reject(err) : resolve(data)
         })
-      })
-    )
+      }),
+    ),
   )
 
   return files.reduce((a, b) => a.concat(b))
