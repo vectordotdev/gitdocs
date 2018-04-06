@@ -1,18 +1,20 @@
 import minimist from 'minimist'
 
-export function parseArgv () {
+export default function () {
   const argv = minimist(process.argv.slice(2), {
     boolean: [
+      // all commands
       'help',
-      'version'
+      'version',
     ],
     alias: {
+      // all commands
       config: ['c'],
       help: ['h'],
       version: ['v'],
-      // cmds/build
-      output: ['o']
-    }
+      // init command
+      name: ['n'],
+    },
   })
 
   // running `help <cmd>` works the same as `<cmd> --help`

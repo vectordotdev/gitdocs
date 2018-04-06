@@ -1,12 +1,17 @@
-import fs from 'fs-extra'
+import glob from 'glob'
 
-/**
- * Check if a directory exists.
- */
-export function directoryExists(dir) {
-  try {
-    return fs.statSync(dir).isDirectory()
-  } catch (e) {
-    return false
-  }
+export async function megaGlob (patterns, opts = {}) {
+  patterns = Array.isArray(patterns) ? patterns : [patterns]
+
+  const files = await Promise.all(
+    patterns.map(pattern =>
+      new Promise((resolve, reject) => {
+        glob(pattern, opts, (err, data) => {
+          err ? reject(err) : resolve(data)
+        })
+      }),
+    ),
+  )
+
+  return files.reduce((a, b) => a.concat(b))
 }

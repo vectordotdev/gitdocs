@@ -1,8 +1,16 @@
 import chalk from 'chalk'
+import { generateRouteTree } from '../bundler/routing'
+import { findComponents } from '../bundler/components'
+import { staticOutput } from '../bundler/static'
 
 export default async function (config, args) {
-  // args.output
-  console.log('build')
+  const base = config.get('root')
+  const output = config.get('output')
+
+  const tree = await generateRouteTree(base, output)
+  const components = await findComponents(base)
+
+  await staticOutput(tree, components, output)
 }
 
 export const menu = `
@@ -12,4 +20,4 @@ export const menu = `
 
   ${chalk.bold.underline('options')}
 
-    --output, -o ${chalk.dim('..............')} compile files into this directory`
+    ${chalk.italic.dim('no options yet')}`

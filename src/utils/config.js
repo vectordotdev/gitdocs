@@ -1,60 +1,76 @@
+import path from 'path'
 import fs from 'fs-extra'
 import deepmerge from 'deepmerge'
 import objectPath from 'object-path'
-import emit from './emit'
 
 const FILENAMES = [
   '.gitdocs',
-  '.gitdocs.json'
+  '.gitdocs.json',
 ]
 
-const DEFAULTS = {
+const JSON_FORMAT = {
+  spaces: 2,
+}
+
+const DEFAULT_CONFIG = {
   root: 'docs',
-  output: 'docs/dist',
+  output: 'docs/_dist',
   sidebar: {
 
   },
   theme: {
 
-  }
+  },
 }
 
-function safeRead (file) {
+async function _safeRead (file) {
   try {
-    return fs.readJsonSync(file)
+    return await fs.readJson(file)
   } catch (err) {
-    throw new Error(`Could not read config file: ${file}`)
+    throw new Error(`Could not read ${file}`)
   }
 }
 
-export default function (customFile) {
+export default async function (customFile) {
   if (customFile) {
     // prioritize custom config file if passed
     FILENAMES.unshift(customFile)
 
-    if (!fs.pathExistsSync(customFile)) {
-      emit.warn(`"${customFile}" was not found, falling back to default config file`)
+    if (!await fs.pathExists(customFile)) {
+      throw new Error(`Config file was not found: ${customFile}`)
     }
   }
 
   const configFile = FILENAMES.find(fs.pathExistsSync)
-  const config = configFile
-    ? deepmerge(DEFAULTS, safeRead(configFile))
-    : DEFAULTS
+  const userConfig = configFile ? await _safeRead(configFile) : {}
+  const masterConfig = deepmerge(DEFAULT_CONFIG, userConfig)
 
   return {
+    configFile,
     get: (key) => {
       return key
-        ? objectPath.get(config, key.split('.'))
-        : config
+        ? objectPath.get(masterConfig, key.split('.'))
+        : masterConfig
     },
+    set: async (key, value) => {
+      objectPath.set(userConfig, key, value)
 
-    set: (key, value) => {
-      objectPath.set(config, key, value)
+      await fs.outputJson(configFile, userConfig, JSON_FORMAT)
+    },
+    create: async (projectName, root) => {
+      const name = projectName || path.basename(process.cwd())
 
-      fs.outputJsonSync(configFile, config, {
-        spaces: 2
-      })
-    }
+      if (await fs.pathExists(configFile)) {
+        throw new Error('GitDocs is already initialized in this folder!')
+      }
+
+      const newConfig = { name }
+
+      if (root !== DEFAULT_CONFIG.root) {
+        newConfig.root = root
+      }
+
+      await fs.outputJson(FILENAMES[0], newConfig, JSON_FORMAT)
+    },
   }
 }

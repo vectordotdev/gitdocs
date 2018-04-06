@@ -12,6 +12,10 @@ test.afterEach(t => {
 })
 
 test('log', t => {
-  emit.default.log('foo bar', true)
-  t.true(process.stdout.write.calledWith('foo bar\n'))
+  emit.log('foo bar')
+  t.true(process.stdout.write.calledWith('foo bar'))
 })
+
+test.todo('warn')
+
+test.todo('error')
