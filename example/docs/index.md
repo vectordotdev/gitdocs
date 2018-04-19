@@ -1,4 +1,4 @@
-# GitDocs Example
+---
+source: https://raw.githubusercontent.com/timberio/react-query-assist/master/README.md
+---
 
-<Button>This is a custom button</Button>
-<Link href="https://timber.io">Timber.io</Link>

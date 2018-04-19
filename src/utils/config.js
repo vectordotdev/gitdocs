@@ -13,22 +13,13 @@ const JSON_FORMAT = {
 }
 
 const DEFAULT_CONFIG = {
+  name: 'GitDocs',
   root: 'docs',
-  output: 'docs/_dist',
-  sidebar: {
-
-  },
+  output: '.gitdocs_output',
+  template: 'default',
   theme: {
 
   },
-}
-
-async function _safeRead (file) {
-  try {
-    return await fs.readJson(file)
-  } catch (err) {
-    throw new Error(`Could not read ${file}`)
-  }
 }
 
 export default async function (customFile) {
@@ -42,7 +33,7 @@ export default async function (customFile) {
   }
 
   const configFile = FILENAMES.find(fs.pathExistsSync)
-  const userConfig = configFile ? await _safeRead(configFile) : {}
+  const userConfig = configFile ? await fs.readJson(configFile) : {}
   const masterConfig = deepmerge(DEFAULT_CONFIG, userConfig)
 
   return {

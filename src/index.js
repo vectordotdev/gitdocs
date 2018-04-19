@@ -19,14 +19,14 @@ export default async function () {
     const module = require(`./cmds/${args.mainCmd}`)
 
     // run the command, or show the help menu
-    args.help || args.mainCmd === 'help'
+    return args.help || args.mainCmd === 'help'
       ? log(`${module.menu}\n`)
       : await module.default(config, args)
   } catch (err) {
-    if (err.code === 'MODULE_NOT_FOUND') {
-      return error(`"${args.mainCmd}" is not a valid gitdocs command`, true)
-    }
-
-    error(err, true)
+    return args.debug
+      ? console.error(err)
+      : err.code === 'MODULE_NOT_FOUND'
+        ? error(`"${args.mainCmd}" is not a valid gitdocs command`, true)
+        : error(err, true)
   }
 }

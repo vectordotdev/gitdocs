@@ -10,6 +10,7 @@ export default function () {
     alias: {
       // all commands
       config: ['c'],
+      debug: ['d'],
       help: ['h'],
       version: ['v'],
       // init command
