@@ -5,7 +5,7 @@ const CHAR_PAD = '  '
 const CHAR_BAR = '\u2501'
 
 export function log (msg) {
-  process.stdout.write(`${CHAR_PAD}${msg}\n`)
+  process.stderr.write(`${CHAR_PAD}${msg}\n`)
 }
 
 export function warn (msg) {
@@ -20,11 +20,22 @@ export function error (err, exit) {
   exit && process.exit(1)
 }
 
+export function hideCursor () {
+  process.stderr.write('\u001b[?25l')
+}
+
+export function showCursor () {
+  process.stderr.write('\u001b[?25h')
+}
+
 export function progress (total, bar) {
-  return new Progress(`${CHAR_PAD}${bar}`, {
+  hideCursor()
+
+  return new Progress(`${CHAR_PAD}${bar || ':bar'}`, {
     total,
-    width: 25,
+    width: Math.floor(process.stdout.columns / 3),
     incomplete: chalk.dim.gray(CHAR_BAR),
     complete: chalk.blue(CHAR_BAR),
+    callback: showCursor,
   })
 }

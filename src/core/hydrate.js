@@ -1,7 +1,9 @@
 import fs from 'fs-extra'
 import axios from 'axios'
+import matter from 'gray-matter'
+import { titlify } from '../utils/path'
 
-async function _getFromSource (source) {
+async function getFromSource (source) {
   const results = /^(.+?):\/\/.+$/.exec(source)
   const sourceType = results ? results[1] : 'local'
 
@@ -12,7 +14,10 @@ async function _getFromSource (source) {
 
     case 'http':
     case 'https': {
-      const { data } = await axios.get(source)
+      const {
+        data,
+      } = await axios.get(source)
+
       return data
     }
 
@@ -27,12 +32,50 @@ async function _getFromSource (source) {
   }
 }
 
-export default async function (route) {
-  const { source } = route.data
+export default async function (tree, afterEach) {
+  const _recursive = items => Promise.all(
+    items.map(async item => {
+      if (item.file) {
+        const fm = matter(await fs.readFile(item.file))
+        const defaults = {
+          title: titlify(item.path),
+          source_inject: 'replace',
+        }
 
-  if (source) {
-    route.content = await _getFromSource(source)
-  }
+        item.data = Object.assign({}, defaults, fm.data)
 
-  return route
+        if (item.data.source) {
+          const sourceContent = await getFromSource(fm.data.source)
+
+          switch (item.data.source_inject) {
+            case 'before':
+              item.content = `${sourceContent}${fm.content}`
+              break
+
+            case 'after':
+              item.content = `${fm.content}${sourceContent}`
+              break
+
+            case 'replace':
+            default:
+              item.content = sourceContent
+              break
+          }
+        } else {
+          item.content = fm.content
+        }
+
+        typeof afterEach === 'function' &&
+          afterEach(item)
+      }
+
+      if (item.children) {
+        item.children = await _recursive(item.children)
+      }
+
+      return item
+    })
+  )
+
+  return _recursive(tree)
 }

@@ -1,10 +1,12 @@
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom'
+import path from 'path'
+import fs from 'fs-extra'
 import helmet from 'react-helmet'
+import { renderToString } from 'react-dom/server'
 import { minify } from 'html-minifier'
+import serverEntry from '../templates/server'
 
-async function _template (rendered) {
+async function generatePage (app) {
+  const rendered = renderToString(app)
   const helmetData = helmet.renderStatic()
   const bundleFile = 'index.js'
 
@@ -33,21 +35,25 @@ async function _template (rendered) {
   })
 }
 
-export default async function (template, route, extraProps = {}) {
-  const module = require(`../templates/${template}`)
-  const Application = module.default || module
+export default async function (tree, props, afterEach) {
+  const _recursive = items => Promise.all(
+    items.map(async item => {
+      if (item.output) {
+        const entry = serverEntry(item, tree, props)
+        const rendered = await generatePage(entry)
+        const output = path.join(item.output, 'index.html')
 
-  const rendered = renderToString(
-    <StaticRouter
-      context={route}
-      location={route.path}
-    >
-      <Application
-        route={route}
-        {...extraProps}
-      />
-    </StaticRouter>
+        await fs.outputFile(output, rendered)
+
+        typeof afterEach === 'function' &&
+          afterEach(item)
+      }
+
+      if (item.children) {
+        item.children = await _recursive(item.children)
+      }
+    })
   )
 
-  return _template(rendered)
+  return _recursive(tree)
 }

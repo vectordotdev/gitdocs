@@ -1,35 +1,28 @@
 import fs from 'fs-extra'
 import chalk from 'chalk'
-import getRoutes from '../core/routes'
-import getNavigation from '../core/navigation'
+import getTree from '../core/tree'
 import getHydrated from '../core/hydrate'
-import getRendered from '../core/render'
+import getSidebar from '../core/sidebar'
+import render from '../core/render'
 import { log, progress } from '../utils/emit'
 
 export default async function (config, args) {
+  const name = config.get('name')
   const inputDir = config.get('root')
   const outputDir = config.get('output')
-  const customNav = config.get('navigation')
+  const customSidebar = config.get('sidebar')
   const template = config.get('template')
 
   await fs.emptyDir(outputDir)
 
-  const routeTree = await getRoutes(inputDir, outputDir)
-  const navigation = customNav || await getNavigation(routeTree.items)
+  const tree = await getTree(inputDir, outputDir)
+  const bar = progress(tree.count * 2)
 
-  const progressBar = progress(routeTree.count, ':bar  :current/:total pages')
+  const treeHydrated = await getHydrated(tree.items, () => bar.tick())
+  const sidebar = customSidebar || await getSidebar(treeHydrated)
 
-  await routeTree.forEachItem(async route => {
-    const hydrated = await getHydrated(route)
-    const rendered = await getRendered(template, hydrated, {
-      routeTree,
-      navigation,
-    })
-
-    await fs.outputFile(route.output, rendered)
-
-    progressBar.tick()
-  })
+  const props = { name, template, sidebar }
+  await render(treeHydrated, props, () => bar.tick())
 
   log('all done :)')
 }
