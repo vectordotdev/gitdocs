@@ -42,12 +42,12 @@ export default async function (tree, afterEach) {
           source_inject: 'replace',
         }
 
-        item.data = Object.assign({}, defaults, fm.data)
+        item.meta = Object.assign({}, defaults, fm.data)
 
-        if (item.data.source) {
+        if (item.meta.source) {
           const sourceContent = await getFromSource(fm.data.source)
 
-          switch (item.data.source_inject) {
+          switch (item.meta.source_inject) {
             case 'before':
               item.content = `${sourceContent}${fm.content}`
               break

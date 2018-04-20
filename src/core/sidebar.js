@@ -8,7 +8,7 @@ export default async function (tree) {
         return null
       }
 
-      const data = item.data || {}
+      const data = item.meta || {}
       const hasIndex = item.children &&
         item.children.findIndex(({ isIndex }) => isIndex) > -1
 
