@@ -3,12 +3,11 @@ import fs from 'fs-extra'
 import helmet from 'react-helmet'
 import { renderToString } from 'react-dom/server'
 import { minify } from 'html-minifier'
-import serverEntry from '../templates/server'
+import serverEntry from '../themes/server'
 
-async function generatePage (app) {
+async function generatePage (app, bundleFile) {
   const rendered = renderToString(app)
   const helmetData = helmet.renderStatic()
-  const bundleFile = 'index.js'
 
   const html = `
     <!doctype html>
@@ -25,7 +24,7 @@ async function generatePage (app) {
         ${helmetData.noscript.toString()}
 
         <div id="gitdocs-app">${rendered}</div>
-        <script type="text/javascript" src="${bundleFile}"></script>
+        <script type="text/javascript" src="/${bundleFile}"></script>
       </body>
     </html>
   `
@@ -35,12 +34,12 @@ async function generatePage (app) {
   })
 }
 
-export default async function (tree, props, afterEach) {
+export default async function (tree, bundleFile, props, afterEach) {
   const _recursive = items => Promise.all(
     items.map(async item => {
       if (item.output) {
-        const entry = serverEntry(item, tree, props)
-        const rendered = await generatePage(entry)
+        const entry = await serverEntry(item.path, props)
+        const rendered = await generatePage(entry, bundleFile)
         const output = path.join(item.output, 'index.html')
 
         await fs.outputFile(output, rendered)

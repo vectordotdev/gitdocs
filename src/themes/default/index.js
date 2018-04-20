@@ -3,14 +3,14 @@ import Helmet from 'react-helmet'
 import Sidebar from './sidebar'
 import Page from './page'
 import NotFound from './not-found'
-import Routes from '../_shared/routes'
+import Routes from '../routes'
 
 export default class extends Component {
   render () {
     const {
       name,
       sidebar,
-      routeTree,
+      tree,
     } = this.props
 
     return (
@@ -26,7 +26,7 @@ export default class extends Component {
         />
 
         <Routes
-          routes={routeTree}
+          routes={tree}
           componentPage={Page}
           component404={NotFound}
         />

@@ -1,46 +1,37 @@
 import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import HtmlWebpackTemplate from 'html-webpack-template'
 
-const TEMPLATES_DIR = path.resolve(__dirname, '../../templates')
-const NODE_MODULES_DIR = path.resolve(__dirname, '../../node_modules')
+const THEMES_DIR = path.resolve(__dirname, '../themes')
+// const NODE_MODULES_DIR = path.resolve(__dirname, '../../node_modules')
 
-export default function (env, config, data = {}) {
-  const templateDir = `${TEMPLATES_DIR}/${config.get('template')}`
+export default function (env, output, props) {
+  const isDev = env === 'development'
 
   return {
     mode: env,
-    devtool: 'source-map',
-    context: templateDir,
+    devtool: isDev
+      ? 'cheap-module-eval-source-map'
+      : 'cheap-module-source-map',
+    context: `${THEMES_DIR}/${props.theme}`,
     entry: {
-      main: `${templateDir}/entry.js`,
+      main: `${THEMES_DIR}/browser.js`,
     },
     output: {
       filename: '[hash].js',
       chunkFilename: '[chunkhash].chunk.js',
-      path: path.resolve(config.get('output')),
+      path: path.resolve(output),
       publicPath: '/',
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new HtmlWebpackPlugin({
-        template: '../index.html',
-      }),
-      new webpack.DefinePlugin({
-        'process.env': JSON.stringify({
-          NODE_ENV: env,
-          INITIAL_PROPS: data,
-        }),
-      }),
-    ],
     resolve: {
       modules: [
-        path.resolve(process.cwd()),
+        process.cwd(),
         'node_modules',
       ],
-      alias: {
-        'styled-components': `${NODE_MODULES_DIR}/styled-components`,
-      },
+      // alias: {
+      //   'styled-components': `${NODE_MODULES_DIR}/styled-components`,
+      // },
     },
     module: {
       rules: [
@@ -55,5 +46,22 @@ export default function (env, config, data = {}) {
         },
       ],
     },
+    plugins: [
+      isDev && new webpack.HotModuleReplacementPlugin(),
+
+      isDev && new HtmlWebpackPlugin({
+        inject: false,
+        template: HtmlWebpackTemplate,
+        appMountId: 'gitdocs-app',
+        title: props.name,
+      }),
+
+      new webpack.DefinePlugin({
+        'process.env': JSON.stringify({
+          NODE_ENV: env,
+          PROPS: props,
+        }),
+      }),
+    ].filter(Boolean),
   }
 }

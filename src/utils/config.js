@@ -16,10 +16,7 @@ const DEFAULT_CONFIG = {
   name: 'GitDocs',
   root: 'docs',
   output: '.gitdocs_output',
-  template: 'default',
-  theme: {
-
-  },
+  theme: 'default',
 }
 
 export default async function (customFile) {
