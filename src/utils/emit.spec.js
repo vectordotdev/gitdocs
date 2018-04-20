@@ -3,17 +3,17 @@ import sinon from 'sinon'
 import * as emit from './emit'
 
 test.beforeEach(t => {
-  t.context.write = process.stdout.write
-  process.stdout.write = sinon.spy()
+  t.context.write = process.stderr.write
+  process.stderr.write = sinon.spy()
 })
 
 test.afterEach(t => {
-  process.stdout.write = t.context.write
+  process.stderr.write = t.context.write
 })
 
 test('log', t => {
   emit.log('foo bar')
-  t.true(process.stdout.write.calledWith('foo bar'))
+  t.true(process.stderr.write.calledWith('  foo bar\n'))
 })
 
 test.todo('warn')

@@ -8,6 +8,9 @@
 		"type": "git",
 		"url": "git+https://github.com/timberio/gitdocs.git"
 	},
+	"engine": {
+		"node": ">=6"
+	},
 	"keywords": [
 		"documentation",
 		"static",
@@ -19,7 +22,6 @@
 		"bin/",
 		"boilerplate/",
 		"dist/",
-		"templates/",
 		"license.md",
 		"readme.md"
 	],
@@ -30,8 +32,10 @@
 	"scripts": {
 		"test:lint": "eslint bin src templates tests",
 		"test:unit": "ava 'src/**/*.spec.js'",
-		"test:integration": "ava 'tests/**/*.test.js'",
+		"test:integration": "nyc ava 'tests/**/*.test.js'",
+		"test:coverage": "nyc report -r=lcov",
 		"test": "npm-run-all test:*",
+		"coveralls": "cat coverage/lcov.info | coveralls",
 		"prebuild": "rm -rf dist",
 		"build": "babel src -d dist",
 		"watch": "npm run build -- -w"
@@ -39,8 +43,10 @@
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.44",
 		"ava": "^0.25.0",
+		"coveralls": "^3.0.0",
 		"eslint": "^4.19.1",
-		"eslint-config-timber": "^1.0.15",
+		"eslint-config-timber": "^1.0.16",
+		"execa": "^0.10.0",
 		"npm-run-all": "^4.1.2",
 		"nyc": "^11.7.1",
 		"sinon": "^4.5.0"
@@ -57,11 +63,13 @@
 		"axios": "^0.18.0",
 		"babel-loader": "^8.0.0-beta.2",
 		"chalk": "^2.4.0",
+		"chokidar": "^2.0.3",
 		"deepmerge": "^2.1.0",
 		"fs-extra": "^5.0.0",
 		"gray-matter": "^4.0.1",
 		"html-minifier": "^3.5.15",
 		"html-webpack-plugin": "^3.2.0",
+		"html-webpack-template": "^6.2.0",
 		"markdown-to-jsx": "^6.6.1",
 		"minimist": "^1.2.0",
 		"object-path": "^0.11.4",
@@ -100,8 +108,17 @@
 	},
 	"ava": {
 		"require": [
-			"@babel/register",
-			"./tests/helpers.js"
+			"@babel/register"
+		]
+	},
+	"nyc": {
+		"all": true,
+		"include": [
+			"src"
+		],
+		"exclude": [
+			"src/themes",
+			"**/*.spec.js"
 		]
 	}
 }

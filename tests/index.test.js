@@ -1,15 +1,18 @@
 import test from 'ava'
-import { run, logSpy, logSpyRestore } from './helpers'
-
-test.beforeEach(logSpy)
-test.afterEach(logSpyRestore)
+import { run } from './helpers'
 
 test('defaults to help command', async t => {
-  await run('gitdocs foobar')
-  t.true(t.context.log.calledWithMatch(/not a valid/))
+  const res = await run()
+  t.regex(res.stderr, /usage/)
+})
+
+test('throws on invalid command', async t => {
+  const res = await run('foobar', true)
+  t.is(res.code, 1)
+  t.regex(res.stderr, /not a valid/)
 })
 
 test('shows package version', async t => {
-  await run('gitdocs -v')
-  t.true(t.context.log.calledWithMatch(/v[0-9]/))
+  const res = await run('-v')
+  t.regex(res.stderr, /v[0-9]/)
 })

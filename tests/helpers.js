@@ -1,21 +1,12 @@
-import sinon from 'sinon'
-import gitdocs from '../src'
+import path from 'path'
+import execa from 'execa'
 
-export async function run (cmd) {
-  const argv = cmd.split(' ')
-  argv.unshift('')
+export async function run (cmd, expectingError) {
+  const gitdocs = path.resolve(__dirname, '../bin/gitdocs_test')
 
-  process.argv = argv
-  await gitdocs()
-}
+  const result = await execa.shell(`${gitdocs} ${cmd || ''}`, {
+    reject: !expectingError,
+  })
 
-export function logSpy (t) {
-  t.context.log = sinon.spy()
-  t.context.logOrig = console.log
-
-  console.log = t.context.log
-}
-
-export function logSpyRestore (t) {
-  console.log = t.context.logOrig
+  return result
 }
