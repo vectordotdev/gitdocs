@@ -1,23 +1,15 @@
 import chalk from 'chalk'
 import Progress from 'progress'
 
-const CHAR_PAD = '  '
+const CHAR_PRE = '\u276F'
 const CHAR_BAR = '\u2501'
 
-export function log (msg) {
-  process.stderr.write(`${CHAR_PAD}${msg}\n`)
-}
-
-export function warn (msg) {
-  process.stderr.write(chalk.yellow(`Warning: ${msg}\n`))
-}
-
-export function error (err, exit) {
-  err.name !== 'Error' && err.stack
-    ? process.stderr.write(chalk.dim(err.stack))
-    : process.stderr.write(chalk.red(err.message || err))
-
-  exit && process.exit(1)
+const STYLES = {
+  info: chalk.blue,
+  warn: chalk.yellow,
+  error: chalk.dim,
+  critical: chalk.red,
+  inactive: chalk.dim,
 }
 
 export function hideCursor () {
@@ -28,14 +20,36 @@ export function showCursor () {
   process.stderr.write('\u001b[?25h')
 }
 
-export function progress (total, bar) {
+export function log (msg, firstLine) {
+  const pre = `${firstLine ? '\n' : ''}${CHAR_PRE}`
+  process.stderr.write(STYLES.info(`${pre} ${msg}\n`))
+}
+
+export function warn (msg) {
+  process.stderr.write(STYLES.warn(`Warning: ${msg}\n`))
+}
+
+export function error (err, exit) {
+  err.name !== 'Error' && err.stack
+    ? process.stderr.write(STYLES.error(err.stack))
+    : process.stderr.write(STYLES.critical(err.message || err))
+
+  exit && process.exit(1)
+}
+
+export function progress (opts = {}) {
   hideCursor()
 
-  return new Progress(`${CHAR_PAD}${bar || ':bar'}`, {
-    total,
+  const text = opts.text ? `${opts.text} ` : ''
+  const bar = STYLES.info(`${CHAR_PRE} ${text}:bar`)
+
+  return new Progress(bar, {
     width: Math.floor(process.stdout.columns / 3),
-    incomplete: chalk.dim.gray(CHAR_BAR),
-    complete: chalk.blue(CHAR_BAR),
+    incomplete: STYLES.inactive(CHAR_BAR),
+    complete: CHAR_BAR,
+    total: opts.total || 0,
+    clear: opts.clear,
     callback: showCursor,
   })
 }
+

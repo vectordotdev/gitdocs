@@ -1,5 +1,5 @@
 import test from 'ava'
-import * as path from './path'
+import path from './path'
 
 test('routify', t => {
   t.is(path.routify('foo/bar'), '/foo/bar/')

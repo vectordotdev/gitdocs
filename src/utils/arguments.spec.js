@@ -1,14 +1,42 @@
 import test from 'ava'
 import * as argv from './arguments'
 
-test('default', t => {
+test('version', t => {
   process.argv = ['', '', '-v']
-  t.true(argv.default().v)
-  t.true(argv.default().version)
+  const res = argv.default()
+  t.true(res.v)
+  t.true(res.version)
+  t.is(res.cmd, 'version')
+})
+
+test('version boolean', t => {
+  process.argv = ['', '', '--version', 'foo']
+  const res = argv.default()
+  t.is(res.version, true)
+})
+
+test('help', t => {
   process.argv = ['', '', '-h']
-  t.true(argv.default().help)
-  process.argv = ['', '', 'foo', 'bar']
-  t.is(argv.default().mainCmd, 'foo')
+  const res = argv.default()
+  t.true(res.h)
+  t.true(res.help)
+  t.is(res.cmd, 'help')
+})
+
+test('help command', t => {
+  process.argv = ['', '', 'foo', '-h']
+  const res = argv.default()
+  t.is(res.cmd, 'help')
+})
+
+test('default to help', t => {
   process.argv = ['', '']
-  t.is(argv.default().mainCmd, 'help')
+  const res = argv.default()
+  t.is(res.cmd, 'help')
+})
+
+test('command', t => {
+  process.argv = ['', '', 'foo', 'bar']
+  const res = argv.default()
+  t.is(res.cmd, 'foo')
 })

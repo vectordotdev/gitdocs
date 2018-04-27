@@ -1,4 +1,21 @@
 import chalk from 'chalk'
+import fs from 'fs-extra'
+import { log } from '../../utils/emit'
+
+export default async function (args, config) {
+  const defaultSubCmd = 'help'
+  const subCmd = args._[0] === 'help'
+    ? args._[1] || defaultSubCmd
+    : args._[0] || defaultSubCmd
+
+  try {
+    log(require(`../${subCmd}/menu`).default)
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      log(require('./menu').default)
+    }
+  }
+}
 
 export const menu = `
   ${chalk.bold.underline('usage')}

@@ -1,32 +1,37 @@
-import getConfig from './utils/config'
 import getArguments from './utils/arguments'
-import { log, error } from './utils/emit'
-import { version } from '../package.json'
+import getConfig from './utils/config'
+import { error } from './utils/emit'
 
 export default async function () {
-  const args = getArguments()
-
   try {
-    // create config getter/setter
+    const args = getArguments()
     const config = await getConfig(args.config)
 
-    // show gitdocs version
-    if (args.version) {
-      return log(`v${version}`)
+    switch (args.cmd) {
+      case 'init':
+        await require('./cmds/init').default(args, config)
+        break
+
+      case 'start':
+        await require('./cmds/start').default(args, config)
+        break
+
+      case 'build':
+        await require('./cmds/build').default(args, config)
+        break
+
+      case 'version':
+        await require('./cmds/version').default(args, config)
+        break
+
+      case 'help':
+        await require('./cmds/help').default(args, config)
+        break
+
+      default:
+        throw new Error(`"${args._[0]}" is not a valid gitdocs command`)
     }
-
-    // pull in module for the command
-    const module = require(`./cmds/${args.mainCmd}`)
-
-    // run the command, or show the help menu
-    return args.help || args.mainCmd === 'help'
-      ? log(`${module.menu}\n`)
-      : await module.default(config, args)
   } catch (err) {
-    return args.debug
-      ? console.error(err)
-      : err.code === 'MODULE_NOT_FOUND'
-        ? error(`"${args.mainCmd}" is not a valid gitdocs command`, true)
-        : error(err, true)
+    error(err, true)
   }
 }

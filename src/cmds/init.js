@@ -1,18 +1,21 @@
+import chalk from 'chalk'
 import path from 'path'
 import fs from 'fs-extra'
-import chalk from 'chalk'
+import { createConfig } from '../../utils/config'
+import { log } from '../../utils/emit'
 
-const BOILERPLATE_DIR = path.resolve(__dirname, '../../boilerplate')
+const STARTER_DIR = path.resolve(__dirname, '../../../starter')
 
-export default async function (config, args) {
-  const dir = args._[1] || config.get('root')
-  await config.create(args.name, dir)
+export default async function (args, config) {
+  const dir = args._[1] || config.root
+  await createConfig(args.name, dir)
 
   if (await fs.pathExists(dir)) {
-    return
+    log('using existing docs folder...')
+  } else {
+    log('creating docs folder...')
+    await fs.copy(STARTER_DIR, dir)
   }
-
-  await fs.copy(BOILERPLATE_DIR, dir)
 }
 
 export const menu = `
