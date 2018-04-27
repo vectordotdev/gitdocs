@@ -1,6 +1,4 @@
 import chalk from 'chalk'
-import fs from 'fs-extra'
-import { log } from '../utils/emit'
 
 export const menu = `
   ${chalk.bold.underline('usage')}
@@ -38,5 +36,3 @@ export default async function (args, config) {
     }
   }
 }
-
-

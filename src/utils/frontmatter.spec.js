@@ -16,7 +16,7 @@ foo: bar
 # Hi
 `
 
-const markdown3 = `# Hello There`
+const markdown3 = '# Hello There'
 
 test.before(() => mockFs({
   'file1.md': markdown1,
