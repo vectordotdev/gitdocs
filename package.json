@@ -22,7 +22,6 @@
 		"bin/",
 		"dist/",
 		"starter/",
-		"themes/",
 		"license.md",
 		"readme.md"
 	],
@@ -31,15 +30,21 @@
 		"gitdocs": "bin/gitdocs"
 	},
 	"scripts": {
-		"test:lint": "eslint bin src themes tests",
+		"test:lint": "eslint bin src tests",
 		"test:unit": "ava 'src/**/*.spec.js'",
 		"test:integration": "nyc ava 'tests/**/*.test.js'",
 		"test:coverage": "nyc report -r=lcov",
 		"test": "npm-run-all test:*",
 		"coveralls": "cat coverage/lcov.info | coveralls",
-		"prebuild": "rm -rf dist",
-		"build": "babel src -d dist",
-		"watch": "npm run build -- -w"
+		"precompile": "rm -rf dist",
+		"compile": "babel src -d dist",
+		"watch": "npm run compile -- -w",
+		"build:macos": "pkg . -t node8.3-macos-x64 -o builds/gitdocs-macos-x64",
+		"build:linux": "pkg . -t node8.3-linux-x64 -o builds/gitdocs-linux-x64",
+		"build:freebsd": "pkg . -t node8.3-freebsd-x64 -o builds/gitdocs-freebsd-x64",
+		"build:windows": "pkg . -t node8.3-win-x64 -o builds/gitdocs-windows-x64",
+		"prebuild": "npm run compile && rm -rf builds",
+		"build": "npm-run-all build:*"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0-beta.44",
@@ -51,6 +56,7 @@
 		"mock-fs": "^4.4.2",
 		"npm-run-all": "^4.1.2",
 		"nyc": "^11.7.1",
+		"pkg": "4.2.4",
 		"sinon": "^4.5.0"
 	},
 	"dependencies": {
@@ -90,8 +96,13 @@
 		"styled-system": "^2.2.1",
 		"webpack": "^4.6.0",
 		"webpack-dev-middleware": "^3.1.3",
-		"webpack-dev-server": "^3.1.3",
 		"ws": "^5.1.1"
+	},
+	"pkg": {
+		"scripts": "dist/**/*.js",
+		"assets": [
+			"starter/**/*"
+		]
 	},
 	"eslintConfig": {
 		"extends": "timber"
