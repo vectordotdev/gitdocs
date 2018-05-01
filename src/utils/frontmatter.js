@@ -11,13 +11,6 @@ function _parseFrontmatter (str) {
   })
 }
 
-export async function getContent (file) {
-  const fileContent = await fs.readFile(file, 'utf8')
-  const { content } = _parseFrontmatter(fileContent.trim())
-
-  return content
-}
-
 export function getFrontmatter (file) {
   const lines = []
   const input = fs.createReadStream(file)
@@ -55,4 +48,9 @@ export function getFrontmatter (file) {
       resolve(data)
     })
   })
+}
+
+export async function getFrontmatterWithContent (file) {
+  const fileContent = await fs.readFile(file, 'utf8')
+  return _parseFrontmatter(fileContent.trim())
 }

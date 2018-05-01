@@ -1,5 +1,6 @@
 import { version } from '../../package.json'
+import { log } from '../utils/emit'
 
 export default async function (args, config) {
-  console.log(`v${version}`)
+  log(`GitDocs v${version}`, true)
 }

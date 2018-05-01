@@ -7,11 +7,11 @@ test('shows help menu with command', async t => {
 })
 
 test('shows help submenu with command', async t => {
-  const res = await run('help start')
-  t.regex(res.stdout, /gitdocs start/)
+  const res = await run('help build')
+  t.regex(res.stdout, /gitdocs build/)
 })
 
 test('shows help submenu with flag', async t => {
-  const res = await run('start -h')
-  t.regex(res.stdout, /gitdocs start/)
+  const res = await run('build -h')
+  t.regex(res.stdout, /gitdocs build/)
 })

@@ -1,25 +1,27 @@
-import chalk from 'chalk'
+import { styles, LOGO } from '../utils/emit'
 
 export const menu = `
-  ${chalk.bold.underline('usage')}
+  ${LOGO}
+
+  ${styles.title('Usage')}
 
     gitdocs <command> [options]
 
-    ${chalk.italic.dim('for further info about a command:')}
-    gitdocs <command> --help ${chalk.italic.dim('or')} gitdocs help <command>
+    ${styles.subnote('for further info about a command:')}
+    gitdocs <command> --help ${styles.subnote('or')} gitdocs help <command>
 
-  ${chalk.bold.underline('commands')}
+  ${styles.title('Commands')}
 
-    init ${chalk.dim('....................')} initialize a new project
-    start ${chalk.dim('...................')} runs the development server
-    build ${chalk.dim('...................')} creates a static production bundle
-    help ${chalk.dim('....................')} show the help menu for a command
+    init ${styles.inactive('....................')} initialize a new project
+    serve ${styles.inactive('...................')} runs the local development server
+    build ${styles.inactive('...................')} creates a static production bundle
+    help ${styles.inactive('....................')} show the help menu for a command
 
-  ${chalk.bold.underline('options')}
+  ${styles.title('Options')}
 
-    --config, -c ${chalk.dim('............')} customize the config file location
-    --help, -h ${chalk.dim('..............')} display the usage menu for a command
-    --version, -v ${chalk.dim('...........')} show the version number`
+    --config, -c ${styles.inactive('............')} customize the config file location
+    --help, -h ${styles.inactive('..............')} display the usage menu for a command
+    --version, -v ${styles.inactive('...........')} show the version number`
 
 export default async function (args, config) {
   const defaultSubCmd = 'help'
@@ -32,7 +34,7 @@ export default async function (args, config) {
     console.log(module.menu || menu)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
-      console.log(menu)
+      throw new Error(`"${subCmd}" does not have a help menu!`)
     }
   }
 }

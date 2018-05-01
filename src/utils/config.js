@@ -1,7 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
 import deepmerge from 'deepmerge'
-// import objectPath from 'object-path'
 
 const FILENAMES = [
   '.gitdocs',
@@ -17,12 +16,10 @@ const DEFAULT_CONFIG = {
   // logo: '',
   root: 'docs',
   output: '.gitdocs_output',
+  host: 'localhost',
+  port: 8000,
   theme: 'default',
   // theme_overrides: {},
-  server: {
-    host: 'localhost',
-    port: 8000,
-  },
 }
 
 function _getConfigFilename () {
@@ -60,10 +57,4 @@ export default async function (customFile) {
   const userConfig = configFile ? await fs.readJson(configFile) : {}
 
   return deepmerge(DEFAULT_CONFIG, userConfig)
-
-  //   get: (key) => {
-  //     return key
-  //       ? objectPath.get(masterConfig, key.split('.'))
-  //       : masterConfig
-  //   }
 }

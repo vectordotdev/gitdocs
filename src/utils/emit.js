@@ -1,55 +1,64 @@
 import chalk from 'chalk'
 import Progress from 'progress'
+import exitHook from 'exit-hook'
 
-const CHAR_PRE = '\u276F'
-const CHAR_BAR = '\u2501'
-
-const STYLES = {
-  info: chalk.blue,
-  warn: chalk.yellow,
-  error: chalk.dim,
-  critical: chalk.red,
+export const styles = {
+  info: chalk,
+  note: chalk.magenta,
+  subnote: chalk.dim.italic,
+  title: chalk.bold.underline,
+  url: chalk.magenta.underline,
+  warn: chalk.yellow.bold,
+  error: chalk.dim.bold,
+  critical: chalk.red.bold,
   inactive: chalk.dim,
+  header: chalk.inverse.bold,
 }
+
+export const CHAR_BAR = '\u2501'
+export const CHAR_PRE = styles.inactive('\u276F')
+export const LOGO = styles.header('    GitDocs    ')
 
 export function hideCursor () {
   process.stderr.write('\u001b[?25l')
+  exitHook(() => process.stderr.write('\u001b[?25h'))
 }
 
-export function showCursor () {
-  process.stderr.write('\u001b[?25h')
+export function fullScreen () {
+  process.stderr.write('\x1Bc')
+
+  hideCursor()
+  process.stderr.write(`\n  ${LOGO}\n`)
 }
 
 export function log (msg, firstLine) {
   const pre = `${firstLine ? '\n' : ''}${CHAR_PRE}`
-  process.stderr.write(STYLES.info(`${pre} ${msg}\n`))
+  process.stdout.write(styles.info(`${pre} ${msg}\n`))
 }
 
 export function warn (msg) {
-  process.stderr.write(STYLES.warn(`Warning: ${msg}\n`))
+  process.stderr.write(styles.warn(`Warning: ${msg}\n`))
 }
 
 export function error (err, exit) {
+  const pre = styles.critical(CHAR_PRE)
   err.name !== 'Error' && err.stack
-    ? process.stderr.write(STYLES.error(err.stack))
-    : process.stderr.write(STYLES.critical(err.message || err))
+    ? process.stderr.write(`${pre} ${styles.error(err.stack)}`)
+    : process.stderr.write(`${pre} ${styles.critical(err.message || err)}`)
 
   exit && process.exit(1)
 }
 
 export function progress (opts = {}) {
-  hideCursor()
-
   const text = opts.text ? `${opts.text} ` : ''
-  const bar = STYLES.info(`${CHAR_PRE} ${text}:bar`)
+  const bar = styles.info(`  ${text}:bar`)
 
   return new Progress(bar, {
     width: Math.floor(process.stdout.columns / 3),
-    incomplete: STYLES.inactive(CHAR_BAR),
+    incomplete: styles.inactive(CHAR_BAR),
     complete: CHAR_BAR,
     total: opts.total || 0,
     clear: opts.clear,
-    callback: showCursor,
   })
 }
 

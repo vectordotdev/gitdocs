@@ -1,7 +1,8 @@
 import fs from 'fs-extra'
 import axios from 'axios'
+import { getFrontmatterWithContent } from './frontmatter'
 
-export default async function (source) {
+async function _fetchSource (source) {
   const results = /^(.+?):\/\/.+$/.exec(source)
   const sourceType = results ? results[1] : 'local'
 
@@ -28,4 +29,32 @@ export default async function (source) {
       return fs.readFile(source, 'utf8')
     }
   }
+}
+
+export default async function (item) {
+  const fm = await getFrontmatterWithContent(item.file)
+  const result = {
+    ...fm.data,
+    content: fm.content,
+  }
+
+  if (result.source) {
+    const remoteContent = await _fetchSource(result.source)
+
+    switch (result.source_inject) {
+      case 'before':
+        result.content = `${remoteContent}\n${fm.content}`
+        break
+
+      case 'after':
+        result.content = `${fm.content}\n${remoteContent}`
+        break
+
+      default:
+        result.content = remoteContent
+        break
+    }
+  }
+
+  return result
 }

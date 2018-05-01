@@ -1,8 +1,10 @@
 import getArguments from './utils/arguments'
 import getConfig from './utils/config'
-import { error } from './utils/emit'
+import { hideCursor, error } from './utils/emit'
 
 export default async function () {
+  hideCursor()
+
   try {
     const args = getArguments()
     const config = await getConfig(args.config)
@@ -12,8 +14,8 @@ export default async function () {
         await require('./cmds/init').default(args, config)
         break
 
-      case 'start':
-        await require('./cmds/start').default(args, config)
+      case 'serve':
+        await require('./cmds/serve').default(args, config)
         break
 
       case 'build':

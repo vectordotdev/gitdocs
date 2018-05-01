@@ -1,52 +1,36 @@
-import fs from 'fs-extra'
-import chalk from 'chalk'
-import getTree from '../core/tree'
-import getHydrated from '../core/hydrate'
-import getSidebar from '../core/sidebar'
-import getWebpack from '../core/webpack'
-import { buildBundle } from '../core/bundle'
-import render from '../core/render'
-import { log, progress } from '../utils/emit'
+import getManifest from '../core/manifest'
+import getCompiler from '../core/compiler'
+import outputStatic from '../core/output'
+import { styles, log, progress } from '../utils/emit'
 
-export default async function (config, args) {
-  const name = config.get('name')
-  const theme = config.get('theme')
-  const inputDir = config.get('root')
-  const outputDir = config.get('output')
-  const customSidebar = config.get('sidebar')
-
-  const treeRaw = await getTree(inputDir, outputDir)
-  const numberOfOperations =
-    (treeRaw.count * 2) + // processes each route twice--hydrate and render
-    100 // for percentage of webpack bundle
-
-  const bar = progress(numberOfOperations)
-
-  const tree = await getHydrated(treeRaw.items, () => bar.tick())
-  const sidebar = customSidebar || await getSidebar(tree)
-
-  const props = {
-    name,
-    theme,
-    sidebar,
-    tree,
-  }
-
-  await fs.emptyDir(outputDir)
+export default async function (args, config) {
+  log('Building your documentation', true)
 
   const env = 'production'
-  const webpackConfig = await getWebpack(env, outputDir, props)
-  const bundleFile = await buildBundle(webpackConfig, i => bar.tick(i))
+  const manifest = await getManifest(env, config)
 
-  await render(tree, bundleFile, props, () => bar.tick())
-  log('all done :)')
+  const props = {
+    config,
+    manifest,
+  }
+
+  const bundleBar = progress({ total: 100, clear: true })
+  const compiler = await getCompiler(env, props)
+  compiler.onProgress(i => bundleBar.tick(i))
+
+  log('Saving site files to output directory')
+
+  const outputBar = progress({ total: manifest.files.length, clear: true })
+  const outputDir = await outputStatic(compiler, props, () => outputBar.tick())
+
+  log(`Site has been created at ${styles.note(`${outputDir}/`)}`)
 }
 
 export const menu = `
-  ${chalk.bold.underline('usage')}
+  ${styles.title('Usage')}
 
     gitdocs build [options]
 
-  ${chalk.bold.underline('options')}
+  ${styles.title('Options')}
 
-    ${chalk.italic.dim('no options yet')}`
+    ${styles.subnote('no options yet')}`
