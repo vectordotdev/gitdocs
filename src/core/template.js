@@ -1,21 +1,32 @@
-import helmet from 'react-helmet'
-import { renderToString } from 'react-dom/server'
-import { ServerStyleSheet } from 'styled-components'
+import syspath from 'path'
 import { minify } from 'html-minifier'
-import serverEntry from '../themes/server'
+import serverRender from '../themes/server'
 
-export default async function (url, props, bundleFiles) {
-  const app = serverEntry(url, props)
-  const sheet = new ServerStyleSheet()
+export default async function (env, route, props, bundleFiles) {
+  const scripts = bundleFiles
+    .filter(bundle => syspath.extname(bundle) === '.js')
+    .map(bundle => `<script type="text/javascript" src="/${bundle}"></script>`)
+    .join('\n')
 
-  const rendered = renderToString(sheet.collectStyles(app))
-  const helmetData = helmet.renderStatic()
-  const styleTags = sheet.getStyleTags()
+  if (env === 'development') {
+    return `
+      <!doctype html>
+      <html>
+        <body>
+          <div id="gitdocs-app"></div>
+          ${scripts}
+        </body>
+      </html>
+    `
+  }
 
-  const scripts = bundleFiles.map(bundle =>
-    `<script type="text/javascript" src="/${bundle}"></script>`)
+  const {
+    rendered,
+    helmetData,
+    styleTags,
+  } = serverRender(route, props)
 
-  const html = `
+  const template = `
     <!doctype html>
     <html ${helmetData.htmlAttributes.toString()}>
       <head>
@@ -25,22 +36,21 @@ export default async function (url, props, bundleFiles) {
         ${helmetData.link.toString()}
         ${helmetData.style.toString()}
         ${helmetData.script.toString()}
+
         ${styleTags}
       </head>
       <body ${helmetData.bodyAttributes.toString()}>
         ${helmetData.noscript.toString()}
 
         <div id="gitdocs-app">${rendered}</div>
-        ${scripts.join('\n')}
+        ${scripts}
       </body>
     </html>
   `
 
-  return props.env === 'production'
-    ? minify(html, {
-      minifyCSS: true,
-      collapseWhitespace: true,
-      removeComments: true,
-    })
-    : html
+  return minify(template, {
+    minifyCSS: true,
+    collapseWhitespace: true,
+    removeComments: true,
+  })
 }

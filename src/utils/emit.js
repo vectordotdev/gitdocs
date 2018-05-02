@@ -50,15 +50,21 @@ export function error (err, exit) {
 }
 
 export function progress (opts = {}) {
-  const text = opts.text ? `${opts.text} ` : ''
-  const bar = styles.info(`  ${text}:bar`)
+  const prepend = opts.prepend ? `${opts.prepend}  ` : ''
+  const append = opts.append ? `  ${opts.append}` : ''
+  const bar = styles.info(`  ${prepend}:bar${append}`)
 
-  return new Progress(bar, {
+  const progressBar = new Progress(bar, {
     width: Math.floor(process.stdout.columns / 3),
     incomplete: styles.inactive(CHAR_BAR),
     complete: CHAR_BAR,
-    total: opts.total || 0,
+    total: (opts.total || 0) + 1,
     clear: opts.clear,
   })
+
+  // make sure it shows up immediately
+  progressBar.tick()
+
+  return progressBar
 }
 

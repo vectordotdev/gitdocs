@@ -4,7 +4,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import renderTemplate from './template'
 import attachSocket from './socket'
 
-export default function (compiler, props) {
+export default function (env, compiler, props) {
   const {
     host,
     port,
@@ -23,11 +23,14 @@ export default function (compiler, props) {
     try {
       const stats = res.locals.webpackStats.toJson()
       const bundleFiles = stats.entrypoints.main.assets
+      const route = props.manifest.files.find(file => file.url === req.url)
 
-      const rendered = await renderTemplate(req.url, props, bundleFiles)
+      if (route) {
+        const rendered = await renderTemplate(env, route, props, bundleFiles)
 
-      res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.end(rendered)
+        res.setHeader('Content-Type', 'text/html; charset=utf-8')
+        res.end(rendered)
+      }
 
       next()
     } catch (err) {

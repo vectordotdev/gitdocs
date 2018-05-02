@@ -14,7 +14,7 @@ export default function (server, manifest) {
         const action = initial ? 'Loading' : 'Reloading'
         log(`${action} ${styles.note(item.url)}`)
 
-        Object.assign(item, await source(item))
+        Object.assign(item, await source(item.file))
         client.send(JSON.stringify(item))
       } catch (err) {
         error(err)

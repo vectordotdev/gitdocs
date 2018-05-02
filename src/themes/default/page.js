@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 import Markdown from 'markdown-to-jsx'
-import styled from 'styled-components'
 import Loading from './loading'
-
-export const Wrapper = styled.div`
-
-`
 
 export default class extends Component {
   constructor (props) {
@@ -47,7 +42,7 @@ export default class extends Component {
     } = this.state.route
 
     return (
-      <Wrapper>
+      <div>
         <Helmet>
           <title>{title}</title>
 
@@ -63,7 +58,7 @@ export default class extends Component {
             ? <Markdown>{content}</Markdown>
             : <Loading />}
         </div>
-      </Wrapper>
+      </div>
     )
   }
 }

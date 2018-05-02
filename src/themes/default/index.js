@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import normalize from 'styled-normalize'
 import Helmet from 'react-helmet'
-import Routes from '../routes'
 import Sidebar from './sidebar'
+import Routes from '../routes'
 import Page from './page'
 import NotFound from './not-found'
 
@@ -24,9 +24,10 @@ export default class extends Component {
     const {
       config,
       manifest,
+      // passed in for ssr only
+      route,
+      navigation,
     } = this.props
-
-    const socketUrl = `ws://${config.host}:${config.port}`
 
     return (
       <div>
@@ -40,14 +41,16 @@ export default class extends Component {
             name={config.name}
             logo={config.logo}
             links={manifest.navtree}
+            navigation={navigation}
           />
 
           <PageWrapper>
             <Routes
               routes={manifest.files}
+              currentRoute={route}
               componentPage={Page}
               component404={NotFound}
-              socketUrl={socketUrl}
+              socketUrl={`ws://${config.host}:${config.port}`}
             />
           </PageWrapper>
         </Wrapper>

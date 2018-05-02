@@ -19,7 +19,7 @@ export default async function (args, config) {
   const compiler = await getCompiler(env, props)
   compiler.onProgress(i => bar.tick(i))
 
-  const server = await startServer(compiler, props)
+  const server = await startServer(env, compiler, props)
   log(`We are live at ${styles.url(server.url)}`)
 }
 

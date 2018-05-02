@@ -6,10 +6,19 @@ class Routes extends Component {
   render () {
     const {
       routes,
+      currentRoute,
       componentPage: Page,
       component404,
       socketUrl,
     } = this.props
+
+    if (currentRoute) {
+      return (
+        <Page
+          route={currentRoute}
+        />
+      )
+    }
 
     return (
       <Switch>
@@ -37,6 +46,7 @@ class Routes extends Component {
 
 Routes.propTypes = {
   routes: PropTypes.array.isRequired,
+  currentRoute: PropTypes.object,
   componentPage: PropTypes.func.isRequired,
   component404: PropTypes.func.isRequired,
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Navigation from '../navigation'
 
 export const Wrapper = styled.div`
   position: fixed;
@@ -24,19 +23,7 @@ export const Logo = styled(Link)`
   }
 `
 
-export const Nav = styled.ul`
-  flex: 1;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 0 15px;
-`
-
-export const NavItem = styled.li`
-
-`
-
 export const Callout = styled.div`
-  background: gray;
   padding: 10px;
   margin: 10px;
   border-radius: 4px;
@@ -44,6 +31,23 @@ export const Callout = styled.div`
   font-size: 10px;
   color: lightgray;
 `
+
+function navItems (items, lvl = 0) {
+  return (
+    <ul style={{ marginLeft: `${lvl * 15}px` }}>
+      {items.map(item => (
+        <li key={`nav-${item.link}`}>
+          {item.link
+            ? <Link to={item.link}>{item.text}</Link>
+            : item.text}
+
+          {item.children &&
+            navItems(item.children, lvl + 1)}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export default function (props) {
   // const logo = props.logo
@@ -54,11 +58,7 @@ export default function (props) {
     <Wrapper>
       <Logo to="/">{props.name}</Logo>
 
-      <Navigation
-        items={props.links}
-        componentNav={Nav}
-        componentNavItem={NavItem}
-      />
+      {navItems(props.links)}
 
       <Callout>Built with GitDocs</Callout>
     </Wrapper>

@@ -38,7 +38,7 @@ async function hydrate (file, baseDir, outputDir, shouldGetContent) {
   }
 
   if (shouldGetContent) {
-    item.content = await source(item.file)
+    Object.assign(item, await source(item.file))
   }
 
   return item

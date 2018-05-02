@@ -31,8 +31,8 @@ async function _fetchSource (source) {
   }
 }
 
-export default async function (item) {
-  const fm = await getFrontmatterWithContent(item.file)
+export default async function (file) {
+  const fm = await getFrontmatterWithContent(file)
   const result = {
     ...fm.data,
     content: fm.content,

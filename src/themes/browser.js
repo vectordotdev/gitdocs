@@ -1,11 +1,15 @@
 import React from 'react'
-import { hydrate } from 'react-dom'
+import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import Entry from './entry'
+import App from './'
 
-hydrate(
+const render = process.env.NODE_ENV === 'production'
+  ? ReactDOM.hydrate
+  : ReactDOM.render
+
+render(
   <BrowserRouter>
-    <Entry {...process.env.PROPS} />
+    <App {...process.env.PROPS} />
   </BrowserRouter>,
   document.getElementById('gitdocs-app'),
 )

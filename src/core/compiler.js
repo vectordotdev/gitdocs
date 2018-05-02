@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs-extra'
 import webpack from 'webpack'
 import ProgressPlugin from 'webpack/lib/ProgressPlugin'
 
@@ -50,6 +51,7 @@ export default async function (env, props) {
 
       new webpack.DefinePlugin({
         'process.env': JSON.stringify({
+          NODE_ENV: env,
           PROPS: props,
         }),
       }),
@@ -69,7 +71,9 @@ export default async function (env, props) {
     }).apply(compiler)
   }
 
-  compiler.build = () => {
+  compiler.build = async () => {
+    await fs.emptyDir(props.config.output)
+
     return new Promise((resolve, reject) => {
       compiler.run((err, stats) => {
         err || stats.hasErrors()

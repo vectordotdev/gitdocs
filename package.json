@@ -41,7 +41,6 @@
 		"watch": "npm run compile -- -w",
 		"build:macos": "pkg . -t node8.3-macos-x64 -o builds/gitdocs-macos-x64",
 		"build:linux": "pkg . -t node8.3-linux-x64 -o builds/gitdocs-linux-x64",
-		"build:freebsd": "pkg . -t node8.3-freebsd-x64 -o builds/gitdocs-freebsd-x64",
 		"build:windows": "pkg . -t node8.3-win-x64 -o builds/gitdocs-windows-x64",
 		"prebuild": "npm run compile && rm -rf builds",
 		"build": "npm-run-all build:*"
@@ -89,7 +88,6 @@
 		"resolve": "^1.7.1",
 		"styled-components": "^3.2.6",
 		"styled-normalize": "^4.0.0",
-		"styled-system": "^2.2.1",
 		"webpack": "^4.6.0",
 		"webpack-dev-middleware": "^3.1.3",
 		"ws": "^5.1.1"
