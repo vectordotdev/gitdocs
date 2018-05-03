@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 import Markdown from 'markdown-to-jsx'
-import Loading from './loading'
+import Loading from '../loading'
+import styles from './styles'
 
 export default class extends Component {
   constructor (props) {
@@ -42,7 +43,7 @@ export default class extends Component {
     } = this.state.route
 
     return (
-      <div>
+      <div {...styles.wrapper}>
         <Helmet>
           <title>{title}</title>
 

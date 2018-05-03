@@ -1,23 +1,11 @@
+import 'glamor/reset'
 import React, { Component } from 'react'
-import styled, { injectGlobal } from 'styled-components'
-import normalize from 'styled-normalize'
 import Helmet from 'react-helmet'
 import Sidebar from './sidebar'
 import Routes from '../routes'
 import Page from './page'
 import NotFound from './not-found'
-
-injectGlobal`${normalize}`
-
-const Wrapper = styled.div`
-  max-width: 1200px;
-  margin: 30px auto;
-`
-
-const PageWrapper = styled.div`
-  padding: 20px 50px;
-  margin-left: 280px;
-`
+import styles from './styles'
 
 export default class extends Component {
   render () {
@@ -25,8 +13,7 @@ export default class extends Component {
       config,
       manifest,
       // passed in for ssr only
-      route,
-      navigation,
+      currentRoute,
     } = this.props
 
     return (
@@ -36,24 +23,21 @@ export default class extends Component {
           titleTemplate={`%s · ${config.name}`}
         />
 
-        <Wrapper>
+        <div {...styles.wrapper}>
           <Sidebar
             name={config.name}
             logo={config.logo}
             links={manifest.navtree}
-            navigation={navigation}
           />
 
-          <PageWrapper>
-            <Routes
-              routes={manifest.files}
-              currentRoute={route}
-              componentPage={Page}
-              component404={NotFound}
-              socketUrl={`ws://${config.host}:${config.port}`}
-            />
-          </PageWrapper>
-        </Wrapper>
+          <Routes
+            routes={manifest.files}
+            currentRoute={currentRoute}
+            socketUrl={`ws://${config.host}:${config.port}`}
+            componentPage={Page}
+            component404={NotFound}
+          />
+        </div>
       </div>
     )
   }

@@ -1,11 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+// import { rehydrate } from 'glamor'
 import App from './'
 
 const render = process.env.NODE_ENV === 'production'
   ? ReactDOM.hydrate
   : ReactDOM.render
+
+if (module.hot) {
+  module.hot.accept()
+}
+
+// if (window._glamorIds) {
+//   rehydrate(window._glamorIds)
+// }
 
 render(
   <BrowserRouter>
@@ -13,7 +22,3 @@ render(
   </BrowserRouter>,
   document.getElementById('gitdocs-app'),
 )
-
-if (module.hot) {
-  module.hot.accept()
-}

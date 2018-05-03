@@ -20,29 +20,26 @@ export default async function (env, route, props, bundleFiles) {
     `
   }
 
-  const {
-    rendered,
-    helmetData,
-    styleTags,
-  } = serverRender(route, props)
-
+  const rendered = serverRender(route, props)
   const template = `
     <!doctype html>
-    <html ${helmetData.htmlAttributes.toString()}>
+    <html ${rendered.helmetData.htmlAttributes.toString()}>
       <head>
-        ${helmetData.title.toString()}
-        ${helmetData.base.toString()}
-        ${helmetData.meta.toString()}
-        ${helmetData.link.toString()}
-        ${helmetData.style.toString()}
-        ${helmetData.script.toString()}
+        ${rendered.helmetData.title.toString()}
+        ${rendered.helmetData.base.toString()}
+        ${rendered.helmetData.meta.toString()}
+        ${rendered.helmetData.link.toString()}
+        ${rendered.helmetData.style.toString()}
+        ${rendered.helmetData.script.toString()}
 
-        ${styleTags}
+        <style type="text/css">${rendered.css}</style>
       </head>
-      <body ${helmetData.bodyAttributes.toString()}>
-        ${helmetData.noscript.toString()}
+      <body ${rendered.helmetData.bodyAttributes.toString()}>
+        ${rendered.helmetData.noscript.toString()}
 
-        <div id="gitdocs-app">${rendered}</div>
+        <div id="gitdocs-app">${rendered.html}</div>
+
+        <script>window._glamorIds = ${JSON.stringify(rendered.ids)}</script>
         ${scripts}
       </body>
     </html>

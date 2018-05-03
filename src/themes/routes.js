@@ -7,9 +7,9 @@ class Routes extends Component {
     const {
       routes,
       currentRoute,
-      componentPage: Page,
-      component404,
       socketUrl,
+      componentPage: Page,
+      component404: NotFound,
     } = this.props
 
     if (currentRoute) {
@@ -38,15 +38,15 @@ class Routes extends Component {
           )
         })}
 
-        <Route component={component404} />
+        <Route component={NotFound} />
       </Switch>
     )
   }
 }
 
 Routes.propTypes = {
-  routes: PropTypes.array.isRequired,
   currentRoute: PropTypes.object,
+  routes: PropTypes.array.isRequired,
   componentPage: PropTypes.func.isRequired,
   component404: PropTypes.func.isRequired,
 }

@@ -1,9 +1,9 @@
-import path from 'path'
+import syspath from 'path'
 import fs from 'fs-extra'
 import webpack from 'webpack'
 import ProgressPlugin from 'webpack/lib/ProgressPlugin'
 
-const THEMES_DIR = path.resolve(__dirname, '../themes')
+const THEMES_DIR = syspath.resolve(__dirname, '../themes')
 
 export default async function (env, props) {
   const isDev = env === 'development'
@@ -15,22 +15,25 @@ export default async function (env, props) {
       : 'cheap-module-source-map',
     context: `${THEMES_DIR}/${props.config.theme}`,
     entry: {
-      main: `${THEMES_DIR}/browser.js`,
+      main: [
+        isDev && 'webpack-hot-middleware/client',
+        `${THEMES_DIR}/browser.js`,
+      ].filter(Boolean),
     },
     output: {
       filename: '[hash].js',
       chunkFilename: '[chunkhash].chunk.js',
-      path: path.resolve(props.config.output),
+      path: syspath.resolve(props.config.output),
       publicPath: '/',
     },
     resolve: {
       modules: [process.cwd(), 'node_modules'],
       alias: {
         // temporary hack to get around duplicate sc issue
-        'styled-components': path.resolve(
-          __dirname,
-          '../../node_modules/styled-components'
-        ),
+        // 'styled-components': syspath.resolve(
+        //   __dirname,
+        //   '../../node_modules/styled-components'
+        // ),
       },
     },
     module: {
@@ -47,7 +50,8 @@ export default async function (env, props) {
       ],
     },
     plugins: [
-      isDev && new webpack.HotModuleReplacementPlugin(),
+      isDev &&
+        new webpack.HotModuleReplacementPlugin(),
 
       new webpack.DefinePlugin({
         'process.env': JSON.stringify({

@@ -1,6 +1,7 @@
 import http from 'http'
 import connect from 'connect'
 import webpackDevMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
 import renderTemplate from './template'
 import attachSocket from './socket'
 
@@ -18,7 +19,13 @@ export default function (env, compiler, props) {
     serverSideRender: true,
   })
 
+  const compilerHotInstance = webpackHotMiddleware(compiler, {
+    log: false,
+  })
+
   app.use(compilerInstance)
+  app.use(compilerHotInstance)
+
   app.use(async (req, res, next) => {
     try {
       const stats = res.locals.webpackStats.toJson()

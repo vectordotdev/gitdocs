@@ -1,7 +1,7 @@
 import React from 'react'
 import { StaticRouter } from 'react-router-dom'
 import { renderToString } from 'react-dom/server'
-import { ServerStyleSheet } from 'styled-components'
+import { renderStaticOptimized } from 'glamor/server'
 import helmet from 'react-helmet'
 import App from './'
 // import Navigation from './navigation'
@@ -13,28 +13,22 @@ export default function (route, props) {
   //   />
   // )
 
-  const sheet = new ServerStyleSheet()
-  const rendered = renderToString(
-    sheet.collectStyles(
+  const rendered = renderStaticOptimized(() =>
+    renderToString(
       <StaticRouter
         context={{}}
         location={route.url}
       >
         <App
           {...props}
-          route={route}
+          currentRoute={route}
           // navigation={nav}
         />
       </StaticRouter>
-    )
-  )
-
-  const helmetData = helmet.renderStatic()
-  const styleTags = sheet.getStyleTags()
+    ))
 
   return {
-    rendered,
-    helmetData,
-    styleTags,
+    ...rendered,
+    helmetData: helmet.renderStatic(),
   }
 }
