@@ -51,4 +51,8 @@ Routes.propTypes = {
   component404: PropTypes.func.isRequired,
 }
 
+Routes.defaultProps = {
+  currentRoute: null,
+}
+
 export default Routes

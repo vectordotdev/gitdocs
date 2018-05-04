@@ -3,6 +3,7 @@ import syspath from 'path'
 import ourpath from '../utils/path'
 import source from '../utils/source'
 import { getFrontmatter } from '../utils/frontmatter'
+import { warn } from '../utils/emit'
 
 /**
  * prevents having both something/index.md and something.md,
@@ -16,6 +17,20 @@ async function checkForIndexConflict (file) {
 
   if (indexFile !== file && await fs.pathExists(indexFile)) {
     throw new Error(`Conflicting files were found! Please use one or the other.\n\t- ${file}\n\t- ${indexFile}`)
+  }
+}
+
+/**
+ * show warning if you have a file and folder with the same name
+ * such as something/* and something.md
+ */
+async function warnForIndexConflict (file) {
+  const dir = syspath.dirname(file)
+  const base = syspath.basename(file, syspath.extname(file))
+  const conflictDir = `${dir}/${base}`
+
+  if (await fs.pathExists(conflictDir)) {
+    warn(`Consider moving ${file} to ${conflictDir}/index.md`)
   }
 }
 
@@ -47,6 +62,7 @@ async function hydrate (file, baseDir, outputDir, shouldGetContent) {
 async function buildManifest (env, opts = {}) {
   const files = []
   const filemap = {}
+  const urlmap = {}
 
   const _walk = async path => {
     const ext = syspath.extname(path)
@@ -61,6 +77,7 @@ async function buildManifest (env, opts = {}) {
         return null
       }
 
+      await warnForIndexConflict(path)
       await checkForIndexConflict(path)
 
       const isIndex = /\/index\.[\w]+$/.test(path)
@@ -68,6 +85,7 @@ async function buildManifest (env, opts = {}) {
       const hydrated = await hydrate(path, opts.dir, opts.outputDir, shouldGetContent)
 
       filemap[path] = files.push(hydrated) - 1
+      urlmap[hydrated.url] = filemap[path]
 
       return isIndex ? {
         indexLink: hydrated.url,
@@ -106,6 +124,7 @@ async function buildManifest (env, opts = {}) {
   return {
     files,
     filemap,
+    urlmap,
     navtree,
   }
 }
@@ -119,11 +138,15 @@ export default async function (env, config) {
   const ignoredPattern = /(?:^|[/\\])(\.|_)./
 
   const manifest = await buildManifest(env, {
-    dir: config.root,
-    outputDir: config.output,
+    dir: syspath.resolve(config.root),
+    outputDir: syspath.resolve(config.output),
     extensions: ['.md'],
     exclude: ignoredPattern,
   })
+
+  if (manifest.urlmap['/'] === undefined) {
+    warn('No index file was found! Create an `index.md` at the root of your project.')
+  }
 
   return manifest
 }

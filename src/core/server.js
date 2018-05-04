@@ -30,13 +30,17 @@ export default function (env, compiler, props) {
     try {
       const stats = res.locals.webpackStats.toJson()
       const bundleFiles = stats.entrypoints.main.assets
-      const route = props.manifest.files.find(file => file.url === req.url)
+      const routeIdx = props.manifest.urlmap[req.url]
 
-      if (route) {
+      if (routeIdx !== undefined) {
+        const route = props.manifest.files[routeIdx]
         const rendered = await renderTemplate(env, route, props, bundleFiles)
 
         res.setHeader('Content-Type', 'text/html; charset=utf-8')
         res.end(rendered)
+      } else {
+        res.statusCode = 404
+        res.end('Route was not found :(')
       }
 
       next()

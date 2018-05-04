@@ -1,4 +1,3 @@
-import path from 'path'
 import fs from 'fs-extra'
 import deepmerge from 'deepmerge'
 
@@ -14,32 +13,30 @@ const JSON_FORMAT = {
 const DEFAULT_CONFIG = {
   name: 'GitDocs',
   // logo: '',
-  root: 'docs',
+  root: '.',
   output: '.gitdocs_output',
   host: 'localhost',
   port: 8000,
   theme: 'default',
   // theme_overrides: {},
+  // navigation: [],
 }
 
 function _getConfigFilename () {
   return FILENAMES.find(fs.pathExistsSync)
 }
 
-export async function createConfig (projectName, root) {
+export async function createConfig (name, root) {
   if (_getConfigFilename()) {
     throw new Error('GitDocs is already initialized in this folder!')
   }
 
-  const newConfig = {
-    name: projectName || path.basename(process.cwd()),
-  }
+  const newConfig = { name, root }
+  const configFile = FILENAMES[0]
 
-  if (root !== DEFAULT_CONFIG.root) {
-    newConfig.root = root
-  }
+  await fs.outputJson(configFile, newConfig, JSON_FORMAT)
 
-  await fs.outputJson(FILENAMES[0], newConfig, JSON_FORMAT)
+  return configFile
 }
 
 export default async function (customFile) {

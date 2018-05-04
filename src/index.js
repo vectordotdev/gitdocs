@@ -1,10 +1,8 @@
 import getArguments from './utils/arguments'
 import getConfig from './utils/config'
-import { hideCursor, error } from './utils/emit'
+import { error } from './utils/emit'
 
 export default async function () {
-  hideCursor()
-
   try {
     const args = getArguments()
     const config = await getConfig(args.config)

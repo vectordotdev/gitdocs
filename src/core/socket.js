@@ -1,5 +1,5 @@
+import fs from 'fs'
 import WebSocket from 'ws'
-import chokidar from 'chokidar'
 import source from '../utils/source'
 import { styles, log, error } from '../utils/emit'
 
@@ -9,6 +9,8 @@ export default function (server, manifest) {
   })
 
   socket.on('connection', client => {
+    let watcher
+
     client.sendContent = async (item, initial) => {
       try {
         const action = initial ? 'Loading' : 'Reloading'
@@ -21,23 +23,24 @@ export default function (server, manifest) {
       }
     }
 
-    const watcher = chokidar.watch()
-      .on('change', file => {
-        const fileIdx = manifest.filemap[file]
-        const item = manifest.files[fileIdx]
-
-        client.sendContent(item)
-      })
-
     client.on('message', evt => {
+      // console.log(evt)
       const item = JSON.parse(evt)
-
       client.sendContent(item, true)
-      watcher.add(item.file)
+
+      if (!watcher) {
+        watcher = fs.watch(item.file, fileEvt => {
+          if (fileEvt === 'change') {
+            client.sendContent(item)
+          }
+        })
+      }
     })
 
     client.on('close', () => {
-      watcher.close()
+      if (watcher) {
+        watcher.close()
+      }
     })
   })
 

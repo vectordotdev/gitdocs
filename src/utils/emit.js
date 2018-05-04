@@ -37,7 +37,8 @@ export function log (msg, firstLine) {
 }
 
 export function warn (msg) {
-  process.stderr.write(styles.warn(`Warning: ${msg}\n`))
+  const pre = styles.warn(CHAR_PRE)
+  process.stderr.write(`${pre} ${styles.warn(`Warning: ${msg}\n`)}`)
 }
 
 export function error (err, exit) {

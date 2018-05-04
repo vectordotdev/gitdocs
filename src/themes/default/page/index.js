@@ -43,7 +43,7 @@ export default class extends Component {
     } = this.state.route
 
     return (
-      <div {...styles.wrapper}>
+      <div className={styles.wrapper}>
         <Helmet>
           <title>{title}</title>
 
@@ -54,10 +54,12 @@ export default class extends Component {
           />
         </Helmet>
 
-        <div className="markdown-body">
-          {content
-            ? <Markdown>{content}</Markdown>
-            : <Loading />}
+        <div className={styles.body}>
+          <div className="markdown-body">
+            {content
+              ? <Markdown>{content}</Markdown>
+              : <Loading />}
+          </div>
         </div>
       </div>
     )

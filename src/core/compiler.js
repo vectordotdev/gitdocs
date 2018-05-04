@@ -4,16 +4,17 @@ import webpack from 'webpack'
 import ProgressPlugin from 'webpack/lib/ProgressPlugin'
 
 const THEMES_DIR = syspath.resolve(__dirname, '../themes')
+const NODE_MODS_DIR = syspath.resolve(__dirname, '../../node_modules')
 
 export default async function (env, props) {
   const isDev = env === 'development'
 
   const compiler = webpack({
     mode: env,
+    context: `${THEMES_DIR}/${props.config.theme}`,
     devtool: isDev
       ? 'cheap-module-eval-source-map'
       : 'cheap-module-source-map',
-    context: `${THEMES_DIR}/${props.config.theme}`,
     entry: {
       main: [
         isDev && 'webpack-hot-middleware/client',
@@ -27,14 +28,14 @@ export default async function (env, props) {
       publicPath: '/',
     },
     resolve: {
-      modules: [process.cwd(), 'node_modules'],
-      alias: {
-        // temporary hack to get around duplicate sc issue
-        // 'styled-components': syspath.resolve(
-        //   __dirname,
-        //   '../../node_modules/styled-components'
-        // ),
-      },
+      modules: [NODE_MODS_DIR, 'node_modules'],
+      // alias: {
+      // temporary hack to get around duplicate sc issue
+      // 'styled-components': syspath.resolve(
+      //   __dirname,
+      //   '../../node_modules/styled-components'
+      // ),
+      // },
     },
     module: {
       rules: [

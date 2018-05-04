@@ -1,13 +1,19 @@
 import syspath from 'path'
 
+function _escapeForRegex (str) {
+  return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+}
+
 function _removeBase (str, base, replaceWith = '') {
-  const pattern = new RegExp(`^${base}`)
+  const pattern = new RegExp(`^${_escapeForRegex(base)}`)
   return str.replace(pattern, replaceWith)
 }
 
 function _removeExtAndIdx (str) {
+  const ext = syspath.extname(str).slice(1)
+
   const patternIdx = /(.*?)\/(?:index)?$/
-  const patternExt = new RegExp(`\\.${syspath.extname(str).slice(1)}$`)
+  const patternExt = new RegExp(`\\.${_escapeForRegex(ext)}$`)
 
   return str
     .replace(patternExt, '')

@@ -2,11 +2,14 @@ import { css } from 'glamor'
 
 export default {
   wrapper: css({
-    padding: '10px',
-    margin: '10px',
-    borderRadius: '4px',
+    color: 'rgba(0, 0, 0, .2)',
+    fontSize: '.8rem',
+    fontWeight: 900,
+    padding: '20px',
     textAlign: 'center',
-    fontSize: '10px',
-    color: 'lightgray',
+    textDecoration: 'none',
+    ':hover': {
+      color: 'rgba(0, 0, 0, .4)',
+    },
   }),
 }

@@ -1,21 +1,31 @@
-import path from 'path'
+import syspath from 'path'
 import fs from 'fs-extra'
+import { ask, confirm } from '../utils/readline'
 import { createConfig } from '../utils/config'
 import { styles, log } from '../utils/emit'
 
-const STARTER_DIR = path.resolve(__dirname, '../../starter')
+const STARTER_DIR = syspath.resolve(__dirname, '../../starter')
 
 export default async function (args, config) {
-  log('Setting up a new GitDocs project', true)
+  const name = await ask('What is the name of your project?', {
+    default: syspath.basename(process.cwd()),
+  })
 
-  const dir = args._[1] || config.root
-  await createConfig(args.name, dir)
+  const existingDocs = args._[1] ||
+    await confirm('Do you already have some docs?', { default: 'y' })
 
-  if (await fs.pathExists(dir)) {
-    log(`Using ${styles.note(`${dir}/`)} as your docs folder`)
+  const root = args._[1] || (existingDocs
+    ? await ask('Where are your doc files?', { default: config.root })
+    : 'docs/')
+
+  const file = await createConfig(name, root)
+  log(`Created new config file at ${styles.note(file)}`, true)
+
+  if (await fs.pathExists(root)) {
+    log(`Using ${styles.note(root)} as your docs folder`)
   } else {
-    log(`Creating some documentation at ${styles.note(`${dir}/`)}`)
-    await fs.copy(STARTER_DIR, dir)
+    log(`Creating some documentation at ${styles.note(root)}`)
+    await fs.copy(STARTER_DIR, root)
   }
 
   log(`Ready to go! Run ${styles.note('gitdocs serve')} to get started`)

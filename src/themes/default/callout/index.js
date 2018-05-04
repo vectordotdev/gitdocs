@@ -3,8 +3,12 @@ import styles from './styles'
 
 export default function (props) {
   return (
-    <div {...styles.wrapper}>
-      Built with GitDocs
-    </div>
+    <a
+      target="_blank"
+      href="https://github.com/timberio/gitdocs"
+      className={styles.wrapper}
+    >
+      Powered by GitDocs
+    </a>
   )
 }
