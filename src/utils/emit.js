@@ -43,9 +43,11 @@ export function warn (msg) {
 
 export function error (err, exit) {
   const pre = styles.critical(CHAR_PRE)
-  err.name !== 'Error' && err.stack
-    ? process.stderr.write(`${pre} ${styles.error(err.stack)}`)
-    : process.stderr.write(`${pre} ${styles.critical(err.message || err)}`)
+  err
+    ? err.name !== 'Error' && err.stack
+      ? process.stderr.write(`${pre} ${styles.error(err.stack)}`)
+      : process.stderr.write(`${pre} ${styles.critical(err.message || err)}`)
+    : process.stderr.write(`${pre} ${styles.critical('An unknown error occurred!')}`)
 
   exit && process.exit(1)
 }

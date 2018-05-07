@@ -17,9 +17,12 @@ const DEFAULT_CONFIG = {
   output: '.gitdocs_output',
   host: 'localhost',
   port: 8000,
+  languages: ['bash', 'json'],
   theme: 'default',
   // theme_overrides: {},
-  // navigation: [],
+  // sidebar: [],
+  // sidebar_links: [],
+  // header_links: [],
 }
 
 function _getConfigFilename () {
@@ -31,9 +34,19 @@ export async function createConfig (name, root) {
     throw new Error('GitDocs is already initialized in this folder!')
   }
 
-  const newConfig = { name, root }
-  const configFile = FILENAMES[0]
+  const newConfig = {
+    name,
+    root,
+    sidebar_links: [
+      { text: 'GitHub', href: 'https://github.com/timberio/gitdocs', target: '_blank' },
+      { text: 'Troubleshooting', href: 'https://github.com/timberio/gitdocs/issues', target: '_blank' },
+    ],
+    header_links: [
+      { text: 'About', href: 'https://timber.io/about', target: '_blank' },
+    ],
+  }
 
+  const configFile = FILENAMES[0]
   await fs.outputJson(configFile, newConfig, JSON_FORMAT)
 
   return configFile

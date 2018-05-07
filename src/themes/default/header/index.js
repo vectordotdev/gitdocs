@@ -1,16 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { placeholder } from 'glamor'
 import styles from './styles'
 
 function Header (props) {
   return (
     <header className={styles.wrapper}>
-      <Link className={styles.logo} to="/">
-        {props.name.toUpperCase()}
-      </Link>
+      <input
+        {...placeholder(styles.searchPlaceholder)}
+        className={styles.search}
+        placeholder="Search documentation..."
+      />
 
       <nav className={styles.nav}>
-        {props.navigation.map(({ text, ...rest }) => (
+        {props.links.map(({ text, ...rest }) => (
           <a {...rest} key={`nav-${text}`}>{text}</a>
         ))}
       </nav>
@@ -19,7 +21,7 @@ function Header (props) {
 }
 
 Header.defaultProps = {
-  navigation: [],
+  links: [],
 }
 
 export default Header

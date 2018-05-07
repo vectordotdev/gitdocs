@@ -29,26 +29,30 @@ export default class extends Component {
           />
         </Helmet>
 
-        <Header
-          name={config.name}
-          logo={config.logo}
-          navigation={config.navigation}
-        />
+        <div className={styles.nav}>
+          <Sidebar
+            name={config.name}
+            logo={config.logo}
+            links={config.sidebar_links}
+            navtree={config.sidebar || manifest.navtree}
+            currentRoute={currentRoute}
+          />
+        </div>
 
-        <Sidebar
-          name={config.name}
-          logo={config.logo}
-          links={config.sidebar || manifest.navtree}
-          currentRoute={currentRoute}
-        />
+        <div className={styles.page}>
+          <Header
+            name={config.name}
+            links={config.header_links}
+          />
 
-        <Routes
-          routes={manifest.files}
-          currentRoute={currentRoute}
-          socketUrl={`ws://${config.host}:${config.port}`}
-          componentPage={Page}
-          component404={NotFound}
-        />
+          <Routes
+            config={config}
+            routes={manifest.files}
+            currentRoute={currentRoute}
+            componentPage={Page}
+            component404={NotFound}
+          />
+        </div>
       </div>
     )
   }

@@ -3,35 +3,33 @@ import { css } from 'glamor'
 export default {
   wrapper: css({
     display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: '80px',
-    padding: '0 40px',
-    background: 'rgba(255, 255, 255, .98)',
-    borderBottom: '1px solid #f1f3f5',
+    justifyContent: 'space-between',
+    height: '70px',
+    padding: '0 30px',
+    borderBottom: '1px solid #E6E9EB',
   }),
 
-  logo: css({
-    color: '#5f57ad',
-    fontSize: '1.3rem',
-    fontWeight: 300,
-    textDecoration: 'none',
+  search: css({
+    fontSize: '.9rem',
+    padding: '8px 15px',
+    border: '1px solid #E6E9EB',
+    borderRadius: '30px',
+    width: '100%',
+  }),
+
+  searchPlaceholder: css({
+    color: '#ACB0B2',
   }),
 
   nav: css({
     '& a': {
       color: 'rgba(0, 0, 0, .5)',
-      paddingBottom: '3px',
+      padding: '4px 0',
       textDecoration: 'none',
-      ':not(:last-child)': {
-        marginRight: '40px',
-      },
+      marginLeft: '20px',
       ':hover': {
-        borderBottom: '1px solid rgba(0, 0, 0, .2)',
+        borderBottom: '1px solid rgba(0, 0, 0, .1)',
       },
     },
   }),

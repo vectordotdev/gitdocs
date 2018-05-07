@@ -5,9 +5,9 @@ import { Switch, Route } from 'react-router-dom'
 class Routes extends Component {
   render () {
     const {
+      config,
       routes,
       currentRoute,
-      socketUrl,
       componentPage: Page,
       component404: NotFound,
     } = this.props
@@ -15,6 +15,7 @@ class Routes extends Component {
     if (currentRoute) {
       return (
         <Page
+          config={config}
           route={currentRoute}
         />
       )
@@ -30,8 +31,8 @@ class Routes extends Component {
               path={route.url}
               render={() => (
                 <Page
+                  config={config}
                   route={route}
-                  socketUrl={socketUrl}
                 />
               )}
             />
@@ -45,8 +46,9 @@ class Routes extends Component {
 }
 
 Routes.propTypes = {
-  currentRoute: PropTypes.object,
+  config: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
+  currentRoute: PropTypes.object,
   componentPage: PropTypes.func.isRequired,
   component404: PropTypes.func.isRequired,
 }

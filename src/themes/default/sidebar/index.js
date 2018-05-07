@@ -1,8 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { css } from 'glamor'
 import { Accordion } from 'react-interface'
-import Callout from '../callout'
+import IconHamburger from '../icons/hamburger'
+import IconClose from '../icons/close'
+import IconLink from '../icons/link'
 import styles from './styles'
 
 // function hasActiveLink (url, items) {
@@ -32,49 +34,109 @@ import styles from './styles'
 //   }
 // }
 
-function navItems (path, items, parentIdx = 0) {
-  return (
-    <Accordion
-      className={styles.nav}
-      // selectedIdx={hasActiveLink(path, items)}
-    >
-      {items.map((item, idx) => {
-        const isActive = path === item.link
-        const triggerClass = css(
-          styles.navItem,
-          isActive ? styles.navItemActive : null,
-        )
+export default class extends Component {
+  constructor () {
+    super()
+    this.state = {
+      menuOpen: false,
+    }
+  }
 
-        const trigger = item.link
-          ? <Link className={triggerClass} to={item.link}>{item.text}</Link>
-          : <span className={triggerClass}>{item.text}</span>
+  navItems = (path, items, firstLevel) => {
+    const className = css(
+      styles.navItem,
+      !firstLevel ? styles.navItemNotFirst : '',
+    )
 
-        return (
+    return (
+      <Accordion
+        className={className}
+        // selectedIdx={hasActiveLink(path, items)}
+      >
+        {items.map(item => {
+          const trigger = item.link
+            ? <NavLink exact to={item.link}>{item.text}</NavLink>
+            : <a>{item.text}</a>
+
+          return (
+            <div
+              key={`nav-item-${item.link}`}
+              // onClick={() => this.setState({ menuOpen: false })}
+              trigger={trigger}
+            >
+              {item.children &&
+                this.navItems(path, item.children)}
+            </div>
+          )
+        })}
+      </Accordion>
+    )
+  }
+
+  render () {
+    const path = this.props.currentRoute
+      ? this.props.currentRoute.url
+      : window.location.pathname
+
+    const menuClassName = css(
+      styles.menuWrapper,
+      this.state.menuOpen ? styles.menuWrapperOpen : '',
+    )
+
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.topWrapper}>
+          <Link className={styles.logo} to="/">
+            {this.props.name}
+          </Link>
+
           <div
-            key={`nav-${item.link}`}
-            trigger={trigger}
+            className={styles.hamburger}
+            onClick={() => this.setState({ menuOpen: true })}
+            role="presentation"
           >
-            {item.children &&
-              navItems(path, item.children, parentIdx + 1)}
+            <IconHamburger className={styles.icons} />
           </div>
-        )
-      })}
-    </Accordion>
-  )
-}
+        </div>
 
-export default function (props) {
-  const path = props.currentRoute
-    ? props.currentRoute.url
-    : window.location.pathname
+        <div className={menuClassName}>
+          <div
+            className={styles.close}
+            onClick={() => this.setState({ menuOpen: false })}
+            role="presentation"
+          >
+            <IconClose className={styles.icons} />
+          </div>
 
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.wrapperNav}>
-        {navItems(path, props.links)}
+          <nav className={styles.nav}>
+            <div className={styles.navTree}>
+              {this.navItems(path, this.props.navtree, true)}
+            </div>
+
+            <div className={css(styles.navLinks, styles.navItem)}>
+              {this.props.links.map(({ text, ...rest }, key) => (
+                <a
+                  {...rest}
+                  key={`nav-link-${key}`}
+                  className={styles.navItem}
+                >
+                  {text}
+                  <IconLink />
+                </a>
+              ))}
+            </div>
+          </nav>
+
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/timberio/gitdocs"
+            className={styles.callout}
+          >
+            Powered by GitDocs
+          </a>
+        </div>
       </div>
-
-      <Callout />
-    </div>
-  )
+    )
+  }
 }

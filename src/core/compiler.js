@@ -9,9 +9,19 @@ const NODE_MODS_DIR = syspath.resolve(__dirname, '../../node_modules')
 export default async function (env, props) {
   const isDev = env === 'development'
 
+  // props.config.languages.forEach(lang => {
+  //   // languageAliases[`@lang/${lang}$`] = syspath.resolve(
+  //   //   NODE_MODS_DIR,
+  //   //   `react-syntax-highlighter/languages/hljs/${lang}.js`
+  //   // )
+  //   // languageAliases[`@lang/${lang}$`] =
+  //   //   `react-syntax-highlighter/languages/hljs/${lang}.js`
+  // })
+
   const compiler = webpack({
     mode: env,
-    context: `${THEMES_DIR}/${props.config.theme}`,
+    // context: `${THEMES_DIR}/${props.config.theme}`,
+    context: syspath.resolve(__dirname, '../../'),
     devtool: isDev
       ? 'cheap-module-eval-source-map'
       : 'cheap-module-source-map',
@@ -29,13 +39,6 @@ export default async function (env, props) {
     },
     resolve: {
       modules: [NODE_MODS_DIR, 'node_modules'],
-      // alias: {
-      // temporary hack to get around duplicate sc issue
-      // 'styled-components': syspath.resolve(
-      //   __dirname,
-      //   '../../node_modules/styled-components'
-      // ),
-      // },
     },
     module: {
       rules: [
@@ -58,6 +61,8 @@ export default async function (env, props) {
         'process.env': JSON.stringify({
           NODE_ENV: env,
           PROPS: props,
+          // LANGUAGES: props.config.languages.map(lang =>
+          // `react-syntax-highlighter/languages/hljs/${lang}.js`),
         }),
       }),
     ].filter(Boolean),
@@ -81,9 +86,11 @@ export default async function (env, props) {
 
     return new Promise((resolve, reject) => {
       compiler.run((err, stats) => {
+        const info = stats.toJson()
+
         err || stats.hasErrors()
-          ? reject(err)
-          : resolve(stats.toJson())
+          ? reject(info.errors.length ? info.errors : err)
+          : resolve(info)
       })
     })
   }

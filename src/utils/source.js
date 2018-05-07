@@ -43,11 +43,11 @@ export default async function (file) {
 
     switch (result.source_inject) {
       case 'before':
-        result.content = `${remoteContent}\n${fm.content}`
+        result.content = `${remoteContent}\n\n${fm.content}`
         break
 
       case 'after':
-        result.content = `${fm.content}\n${remoteContent}`
+        result.content = `${fm.content}\n\n${remoteContent}`
         break
 
       default:

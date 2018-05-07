@@ -13,6 +13,9 @@ export default function (route, props) {
   //   />
   // )
 
+  // process.env.LANGUAGES = props.config.languages.map(lang =>
+  //   `react-syntax-highlighter/languages/hljs/${lang}.js`)
+
   const rendered = renderStaticOptimized(() =>
     renderToString(
       <StaticRouter

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-import Markdown from 'markdown-to-jsx'
+import Markdown from '../../markdown'
 import Loading from '../loading'
 import styles from './styles'
 
@@ -14,7 +14,8 @@ export default class extends Component {
 
   componentDidMount () {
     if (process.env.NODE_ENV === 'development') {
-      this.socket = new WebSocket(this.props.socketUrl)
+      const { host, port } = this.props.config
+      this.socket = new WebSocket(`ws://${host}:${port}`)
 
       this.socket.addEventListener('open', evt => {
         this.socket.send(
@@ -38,6 +39,10 @@ export default class extends Component {
 
   render () {
     const {
+      config,
+    } = this.props
+
+    const {
       title,
       content,
     } = this.state.route
@@ -46,20 +51,12 @@ export default class extends Component {
       <div className={styles.wrapper}>
         <Helmet>
           <title>{title}</title>
-
-          <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css"
-          />
         </Helmet>
 
-        <div className={styles.body}>
-          <div className="markdown-body">
-            {content
-              ? <Markdown>{content}</Markdown>
-              : <Loading />}
-          </div>
+        <div>
+          {content
+            ? <Markdown source={content} languages={config.languages} />
+            : <Loading />}
         </div>
       </div>
     )
