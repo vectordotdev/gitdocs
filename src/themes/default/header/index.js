@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { placeholder } from 'glamor'
 import styles from './styles'
 
@@ -18,6 +19,10 @@ function Header (props) {
       </nav>
     </header>
   )
+}
+
+Header.propTypes = {
+  links: PropTypes.array,
 }
 
 Header.defaultProps = {

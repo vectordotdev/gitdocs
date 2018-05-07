@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import { css } from 'glamor'
 import { Accordion } from 'react-interface'
@@ -35,6 +36,14 @@ import styles from './styles'
 // }
 
 export default class extends Component {
+  static propTypes = {
+    links: PropTypes.array,
+  }
+
+  static defaultProps = {
+    links: [],
+  }
+
   constructor () {
     super()
     this.state = {
