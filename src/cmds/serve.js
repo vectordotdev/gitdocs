@@ -33,4 +33,5 @@ module.exports.menu = `
 
   ${styles.title('Options')}
 
-    ${styles.subnote('no options yet')}`
+    ${styles.subnote('no options yet')}
+`
