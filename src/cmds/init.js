@@ -1,12 +1,12 @@
-import syspath from 'path'
-import fs from 'fs-extra'
-import { ask, confirm } from '../utils/readline'
-import { createConfig } from '../utils/config'
-import { styles, log } from '../utils/emit'
+const syspath = require('path')
+const fs = require('fs-extra')
+const { ask, confirm } = require('../utils/readline')
+const { createConfig } = require('../utils/config')
+const { styles, log } = require('../utils/emit')
 
 const STARTER_DIR = syspath.resolve(__dirname, '../../starter')
 
-export default async function (args, config) {
+module.exports = async (args, config) => {
   const name = await ask('What is the name of your project?', {
     default: syspath.basename(process.cwd()),
   })
@@ -31,7 +31,7 @@ export default async function (args, config) {
   log(`Ready to go! Run ${styles.note('gitdocs serve')} to get started`)
 }
 
-export const menu = `
+module.exports.menu = `
   ${styles.title('Usage')}
 
     gitdocs init [dir] [options]

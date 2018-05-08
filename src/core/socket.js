@@ -1,9 +1,9 @@
-import fs from 'fs'
-import WebSocket from 'ws'
-import source from '../utils/source'
-import { styles, log, error } from '../utils/emit'
+const fs = require('fs')
+const WebSocket = require('ws')
+const source = require('../utils/source')
+const { styles, log, error } = require('../utils/emit')
 
-export default function (server, manifest) {
+module.exports = (server, manifest) => {
   const socket = new WebSocket.Server({
     server
   })

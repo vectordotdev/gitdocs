@@ -1,8 +1,8 @@
-import fs from 'fs-extra'
-import renderTemplate from './template'
-import { concurrentChunks } from '../utils/promise'
+const fs = require('fs-extra')
+const renderTemplate = require('./template')
+const { concurrentChunks } = require('../utils/promise')
 
-export default async function (env, stats, props, onEachItem) {
+module.exports = async (env, stats, props, onEachItem) => {
   const { files } = props.manifest
   const bundleFiles = stats.entrypoints.main.assets
 

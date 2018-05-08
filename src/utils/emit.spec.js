@@ -1,6 +1,5 @@
-import test from 'ava'
-import sinon from 'sinon'
-// import * as emit from './emit'
+const test = require('ava')
+const sinon = require('sinon')
 
 test.beforeEach(t => {
   t.context.write = process.stderr.write

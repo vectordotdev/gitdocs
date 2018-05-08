@@ -1,5 +1,5 @@
-import readline from 'readline'
-import { CHAR_PRE, styles } from './emit'
+const readline = require('readline')
+const { CHAR_PRE, styles } = require('./emit')
 
 const _getInterface = () =>
   readline.createInterface({
@@ -11,7 +11,7 @@ function _getQuestion (q, hint) {
   return `${CHAR_PRE} ${q}${hint ? styles.inactive(` (${hint})`) : ''} `
 }
 
-export function ask (question, opts = {}) {
+function ask (question, opts = {}) {
   return new Promise((resolve, reject) => {
     const iface = _getInterface()
     const message = _getQuestion(question, opts.default)
@@ -23,7 +23,7 @@ export function ask (question, opts = {}) {
   })
 }
 
-export function confirm (question, opts = {}) {
+function confirm (question, opts = {}) {
   return new Promise((resolve, reject) => {
     const iface = _getInterface()
     const message = _getQuestion(question, 'y/n')
@@ -33,4 +33,9 @@ export function confirm (question, opts = {}) {
       resolve(/^y/i.test(answer || opts.default))
     })
   })
+}
+
+module.exports = {
+  ask,
+  confirm,
 }

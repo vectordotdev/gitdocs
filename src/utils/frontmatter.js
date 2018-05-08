@@ -1,6 +1,6 @@
-import fs from 'fs-extra'
-import readline from 'readline'
-import matter from 'gray-matter'
+const fs = require('fs-extra')
+const readline = require('readline')
+const matter = require('gray-matter')
 
 const DELIMITER = '---'
 
@@ -11,7 +11,7 @@ function _parseFrontmatter (str) {
   })
 }
 
-export function getFrontmatter (file) {
+function getFrontmatter (file) {
   const lines = []
   const input = fs.createReadStream(file)
   const reader = readline.createInterface({ input })
@@ -50,7 +50,12 @@ export function getFrontmatter (file) {
   })
 }
 
-export async function getFrontmatterWithContent (file) {
+async function getFrontmatterWithContent (file) {
   const fileContent = await fs.readFile(file, 'utf8')
   return _parseFrontmatter(fileContent.trim())
+}
+
+module.exports = {
+  getFrontmatter,
+  getFrontmatterWithContent,
 }

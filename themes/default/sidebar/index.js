@@ -54,7 +54,7 @@ export default class extends Component {
   navItems = (path, items, firstLevel) => {
     const className = css(
       styles.navItem,
-      !firstLevel ? styles.navItemNotFirst : '',
+      !firstLevel && styles.navItemNotFirst,
     )
 
     return (
@@ -64,13 +64,20 @@ export default class extends Component {
       >
         {items.map(item => {
           const trigger = item.link
-            ? <NavLink exact to={item.link}>{item.text}</NavLink>
+            ? (
+              <NavLink
+                exact
+                to={item.link}
+                onClick={() => this.setState({ menuOpen: false })}
+              >
+                {item.text}
+              </NavLink>
+            )
             : <a>{item.text}</a>
 
           return (
             <div
               key={`nav-item-${item.link}`}
-              // onClick={() => this.setState({ menuOpen: false })}
               trigger={trigger}
             >
               {item.children &&
@@ -89,7 +96,7 @@ export default class extends Component {
 
     const menuClassName = css(
       styles.menuWrapper,
-      this.state.menuOpen ? styles.menuWrapperOpen : '',
+      this.state.menuOpen && styles.menuWrapperOpen,
     )
 
     return (

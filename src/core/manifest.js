@@ -1,9 +1,9 @@
-import fs from 'fs-extra'
-import syspath from 'path'
-import ourpath from '../utils/path'
-import source from '../utils/source'
-import { getFrontmatter } from '../utils/frontmatter'
-import { warn } from '../utils/emit'
+const fs = require('fs-extra')
+const syspath = require('path')
+const ourpath = require('../utils/path')
+const source = require('../utils/source')
+const { getFrontmatter } = require('../utils/frontmatter')
+const { warn } = require('../utils/emit')
 
 /**
  * prevents having both something/index.md and something.md,
@@ -129,7 +129,7 @@ async function buildManifest (env, opts = {}) {
   }
 }
 
-export default async function (env, config) {
+module.exports = async (env, config) => {
   if (!await fs.pathExists(config.root)) {
     throw new Error(`Could not find root documentation folder: ${config.root}`)
   }

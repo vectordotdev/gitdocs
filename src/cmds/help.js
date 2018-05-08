@@ -1,7 +1,7 @@
-import { styles, LOGO } from '../utils/emit'
+const { styles, chars } = require('../utils/emit')
 
-export const menu = `
-  ${LOGO}
+const mainMenu = `
+  ${chars.LOGO}
 
   ${styles.title('Usage')}
 
@@ -23,7 +23,7 @@ export const menu = `
     --help, -h ${styles.inactive('..............')} display the usage menu for a command
     --version, -v ${styles.inactive('...........')} show the version number`
 
-export default async function (args, config) {
+module.exports = async (args, config) => {
   const defaultSubCmd = 'help'
   const subCmd = args._[0] === 'help'
     ? args._[1] || defaultSubCmd
@@ -31,10 +31,11 @@ export default async function (args, config) {
 
   try {
     const module = require(`./${subCmd}`)
-    console.log(module.menu || menu)
+    console.log(module.menu || mainMenu)
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       throw new Error(`"${subCmd}" does not have a help menu!`)
     }
+    throw err
   }
 }

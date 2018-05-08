@@ -1,4 +1,4 @@
-export async function concurrentChunks (concurrency, items) {
+async function concurrentChunks (concurrency, items) {
   const chunked = []
 
   for (let i = 0; i < items.length; i += concurrency) {
@@ -16,6 +16,10 @@ export async function concurrentChunks (concurrency, items) {
   }
 
   return chunked
+}
+
+module.exports = {
+  concurrentChunks,
 }
 
 // var Worker = require('webworker-threads').Worker;

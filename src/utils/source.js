@@ -1,6 +1,6 @@
-import fs from 'fs-extra'
-import axios from 'axios'
-import { getFrontmatterWithContent } from './frontmatter'
+const fs = require('fs-extra')
+const axios = require('axios')
+const { getFrontmatterWithContent } = require('./frontmatter')
 
 async function _fetchSource (source) {
   const results = /^(.+?):\/\/.+$/.exec(source)
@@ -31,7 +31,7 @@ async function _fetchSource (source) {
   }
 }
 
-export default async function (file) {
+module.exports = async (file) => {
   const fm = await getFrontmatterWithContent(file)
   const result = {
     ...fm.data,

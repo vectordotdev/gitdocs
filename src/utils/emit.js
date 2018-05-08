@@ -1,8 +1,8 @@
-import chalk from 'chalk'
-import Progress from 'progress'
-import exitHook from 'exit-hook'
+const chalk = require('chalk')
+const Progress = require('progress')
+const exitHook = require('exit-hook')
 
-export const styles = {
+const styles = {
   info: chalk,
   note: chalk.magenta,
   subnote: chalk.dim.italic,
@@ -15,34 +15,36 @@ export const styles = {
   header: chalk.inverse.bold,
 }
 
-export const CHAR_BAR = '\u2501'
-export const CHAR_PRE = styles.inactive('\u276F')
-export const LOGO = styles.header('    GitDocs    ')
+const chars = {
+  CHAR_BAR: '\u2501',
+  CHAR_PRE: styles.inactive('\u276F'),
+  LOGO: styles.header('    GitDocs    '),
+}
 
-export function hideCursor () {
+function hideCursor () {
   process.stderr.write('\u001b[?25l')
   exitHook(() => process.stderr.write('\u001b[?25h'))
 }
 
-export function fullScreen () {
+function fullScreen () {
   process.stderr.write('\x1Bc')
 
   hideCursor()
-  process.stderr.write(`\n  ${LOGO}\n`)
+  process.stderr.write(`\n  ${chars.LOGO}\n`)
 }
 
-export function log (msg, firstLine) {
-  const pre = `${firstLine ? '\n' : ''}${CHAR_PRE}`
+function log (msg, firstLine) {
+  const pre = `${firstLine ? '\n' : ''}${chars.CHAR_PRE}`
   process.stdout.write(styles.info(`${pre} ${msg}\n`))
 }
 
-export function warn (msg) {
-  const pre = styles.warn(CHAR_PRE)
+function warn (msg) {
+  const pre = styles.warn(chars.CHAR_PRE)
   process.stderr.write(`${pre} ${styles.warn(`Warning: ${msg}\n`)}`)
 }
 
-export function error (err, exit) {
-  const pre = styles.critical(CHAR_PRE)
+function error (err, exit) {
+  const pre = styles.critical(chars.CHAR_PRE)
   err
     ? err.name !== 'Error' && err.stack
       ? process.stderr.write(`${pre} ${styles.error(err.stack)}`)
@@ -52,15 +54,15 @@ export function error (err, exit) {
   exit && process.exit(1)
 }
 
-export function progress (opts = {}) {
+function progress (opts = {}) {
   const prepend = opts.prepend ? `${opts.prepend}  ` : ''
   const append = opts.append ? `  ${opts.append}` : ''
   const bar = styles.info(`  ${prepend}:bar${append}`)
 
   const progressBar = new Progress(bar, {
     width: Math.floor(process.stdout.columns / 3),
-    incomplete: styles.inactive(CHAR_BAR),
-    complete: CHAR_BAR,
+    incomplete: styles.inactive(chars.CHAR_BAR),
+    complete: chars.CHAR_BAR,
     total: (opts.total || 0) + 1,
     clear: opts.clear,
   })
@@ -71,3 +73,13 @@ export function progress (opts = {}) {
   return progressBar
 }
 
+module.exports = {
+  styles,
+  chars,
+  hideCursor,
+  fullScreen,
+  log,
+  warn,
+  error,
+  progress,
+}

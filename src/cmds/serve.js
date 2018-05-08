@@ -1,9 +1,9 @@
-import getManifest from '../core/manifest'
-import getCompiler from '../core/compiler'
-import startServer from '../core/server'
-import { styles, log, progress, fullScreen } from '../utils/emit'
+const getManifest = require('../core/manifest')
+const getCompiler = require('../core/compiler')
+const startServer = require('../core/server')
+const { styles, log, progress, fullScreen } = require('../utils/emit')
 
-export default async function (args, config) {
+module.exports = async (args, config) => {
   fullScreen()
   log('Starting local development server', true)
 
@@ -23,7 +23,7 @@ export default async function (args, config) {
   log(`We are live at ${styles.url(server.url)}`)
 }
 
-export const menu = `
+module.exports.menu = `
   ${styles.title('Usage')}
 
     gitdocs serve [options]

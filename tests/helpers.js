@@ -1,12 +1,16 @@
-import path from 'path'
-import execa from 'execa'
+const path = require('path')
+const execa = require('execa')
 
-export async function run (cmd, expectingError) {
-  const gitdocs = path.resolve(__dirname, '../bin/gitdocs_test')
+async function run (cmd, expectingError) {
+  const gitdocs = path.resolve(__dirname, '../bin/gitdocs')
 
   const result = await execa.shell(`${gitdocs} ${cmd || ''}`, {
     reject: !expectingError,
   })
 
   return result
+}
+
+module.exports = {
+  run,
 }

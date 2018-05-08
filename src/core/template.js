@@ -1,8 +1,11 @@
-import syspath from 'path'
-import { minify } from 'html-minifier'
-import serverRender from '../themes/server'
+const syspath = require('path')
+const { minify } = require('html-minifier')
+const { renderToString } = require('react-dom/server')
+const { renderStaticOptimized } = require('glamor/server')
+const { Helmet } = require('react-helmet')
+const babelRequire = require('../utils/babel')
 
-export default async function (env, route, props, bundleFiles) {
+module.exports = async (env, route, props, bundleFiles) => {
   const scripts = bundleFiles
     .filter(bundle => syspath.extname(bundle) === '.js')
     .map(bundle => `<script type="text/javascript" src="/${bundle}"></script>`)
@@ -20,22 +23,26 @@ export default async function (env, route, props, bundleFiles) {
     `
   }
 
-  const rendered = serverRender(route, props)
+  const serverEntry = babelRequire('../../themes/server.js')
+  const rendered = renderStaticOptimized(() =>
+    renderToString(serverEntry.default(route, props)))
+
+  const helmet = Helmet.renderStatic()
   const template = `
     <!doctype html>
-    <html ${rendered.helmetData.htmlAttributes.toString()}>
+    <html ${helmet.htmlAttributes.toString()}>
       <head>
-        ${rendered.helmetData.title.toString()}
-        ${rendered.helmetData.base.toString()}
-        ${rendered.helmetData.meta.toString()}
-        ${rendered.helmetData.link.toString()}
-        ${rendered.helmetData.style.toString()}
-        ${rendered.helmetData.script.toString()}
+        ${helmet.title.toString()}
+        ${helmet.base.toString()}
+        ${helmet.meta.toString()}
+        ${helmet.link.toString()}
+        ${helmet.style.toString()}
+        ${helmet.script.toString()}
 
         <style type="text/css">${rendered.css}</style>
       </head>
-      <body ${rendered.helmetData.bodyAttributes.toString()}>
-        ${rendered.helmetData.noscript.toString()}
+      <body ${helmet.bodyAttributes.toString()}>
+        ${helmet.noscript.toString()}
 
         <div id="gitdocs-app">${rendered.html}</div>
 

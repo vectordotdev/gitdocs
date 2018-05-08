@@ -1,6 +1,6 @@
-import minimist from 'minimist'
+const minimist = require('minimist')
 
-export default function (opts = {}) {
+module.exports = (opts = {}) => {
   const argv = minimist(process.argv.slice(2), {
     boolean: [
       'help',

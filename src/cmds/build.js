@@ -1,9 +1,9 @@
-import getManifest from '../core/manifest'
-import getCompiler from '../core/compiler'
-import outputStatic from '../core/output'
-import { styles, log, progress } from '../utils/emit'
+const getManifest = require('../core/manifest')
+const getCompiler = require('../core/compiler')
+const outputStatic = require('../core/output')
+const { styles, log, progress } = require('../utils/emit')
 
-export default async function (args, config) {
+module.exports = async (args, config) => {
   log('Creating your documentation', true)
 
   const env = 'production'
@@ -35,7 +35,7 @@ export default async function (args, config) {
   log(`Site has been created at ${styles.note(`${outputDir}/`)}`)
 }
 
-export const menu = `
+module.exports.menu = `
   ${styles.title('Usage')}
 
     gitdocs build [options]

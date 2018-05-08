@@ -1,6 +1,6 @@
-import { version } from '../../package.json'
-import { log } from '../utils/emit'
+const { version } = require('../../package.json')
+const { log } = require('../utils/emit')
 
-export default async function (args, config) {
+module.exports = async (args, config) => {
   log(`GitDocs v${version}`, true)
 }

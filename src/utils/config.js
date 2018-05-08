@@ -1,5 +1,5 @@
-import fs from 'fs-extra'
-import deepmerge from 'deepmerge'
+const fs = require('fs-extra')
+// const deepmerge = require('deepmerge')
 
 const FILENAMES = [
   '.gitdocs',
@@ -29,7 +29,25 @@ function _getConfigFilename () {
   return FILENAMES.find(fs.pathExistsSync)
 }
 
-export async function createConfig (name, root) {
+module.exports = async (customFile) => {
+  // prioritize custom config file if passed,
+  // but still fallback to default files
+  if (customFile) {
+    FILENAMES.unshift(customFile)
+
+    if (!await fs.pathExists(customFile)) {
+      throw new Error(`Config file was not found: ${customFile}`)
+    }
+  }
+
+  const configFile = _getConfigFilename()
+  const userConfig = configFile ? await fs.readJson(configFile) : {}
+
+  // return deepmerge(DEFAULT_CONFIG, userConfig)
+  return Object.assign({}, DEFAULT_CONFIG, userConfig)
+}
+
+module.exports.createConfig = async (name, root) => {
   if (_getConfigFilename()) {
     throw new Error('GitDocs is already initialized in this folder!')
   }
@@ -50,21 +68,4 @@ export async function createConfig (name, root) {
   await fs.outputJson(configFile, newConfig, JSON_FORMAT)
 
   return configFile
-}
-
-export default async function (customFile) {
-  // prioritize custom config file if passed,
-  // but still fallback to default files
-  if (customFile) {
-    FILENAMES.unshift(customFile)
-
-    if (!await fs.pathExists(customFile)) {
-      throw new Error(`Config file was not found: ${customFile}`)
-    }
-  }
-
-  const configFile = _getConfigFilename()
-  const userConfig = configFile ? await fs.readJson(configFile) : {}
-
-  return deepmerge(DEFAULT_CONFIG, userConfig)
 }

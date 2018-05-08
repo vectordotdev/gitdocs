@@ -1,31 +1,31 @@
-import getArguments from './utils/arguments'
-import getConfig from './utils/config'
-import { error } from './utils/emit'
+const getArguments = require('./utils/arguments')
+const getConfig = require('./utils/config')
+const { error } = require('./utils/emit')
 
-export default async function () {
+module.exports = async () => {
   try {
     const args = getArguments()
     const config = await getConfig(args.config)
 
     switch (args.cmd) {
       case 'init':
-        await require('./cmds/init').default(args, config)
+        await require('./cmds/init')(args, config)
         break
 
       case 'serve':
-        await require('./cmds/serve').default(args, config)
+        await require('./cmds/serve')(args, config)
         break
 
       case 'build':
-        await require('./cmds/build').default(args, config)
+        await require('./cmds/build')(args, config)
         break
 
       case 'version':
-        await require('./cmds/version').default(args, config)
+        await require('./cmds/version')(args, config)
         break
 
       case 'help':
-        await require('./cmds/help').default(args, config)
+        await require('./cmds/help')(args, config)
         break
 
       default:

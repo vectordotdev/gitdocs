@@ -1,11 +1,11 @@
-import http from 'http'
-import connect from 'connect'
-import webpackDevMiddleware from 'webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
-import renderTemplate from './template'
-import attachSocket from './socket'
+const http = require('http')
+const connect = require('connect')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const renderTemplate = require('./template')
+const attachSocket = require('./socket')
 
-export default function (env, compiler, props) {
+module.exports = (env, compiler, props) => {
   const {
     host,
     port,

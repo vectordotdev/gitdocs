@@ -1,4 +1,3 @@
-import test from 'ava'
-// import * as readline from './readline'
+const test = require('ava')
 
 test.todo('ask')

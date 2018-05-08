@@ -1,4 +1,3 @@
-import test from 'ava'
-// import * as theme from './theme'
+const test = require('ava')
 
 test.todo('getTheme')

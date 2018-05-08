@@ -1,5 +1,5 @@
-import test from 'ava'
-import * as promise from './promise'
+const test = require('ava')
+const promise = require('./promise')
 
 test('concurrentChunks', async t => {
   const promises = [

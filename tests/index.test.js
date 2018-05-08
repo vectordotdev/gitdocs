@@ -1,5 +1,5 @@
-import test from 'ava'
-import { run } from './helpers'
+const test = require('ava')
+const { run } = require('./helpers')
 
 test('defaults to help command', async t => {
   const res = await run()

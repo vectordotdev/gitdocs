@@ -1,26 +1,17 @@
-import syspath from 'path'
-import fs from 'fs-extra'
-import webpack from 'webpack'
-import ProgressPlugin from 'webpack/lib/ProgressPlugin'
+const syspath = require('path')
+const fs = require('fs-extra')
+const webpack = require('webpack')
+const ProgressPlugin = require('webpack/lib/ProgressPlugin')
+const { babelOptions } = require('../utils/babel')
 
-const THEMES_DIR = syspath.resolve(__dirname, '../themes')
+const THEMES_DIR = syspath.resolve(__dirname, '../../themes')
 const NODE_MODS_DIR = syspath.resolve(__dirname, '../../node_modules')
 
-export default async function (env, props) {
+module.exports = async (env, props) => {
   const isDev = env === 'development'
-
-  // props.config.languages.forEach(lang => {
-  //   // languageAliases[`@lang/${lang}$`] = syspath.resolve(
-  //   //   NODE_MODS_DIR,
-  //   //   `react-syntax-highlighter/languages/hljs/${lang}.js`
-  //   // )
-  //   // languageAliases[`@lang/${lang}$`] =
-  //   //   `react-syntax-highlighter/languages/hljs/${lang}.js`
-  // })
 
   const compiler = webpack({
     mode: env,
-    // context: `${THEMES_DIR}/${props.config.theme}`,
     context: syspath.resolve(__dirname, '../../'),
     devtool: isDev
       ? 'cheap-module-eval-source-map'
@@ -32,7 +23,7 @@ export default async function (env, props) {
       ].filter(Boolean),
     },
     output: {
-      filename: '[hash].js',
+      filename: '[name].[hash].js',
       chunkFilename: '[chunkhash].chunk.js',
       path: syspath.resolve(props.config.output),
       publicPath: '/',
@@ -45,7 +36,10 @@ export default async function (env, props) {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          use: 'babel-loader',
+          use: {
+            loader: 'babel-loader',
+            options: babelOptions(),
+          },
         },
         {
           test: /\.(png)$/,
@@ -54,16 +48,14 @@ export default async function (env, props) {
       ],
     },
     plugins: [
-      isDev &&
-        new webpack.HotModuleReplacementPlugin(),
-
+      isDev && new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
-        'process.env': JSON.stringify({
-          NODE_ENV: env,
-          PROPS: props,
-          // LANGUAGES: props.config.languages.map(lang =>
-          // `react-syntax-highlighter/languages/hljs/${lang}.js`),
-        }),
+        process: {
+          env: JSON.stringify({
+            NODE_ENV: env,
+            PROPS: props,
+          }),
+        },
       }),
     ].filter(Boolean),
   })

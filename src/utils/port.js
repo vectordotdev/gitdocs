@@ -1,6 +1,6 @@
-import net from 'net'
+const net = require('net')
 
-export default function () {
+module.exports = () => {
   const server = net.createServer()
 
   return new Promise((resolve, reject) => {

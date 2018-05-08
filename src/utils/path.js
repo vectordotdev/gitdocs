@@ -1,4 +1,4 @@
-import syspath from 'path'
+const syspath = require('path')
 
 function _escapeForRegex (str) {
   return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
@@ -46,7 +46,7 @@ function titlify (str) {
     .join(' ')
 }
 
-export default {
+module.exports = {
   routify,
   outputify,
   titlify,

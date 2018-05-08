@@ -7,7 +7,7 @@ const font = {
   lineHeight: 1,
 }
 
-css.global('* > *', font)
+css.global('*', font)
 css.global('input', font)
 
 export default {

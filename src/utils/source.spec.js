@@ -1,4 +1,3 @@
-import test from 'ava'
-// import * as source from './source'
+const test = require('ava')
 
 test.todo('default')
