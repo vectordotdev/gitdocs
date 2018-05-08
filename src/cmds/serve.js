@@ -9,8 +9,8 @@ module.exports = async (args, config) => {
   log('Starting local development server', true)
 
   const env = 'development'
-  await getExternals(config)
-  const manifest = await getManifest(env, config)
+  const externals = await getExternals(config)
+  const manifest = await getManifest(env, config, externals)
   const bar = progress({ total: 100, clear: true })
 
   const props = {
