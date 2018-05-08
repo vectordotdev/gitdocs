@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-import Markdown from '../../markdown'
+import Markdown from '../markdown'
 import Loading from '../loading'
 import styles from './styles'
 

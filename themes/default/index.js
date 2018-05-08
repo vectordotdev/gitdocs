@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 // import { rehydrate } from 'glamor'
-import App from './'
+import App from './application'
 
 const render = process.env.NODE_ENV === 'production'
   ? ReactDOM.hydrate

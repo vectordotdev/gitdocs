@@ -1,8 +1,10 @@
 import React from 'react'
 import { StaticRouter } from 'react-router-dom'
-import App from './'
 
 export default function (route, props) {
+  const { theme } = props.config
+  const App = require(`./${theme}/application`).default
+
   return (
     <StaticRouter
       context={{}}

@@ -5,7 +5,7 @@ import Header from '../header'
 import Sidebar from '../sidebar'
 import Page from '../page'
 import NotFound from '../not-found'
-import Routes from '../../routes'
+import Routes from '../routes'
 import styles from './styles'
 
 export default class extends Component {
