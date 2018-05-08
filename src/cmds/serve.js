@@ -1,6 +1,7 @@
 const getManifest = require('../core/manifest')
 const getCompiler = require('../core/compiler')
 const startServer = require('../core/server')
+const getExternals = require('../core/externals')
 const { styles, log, progress, fullScreen } = require('../utils/emit')
 
 module.exports = async (args, config) => {
@@ -8,6 +9,7 @@ module.exports = async (args, config) => {
   log('Starting local development server', true)
 
   const env = 'development'
+  const externals = await getExternals(config)
   const manifest = await getManifest(env, config)
   const bar = progress({ total: 100, clear: true })
 

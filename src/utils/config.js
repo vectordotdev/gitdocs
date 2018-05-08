@@ -15,6 +15,7 @@ const DEFAULT_CONFIG = {
   // logo: '',
   root: '.',
   output: '.gitdocs_output',
+  tmp: '.gitdocs_tmp',
   host: 'localhost',
   port: 8000,
   languages: ['bash', 'json'],
