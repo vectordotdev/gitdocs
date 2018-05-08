@@ -87,6 +87,10 @@ async function buildManifest (env, opts = {}) {
       filemap[path] = files.push(hydrated) - 1
       urlmap[hydrated.url] = filemap[path]
 
+      if (hydrated.draft) {
+        return
+      }
+
       return isIndex ? {
         indexLink: hydrated.url,
       } : {
