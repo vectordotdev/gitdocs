@@ -37,7 +37,7 @@
 		"ava": "^0.25.0",
 		"coveralls": "^3.0.1",
 		"eslint": "^4.19.1",
-		"eslint-config-timber": "^1.0.19",
+		"eslint-config-timber": "^1.0.20",
 		"execa": "^0.10.0",
 		"mock-fs": "^4.5.0",
 		"npm-run-all": "^4.1.3",

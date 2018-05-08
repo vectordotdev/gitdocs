@@ -19,7 +19,7 @@ module.exports = async (env, props) => {
     entry: {
       main: [
         isDev && 'webpack-hot-middleware/client',
-        `${THEMES_DIR}/browser.js`,
+        `${THEMES_DIR}/${props.config.theme}/index.js`,
       ].filter(Boolean),
     },
     output: {

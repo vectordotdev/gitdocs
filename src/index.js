@@ -13,6 +13,7 @@ module.exports = async () => {
         break
 
       case 'serve':
+      case 'start':
         await require('./cmds/serve')(args, config)
         break
 

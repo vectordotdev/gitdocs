@@ -29,6 +29,7 @@ module.exports.menu = `
   ${styles.title('Usage')}
 
     gitdocs serve [options]
+    ${styles.subnote('or gitdocs start')}
 
   ${styles.title('Options')}
 

@@ -95,11 +95,8 @@ export default {
 
   nav: css({
     flex: '1 0 auto',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderImage: 'linear-gradient(left, transparent 0%, #E6E9EB 10%) 1',
-    borderLeft: 'none',
-    borderRight: 'none',
+    borderTop: '1px solid #E6E9EB',
+    borderBottom: '1px solid #E6E9EB',
     padding: '30px 0 30px 15px',
   }),
 
