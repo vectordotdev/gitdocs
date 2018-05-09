@@ -27,15 +27,19 @@ function _watch (cwd, tempDir) {
   })
 }
 
-module.exports = async (config, shouldWatch) => {
+module.exports = async (config, useTempDir) => {
   if (!await fs.pathExists(config.static)) {
     return
   }
 
   const dir = syspath.join(config.temp, namespaces.static)
 
-  await fs.copy(config.static, dir)
-  shouldWatch && _watch(config.static, dir)
+  if (useTempDir) {
+    await fs.copy(config.static, dir)
+    _watch(config.static, dir)
+  } else {
+    await fs.copy(config.static, config.output)
+  }
 
   return dir
 }
