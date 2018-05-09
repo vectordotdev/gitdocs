@@ -133,7 +133,7 @@ async function buildManifest (env, opts = {}) {
   }
 }
 
-module.exports = async (env, config) => {
+module.exports = async (env, config, externals) => {
   if (!await fs.pathExists(config.root)) {
     throw new Error(`Could not find root documentation folder: ${config.root}`)
   }

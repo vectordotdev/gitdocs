@@ -6,3 +6,9 @@ node_js:
   - "8.6"
 after_success:
   - npm run coveralls
+addons: # for nodegit deps
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - libstdc++-4.9-dev

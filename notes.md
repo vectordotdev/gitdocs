@@ -75,6 +75,8 @@
 * version selection
 * custom styling for a changelog.md
 * overview page like https://timber.io/docs
+* feedback area https://cl.ly/1h0X1c3b1Q1Z, might require a hosted plan
+* potentially have a special API section that parses methods like https://doc.esdoc.org/github.com/jy95/torrent-files-library/typedef/index.html#static-typedef-customParsingFunction
 
 ### Components
 
