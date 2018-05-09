@@ -17,14 +17,7 @@ const defaults = {
   root: 'docs/'
 }
 
-function checkoutBranch (repo, source) {
-  return repo.checkoutBranch(source.branch)
-  //   .getBranch(`refs/remotes/origin/${source.branch}`)
-  //   .then(b => repo.checkoutRef(b))
-}
-
 function cloneExternals (dir, sources) {
-  console.log(dir)
   // Ensure the tmp directory is cleared out
   fs.emptyDirSync(dir)
 
