@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const syspath = require('path')
 const chokidar = require('chokidar')
+const { namespaces } = require('../utils/temp')
 
 function _watch (cwd, tempDir) {
   const watcher = chokidar.watch('**/*', {
@@ -27,7 +28,11 @@ function _watch (cwd, tempDir) {
 }
 
 module.exports = async (config, shouldWatch) => {
-  const dir = syspath.join(config.temp, '@static')
+  if (!await fs.pathExists(config.static)) {
+    return
+  }
+
+  const dir = syspath.join(config.temp, namespaces.static)
 
   await fs.copy(config.static, dir)
   shouldWatch && _watch(config.static, dir)

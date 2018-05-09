@@ -1,7 +1,7 @@
 import React from 'react'
 import Markdown from 'markdown-to-jsx'
 import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
-import { theme, languages } from '@temp/loadSyntax' // eslint-disable-line
+import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 
 const Code = (props) => {
   const {

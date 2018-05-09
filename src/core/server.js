@@ -5,6 +5,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const renderTemplate = require('./template')
 const attachSocket = require('./socket')
+const { namespaces } = require('../utils/temp')
 
 module.exports = (env, compiler, props) => {
   const {
@@ -15,7 +16,7 @@ module.exports = (env, compiler, props) => {
 
   const app = connect()
   const url = `http://${host}:${port}`
-  const staticDir = `${temp}/@static`
+  const staticDir = `${temp}/${namespaces.static}`
 
   const compilerInstance = webpackDevMiddleware(compiler, {
     logLevel: 'warn',

@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const syspath = require('path')
+const { namespaces } = require('../utils/temp')
 
 const NODE_MODS = syspath.resolve(__dirname, '../../node_modules')
 const PATH = `${NODE_MODS}/react-syntax-highlighter`
@@ -20,7 +21,7 @@ module.exports = async (config) => {
     languages: [${langs}]
   }`
 
-  const path = `${temp}/@temp/loadSyntax.js`
+  const path = `${temp}/${namespaces.codegen}/loadSyntax.js`
   await fs.outputFile(path, content)
 
   return path

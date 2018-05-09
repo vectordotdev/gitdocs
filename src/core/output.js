@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const renderTemplate = require('./template')
 const { concurrentChunks } = require('../utils/promise')
+const { namespaces } = require('../utils/temp')
 
 module.exports = async (env, stats, props, bar) => {
   const {
@@ -13,7 +14,7 @@ module.exports = async (env, stats, props, bar) => {
 
   const bundleFiles = stats.entrypoints.main.assets
 
-  await fs.copy(`${temp}/@static`, output)
+  await fs.copy(`${temp}/${namespaces.static}`, output)
 
   await concurrentChunks(2, manifest.files.map(item => async () => {
     const rendered = await renderTemplate(env, item, props, bundleFiles)

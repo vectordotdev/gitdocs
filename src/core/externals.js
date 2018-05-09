@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const git = require('simple-git/promise')
+const { namespaces } = require('../utils/temp')
 const { log, warn, error } = require('../utils/emit')
 
 // Warnings for missing source information
@@ -91,8 +92,8 @@ module.exports = async (config) => {
     sources,
   } = config
 
-  const externalsDir = `${temp}/externals`
-  const reposDir = `${temp}/repos`
+  const externalsDir = `${temp}/${namespaces.externals}`
+  const reposDir = `${temp}/${namespaces.repos}`
 
   // Clone all external sources into externals folder
   await cloneExternals(externalsDir, sources)

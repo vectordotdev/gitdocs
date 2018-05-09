@@ -3,6 +3,7 @@ const syspath = require('path')
 const ourpath = require('../utils/path')
 const source = require('../utils/source')
 const { getFrontmatter } = require('../utils/frontmatter')
+const { namespaces } = require('../utils/temp')
 const { warn } = require('../utils/emit')
 
 /**
@@ -156,7 +157,7 @@ module.exports = async (env, config) => {
 
   const manifest = await buildManifest(env, {
     dir: syspath.resolve(config.root),
-    reposDir: syspath.resolve(config.temp, 'repos'),
+    reposDir: syspath.resolve(config.temp, namespaces.repos),
     outputDir: syspath.resolve(config.output),
     extensions: ['.md'],
   })
