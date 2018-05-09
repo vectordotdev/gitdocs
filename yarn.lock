@@ -2451,9 +2451,9 @@ eslint-config-airbnb@^16.1.0:
   dependencies:
     eslint-config-airbnb-base "^12.1.0"
 
-eslint-config-timber@^1.0.20:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/eslint-config-timber/-/eslint-config-timber-1.0.20.tgz#14d12c64797750a4a9726b248707e07540efebe3"
+eslint-config-timber@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/eslint-config-timber/-/eslint-config-timber-1.0.21.tgz#c98cab364c63828a80906135b789f178a5044027"
   dependencies:
     babel-eslint "^8.2.2"
     babel-preset-react "^6.24.1"
