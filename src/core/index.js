@@ -1,12 +1,9 @@
-const fs = require('fs-extra')
 const loadSyntax = require('./syntax')
 const getExternals = require('./externals')
 const getManifest = require('./manifest')
 const getCompiler = require('./compiler')
 
 module.exports = async (env, config, bar) => {
-  await fs.emptyDir(config.temp)
-  await fs.emptyDir(config.output)
   await loadSyntax(config)
   await getExternals(config)
 

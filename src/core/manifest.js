@@ -65,7 +65,7 @@ async function buildManifest (env, opts = {}) {
   const urlmap = {}
 
   const _walk = async (path, ignorePattern, baseDir) => {
-    baseDir = baseDir || path
+    const dir = baseDir || path
 
     const ext = syspath.extname(path)
     const stats = await fs.stat(path)
@@ -84,7 +84,7 @@ async function buildManifest (env, opts = {}) {
 
       const isIndex = /\/index\.[\w]+$/.test(path)
       const shouldGetContent = env === 'production'
-      const hydrated = await hydrate(path, baseDir, opts.outputDir, shouldGetContent)
+      const hydrated = await hydrate(path, dir, opts.outputDir, shouldGetContent)
 
       filemap[path] = files.push(hydrated) - 1
       urlmap[hydrated.url] = filemap[path]
@@ -104,7 +104,7 @@ async function buildManifest (env, opts = {}) {
     if (stats.isDirectory()) {
       const childFiles = await fs.readdir(path)
       const children = await Promise.all(
-        childFiles.map(file => _walk(syspath.join(path, file), ignorePattern, baseDir))
+        childFiles.map(file => _walk(syspath.join(path, file), ignorePattern, dir))
       )
 
       const indexItem = children
@@ -122,18 +122,17 @@ async function buildManifest (env, opts = {}) {
     }
   }
 
-  // dotfiles and underscored files
-  const ignored = /(?:^|[/\\])_./
   const ignoredWithDotfiles = /(?:^|[/\\])(\.|_)./
+  const ignoredUnderscores = /(?:^|[/\\])_./
 
   const {
     // move up a layer since we dont want base directory
     children: navtreeLocal,
   } = await _walk(opts.dir, ignoredWithDotfiles)
+
   const {
-    // move up a layer since we dont want base directory
     children: navtreeExternal,
-  } = await _walk(opts.reposDir, ignored)
+  } = await _walk(opts.reposDir, ignoredUnderscores)
 
   return {
     files,

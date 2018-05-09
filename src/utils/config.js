@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const syspath = require('path')
 const { tempDir } = require('./temp')
+const { addToNodePath } = require('./system')
 // const deepmerge = require('deepmerge')
 
 const FILENAMES = [
@@ -16,7 +17,7 @@ const DEFAULT_CONFIG = {
   name: 'GitDocs',
   // logo: '',
   root: '.',
-  output: 'docs_build',
+  output: '.gitdocs_build',
   temp: tempDir(),
   host: 'localhost',
   port: 8000,
@@ -29,6 +30,7 @@ const DEFAULT_CONFIG = {
   // sidebar: [],
   sidebar_links: [],
   header_links: [],
+  sources: [],
 }
 
 function _getConfigFilename () {
@@ -58,10 +60,16 @@ module.exports = async (customFile) => {
   const userConfig = configFile ? await _readConfigFile(configFile) : {}
 
   // return deepmerge(DEFAULT_CONFIG, userConfig)
-  return {
+  const masterConfig = {
     ...DEFAULT_CONFIG,
     ...userConfig,
   }
+
+  masterConfig.temp = syspath.resolve(masterConfig.temp)
+  await fs.emptyDir(masterConfig.temp)
+  addToNodePath(masterConfig.temp)
+
+  return masterConfig
 }
 
 module.exports.createConfig = async (name, root) => {

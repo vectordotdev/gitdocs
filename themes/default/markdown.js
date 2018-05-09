@@ -1,7 +1,7 @@
 import React from 'react'
 import Markdown from 'markdown-to-jsx'
 import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
-// import { theme, languages } from '@temp/loadSyntax' // eslint-disable-line
+import { theme, languages } from '@temp/loadSyntax' // eslint-disable-line
 
 const Code = (props) => {
   const {
@@ -32,15 +32,15 @@ const Code = (props) => {
 }
 
 export default function (props) {
-  // languages.forEach(lang =>
-  //   registerLanguage(lang.name, lang.func))
+  languages.forEach(lang =>
+    registerLanguage(lang.name, lang.func))
 
   const options = {
     overrides: {
-      // code: {
-      //   props,
-      //   component: Code,
-      // },
+      code: {
+        props,
+        component: Code,
+      },
     },
   }
 

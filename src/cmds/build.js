@@ -1,3 +1,4 @@
+const fs = require('fs-extra')
 const runCore = require('../core')
 const outputStatic = require('../core/output')
 const { styles, log, progress } = require('../utils/emit')
@@ -10,6 +11,7 @@ module.exports = async (args, config) => {
 
   log('Bundling the Javascript app')
 
+  await fs.emptyDir(config.output)
   const { props, compiler } = await runCore(env, config, bundleBar)
   const stats = await compiler.build()
 

@@ -25,7 +25,7 @@ function routify (str, base = '') {
   const prepend = route.charAt(0) !== '/' && route !== '' ? '/' : ''
   const append = route.slice(-1) !== '/' && route !== '/' ? '/' : ''
 
-  return `${prepend}${route}${append}`.toLowerCase()
+  return `${prepend}${route.toLowerCase()}${append}`
 }
 
 function outputify (str, opts = {}) {
