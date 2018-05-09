@@ -40,9 +40,8 @@ async function hydrate (file, baseDir, outputDir, shouldGetContent) {
 
   const url = ourpath.routify(data.url || file, baseDir)
   const title = data.title || ourpath.titlify(url)
-  const fileOutput = ourpath.outputify(file, {
+  const fileOutput = ourpath.outputify(`${outputDir}${url}`, {
     ext: 'html',
-    replace: [baseDir, outputDir],
   })
 
   const item = {

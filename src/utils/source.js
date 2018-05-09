@@ -32,11 +32,8 @@ async function _fetchSource (source) {
 }
 
 module.exports = async (file) => {
-  const fm = await getFrontmatterWithContent(file)
-  const result = {
-    ...fm.data,
-    content: fm.content,
-  }
+  const { content } = await getFrontmatterWithContent(file)
+  const result = { content }
 
   if (result.source) {
     const remoteContent = await _fetchSource(result.source)
