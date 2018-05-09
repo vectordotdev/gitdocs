@@ -1,5 +1,6 @@
 const http = require('http')
 const connect = require('connect')
+const serveStatic = require('serve-static')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const renderTemplate = require('./template')
@@ -9,10 +10,12 @@ module.exports = (env, compiler, props) => {
   const {
     host,
     port,
+    temp,
   } = props.config
 
   const app = connect()
   const url = `http://${host}:${port}`
+  const staticDir = `${temp}/@static`
 
   const compilerInstance = webpackDevMiddleware(compiler, {
     logLevel: 'warn',
@@ -25,6 +28,10 @@ module.exports = (env, compiler, props) => {
 
   app.use(compilerInstance)
   app.use(compilerHotInstance)
+
+  app.use(serveStatic(staticDir, {
+    index: false,
+  }))
 
   app.use(async (req, res, next) => {
     try {

@@ -19,6 +19,7 @@ const DEFAULT_CONFIG = {
   root: '.',
   output: '.gitdocs_build',
   temp: tempDir(),
+  static: '_static',
   host: 'localhost',
   port: 8000,
   languages: ['bash', 'json'],
@@ -68,6 +69,11 @@ module.exports = async (customFile) => {
   masterConfig.temp = syspath.resolve(masterConfig.temp)
   await fs.emptyDir(masterConfig.temp)
   addToNodePath(masterConfig.temp)
+
+  masterConfig.static = syspath.resolve(
+    masterConfig.root,
+    masterConfig.static,
+  )
 
   return masterConfig
 }
