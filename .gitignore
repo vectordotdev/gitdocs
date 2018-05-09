@@ -3,6 +3,7 @@
 .nyc_output/
 coverage/
 builds/
+docs_build/
 node_modules/
 package-lock.json
 *.log

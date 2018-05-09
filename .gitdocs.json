@@ -1,0 +1,18 @@
+{
+  "name": "GitDocs",
+  "root": "docs",
+  "sidebar_links": [
+    {
+      "text": "GitHub",
+      "href": "https://github.com/timberio/gitdocs",
+      "target": "_blank"
+    }
+  ],
+  "header_links": [
+    {
+      "text": "About Us",
+      "href": "https://timber.io/about",
+      "target": "_blank"
+    }
+  ]
+}

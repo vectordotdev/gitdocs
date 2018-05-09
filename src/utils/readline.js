@@ -1,5 +1,5 @@
 const readline = require('readline')
-const { CHAR_PRE, styles } = require('./emit')
+const { chars, styles } = require('./emit')
 
 const _getInterface = () =>
   readline.createInterface({
@@ -8,7 +8,7 @@ const _getInterface = () =>
   })
 
 function _getQuestion (q, hint) {
-  return `${CHAR_PRE} ${q}${hint ? styles.inactive(` (${hint})`) : ''} `
+  return `${chars.CHAR_PRE} ${q}${hint ? styles.inactive(` (${hint})`) : ''} `
 }
 
 function ask (question, opts = {}) {
