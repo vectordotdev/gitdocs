@@ -63,7 +63,7 @@
 * props tables + definitions
 * custom react/vue/etc components
 * analytics hooks
-* search build in
+* search built in
 * front matter for seo options and config
 * layout options
 * optional home page
