@@ -1,6 +1,6 @@
 import React from 'react'
-import { placeholder } from 'glamor'
 import { ConfigContext } from '../context'
+import Search from '../search'
 import styles from './styles'
 
 export default function (props) {
@@ -8,12 +8,7 @@ export default function (props) {
     <ConfigContext.Consumer>
       {config =>
         <header className={styles.wrapper}>
-          <input
-            {...placeholder(styles.searchPlaceholder)}
-            className={styles.search}
-            placeholder="Search documentation..."
-          />
-
+          <Search config={config} manifest={props.manifest} />
           <nav className={styles.nav}>
             {config.header_links.map(({ text, ...rest }) => (
               <a {...rest} key={`nav-${text}`}>{text}</a>

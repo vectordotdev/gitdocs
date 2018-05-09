@@ -2459,9 +2459,9 @@ eslint-config-airbnb@^16.1.0:
   dependencies:
     eslint-config-airbnb-base "^12.1.0"
 
-eslint-config-timber@^1.0.20:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/eslint-config-timber/-/eslint-config-timber-1.0.20.tgz#14d12c64797750a4a9726b248707e07540efebe3"
+eslint-config-timber@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/eslint-config-timber/-/eslint-config-timber-1.0.21.tgz#c98cab364c63828a80906135b789f178a5044027"
   dependencies:
     babel-eslint "^8.2.2"
     babel-preset-react "^6.24.1"
@@ -3971,6 +3971,10 @@ istanbul-reports@^1.4.0:
   resolved "https://registry.yarnpkg.com/istanbul-reports/-/istanbul-reports-1.4.0.tgz#3d7b44b912ecbe7652a603662b962120739646a1"
   dependencies:
     handlebars "^4.0.3"
+
+js-search@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/js-search/-/js-search-1.4.2.tgz#59a91e117d6badb20bf0d7643ba7577d5a81d7e2"
 
 js-string-escape@^1.0.1:
   version "1.0.1"

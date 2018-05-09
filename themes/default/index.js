@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
+import history from './history'
 // import { rehydrate } from 'glamor'
 import App from './application'
 
@@ -18,8 +19,8 @@ if (!isProd && module.hot) {
 // }
 
 render(
-  <BrowserRouter>
+  <Router history={history}>
     <App {...process.env.PROPS} />
-  </BrowserRouter>,
+  </Router>,
   document.getElementById('gitdocs-app'),
 )

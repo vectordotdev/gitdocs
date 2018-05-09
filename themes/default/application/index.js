@@ -1,5 +1,6 @@
 import 'glamor/reset'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import Header from '../header'
 import Sidebar from '../sidebar'
@@ -9,7 +10,7 @@ import Routes from '../routes'
 import { ConfigContext } from '../context'
 import styles from './styles'
 
-export default class extends Component {
+class App extends Component {
   render () {
     const {
       config,
@@ -36,7 +37,7 @@ export default class extends Component {
           </div>
 
           <div className={styles.page}>
-            <Header />
+            <Header manifest={manifest} />
 
             <Routes
               routes={manifest.files}
@@ -50,3 +51,5 @@ export default class extends Component {
     )
   }
 }
+
+export default withRouter(App)
