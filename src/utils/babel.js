@@ -18,8 +18,6 @@ function babelOptions (forServer) {
       getMod('plugin-transform-runtime'),
       getMod('plugin-transform-object-rest-spread'),
       getMod('plugin-transform-class-properties'),
-      getMod('plugin-syntax-dynamic-import'),
-      forServer ? getMod('plugin-dynamic-import-node') : null,
     ].filter(Boolean),
   }
 }

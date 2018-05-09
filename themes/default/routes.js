@@ -5,20 +5,14 @@ import { Switch, Route } from 'react-router-dom'
 class Routes extends Component {
   render () {
     const {
-      config,
       routes,
-      currentRoute,
+      socketUrl,
       componentPage: Page,
       component404: NotFound,
     } = this.props
 
-    if (currentRoute) {
-      return (
-        <Page
-          config={config}
-          route={currentRoute}
-        />
-      )
+    const pageProps = {
+      socketUrl,
     }
 
     return (
@@ -29,12 +23,8 @@ class Routes extends Component {
               exact
               key={`route-${idx}`}
               path={route.url}
-              render={() => (
-                <Page
-                  config={config}
-                  route={route}
-                />
-              )}
+              render={() =>
+                <Page {...pageProps} route={route} />}
             />
           )
         })}
@@ -46,15 +36,10 @@ class Routes extends Component {
 }
 
 Routes.propTypes = {
-  config: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
-  currentRoute: PropTypes.object,
   componentPage: PropTypes.func.isRequired,
   component404: PropTypes.func.isRequired,
-}
-
-Routes.defaultProps = {
-  currentRoute: null,
+  socketUrl: PropTypes.string.isRequired,
 }
 
 export default Routes

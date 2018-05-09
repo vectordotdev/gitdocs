@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 import Markdown from '../markdown'
 import Loading from '../loading'
+import { ConfigContext } from '../context'
 import styles from './styles'
 
 export default class extends Component {
@@ -14,51 +15,53 @@ export default class extends Component {
 
   componentDidMount () {
     if (process.env.NODE_ENV === 'development') {
-      const { host, port } = this.props.config
-      this.socket = new WebSocket(`ws://${host}:${port}`)
+      this._socket = new WebSocket(this.props.socketUrl)
 
-      this.socket.addEventListener('open', evt => {
-        this.socket.send(
-          JSON.stringify(this.props.route)
-        )
+      this._socket.addEventListener('open', evt => {
+        const payload = JSON.stringify(this.props.route)
+        this._socket.send(payload)
       })
 
-      this.socket.addEventListener('message', evt => {
-        this.setState({
-          route: JSON.parse(evt.data),
-        })
+      this._socket.addEventListener('message', evt => {
+        const payload = JSON.parse(evt.data)
+        this.setState({ route: payload })
       })
     }
   }
 
   componentWillUnmount () {
-    if (this.socket) {
-      this.socket.close()
+    if (this._socket) {
+      this._socket.close()
     }
   }
 
   render () {
-    const {
-      config,
-    } = this.props
-
     const {
       title,
       content,
     } = this.state.route
 
     return (
-      <div className={styles.wrapper}>
-        <Helmet>
-          <title>{title}</title>
-        </Helmet>
+      <ConfigContext.Consumer>
+        {config =>
+          <div className={styles.wrapper}>
+            <Helmet>
+              <title>{title}</title>
+            </Helmet>
 
-        <div>
-          {content
-            ? <Markdown source={content} languages={config.languages} />
-            : <Loading />}
-        </div>
-      </div>
+            <div>
+              {content
+                ? (
+                  <Markdown
+                    source={content}
+                    lineNumbers={config.theme_custom.syntaxLineNumbers}
+                  />
+                )
+                : <Loading />}
+            </div>
+          </div>
+        }
+      </ConfigContext.Consumer>
     )
   }
 }

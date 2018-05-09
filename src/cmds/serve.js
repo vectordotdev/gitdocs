@@ -1,7 +1,5 @@
-const getManifest = require('../core/manifest')
-const getCompiler = require('../core/compiler')
+const runCore = require('../core')
 const startServer = require('../core/server')
-const getExternals = require('../core/externals')
 const { styles, log, progress, fullScreen } = require('../utils/emit')
 
 module.exports = async (args, config) => {
@@ -9,19 +7,13 @@ module.exports = async (args, config) => {
   log('Starting local development server', true)
 
   const env = 'development'
-  const externals = await getExternals(config)
-  const manifest = await getManifest(env, config, externals)
   const bar = progress({ total: 100, clear: true })
 
-  const props = {
-    config,
-    manifest,
-  }
+  log('Bundling the Javascript app')
 
-  const compiler = await getCompiler(env, props)
-  compiler.onProgress(i => bar.tick(i))
-
+  const { props, compiler } = await runCore(env, config, bar)
   const server = await startServer(env, compiler, props)
+
   log(`We are live at ${styles.url(server.url)}`)
 }
 

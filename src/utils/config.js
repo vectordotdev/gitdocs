@@ -1,9 +1,11 @@
 const fs = require('fs-extra')
+const syspath = require('path')
+const { tempDir } = require('./temp')
 // const deepmerge = require('deepmerge')
 
 const FILENAMES = [
-  '.gitdocs',
   '.gitdocs.json',
+  '.gitdocs.js',
 ]
 
 const JSON_FORMAT = {
@@ -14,13 +16,16 @@ const DEFAULT_CONFIG = {
   name: 'GitDocs',
   // logo: '',
   root: '.',
-  output: '.gitdocs_output',
-  tmp: '.gitdocs_tmp',
+  output: 'docs_build',
+  temp: tempDir(),
   host: 'localhost',
   port: 8000,
   languages: ['bash', 'json'],
   theme: 'default',
-  // theme_overrides: {},
+  theme_custom: {
+    syntaxTheme: 'prism',
+    syntaxLineNumbers: false,
+  },
   // sidebar: [],
   // sidebar_links: [],
   // header_links: [],
@@ -28,6 +33,14 @@ const DEFAULT_CONFIG = {
 
 function _getConfigFilename () {
   return FILENAMES.find(fs.pathExistsSync)
+}
+
+function _readConfigFile (file) {
+  const ext = syspath.extname(file)
+
+  return ext === '.js'
+    ? require(syspath.resolve(file))
+    : fs.readJson(file)
 }
 
 module.exports = async (customFile) => {
@@ -42,10 +55,13 @@ module.exports = async (customFile) => {
   }
 
   const configFile = _getConfigFilename()
-  const userConfig = configFile ? await fs.readJson(configFile) : {}
+  const userConfig = configFile ? await _readConfigFile(configFile) : {}
 
   // return deepmerge(DEFAULT_CONFIG, userConfig)
-  return Object.assign({}, DEFAULT_CONFIG, userConfig)
+  return {
+    ...DEFAULT_CONFIG,
+    ...userConfig,
+  }
 }
 
 module.exports.createConfig = async (name, root) => {
