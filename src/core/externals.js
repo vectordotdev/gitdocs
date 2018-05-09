@@ -17,21 +17,15 @@ const defaults = {
   root: 'docs/'
 }
 
-// Tmp directories uses to clone and extract docs
-const directories = {
-  tmp: '.gitdocs_tmp',
-  externals: '.gitdocs_externals'
-}
-
 function checkoutBranch (repo, source) {
   return repo
     .getBranch(`refs/remotes/origin/${source.branch}`)
     .then(b => repo.checkoutRef(b))
 }
 
-function cloneExternals (sources) {
+function cloneExternals (dir, sources) {
   // Ensure the externals directory is cleared out
-  fs.removeSync(directories.externals)
+  fs.removeSync(dir)
 
   // Map sources into an array of clone requests
   const requests = sources.map(async (s) => {
@@ -46,7 +40,7 @@ function cloneExternals (sources) {
     const source = { ...defaults, ...s }
 
     // Clone the source folder to our tmp directory
-    const repo = await git.Clone(source.url, `${directories.externals}/${source.name}`)
+    const repo = await git.Clone(source.url, `${dir}/${source.name}`)
     return checkoutBranch(repo, source)
   })
 
@@ -56,20 +50,21 @@ function cloneExternals (sources) {
     .catch(err => error(`Clone error ${err}`))
 }
 
-function extractDocs (sources) {
+function extractDocs (dir, sources) {
   // Valid external sources will be collected here
   const externals = []
 
   // Ensure the tmp directory is cleared out
-  fs.removeSync(directories.tmp)
+  // fs.removeSync(dir)
 
   sources.forEach(s => {
     // Get the root path for the external source
     const rootPath = s.root || defaults.root
+    const outputPath = `${dir}/repos/${s.name}`
 
     // Get the actual location of the docs
     const docsRoot = path.resolve(
-      `${directories.externals}/${s.name}`,
+      `${dir}/externals/${s.name}`,
       rootPath
     )
 
@@ -79,10 +74,13 @@ function extractDocs (sources) {
     }
 
     // Add to the list of valid external doc sources
-    externals.push(s.name)
+    externals.push({
+      name: s.name,
+      path: outputPath,
+    })
 
     // Move the external docs repo to our tmp folder
-    fs.copySync(docsRoot, `${directories.tmp}/${s.name}`)
+    fs.copySync(docsRoot, outputPath)
   })
 
   return externals
@@ -92,14 +90,13 @@ module.exports = async (config) => {
   // If we have no external repositories defined return early
   if (!config.sources) return false
 
+  const externalsDir = `${config.temp}/externals`
+
   // Clone all external sources into externals folder
-  await cloneExternals(config.sources)
+  await cloneExternals(externalsDir, config.sources)
 
   // Extract docs directories and move to gitdocs tmp folder
-  const externals = extractDocs(config.sources)
-
-  // Ensure our externals directory is cleared out
-  fs.removeSync(directories.externals)
+  const externals = extractDocs(config.temp, config.sources)
 
   return externals
 }

@@ -64,11 +64,13 @@ async function buildManifest (env, opts = {}) {
   const filemap = {}
   const urlmap = {}
 
-  const _walk = async path => {
+  const _walk = async (path, ignorePattern, baseDir) => {
+    baseDir = baseDir || path
+
     const ext = syspath.extname(path)
     const stats = await fs.stat(path)
 
-    if (opts.exclude && opts.exclude.test(path)) {
+    if (ignorePattern && ignorePattern.test(path)) {
       return null
     }
 
@@ -82,7 +84,7 @@ async function buildManifest (env, opts = {}) {
 
       const isIndex = /\/index\.[\w]+$/.test(path)
       const shouldGetContent = env === 'production'
-      const hydrated = await hydrate(path, opts.dir, opts.outputDir, shouldGetContent)
+      const hydrated = await hydrate(path, baseDir, opts.outputDir, shouldGetContent)
 
       filemap[path] = files.push(hydrated) - 1
       urlmap[hydrated.url] = filemap[path]
@@ -102,7 +104,7 @@ async function buildManifest (env, opts = {}) {
     if (stats.isDirectory()) {
       const childFiles = await fs.readdir(path)
       const children = await Promise.all(
-        childFiles.map(file => _walk(syspath.join(path, file)))
+        childFiles.map(file => _walk(syspath.join(path, file), ignorePattern, baseDir))
       )
 
       const indexItem = children
@@ -120,20 +122,31 @@ async function buildManifest (env, opts = {}) {
     }
   }
 
+  // dotfiles and underscored files
+  const ignored = /(?:^|[/\\])_./
+  const ignoredWithDotfiles = /(?:^|[/\\])(\.|_)./
+
   const {
     // move up a layer since we dont want base directory
-    children: navtree,
-  } = await _walk(opts.dir)
+    children: navtreeLocal,
+  } = await _walk(opts.dir, ignoredWithDotfiles)
+  const {
+    // move up a layer since we dont want base directory
+    children: navtreeExternal,
+  } = await _walk(opts.reposDir, ignored)
 
   return {
     files,
     filemap,
     urlmap,
-    navtree,
+    navtree: [
+      ...navtreeLocal,
+      ...navtreeExternal,
+    ],
   }
 }
 
-module.exports = async (env, config, externals) => {
+module.exports = async (env, config) => {
   if (!await fs.pathExists(config.root)) {
     throw new Error(`Could not find root documentation folder: ${config.root}`)
   }
@@ -142,14 +155,11 @@ module.exports = async (env, config, externals) => {
     throw new Error(`Root is set to an absolute path! Did you mean ".${config.root}" instead of "${config.root}"?`)
   }
 
-  // dotfiles and underscored files
-  const ignoredPattern = /(?:^|[/\\])(\.|_)./
-
   const manifest = await buildManifest(env, {
     dir: syspath.resolve(config.root),
+    reposDir: syspath.resolve(config.temp, 'repos'),
     outputDir: syspath.resolve(config.output),
     extensions: ['.md'],
-    exclude: ignoredPattern,
   })
 
   if (manifest.urlmap['/'] === undefined) {

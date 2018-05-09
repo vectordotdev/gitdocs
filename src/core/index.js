@@ -8,9 +8,9 @@ module.exports = async (env, config, bar) => {
   await fs.emptyDir(config.temp)
   await fs.emptyDir(config.output)
   await loadSyntax(config)
+  await getExternals(config)
 
-  const externals = await getExternals(config)
-  const manifest = await getManifest(env, config, externals)
+  const manifest = await getManifest(env, config)
 
   // this gets passed to the theme app
   const props = {

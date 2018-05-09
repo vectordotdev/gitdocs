@@ -27,8 +27,8 @@ const DEFAULT_CONFIG = {
     syntaxLineNumbers: false,
   },
   // sidebar: [],
-  // sidebar_links: [],
-  // header_links: [],
+  sidebar_links: [],
+  header_links: [],
 }
 
 function _getConfigFilename () {
