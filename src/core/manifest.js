@@ -38,24 +38,19 @@ async function warnForIndexConflict (file) {
 async function hydrate (file, baseDir, outputDir, shouldGetContent) {
   const data = await getFrontmatter(file)
 
-  const url = ourpath.routify(data.url || file, baseDir)
-  const title = data.title || ourpath.titlify(url)
-  const fileOutput = ourpath.outputify(`${outputDir}${url}`, {
+  data.url = ourpath.routify(data.url || file, baseDir)
+  data.title = data.title || ourpath.titlify(data.url)
+
+  data.file = file
+  data.fileOutput = ourpath.outputify(`${outputDir}${data.url}`, {
     ext: 'html',
   })
 
-  const item = {
-    url,
-    title,
-    file,
-    fileOutput,
-  }
-
   if (shouldGetContent) {
-    Object.assign(item, await source(item.file))
+    data.content = await source(data)
   }
 
-  return item
+  return data
 }
 
 async function buildManifest (env, opts = {}) {

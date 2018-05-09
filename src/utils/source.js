@@ -31,27 +31,26 @@ async function _fetchSource (source) {
   }
 }
 
-module.exports = async (file) => {
-  const { content } = await getFrontmatterWithContent(file)
-  const result = { content }
+module.exports = async (data) => {
+  let { content } = await getFrontmatterWithContent(data.file)
 
-  if (result.source) {
-    const remoteContent = await _fetchSource(result.source)
+  if (data.source) {
+    const remoteContent = await _fetchSource(data.source)
 
-    switch (result.source_inject) {
+    switch (data.source_inject) {
       case 'before':
-        result.content = `${remoteContent}\n\n${fm.content}`
+        content = `${remoteContent}\n\n${content}`
         break
 
       case 'after':
-        result.content = `${fm.content}\n\n${remoteContent}`
+        content = `${content}\n\n${remoteContent}`
         break
 
       default:
-        result.content = remoteContent
+        content = remoteContent
         break
     }
   }
 
-  return result
+  return content
 }

@@ -16,7 +16,7 @@ module.exports = (server, manifest) => {
         const action = initial ? 'Loading' : 'Reloading'
         log(`${action} ${styles.note(item.url)}`)
 
-        Object.assign(item, await source(item.file))
+        item.content = await source(item)
         client.send(JSON.stringify(item))
       } catch (err) {
         error(err)
