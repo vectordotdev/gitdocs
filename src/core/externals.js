@@ -89,7 +89,6 @@ function extractDocs (sources) {
 }
 
 module.exports = async (config) => {
-  return false
   // If we have no external repositories defined return early
   if (!config.sources) return false
 
