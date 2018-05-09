@@ -1,36 +1,27 @@
-const getManifest = require('../core/manifest')
-const getCompiler = require('../core/compiler')
+const runCore = require('../core')
 const outputStatic = require('../core/output')
 const { styles, log, progress } = require('../utils/emit')
 
 module.exports = async (args, config) => {
-  log('Creating your documentation', true)
+  log('Creating your documentation site', true)
 
   const env = 'production'
-  const manifest = await getManifest(env, config)
-
-  const props = {
-    config,
-    manifest,
-  }
+  const bundleBar = progress({ clear: true, total: 100 })
 
   log('Bundling the Javascript app')
 
-  const bundleBar = progress({ clear: true, total: 100 })
-  const compiler = await getCompiler(env, props)
-  compiler.onProgress(i => bundleBar.tick(i))
-
+  const { props, compiler } = await runCore(env, config, bundleBar)
   const stats = await compiler.build()
 
   log('Rendering and outputting HTML pages')
 
   const outputBar = progress({
     clear: true,
-    total: manifest.files.length,
+    total: props.manifest.files.length,
     append: styles.inactive(':current/:total'),
   })
 
-  const outputDir = await outputStatic(env, stats, props, () => outputBar.tick())
+  const outputDir = await outputStatic(env, stats, props, outputBar)
 
   log(`Site has been created at ${styles.note(`${outputDir}/`)}`)
 }

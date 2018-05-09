@@ -73,6 +73,24 @@ function progress (opts = {}) {
   return progressBar
 }
 
+function hijackConsole () {
+  const _log = console.log
+  const _warn = console.warn
+  const _error = console.error
+
+  console.log = log
+  console.warn = warn
+  console.error = error
+
+  return {
+    restore: () => {
+      console.log = _log
+      console.warn = _warn
+      console.error = _error
+    },
+  }
+}
+
 module.exports = {
   styles,
   chars,
@@ -82,4 +100,5 @@ module.exports = {
   warn,
   error,
   progress,
+  hijackConsole,
 }

@@ -1,43 +1,46 @@
 import React from 'react'
-// import Loadable from 'react-loadable'
 import Markdown from 'markdown-to-jsx'
-// import Syntax, { registerLanguage } from 'react-syntax-highlighter/light'
-// import docco from 'react-syntax-highlighter/styles/hljs/docco'
+import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
+import { theme, languages } from '@temp/loadSyntax' // eslint-disable-line
 
-// const Code = (props) => {
-//   const {
-//     className = '',
-//     children,
-//   } = props
+const Code = (props) => {
+  const {
+    className = '',
+    children,
+  } = props
 
-//   const language = className.split('-')[1]
+  const language = className.split('-')[1]
 
-//   const Highlighted = (
-//     <Syntax
-//       showLineNumbers
-//       style={docco}
-//       language={language}
-//     >
-//       {children}
-//     </Syntax>
-//   )
+  if (language) {
+    const languageRegistered = languages
+      .findIndex(i => i.name === language) > -1
 
-//   const Comp = Loadable({
-//     loader: () => import(`react-syntax-highlighter/languages/hljs/${language}`),
-//     loading: () => Highlighted,
-//     render: (loaded) => {
-//       registerLanguage(language, loaded.default)
-//       return Highlighted
-//     },
-//   })
+    if (!languageRegistered && process.env.NODE_ENV === 'development') {
+      console.warn(`You have ${language} syntax in your page, but didn't include it in your config file!`)
+    }
+  }
 
-//   return <Comp />
-// }
+  return (
+    <Syntax
+      style={theme}
+      language={language}
+      showLineNumbers={props.lineNumbers}
+    >
+      {children}
+    </Syntax>
+  )
+}
 
 export default function (props) {
+  languages.forEach(lang =>
+    registerLanguage(lang.name, lang.func))
+
   const options = {
     overrides: {
-      // code: Code,
+      code: {
+        props,
+        component: Code,
+      },
     },
   }
 

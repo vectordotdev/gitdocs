@@ -4,11 +4,12 @@ import { BrowserRouter } from 'react-router-dom'
 // import { rehydrate } from 'glamor'
 import App from './application'
 
-const render = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production'
+const render = isProd
   ? ReactDOM.hydrate
   : ReactDOM.render
 
-if (module.hot) {
+if (!isProd && module.hot) {
   module.hot.accept()
 }
 

@@ -6,6 +6,7 @@ import { Accordion } from 'react-interface'
 import IconHamburger from '../icons/hamburger'
 import IconClose from '../icons/close'
 import IconLink from '../icons/link'
+import { ConfigContext } from '../context'
 import styles from './styles'
 
 // function hasActiveLink (url, items) {
@@ -51,10 +52,10 @@ export default class extends Component {
     }
   }
 
-  navItems = (path, items, firstLevel) => {
+  navItems = (items, isSubnav) => {
     const className = css(
       styles.navItem,
-      !firstLevel && styles.navItemNotFirst,
+      isSubnav && styles.navItemNotFirst,
     )
 
     return (
@@ -81,7 +82,7 @@ export default class extends Component {
               trigger={trigger}
             >
               {item.children &&
-                this.navItems(path, item.children)}
+                this.navItems(item.children, true)}
             </div>
           )
         })}
@@ -90,69 +91,69 @@ export default class extends Component {
   }
 
   render () {
-    const path = this.props.currentRoute
-      ? this.props.currentRoute.url
-      : window.location.pathname
-
     const menuClassName = css(
       styles.menuWrapper,
       this.state.menuOpen && styles.menuWrapperOpen,
     )
 
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.topWrapper}>
-          <Link className={styles.logo} to="/">
-            {this.props.name}
-          </Link>
+      <ConfigContext.Consumer>
+        {config =>
+          <div className={styles.wrapper}>
+            <div className={styles.topWrapper}>
+              <Link className={styles.logo} to="/">
+                {config.name}
+              </Link>
 
-          <div
-            className={styles.hamburger}
-            onClick={() => this.setState({ menuOpen: true })}
-            role="presentation"
-          >
-            <IconHamburger className={styles.icons} />
-          </div>
-        </div>
-
-        <div className={menuClassName}>
-          <div
-            className={styles.close}
-            onClick={() => this.setState({ menuOpen: false })}
-            role="presentation"
-          >
-            <IconClose className={styles.icons} />
-          </div>
-
-          <nav className={styles.nav}>
-            <div className={styles.navTree}>
-              {this.navItems(path, this.props.navtree, true)}
+              <div
+                className={styles.hamburger}
+                onClick={() => this.setState({ menuOpen: true })}
+                role="presentation"
+              >
+                <IconHamburger className={styles.icons} />
+              </div>
             </div>
 
-            <div className={css(styles.navLinks, styles.navItem)}>
-              {this.props.links.map(({ text, ...rest }, key) => (
-                <a
-                  {...rest}
-                  key={`nav-link-${key}`}
-                  className={styles.navItem}
-                >
-                  {text}
-                  <IconLink />
-                </a>
-              ))}
-            </div>
-          </nav>
+            <div className={menuClassName}>
+              <div
+                className={styles.close}
+                onClick={() => this.setState({ menuOpen: false })}
+                role="presentation"
+              >
+                <IconClose className={styles.icons} />
+              </div>
 
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://github.com/timberio/gitdocs"
-            className={styles.callout}
-          >
-            Powered by GitDocs
-          </a>
-        </div>
-      </div>
+              <nav className={styles.nav}>
+                <div className={styles.navTree}>
+                  {this.navItems(config.sidebar || this.props.navtree)}
+                </div>
+
+                <div className={css(styles.navLinks, styles.navItem)}>
+                  {config.sidebar_links.map(({ text, ...rest }, key) => (
+                    <a
+                      {...rest}
+                      key={`nav-link-${key}`}
+                      className={styles.navItem}
+                    >
+                      {text}
+                      <IconLink />
+                    </a>
+                  ))}
+                </div>
+              </nav>
+
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/timberio/gitdocs"
+                className={styles.callout}
+              >
+                Powered by GitDocs
+              </a>
+            </div>
+          </div>
+        }
+      </ConfigContext.Consumer>
     )
   }
 }

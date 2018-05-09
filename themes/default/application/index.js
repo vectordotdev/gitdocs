@@ -6,6 +6,7 @@ import Sidebar from '../sidebar'
 import Page from '../page'
 import NotFound from '../not-found'
 import Routes from '../routes'
+import { ConfigContext } from '../context'
 import styles from './styles'
 
 export default class extends Component {
@@ -13,47 +14,39 @@ export default class extends Component {
     const {
       config,
       manifest,
-      // passed in for ssr only
-      currentRoute,
     } = this.props
 
     return (
-      <div className={styles.wrapper}>
-        <Helmet
-          defaultTitle={config.name}
-          titleTemplate={`%s · ${config.name}`}
-        >
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Overpass:300,700,900"
-          />
-        </Helmet>
+      <ConfigContext.Provider value={config}>
+        <div className={styles.wrapper}>
+          <Helmet
+            defaultTitle={config.name}
+            titleTemplate={`%s · ${config.name}`}
+          >
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Overpass:300,700,900"
+            />
+          </Helmet>
 
-        <div className={styles.nav}>
-          <Sidebar
-            name={config.name}
-            logo={config.logo}
-            links={config.sidebar_links}
-            navtree={config.sidebar || manifest.navtree}
-            currentRoute={currentRoute}
-          />
+          <div className={styles.nav}>
+            <Sidebar
+              navtree={manifest.navtree}
+            />
+          </div>
+
+          <div className={styles.page}>
+            <Header />
+
+            <Routes
+              routes={manifest.files}
+              componentPage={Page}
+              component404={NotFound}
+              socketUrl={`ws://${config.host}:${config.port}`}
+            />
+          </div>
         </div>
-
-        <div className={styles.page}>
-          <Header
-            name={config.name}
-            links={config.header_links}
-          />
-
-          <Routes
-            config={config}
-            routes={manifest.files}
-            currentRoute={currentRoute}
-            componentPage={Page}
-            component404={NotFound}
-          />
-        </div>
-      </div>
+      </ConfigContext.Provider>
     )
   }
 }

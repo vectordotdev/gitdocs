@@ -1,5 +1,4 @@
 const syspath = require('path')
-const fs = require('fs-extra')
 const webpack = require('webpack')
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
 const { babelOptions } = require('../utils/babel')
@@ -29,7 +28,11 @@ module.exports = async (env, props) => {
       publicPath: '/',
     },
     resolve: {
-      modules: [NODE_MODS_DIR, 'node_modules'],
+      modules: [
+        props.config.temp,
+        NODE_MODS_DIR,
+        'node_modules',
+      ],
     },
     module: {
       rules: [
@@ -48,14 +51,14 @@ module.exports = async (env, props) => {
       ],
     },
     plugins: [
-      isDev && new webpack.HotModuleReplacementPlugin(),
+      isDev &&
+        new webpack.HotModuleReplacementPlugin(),
+
       new webpack.DefinePlugin({
-        process: {
-          env: JSON.stringify({
-            NODE_ENV: env,
-            PROPS: props,
-          }),
-        },
+        'process.env': JSON.stringify({
+          NODE_ENV: env,
+          PROPS: props,
+        }),
       }),
     ].filter(Boolean),
   })
@@ -74,8 +77,6 @@ module.exports = async (env, props) => {
   }
 
   compiler.build = async () => {
-    await fs.emptyDir(props.config.output)
-
     return new Promise((resolve, reject) => {
       compiler.run((err, stats) => {
         const info = stats.toJson()

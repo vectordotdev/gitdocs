@@ -4,6 +4,7 @@ const { renderToString } = require('react-dom/server')
 const { renderStaticOptimized } = require('glamor/server')
 const { Helmet } = require('react-helmet')
 const babelRequire = require('../utils/babel')
+const { hijackConsole } = require('../utils/emit')
 
 module.exports = async (env, route, props, bundleFiles) => {
   const scripts = bundleFiles
@@ -23,9 +24,12 @@ module.exports = async (env, route, props, bundleFiles) => {
     `
   }
 
+  const hijacked = hijackConsole()
   const serverEntry = babelRequire('../../themes/server.js')
   const rendered = renderStaticOptimized(() =>
     renderToString(serverEntry.default(route, props)))
+
+  hijacked.restore()
 
   const helmet = Helmet.renderStatic()
   const template = `

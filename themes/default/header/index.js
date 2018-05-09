@@ -1,35 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { placeholder } from 'glamor'
+import { ConfigContext } from '../context'
 import styles from './styles'
 
-function Header (props) {
+export default function (props) {
   return (
-    <header className={styles.wrapper}>
-      <input
-        {...placeholder(styles.searchPlaceholder)}
-        className={styles.search}
-        placeholder="Search documentation..."
-      />
+    <ConfigContext.Consumer>
+      {config =>
+        <header className={styles.wrapper}>
+          <input
+            {...placeholder(styles.searchPlaceholder)}
+            className={styles.search}
+            placeholder="Search documentation..."
+          />
 
-      <nav className={styles.nav}>
-        {props.links.map(({ text, ...rest }) => (
-          <a {...rest} key={`nav-${text}`}>{text}</a>
-        ))}
-      </nav>
-    </header>
+          <nav className={styles.nav}>
+            {config.header_links.map(({ text, ...rest }) => (
+              <a {...rest} key={`nav-${text}`}>{text}</a>
+            ))}
+          </nav>
+        </header>
+      }
+    </ConfigContext.Consumer>
   )
 }
-
-Header.propTypes = {
-  links: PropTypes.array,
-}
-
-Header.defaultProps = {
-  links: [],
-}
-
-export default Header
 
 // const logo = props.logo
 //   ? <img src={require(`docs/${props.logo}`)} />

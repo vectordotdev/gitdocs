@@ -138,6 +138,10 @@ module.exports = async (env, config) => {
     throw new Error(`Could not find root documentation folder: ${config.root}`)
   }
 
+  if (/^\//.test(config.root)) {
+    throw new Error(`Root is set to an absolute path! Did you mean ".${config.root}" instead of "${config.root}"?`)
+  }
+
   // dotfiles and underscored files
   const ignoredPattern = /(?:^|[/\\])(\.|_)./
 
