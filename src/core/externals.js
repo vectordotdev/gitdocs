@@ -89,6 +89,7 @@ function extractDocs (sources) {
 }
 
 module.exports = async (config) => {
+  return false
   // If we have no external repositories defined return early
   if (!config.sources) return false
 
@@ -99,7 +100,7 @@ module.exports = async (config) => {
   const externals = extractDocs(config.sources)
 
   // Ensure our externals directory is cleared out
-  // fs.removeSync(directories.externals)
+  fs.removeSync(directories.externals)
 
   return externals
 }
