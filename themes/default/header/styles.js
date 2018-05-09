@@ -11,11 +11,12 @@ export default {
   }),
 
   search: css({
+    flex: 1,
     fontSize: '.9rem',
     padding: '8px 15px',
     border: '1px solid #E6E9EB',
     borderRadius: '30px',
-    width: '100%',
+    // width: '100%',
   }),
 
   searchPlaceholder: css({
@@ -23,7 +24,9 @@ export default {
   }),
 
   nav: css({
+    flexShrink: 0,
     '& a': {
+      display: 'inline-block',
       color: 'rgba(0, 0, 0, .5)',
       padding: '4px 0',
       textDecoration: 'none',
