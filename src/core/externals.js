@@ -1,6 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
-const git = require('nodegit')
+const git = require('simple-git/promise')
 const { log, warn, error } = require('../utils/emit')
 
 // Warnings for missing source information
@@ -15,12 +15,6 @@ const warnings = {
 const defaults = {
   branch: 'master',
   root: 'docs/'
-}
-
-function checkoutBranch (repo, source) {
-  return repo
-    .getBranch(`refs/remotes/origin/${source.branch}`)
-    .then(b => repo.checkoutRef(b))
 }
 
 function cloneExternals (dir, sources) {
@@ -39,9 +33,14 @@ function cloneExternals (dir, sources) {
     // Override defaults with source config
     const source = { ...defaults, ...s }
 
+    // Target directory for the cloned repo
+    const target = `${dir}/${source.name}`
+
     // Clone the source folder to our tmp directory
-    const repo = await git.Clone(source.url, `${dir}/${source.name}`)
-    return checkoutBranch(repo, source)
+    await git().clone(source.url, target)
+
+    // Ensure the proper branch is checked out
+    return git(target).checkout(source.branch)
   })
 
   // Wait for all cloning to finish
