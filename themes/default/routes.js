@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 class Routes extends Component {
   render () {
@@ -17,17 +17,24 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {routes.map((route, idx) => {
-          return (
-            <Route
+        {routes.map((route, idx) => ([
+          <Route
+            exact
+            strict
+            key={`route-${idx}`}
+            path={route.url}
+            render={() =>
+              <Page {...pageProps} route={route} />}
+          />,
+          route.url !== '/' &&
+            <Redirect
               exact
-              key={`route-${idx}`}
-              path={route.url}
-              render={() =>
-                <Page {...pageProps} route={route} />}
-            />
-          )
-        })}
+              strict
+              key={`redirect-${idx}`}
+              from={route.url.slice(0, -1)}
+              to={route.url}
+            />,
+        ]))}
 
         <Route component={NotFound} />
       </Switch>

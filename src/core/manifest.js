@@ -38,8 +38,8 @@ async function warnForIndexConflict (file) {
 async function hydrate (file, baseDir, outputDir, shouldGetContent) {
   const data = await getFrontmatter(file)
 
-  const url = ourpath.routify(file, baseDir)
-  const title = ourpath.titlify(url)
+  const url = ourpath.routify(data.url || file, baseDir)
+  const title = data.title || ourpath.titlify(url)
   const fileOutput = ourpath.outputify(file, {
     ext: 'html',
     replace: [baseDir, outputDir],
@@ -50,7 +50,6 @@ async function hydrate (file, baseDir, outputDir, shouldGetContent) {
     title,
     file,
     fileOutput,
-    ...data,
   }
 
   if (shouldGetContent) {
@@ -86,6 +85,11 @@ async function buildManifest (env, opts = {}) {
       const isIndex = /\/index\.[\w]+$/.test(path)
       const shouldGetContent = env === 'production'
       const hydrated = await hydrate(path, dir, opts.outputDir, shouldGetContent)
+
+      if (urlmap[hydrated.url]) {
+        const duplicated = files[urlmap[hydrated.url]].file
+        throw new Error(`Can't use a URL more than once: ${hydrated.url}\n\t- ${duplicated}\n\t- ${hydrated.file}`)
+      }
 
       filemap[path] = files.push(hydrated) - 1
       urlmap[hydrated.url] = filemap[path]
