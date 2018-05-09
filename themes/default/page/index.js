@@ -9,6 +9,7 @@ export default class extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      loading: false,
       route: props.route,
     }
   }
@@ -20,11 +21,14 @@ export default class extends Component {
       this._socket.addEventListener('open', evt => {
         const payload = JSON.stringify(this.props.route)
         this._socket.send(payload)
+
+        this.setState({ loading: true })
       })
 
       this._socket.addEventListener('message', evt => {
         const payload = JSON.parse(evt.data)
-        this.setState({ route: payload })
+
+        this.setState({ route: payload, loading: false })
       })
     }
   }
@@ -37,9 +41,14 @@ export default class extends Component {
 
   render () {
     const {
-      title,
-      content,
-    } = this.state.route
+      loading,
+      route: {
+        title,
+        content,
+      },
+    } = this.state
+
+    const defaultContent = '###### _You don\'t have any content here yet!_'
 
     return (
       <ConfigContext.Consumer>
@@ -50,14 +59,14 @@ export default class extends Component {
             </Helmet>
 
             <div>
-              {content
-                ? (
+              {loading
+                ? <Loading />
+                : (
                   <Markdown
-                    source={content}
+                    source={content || defaultContent}
                     lineNumbers={config.theme_custom.syntaxLineNumbers}
                   />
-                )
-                : <Loading />}
+                )}
             </div>
           </div>
         }
