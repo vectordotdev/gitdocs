@@ -2,6 +2,7 @@ import React from 'react'
 import Markdown from 'markdown-to-jsx'
 import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
+import Wrapper from './Wrapper'
 
 const Code = (props) => {
   const {
@@ -25,6 +26,8 @@ const Code = (props) => {
       style={theme}
       language={language}
       showLineNumbers={props.lineNumbers}
+      lineNumberStyle={{ opacity: 0.5 }}
+      useInlineStyles
     >
       {children}
     </Syntax>
@@ -45,8 +48,10 @@ export default function (props) {
   }
 
   return (
-    <Markdown options={options}>
-      {props.source}
-    </Markdown>
+    <Wrapper>
+      <Markdown options={options}>
+        {props.source}
+      </Markdown>
+    </Wrapper>
   )
 }
