@@ -1,15 +1,11 @@
 const fs = require('fs-extra')
 const renderTemplate = require('./template')
 const { concurrentChunks } = require('../utils/promise')
-const { namespaces } = require('../utils/temp')
 
 module.exports = async (env, stats, props, bar) => {
   const {
     manifest,
-    config: {
-      temp,
-      output,
-    },
+    config,
   } = props
 
   const bundleFiles = stats.entrypoints.main.assets
@@ -21,5 +17,5 @@ module.exports = async (env, stats, props, bar) => {
     bar && bar.tick()
   }))
 
-  return output
+  return config.output
 }
