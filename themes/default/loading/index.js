@@ -1,14 +1,14 @@
 import React from 'react'
-import styles from './styles'
+import { Wrapper } from './styles'
 
 export default function (props) {
   return (
-    <div className={styles.wrapper}>
+    <Wrapper>
       <div />
       <div />
       <div />
       <div />
       <div />
-    </div>
+    </Wrapper>
   )
 }
