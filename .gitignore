@@ -1,9 +1,9 @@
 .DS_Store
 .vscode/
 .nyc_output/
+.gitdocs_build/
 coverage/
 builds/
-docs_build/
 node_modules/
 package-lock.json
 *.log
