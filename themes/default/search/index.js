@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { css, placeholder } from 'glamor'
 import { createDB } from './db'
 import history from '../history'
-import styles from './styles'
+import { Wrapper, Input, Results, Result } from './styles'
 
 const UP = 'ArrowUp'
 const DOWN = 'ArrowDown'
@@ -98,40 +97,38 @@ class Search extends Component {
 
     // Map over search results and create links
     const items = results.map((r, i) =>
-      <div
+      <Result
         key={r.file}
-        className={css(styles.result, i === selectedIndex && styles.selected)}
+        selected={i === selectedIndex}
         onClick={this.clearSearch}
       >
         <Link to={r.url}>
-          <h2 className={styles.resultTitle}>{r.title}</h2>
-          <p className={styles.resultURL}>{r.url}</p>
+          <h2>{r.title}</h2>
+          <p>{r.url}</p>
         </Link>
-      </div>
+      </Result>
     )
 
     return (
-      <div className={styles.results}>
+      <Results>
         {items.length !== 0 && !loading && items}
         {items.length === 0 && !loading && <span>No Results...</span>}
         {loading && <span>Loading...</span>}
-      </div>
+      </Results>
     )
   }
 
   render () {
     return (
-      <div className={styles.search}>
-        <input
+      <Wrapper>
+        <Input
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}
           value={this.state.query}
-          {...placeholder(styles.searchPlaceholder)}
-          className={styles.input}
           placeholder="Search documentation..."
         />
         {this.renderResults()}
-      </div>
+      </Wrapper>
     )
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import Markdown from 'markdown-to-jsx'
 import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
-import Wrapper from './Wrapper'
+import { Wrapper } from './styles'
 
 const Code = (props) => {
   const {

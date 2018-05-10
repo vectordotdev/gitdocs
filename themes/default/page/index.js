@@ -3,13 +3,13 @@ import Helmet from 'react-helmet'
 import Markdown from '../markdown'
 import Loading from '../loading'
 import { ConfigContext } from '../context'
-import styles from './styles'
+import { Wrapper } from './styles'
 
 export default class extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: false,
+      loading: Boolean(props.route.content),
       route: props.route,
     }
   }
@@ -53,7 +53,7 @@ export default class extends Component {
     return (
       <ConfigContext.Consumer>
         {config =>
-          <div className={styles.wrapper}>
+          <Wrapper>
             <Helmet>
               <title>{title}</title>
             </Helmet>
@@ -68,7 +68,7 @@ export default class extends Component {
                   />
                 )}
             </div>
-          </div>
+          </Wrapper>
         }
       </ConfigContext.Consumer>
     )

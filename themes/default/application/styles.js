@@ -1,41 +1,54 @@
-import { css } from 'glamor'
+import styled, { css, injectGlobal } from 'react-emotion'
+import normalize from 'emotion-normalize'
 
-const font = {
-  fontFamily: 'Overpass, sans-serif',
-  fontWeight: 300,
-  fontSize: '16px',
-  lineHeight: 1,
-}
+injectGlobal`
+  ${normalize}
+`
 
-css.global('*', font)
-css.global('input', font)
+const fontMain = css`
+  font-family: "Overpass", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1;
+`
 
-export default {
-  wrapper: css({
-    display: 'flex',
-    height: '100vh',
-    '@media (max-width: 850px)': {
-      flexDirection: 'column',
-    },
-  }),
+const fontMono = css`
+  font-family: "Overpass Mono", monospace;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1;
+`
 
-  nav: css({
-    flex: 1,
-    background: 'linear-gradient(left, #F5F7F9 0%, #F0F2F4 100%)',
-    borderRight: '1px solid #E6E9EB',
-    minWidth: '250px',
-    textAlign: 'right',
-    overflow: 'auto',
-    '@media (max-width: 850px)': {
-      flex: '0 auto',
-      overflow: 'hidden',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, .2)',
-    },
-  }),
+export const Wrapper = styled('div')`
+  display: flex;
+  height: 100vh;
+  @media (max-width: 850px) {
+    flex-direction: column;
+  }
+  &, input {
+    ${fontMain};
+  }
+  * pre, code {
+    ${fontMono};
+  }
+`
 
-  page: css({
-    flex: 2,
-    overflow: 'auto',
-    position: 'relative',
-  }),
-}
+export const WrapperNav = styled('nav')`
+  flex: 1;
+  background: linear-gradient(90deg, #F0F2F4 0%, #F5F7F9 100%);
+  border-right: 1px solid #E6E9EB;
+  min-width: 250px;
+  text-align: right;
+  overflow: auto;
+  @media (max-width: 850px) {
+    flex: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+  }
+`
+
+export const WrapperPage = styled('div')`
+  flex: 2;
+  overflow: auto;
+  position: relative;
+`

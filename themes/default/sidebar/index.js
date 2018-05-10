@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link, NavLink } from 'react-router-dom'
-import { css } from 'glamor'
-import { Accordion } from 'react-interface'
+import { NavLink } from 'react-router-dom'
 import IconHamburger from '../icons/hamburger'
 import IconClose from '../icons/close'
-import IconLink from '../icons/link'
+import IconExternal from '../icons/external'
 import { ConfigContext } from '../context'
-import styles from './styles'
+import {
+  Wrapper,
+  TopWrapper,
+  MenuWrapper,
+  Hamburger,
+  Close,
+  Logo,
+  Nav,
+  NavItem,
+  NavLinks,
+  Callout,
+} from './styles'
 
 // function hasActiveLink (url, items) {
 //   return items.findIndex(item => {
@@ -53,14 +62,9 @@ export default class extends Component {
   }
 
   navItems = (items, isSubnav) => {
-    const className = css(
-      styles.navItem,
-      isSubnav && styles.navItemNotFirst,
-    )
-
     return (
-      <Accordion
-        className={className}
+      <NavItem
+        isSubnav={isSubnav}
         // selectedIdx={hasActiveLink(path, items)}
       >
         {items.map(item => {
@@ -86,72 +90,60 @@ export default class extends Component {
             </div>
           )
         })}
-      </Accordion>
+      </NavItem>
     )
   }
 
   render () {
-    const menuClassName = css(
-      styles.menuWrapper,
-      this.state.menuOpen && styles.menuWrapperOpen,
-    )
-
     return (
       <ConfigContext.Consumer>
         {config =>
-          <div className={styles.wrapper}>
-            <div className={styles.topWrapper}>
-              <Link className={styles.logo} to="/">
+          <Wrapper>
+            <TopWrapper>
+              <Logo to="/">
                 {config.name}
-              </Link>
+              </Logo>
 
-              <div
-                className={styles.hamburger}
+              <Hamburger
                 onClick={() => this.setState({ menuOpen: true })}
                 role="presentation"
               >
-                <IconHamburger className={styles.icons} />
-              </div>
-            </div>
+                <IconHamburger />
+              </Hamburger>
+            </TopWrapper>
 
-            <div className={menuClassName}>
-              <div
-                className={styles.close}
+            <MenuWrapper open={this.state.menuOpen}>
+              <Close
                 onClick={() => this.setState({ menuOpen: false })}
                 role="presentation"
               >
-                <IconClose className={styles.icons} />
-              </div>
+                <IconClose />
+              </Close>
 
-              <nav className={styles.nav}>
-                <div className={styles.navTree}>
-                  {this.navItems(config.sidebar || this.props.navtree)}
-                </div>
+              <Nav>
+                {this.navItems(config.sidebar || this.props.navtree)}
 
-                <div className={css(styles.navLinks, styles.navItem)}>
+                <NavLinks>
                   {config.sidebar_links.map(({ text, ...rest }, key) => (
                     <a
                       {...rest}
                       key={`nav-link-${key}`}
-                      className={styles.navItem}
                     >
-                      {text}
-                      <IconLink />
+                      {text} <IconExternal />
                     </a>
                   ))}
-                </div>
-              </nav>
+                </NavLinks>
+              </Nav>
 
-              <a
+              <Callout
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://github.com/timberio/gitdocs"
-                className={styles.callout}
               >
                 Powered by GitDocs
-              </a>
-            </div>
-          </div>
+              </Callout>
+            </MenuWrapper>
+          </Wrapper>
         }
       </ConfigContext.Consumer>
     )

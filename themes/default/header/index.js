@@ -1,20 +1,24 @@
 import React from 'react'
 import { ConfigContext } from '../context'
 import Search from '../search'
-import styles from './styles'
+import { Wrapper, Nav } from './styles'
 
 export default function (props) {
   return (
     <ConfigContext.Consumer>
       {config =>
-        <header className={styles.wrapper}>
-          <Search config={config} manifest={props.manifest} />
-          <nav className={styles.nav}>
+        <Wrapper>
+          <Search
+            config={config}
+            manifest={props.manifest}
+          />
+
+          <Nav>
             {config.header_links.map(({ text, ...rest }) => (
               <a {...rest} key={`nav-${text}`}>{text}</a>
             ))}
-          </nav>
-        </header>
+          </Nav>
+        </Wrapper>
       }
     </ConfigContext.Consumer>
   )

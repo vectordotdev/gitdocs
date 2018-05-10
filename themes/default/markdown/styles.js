@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'react-emotion'
 
-const Wrapper = styled.div`
+export const Wrapper = styled('div')`
   * {
     font-family: inherit;
     font-weight: inherit;
@@ -126,7 +126,7 @@ const Wrapper = styled.div`
   }
 
   .react-syntax-highlighter-line-number {
-    // font-size: .85rem;
+    font-size: .85rem;
   }
 
   .syntax-shell .react-syntax-highlighter-line-number {
@@ -144,5 +144,3 @@ const Wrapper = styled.div`
     position: absolute;
   }
 `
-
-export default Wrapper
