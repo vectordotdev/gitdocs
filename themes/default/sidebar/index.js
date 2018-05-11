@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import IconHamburger from '../icons/hamburger'
 import IconClose from '../icons/close'
 import IconExternal from '../icons/external'
@@ -18,34 +18,7 @@ import {
   Callout,
 } from './styles'
 
-// function hasActiveLink (url, items) {
-//   return items.findIndex(item => {
-//     if (item.link === location.pathname) {
-//       return true
-//     }
-
-//     if (item.children) {
-//       return hasActiveLink(url, item.children)
-//     }
-
-//     return false
-//   })
-// }
-
-// function hasActiveLink (url, items) {
-//   if (items) {
-//     for (var i = 0; i < items.length; i++) {
-//       if (url === items[i].link) {
-//         console.log('found:', items[i])
-//         return i
-//       }
-
-//       return hasActiveLink(url, items[i].children)
-//     }
-//   }
-// }
-
-export default class extends Component {
+class Sidebar extends Component {
   static propTypes = {
     links: PropTypes.array,
   }
@@ -61,11 +34,21 @@ export default class extends Component {
     }
   }
 
+  findActiveIndex (url, items = []) {
+    return items.findIndex(item => {
+      return item.link === url ||
+        this.findActiveIndex(url, item.children) > -1
+    })
+  }
+
   navItems = (items, isSubnav) => {
+    const { pathname } = this.props.location
+    const selectedIdx = this.findActiveIndex(pathname, items)
+
     return (
       <NavItem
         isSubnav={isSubnav}
-        // selectedIdx={hasActiveLink(path, items)}
+        selectedIdx={selectedIdx}
       >
         {items.map(item => {
           const trigger = item.link
@@ -149,3 +132,5 @@ export default class extends Component {
     )
   }
 }
+
+export default withRouter(Sidebar)
