@@ -1,6 +1,7 @@
 const syspath = require('path')
 const { minify } = require('html-minifier')
 const { renderToString } = require('react-dom/server')
+const { extractCritical } = require('emotion-server')
 const { Helmet } = require('react-helmet')
 const babelRequire = require('../utils/babel')
 const { hijackConsole } = require('../utils/emit')
@@ -25,7 +26,8 @@ module.exports = async (env, route, props, bundleFiles) => {
 
   const hijacked = hijackConsole()
   const serverEntry = babelRequire('../../themes/server.js')
-  const rendered = renderToString(serverEntry.default(route, props))
+  const app = serverEntry.default(route, props)
+  const rendered = extractCritical(renderToString(app))
 
   hijacked.restore()
 
@@ -48,7 +50,7 @@ module.exports = async (env, route, props, bundleFiles) => {
 
         <div id="gitdocs-app">${rendered.html}</div>
 
-        <script>window._glamorIds = ${JSON.stringify(rendered.ids)}</script>
+        <script>window._EMOTION_IDS_ = ${JSON.stringify(rendered.ids)}</script>
         ${scripts}
       </body>
     </html>

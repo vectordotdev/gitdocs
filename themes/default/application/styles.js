@@ -1,9 +1,7 @@
-import styled, { css, injectGlobal } from 'react-emotion'
-import normalize from 'emotion-normalize'
+import styled, { css } from 'react-emotion'
+import ui from '@timberio/ui'
 
-injectGlobal`
-  ${normalize}
-`
+ui.normalize()
 
 const fontMain = css`
   font-family: "Overpass", sans-serif;

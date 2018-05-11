@@ -1,22 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from 'react-router-dom'
+import { hydrate } from 'emotion'
 import history from './history'
-// import { rehydrate } from 'glamor'
 import App from './application'
 
-const isProd = process.env.NODE_ENV === 'production'
-const render = isProd
-  ? ReactDOM.hydrate
-  : ReactDOM.render
+const { _EMOTION_IDS_ } = window
+const isDev = process.env.NODE_ENV === 'development'
+const render = isDev ? ReactDOM.render : ReactDOM.hydrate
 
-if (!isProd && module.hot) {
-  module.hot.accept()
-}
-
-// if (window._glamorIds) {
-//   rehydrate(window._glamorIds)
-// }
+isDev && module.hot && module.hot.accept()
+_EMOTION_IDS_ && hydrate(_EMOTION_IDS_)
 
 render(
   <Router history={history}>
