@@ -34,21 +34,20 @@ class Sidebar extends Component {
     }
   }
 
-  findActiveIndex (url, items = []) {
+  findActiveIndex (items = []) {
+    const { pathname } = this.props.location
+
     return items.findIndex(item => {
-      return item.link === url ||
-        this.findActiveIndex(url, item.children) > -1
+      return item.link === pathname ||
+        this.findActiveIndex(item.children) > -1
     })
   }
 
   navItems = (items, isSubnav) => {
-    const { pathname } = this.props.location
-    const selectedIdx = this.findActiveIndex(pathname, items)
-
     return (
       <NavItem
         isSubnav={isSubnav}
-        selectedIdx={selectedIdx}
+        selectedIdx={this.findActiveIndex(items)}
       >
         {items.map(item => {
           const trigger = item.link
