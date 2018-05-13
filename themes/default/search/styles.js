@@ -25,6 +25,7 @@ export const Results = styled('div')`
   top: 75px;
   height: calc(100vh - 75px);
   background: #FFF;
+  z-index: 99;
 `
 
 export const Result = styled('div')`
