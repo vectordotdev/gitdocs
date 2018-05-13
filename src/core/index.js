@@ -13,17 +13,17 @@ module.exports = async (env, config, bar) => {
   const externals = await getExternals(config)
 
   // Merge current and extenal configs
-  config = mergeConfig(config, externals)
+  const mergedConfig = mergeConfig(config, externals)
 
   // Load static assets like images, scripts, css, etc.
   await staticAssets(config, env === 'development')
 
   // Build the documentation manifest
-  const manifest = await getManifest(env, config)
+  const manifest = await getManifest(env, mergedConfig)
 
   // this gets passed to the theme app
   const props = {
-    config,
+    mergedConfig,
     manifest,
   }
 

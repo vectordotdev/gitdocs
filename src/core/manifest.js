@@ -38,7 +38,7 @@ async function warnForIndexConflict (file) {
 async function hydrate (data, file, baseDir, outputDir, shouldGetContent, config) {
   data.url = ourpath.routify(data.url || file, baseDir)
   data.title = data.title || ourpath.titlify(data.url)
-  data.order = data.order || config.order[data.url.replace(/\/$/, "")] || null
+  data.order = data.order || config.order[data.url.replace(/\/$/, '')] || null
 
   data.file = file
   data.fileOutput = ourpath.outputify(`${outputDir}${data.url}`, {
@@ -81,7 +81,9 @@ async function buildManifest (env, config, opts = {}) {
       const isIndex = /\/index\.[\w]+$/.test(path)
       const shouldGetContent = env === 'production'
       const frontMatter = await getFrontmatter(path)
-      const hydrated = await hydrate(frontMatter, path, dir, opts.outputDir, shouldGetContent, config)
+      const hydrated = await hydrate(
+        frontMatter, path, dir, opts.outputDir, shouldGetContent, config
+      )
 
       // Ignore files with a `draft` status
       if (frontMatter.draft) return
@@ -89,7 +91,9 @@ async function buildManifest (env, config, opts = {}) {
       // Detect duplicate URLs
       if (urlmap[hydrated.url]) {
         const duplicated = files[urlmap[hydrated.url]].file
-        throw new Error(`Can't use a URL more than once: ${hydrated.url}\n\t- ${duplicated}\n\t- ${hydrated.file}`)
+        throw new Error(
+          `Can't use a URL more than once: ${hydrated.url}\n\t- ${duplicated}\n\t- ${hydrated.file}`
+        )
       }
 
       filemap[path] = files.push(hydrated) - 1
@@ -185,9 +189,6 @@ module.exports = async (env, config) => {
     outputDir: syspath.resolve(config.output),
     extensions: ['.md'],
   })
-
-  // fs.writeFile("./tree.json", JSON.stringify(dirtree(syspath.resolve(config.root))))
-  // console.log(JSON.stringify(manifest.navtree, 0, 2))
 
   if (manifest.urlmap['/'] === undefined) {
     warn('No index file was found! Create an `index.md` at the root of your project.')
