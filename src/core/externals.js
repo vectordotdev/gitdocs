@@ -74,9 +74,9 @@ function extractDocs (reposDir, externalsDir, sources) {
     }
 
     // Get external docs config, will be merged with cwd config
-    const configPath = `${docsRoot}/.gitdocs.json`
+    const configPath = `${externalsDir}/${s.name}/.gitdocs.json`
     const configFileExists = fs.existsSync(configPath)
-    const config = configFileExists ? fs.readJson(configPath) : {}
+    const config = configFileExists ? fs.readJsonSync(configPath) : {}
 
     // Add to the list of valid external doc sources
     externals.push({

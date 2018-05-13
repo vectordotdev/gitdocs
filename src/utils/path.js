@@ -46,8 +46,13 @@ function titlify (str) {
     .join(' ')
 }
 
+function slugify (str) {
+  return str.toLowerCase().split(' ').join('-')
+}
+
 module.exports = {
   routify,
   outputify,
   titlify,
+  slugify,
 }
