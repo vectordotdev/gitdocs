@@ -107,8 +107,9 @@ export const NavItem = styled(Accordion)`
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
-    line-height: 30px;
+    line-height: 24px;
     border-left: 3px solid transparent;
+    padding: .1rem 1rem .1rem 0;
     :hover {
       opacity: 0.7;
     }

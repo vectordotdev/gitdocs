@@ -35,11 +35,10 @@ async function warnForIndexConflict (file) {
   }
 }
 
-async function hydrate (file, baseDir, outputDir, shouldGetContent) {
-  const data = await getFrontmatter(file)
-
+async function hydrate (data, file, baseDir, outputDir, shouldGetContent, config) {
   data.url = ourpath.routify(data.url || file, baseDir)
   data.title = data.title || ourpath.titlify(data.url)
+  data.order = data.order || config.order[data.url.replace(/\/$/, "")] || null
 
   data.file = file
   data.fileOutput = ourpath.outputify(`${outputDir}${data.url}`, {
@@ -53,7 +52,7 @@ async function hydrate (file, baseDir, outputDir, shouldGetContent) {
   return data
 }
 
-async function buildManifest (env, opts = {}) {
+async function buildManifest (env, config, opts = {}) {
   const files = []
   const filemap = {}
   const urlmap = {}
@@ -69,17 +68,26 @@ async function buildManifest (env, opts = {}) {
     }
 
     if (stats.isFile()) {
+      // Only watch for certain file extensions (defaults to *.md)
       if (opts.extensions && opts.extensions.indexOf(ext) === -1) {
         return null
       }
 
+      // Warn if there are any route index conflicts
       await warnForIndexConflict(path)
       await checkForIndexConflict(path)
 
+      // @TODO: Check fro Readme.md or [folder].md
       const isIndex = /\/index\.[\w]+$/.test(path)
       const shouldGetContent = env === 'production'
-      const hydrated = await hydrate(path, dir, opts.outputDir, shouldGetContent)
+      const frontMatter = await getFrontmatter(path)
+      const hydrated = await hydrate(frontMatter, path, dir, opts.outputDir, shouldGetContent, config)
+      console.log(hydrated.order)
 
+      // Ignore files with a `draft` status
+      if (frontMatter.draft) return
+
+      // Detect duplicate URLs
       if (urlmap[hydrated.url]) {
         const duplicated = files[urlmap[hydrated.url]].file
         throw new Error(`Can't use a URL more than once: ${hydrated.url}\n\t- ${duplicated}\n\t- ${hydrated.file}`)
@@ -88,15 +96,15 @@ async function buildManifest (env, opts = {}) {
       filemap[path] = files.push(hydrated) - 1
       urlmap[hydrated.url] = filemap[path]
 
-      if (hydrated.draft) {
-        return
-      }
-
       return isIndex ? {
         indexLink: hydrated.url,
+        order: hydrated.order,
+        data: frontMatter,
       } : {
         text: hydrated.title,
         link: hydrated.url,
+        order: hydrated.order,
+        data: frontMatter
       }
     }
 
@@ -112,11 +120,19 @@ async function buildManifest (env, opts = {}) {
       return {
         text: ourpath.titlify(path),
         link: indexItem ? indexItem.indexLink : undefined,
+        order: indexItem ? indexItem.order : null,
+        data: indexItem ? indexItem.data : {},
         children: children
           .filter(Boolean)
           .filter(({ indexLink }) => !indexLink)
-          // sort children alphabetically
-          .sort((a, b) => a.text > b.text),
+          // Sort alphabetically
+          .sort((a, b) => a.text > b.text)
+          // Sort by order in config or frontmatter
+          .sort((a, b) => {
+            if (a.order === null && b.order !== null) return 1
+            if (b.order === null && a.order !== null) return -1
+            return a.order - b.order
+          })
       }
     }
   }
@@ -150,15 +166,20 @@ module.exports = async (env, config) => {
   }
 
   if (/^\//.test(config.root)) {
-    throw new Error(`Root is set to an absolute path! Did you mean ".${config.root}" instead of "${config.root}"?`)
+    throw new Error(
+      `Root is set to an absolute path! Did you mean ".${config.root}" instead of "${config.root}"?`
+    )
   }
 
-  const manifest = await buildManifest(env, {
+  const manifest = await buildManifest(env, config, {
     dir: syspath.resolve(config.root),
     reposDir: syspath.resolve(config.temp, namespaces.repos),
     outputDir: syspath.resolve(config.output),
     extensions: ['.md'],
   })
+
+  // fs.writeFile("./tree.json", JSON.stringify(dirtree(syspath.resolve(config.root))))
+  // console.log(JSON.stringify(manifest.navtree, 0, 2))
 
   if (manifest.urlmap['/'] === undefined) {
     warn('No index file was found! Create an `index.md` at the root of your project.')

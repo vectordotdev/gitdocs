@@ -73,15 +73,25 @@ function extractDocs (reposDir, externalsDir, sources) {
       return warn(`No docs root found for ${s.name || 'source'}, skipping...`)
     }
 
+    // Get external docs config, will be merged with cwd config
+    const configPath = `${docsRoot}/.gitdocs.json`
+    const configFileExists = fs.existsSync(configPath)
+    const config = configFileExists ? fs.readJson(configPath) : {}
+
     // Add to the list of valid external doc sources
     externals.push({
       name: s.name,
       path: outputPath,
+      config,
     })
 
     // Move the external docs repo to our tmp folder
     fs.copySync(docsRoot, outputPath)
   })
+
+  if (externals.length) {
+    log('[\u2713] External docs loaded')
+  }
 
   return externals
 }

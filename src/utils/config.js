@@ -32,6 +32,7 @@ const DEFAULT_CONFIG = {
   sidebar_links: [],
   header_links: [],
   sources: [],
+  order: {},
 }
 
 function _getConfigFilename () {
