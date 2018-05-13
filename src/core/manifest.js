@@ -82,7 +82,6 @@ async function buildManifest (env, config, opts = {}) {
       const shouldGetContent = env === 'production'
       const frontMatter = await getFrontmatter(path)
       const hydrated = await hydrate(frontMatter, path, dir, opts.outputDir, shouldGetContent, config)
-      console.log(hydrated.order)
 
       // Ignore files with a `draft` status
       if (frontMatter.draft) return
@@ -117,6 +116,10 @@ async function buildManifest (env, config, opts = {}) {
       const indexItem = children
         .find(item => item && item.indexLink)
 
+      if (indexItem) {
+        console.log(indexItem.indexLink, indexItem.order)
+      }
+
       return {
         text: ourpath.titlify(path),
         link: indexItem ? indexItem.indexLink : undefined,
@@ -149,14 +152,19 @@ async function buildManifest (env, config, opts = {}) {
     children: navtreeExternal,
   } = await _walk(opts.reposDir, ignoredUnderscores)
 
+  // Combine and sort local and external nav trees
+  const navtree = [...navtreeLocal, ...navtreeExternal]
+    .sort((a, b) => {
+      if (a.order === null && b.order !== null) return 1
+      if (b.order === null && a.order !== null) return -1
+      return a.order - b.order
+    })
+
   return {
     files,
     filemap,
     urlmap,
-    navtree: [
-      ...navtreeLocal,
-      ...navtreeExternal,
-    ],
+    navtree,
   }
 }
 

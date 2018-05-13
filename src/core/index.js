@@ -6,7 +6,7 @@ const getCompiler = require('./compiler')
 
 module.exports = async (env, config, bar) => {
   await loadSyntax(config)
-  await getExternals(config)
+  const externals = await getExternals(config)
   await staticAssets(config, env === 'development')
 
   const manifest = await getManifest(env, config)
