@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter, NavLink } from 'react-router-dom'
+import { Reveal } from '@timberio/ui'
 import IconHamburger from '../icons/hamburger'
 import IconClose from '../icons/close'
 import IconExternal from '../icons/external'
@@ -13,8 +14,7 @@ import {
   Close,
   Logo,
   Nav,
-  NavItem,
-  NavLinks,
+  NavList,
   Callout,
 } from './styles'
 
@@ -43,36 +43,32 @@ class Sidebar extends Component {
     })
   }
 
-  navItems = (items, isSubnav) => {
+  navItems = (items, isFirst) => {
     return (
-      <NavItem
-        isSubnav={isSubnav}
+      <NavList
+        isFirst={isFirst}
         selectedIdx={this.findActiveIndex(items)}
       >
-        {items.map(item => {
-          const trigger = item.link
-            ? (
-              <NavLink
-                exact
-                to={item.link}
-                onClick={() => this.setState({ menuOpen: false })}
-              >
-                {item.text}
-              </NavLink>
-            )
-            : <a>{item.text}</a>
-
-          return (
-            <div
-              key={`nav-item-${item.link}`}
-              trigger={trigger}
-            >
-              {item.children &&
-                this.navItems(item.children, true)}
-            </div>
-          )
-        })}
-      </NavItem>
+        {items.map(item => (
+          <Reveal
+            key={`nav-item-${item.link}`}
+            trigger={() => item.link
+              ? (
+                <NavLink
+                  exact
+                  to={item.link}
+                  onClick={() => this.setState({ menuOpen: false })}
+                >
+                  {item.text}
+                </NavLink>
+              )
+              : <a>{item.text}</a>}
+          >
+            {item.children &&
+              this.navItems(item.children)}
+          </Reveal>
+        ))}
+      </NavList>
     )
   }
 
@@ -103,18 +99,15 @@ class Sidebar extends Component {
               </Close>
 
               <Nav>
-                {this.navItems(config.sidebar || this.props.navtree)}
-
-                <NavLinks>
-                  {config.sidebar_links.map(({ text, ...rest }, key) => (
-                    <a
-                      {...rest}
-                      key={`nav-link-${key}`}
-                    >
-                      {text} <IconExternal />
-                    </a>
-                  ))}
-                </NavLinks>
+                {this.navItems(config.sidebar || this.props.navtree, true)}
+                {config.sidebar_links.map(({ text, ...rest }, key) => (
+                  <a
+                    {...rest}
+                    key={`nav-link-${key}`}
+                  >
+                    {text} <IconExternal />
+                  </a>
+                ))}
               </Nav>
 
               <Callout

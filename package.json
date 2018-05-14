@@ -9,7 +9,7 @@
 		"url": "git+https://github.com/timberio/gitdocs.git"
 	},
 	"engines": {
-		"node": ">=8.6"
+		"node": ">=8.3"
 	},
 	"keywords": [
 		"documentation",
@@ -46,7 +46,7 @@
 		"sinon": "^5.0.7"
 	},
 	"dependencies": {
-		"@timberio/ui": "^1.0.0",
+		"@timberio/ui": "^1.0.1",
 		"axios": "^0.18.0",
 		"babel-core": "^6.26.3",
 		"babel-loader": "^7.1.4",
