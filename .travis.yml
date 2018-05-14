@@ -3,12 +3,8 @@ sudo: false
 node_js:
   - "10"
   - "9"
-  - "8.6"
+  - "8"
+  - "8.9" # node version used for binaries
+  - "8.3" # minimum node version required
 after_success:
   - npm run coveralls
-addons: # for nodegit deps
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - libstdc++-4.9-dev

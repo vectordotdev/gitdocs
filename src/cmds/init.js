@@ -1,5 +1,6 @@
 const syspath = require('path')
 const fs = require('fs-extra')
+const { copyDir } = require('../utils/filesystem')
 const { ask, confirm } = require('../utils/readline')
 const { createConfig } = require('../utils/config')
 const { styles, log } = require('../utils/emit')
@@ -25,7 +26,7 @@ module.exports = async (args, config) => {
     log(`Using ${styles.note(root)} as your docs folder`)
   } else {
     log(`Creating some documentation at ${styles.note(root)}`)
-    await fs.copy(STARTER_DIR, root)
+    await copyDir(STARTER_DIR, root)
   }
 
   log(`Ready to go! Run ${styles.note('gitdocs serve')} to get started`)
