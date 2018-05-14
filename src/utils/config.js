@@ -32,13 +32,14 @@ const DEFAULT_CONFIG = {
   sidebar_links: [],
   header_links: [],
   sources: [],
+  order: {},
 }
 
-function _getConfigFilename () {
+function getConfigFilename () {
   return FILENAMES.find(fs.pathExistsSync)
 }
 
-function _readConfigFile (file) {
+function readConfigFile (file) {
   const ext = syspath.extname(file)
 
   return ext === '.js'
@@ -46,7 +47,18 @@ function _readConfigFile (file) {
     : fs.readJson(file)
 }
 
-module.exports = async (customFile) => {
+function getExternalConfigFilename (dir, name) {
+  return FILENAMES
+    .map(f => `${dir}/${name}/${f}`)
+    .find(fs.pathExistsSync)
+}
+
+function getExternalConfig (dir, name) {
+  const file = getExternalConfigFilename(dir, name)
+  return file ? readConfigFile(file) : {}
+}
+
+async function getConfig (customFile) {
   // prioritize custom config file if passed,
   // but still fallback to default files
   if (customFile) {
@@ -57,8 +69,8 @@ module.exports = async (customFile) => {
     }
   }
 
-  const configFile = _getConfigFilename()
-  const userConfig = configFile ? await _readConfigFile(configFile) : {}
+  const configFile = getConfigFilename()
+  const userConfig = configFile ? await readConfigFile(configFile) : {}
 
   // return deepmerge(DEFAULT_CONFIG, userConfig)
   const masterConfig = {
@@ -78,8 +90,13 @@ module.exports = async (customFile) => {
   return masterConfig
 }
 
+module.exports = {
+  getConfig,
+  getExternalConfig
+}
+
 module.exports.createConfig = async (name, root) => {
-  if (_getConfigFilename()) {
+  if (getConfigFilename()) {
     throw new Error('GitDocs is already initialized in this folder!')
   }
 

@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const syspath = require('path')
+const { log } = require('../utils/emit')
 const { namespaces } = require('../utils/temp')
 
 const NODE_MODS = syspath.resolve(__dirname, '../../node_modules')
@@ -23,6 +24,6 @@ module.exports = async (config) => {
 
   const path = `${temp}/${namespaces.codegen}/loadSyntax.js`
   await fs.outputFile(path, content)
-
+  log('[\u2713] Syntax loaded')
   return path
 }

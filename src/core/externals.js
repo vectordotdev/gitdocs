@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const git = require('simple-git/promise')
 const { namespaces } = require('../utils/temp')
+const { getExternalConfig } = require('../utils/config')
 const { log, warn, error } = require('../utils/emit')
 
 // Warnings for missing source information
@@ -73,15 +74,23 @@ function extractDocs (reposDir, externalsDir, sources) {
       return warn(`No docs root found for ${s.name || 'source'}, skipping...`)
     }
 
+    // Get external docs config, will be merged with cwd config
+    const config = getExternalConfig(externalsDir, s.name)
+
     // Add to the list of valid external doc sources
     externals.push({
       name: s.name,
       path: outputPath,
+      config,
     })
 
     // Move the external docs repo to our tmp folder
     fs.copySync(docsRoot, outputPath)
   })
+
+  if (externals.length) {
+    log('[\u2713] External docs loaded')
+  }
 
   return externals
 }

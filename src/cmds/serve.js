@@ -14,7 +14,7 @@ module.exports = async (args, config) => {
   const { props, compiler } = await runCore(env, config, bar)
   const server = await startServer(env, compiler, props)
 
-  log(`We are live at ${styles.url(server.url)}`)
+  log(`[\u2713] Docs are live at ${styles.url(server.url)}`)
 }
 
 module.exports.menu = `

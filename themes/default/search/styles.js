@@ -22,9 +22,10 @@ export const Input = styled('input')`
 export const Results = styled('div')`
   position: absolute;
   width: 100%;
-  top: 75;
+  top: 75px;
   height: calc(100vh - 75px);
   background: #FFF;
+  z-index: 99;
 `
 
 export const Result = styled('div')`

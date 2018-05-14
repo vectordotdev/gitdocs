@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const syspath = require('path')
 const chokidar = require('chokidar')
 const { namespaces } = require('../utils/temp')
+const { log } = require('../utils/emit')
 
 function _watch (cwd, tempDir) {
   const watcher = chokidar.watch('**/*', {
@@ -40,6 +41,8 @@ module.exports = async (config, useTempDir) => {
   } else {
     await fs.copy(config.static, config.output)
   }
+
+  log('[\u2713] Static assets loaded')
 
   return dir
 }
