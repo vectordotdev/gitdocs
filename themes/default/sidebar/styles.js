@@ -97,14 +97,15 @@ export const Nav = styled('nav')`
   padding: 30px 0 30px 15px;
 `
 
-export const NavItem = styled(Accordion)`
+export const NavList = styled(Accordion)`
+  padding-left: ${props => props.isFirst ? 0 : '20px'};
   a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #0d2b3e;
-    font-size: .95rem;
-    font-weight: 700;
+    color: ${props => props.isFirst ? '#0d2b3e' : '#4c555a'};
+    font-size: ${props => props.isFirst ? '.95rem' : '.9rem'};
+    font-weight: ${props => props.isFirst ? 700 : 300};
     text-decoration: none;
     cursor: pointer;
     line-height: 30px;
@@ -113,8 +114,14 @@ export const NavItem = styled(Accordion)`
       opacity: 0.7;
     }
     &.active {
-      color: #6457DF;
-      border-right: 3px solid #6457DF;
+      font-weight: 700;
+      ${props => props.isFirst && css`
+        color: #6457DF;
+        border-right: 3px solid #6457DF;
+      `}
+      :hover {
+        opacity: 1;
+      }
     }
     svg {
       fill: rgba(0, 0, 0, .5);
@@ -123,24 +130,6 @@ export const NavItem = styled(Accordion)`
       margin-right: 15px;
     }
   }
-  ${props => props.isSubnav && css`
-    padding-left: 20px;
-    a {
-      color: #4c555a;
-      font-size: .9rem;
-      font-weight: 300;
-      &.active {
-        font-weight: 700;
-        :hover {
-          opacity: 1;
-        }
-      }
-    }
-  `}
-`
-
-export const NavLinks = styled(NavItem.withComponent('div'))`
-  padding: 30px 0;
 `
 
 export const Callout = styled('a')`
