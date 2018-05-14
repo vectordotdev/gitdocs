@@ -5,25 +5,25 @@ const staticAssets = require('./static')
 const getCompiler = require('./compiler')
 const mergeConfig = require('./merge')
 
-module.exports = async (env, config, bar) => {
+module.exports = async (env, localConfig, bar) => {
   // Load only supported syntaxes to reduce bundle size
-  await loadSyntax(config)
+  await loadSyntax(localConfig)
 
   // Fetch any external docs sources
-  const externals = await getExternals(config)
+  const externals = await getExternals(localConfig)
 
   // Merge current and extenal configs
-  const mergedConfig = mergeConfig(config, externals)
+  const config = mergeConfig(localConfig, externals)
 
   // Load static assets like images, scripts, css, etc.
-  await staticAssets(config, env === 'development')
+  await staticAssets(localConfig, env === 'development')
 
   // Build the documentation manifest
-  const manifest = await getManifest(env, mergedConfig)
+  const manifest = await getManifest(env, config)
 
   // this gets passed to the theme app
   const props = {
-    mergedConfig,
+    config,
     manifest,
   }
 

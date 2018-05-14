@@ -4,12 +4,12 @@ const { styles, log, progress, fullScreen } = require('../utils/emit')
 
 module.exports = async (args, config) => {
   fullScreen()
-  log('[\u2713] Starting local development server', true)
+  log('Starting local development server', true)
 
   const env = 'development'
   const bar = progress({ total: 100, clear: true })
 
-  log('[\u2713] Bundling the Javascript app')
+  log('Bundling the Javascript app')
 
   const { props, compiler } = await runCore(env, config, bar)
   const server = await startServer(env, compiler, props)

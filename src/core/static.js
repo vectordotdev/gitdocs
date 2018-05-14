@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const syspath = require('path')
 const chokidar = require('chokidar')
 const { namespaces } = require('../utils/temp')
-const log = require('../utils/emit')
+const { log } = require('../utils/emit')
 
 function _watch (cwd, tempDir) {
   const watcher = chokidar.watch('**/*', {

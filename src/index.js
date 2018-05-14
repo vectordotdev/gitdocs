@@ -1,5 +1,5 @@
 const getArguments = require('./utils/arguments')
-const getConfig = require('./utils/config')
+const { getConfig } = require('./utils/config')
 const { error } = require('./utils/emit')
 
 module.exports = async () => {

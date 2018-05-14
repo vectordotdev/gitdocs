@@ -9,7 +9,7 @@ module.exports = async (args, config) => {
   const env = 'production'
   const bundleBar = progress({ clear: true, total: 100 })
 
-  log('[\u2713] Bundling the Javascript app')
+  log('Bundling the Javascript app')
 
   await fs.emptyDir(config.output)
   const { props, compiler } = await runCore(env, config, bundleBar)

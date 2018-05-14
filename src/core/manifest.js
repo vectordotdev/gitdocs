@@ -52,6 +52,12 @@ async function hydrate (data, file, baseDir, outputDir, shouldGetContent, config
   return data
 }
 
+function sortByOrder (a, b) {
+  if (a.order === null && b.order !== null) return 1
+  if (b.order === null && a.order !== null) return -1
+  return a.order - b.order
+}
+
 async function buildManifest (env, config, opts = {}) {
   const files = []
   const filemap = {}
@@ -120,10 +126,6 @@ async function buildManifest (env, config, opts = {}) {
       const indexItem = children
         .find(item => item && item.indexLink)
 
-      if (indexItem) {
-        console.log(indexItem.indexLink, indexItem.order)
-      }
-
       return {
         text: ourpath.titlify(path),
         link: indexItem ? indexItem.indexLink : undefined,
@@ -135,11 +137,7 @@ async function buildManifest (env, config, opts = {}) {
           // Sort alphabetically
           .sort((a, b) => a.text > b.text)
           // Sort by order in config or frontmatter
-          .sort((a, b) => {
-            if (a.order === null && b.order !== null) return 1
-            if (b.order === null && a.order !== null) return -1
-            return a.order - b.order
-          })
+          .sort(sortByOrder)
       }
     }
   }
@@ -158,11 +156,7 @@ async function buildManifest (env, config, opts = {}) {
 
   // Combine and sort local and external nav trees
   const navtree = [...navtreeLocal, ...navtreeExternal]
-    .sort((a, b) => {
-      if (a.order === null && b.order !== null) return 1
-      if (b.order === null && a.order !== null) return -1
-      return a.order - b.order
-    })
+    .sort(sortByOrder)
 
   return {
     files,

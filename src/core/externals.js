@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const git = require('simple-git/promise')
 const { namespaces } = require('../utils/temp')
+const { getExternalConfig } = require('../utils/config')
 const { log, warn, error } = require('../utils/emit')
 
 // Warnings for missing source information
@@ -74,9 +75,7 @@ function extractDocs (reposDir, externalsDir, sources) {
     }
 
     // Get external docs config, will be merged with cwd config
-    const configPath = `${externalsDir}/${s.name}/.gitdocs.json`
-    const configFileExists = fs.existsSync(configPath)
-    const config = configFileExists ? fs.readJsonSync(configPath) : {}
+    const config = getExternalConfig(externalsDir, s.name)
 
     // Add to the list of valid external doc sources
     externals.push({
