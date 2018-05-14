@@ -108,12 +108,10 @@ async function buildManifest (env, config, opts = {}) {
       return isIndex ? {
         indexLink: hydrated.url,
         order: hydrated.order,
-        data: frontMatter,
       } : {
         text: hydrated.title,
         link: hydrated.url,
         order: hydrated.order,
-        data: frontMatter
       }
     }
 
@@ -130,7 +128,6 @@ async function buildManifest (env, config, opts = {}) {
         text: ourpath.titlify(path),
         link: indexItem ? indexItem.indexLink : undefined,
         order: indexItem ? indexItem.order : null,
-        data: indexItem ? indexItem.data : {},
         children: children
           .filter(Boolean)
           .filter(({ indexLink }) => !indexLink)
