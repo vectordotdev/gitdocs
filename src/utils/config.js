@@ -103,13 +103,6 @@ module.exports.createConfig = async (name, root) => {
   const newConfig = {
     name,
     root,
-    sidebar_links: [
-      { text: 'GitHub', href: 'https://github.com/timberio/gitdocs', target: '_blank' },
-      { text: 'Troubleshooting', href: 'https://github.com/timberio/gitdocs/issues', target: '_blank' },
-    ],
-    header_links: [
-      { text: 'About', href: 'https://timber.io/about', target: '_blank' },
-    ],
   }
 
   const configFile = FILENAMES[0]
