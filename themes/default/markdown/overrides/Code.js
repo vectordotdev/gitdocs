@@ -38,6 +38,7 @@ const Code = (props) => {
       showLineNumbers={props.lineNumbers}
       lineNumberStyle={{ opacity: 0.5 }}
       useInlineStyles
+      className="syntax"
     >
       {children}
     </Syntax>

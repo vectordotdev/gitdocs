@@ -115,9 +115,8 @@ export const NavList = styled(Accordion)`
     &:hover {
       opacity: 0.7;
       ${props => !props.isFirst && css`
-        color: #595b61;
         padding-left: 8px;
-      `
+      `}
     }
     &.active {
       font-weight: 600;
