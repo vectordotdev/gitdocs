@@ -104,18 +104,23 @@ export const NavList = styled(Accordion)`
     justify-content: space-between;
     align-items: center;
     color: ${props => props.isFirst ? '#0d2b3e' : '#4c555a'};
-    font-size: ${props => props.isFirst ? '.95rem' : '.9rem'};
-    font-weight: ${props => props.isFirst ? 700 : 300};
+    font-size: ${props => props.isFirst ? '1rem' : '.9rem'};
+    font-weight: ${props => props.isFirst ? 600 : 400};
+    transition: ${props => props.isFirst ? 'none' : 'all 0.2s ease-in-out'};
     text-decoration: none;
     cursor: pointer;
     line-height: 24px;
     border-left: 3px solid transparent;
     padding: .1rem 1rem .1rem 0;
-    :hover {
+    &:hover {
       opacity: 0.7;
+      ${props => !props.isFirst && css`
+        color: #595b61;
+        padding-left: 8px;
+      `
     }
     &.active {
-      font-weight: 700;
+      font-weight: 600;
       ${props => props.isFirst && css`
         color: #6457DF;
         border-right: 3px solid #6457DF;

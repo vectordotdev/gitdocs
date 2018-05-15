@@ -4,17 +4,19 @@ import ui from '@timberio/ui'
 ui.normalize()
 
 const fontMain = css`
-  font-family: "Overpass", sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 1;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: rgba(0, 0, 0, 0.85);
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 `
 
 const fontMono = css`
-  font-family: "Overpass Mono", monospace;
-  font-weight: 300;
-  font-size: 16px;
+  font-family: 'Menlo', monospace;
   line-height: 1;
+  font-size: 1.1rem;
 `
 
 export const Wrapper = styled('div')`

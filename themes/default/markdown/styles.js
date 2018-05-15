@@ -1,19 +1,13 @@
 import styled from 'react-emotion'
 
 export const Wrapper = styled('div')`
-  * {
-    font-family: inherit;
-    font-weight: inherit;
-    font-size: inherit;
-    line-height: inherit;
-  }
-
   h1, h2, h3, h4 {
     font-weight: bold;
+    text-decoration: none;
   }
 
   p {
-    line-height: 1.5rem;
+    line-height: 1.7rem;
   }
 
   ul {
@@ -37,6 +31,7 @@ export const Wrapper = styled('div')`
 
   pre, code {
     font-family: monospace;
+    -webkit-font-smoothing: initial !important;
   }
 
   code {
@@ -45,6 +40,7 @@ export const Wrapper = styled('div')`
     display: inline;
     line-height: 1.5;
     word-break: break-all;
+    background: #F4F5F6;
   }
 
   pre code {
@@ -53,6 +49,8 @@ export const Wrapper = styled('div')`
     word-break: break-all;
     white-space: pre-wrap;
     display: inline-block !important;
+    background: inherit;
+    color: rgb(52, 50, 64);
   }
 
   pre {

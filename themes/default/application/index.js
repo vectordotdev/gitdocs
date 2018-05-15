@@ -31,7 +31,7 @@ class App extends Component {
             />
             <link
               rel="stylesheet"
-              href="https://fonts.googleapis.com/css?family=Overpass+Mono:300,700|Overpass:300,700,900"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600"
             />
           </Helmet>
 
