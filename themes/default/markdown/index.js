@@ -39,7 +39,7 @@ const Code = (props) => {
       lineNumberStyle={{ opacity: 0.5 }}
       useInlineStyles
     >
-      {props.children}
+      {children}
     </Syntax>
   )
 }
@@ -50,13 +50,6 @@ export default function (props) {
 
   const options = {
     overrides: {
-      // pre: {
-      //   props,
-      //   component: props => {
-      //     console.log(props)
-      //     return <pre>{props.children}</pre>
-      //   }
-      // },
       code: {
         props,
         component: Code,
