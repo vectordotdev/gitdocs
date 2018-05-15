@@ -4,11 +4,21 @@ import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 import { Wrapper } from './styles'
 
+const CODE_BLOCK_FENCED = /^\s*(`{3,}|~{3,}) *(\S+)? *\n([\s\S]+?)\s*\1 *(?:\n *)+\n/
+const CODE_BLOCK = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n/
+
 const Code = (props) => {
   const {
     className = '',
     children,
   } = props
+
+  if (
+    !props.source.match(CODE_BLOCK_FENCED) &&
+    !props.source.match(CODE_BLOCK)
+  ) {
+    return <code>{children}</code>
+  }
 
   const language = className.split('-')[1]
 
@@ -29,7 +39,7 @@ const Code = (props) => {
       lineNumberStyle={{ opacity: 0.5 }}
       useInlineStyles
     >
-      {children}
+      {props.children}
     </Syntax>
   )
 }
@@ -40,6 +50,13 @@ export default function (props) {
 
   const options = {
     overrides: {
+      // pre: {
+      //   props,
+      //   component: props => {
+      //     console.log(props)
+      //     return <pre>{props.children}</pre>
+      //   }
+      // },
       code: {
         props,
         component: Code,
