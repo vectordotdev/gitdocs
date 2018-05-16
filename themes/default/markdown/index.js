@@ -1,50 +1,11 @@
 import React from 'react'
 import Markdown from 'markdown-to-jsx'
-import Syntax, { registerLanguage } from 'react-syntax-highlighter/prism-light'
-import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
+import { registerLanguage } from 'react-syntax-highlighter/prism-light'
+import { languages } from '@codegen/loadSyntax' // eslint-disable-line
 import { Wrapper } from './styles'
+import Code from './overrides/Code'
 import Header from './overrides/Header'
-
-const CODE_BLOCK_FENCED = /^\s*(`{3,}|~{3,}) *(\S+)? *\n([\s\S]+?)\s*\1 *(?:\n *)+\n/
-const CODE_BLOCK = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n/
-
-const Code = (props) => {
-  const {
-    className = '',
-    children,
-  } = props
-
-  const language = className.split('-')[1]
-
-  if (language) {
-    const languageRegistered = languages
-      .findIndex(i => i.name === language) > -1
-
-    if (!languageRegistered && process.env.NODE_ENV === 'development') {
-      console.warn(`You have ${language} syntax in your page, but didn't include it in your config file!`)
-    }
-  }
-
-  if (
-    !props.source.match(CODE_BLOCK_FENCED) &&
-    !props.source.match(CODE_BLOCK) &&
-    !language
-  ) {
-    return <code>{children}</code>
-  }
-
-  return (
-    <Syntax
-      style={theme}
-      language={language}
-      showLineNumbers={props.lineNumbers}
-      lineNumberStyle={{ opacity: 0.5 }}
-      useInlineStyles
-    >
-      {children}
-    </Syntax>
-  )
-}
+import Link from './overrides/Link'
 
 export default function (props) {
   languages.forEach(lang =>
@@ -55,6 +16,9 @@ export default function (props) {
       code: {
         props,
         component: Code,
+      },
+      a: {
+        component: Link,
       },
       h1: {
         props: { el: 'h1' },
