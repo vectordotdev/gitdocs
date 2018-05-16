@@ -6,8 +6,8 @@ const { ncp } = require('ncp')
 function copyDir (from, to) {
   return new Promise((resolve, reject) => {
     ncp(from, to, (err) => {
-     if (err) reject(err)
-     else resolve()
+      if (err) reject(err)
+      else resolve()
     })
   })
 }
