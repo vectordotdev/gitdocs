@@ -1,5 +1,7 @@
 # GitDocs
 
+> GitDocs v2.0 is coming soon. Stay tuned.
+
 <div align="center">
   <br /> <br /> <br />
   <a href="https://travis-ci.org/timberio/gitdocs"><img src="https://img.shields.io/travis/timberio/gitdocs/master.svg?style=flat-square" alt="Build Status" /></a>
