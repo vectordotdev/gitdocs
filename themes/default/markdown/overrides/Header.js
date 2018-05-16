@@ -22,23 +22,25 @@ const style = {
   display: 'inline-block'
 }
 
-const Header = ({ children, id, el, ...rest }) => {
-  if (!id) {
-    id = children[0]
-      .toLowerCase()
-      .split(' ')
-      .join('-')
-  }
+export default function (props) {
+  const {
+    id,
+    el,
+    children,
+  } = props
+
+  const itemId = id || children[0]
+    .toLowerCase()
+    .split(' ')
+    .join('-')
 
   if (!el) {
     return <h1>{children}</h1>
   }
 
   return (
-    <Link href={`#${id}`} id={id}>
-      {React.createElement(el, { children, style })}
+    <Link href={`#${itemId}`} id={itemId}>
+      {React.createElement(el, { style }, children)}
     </Link>
   )
 }
-
-export default Header

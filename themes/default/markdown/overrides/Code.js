@@ -1,16 +1,29 @@
 import React from 'react'
-import { Syntax } from 'react-syntax-highlighter/prism-light'
+import Syntax from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 
 const CODE_BLOCK_FENCED = /^\s*(`{3,}|~{3,}) *(\S+)? *\n([\s\S]+?)\s*\1 *(?:\n *)+\n/
 const CODE_BLOCK = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n/
 
-const Code = (props) => {
-  console.log(props)
+export default function (props) {
   const {
     className = '',
     children,
   } = props
+
+  let language = className.split('-')[1]
+
+  if (language) {
+    language = language // language name aliases
+      .replace(/^js$/, 'javascript')
+
+    const languageRegistered = languages
+      .findIndex(({ name }) => name === language) > -1
+
+    if (!languageRegistered && process.env.NODE_ENV === 'development') {
+      console.warn(`You have ${language} syntax in your page, but didn't include it in your config file!`)
+    }
+  }
 
   if (
     !props.source.match(CODE_BLOCK_FENCED) &&
@@ -20,17 +33,6 @@ const Code = (props) => {
     return <code>{children}</code>
   }
 
-  const language = className.split('-')[1]
-
-  if (language) {
-    const languageRegistered = languages
-      .findIndex(i => i.name === language) > -1
-
-    if (!languageRegistered && process.env.NODE_ENV === 'development') {
-      console.warn(`You have ${language} syntax in your page, but didn't include it in your config file!`)
-    }
-  }
-
   return (
     <Syntax
       style={theme}
@@ -38,12 +40,8 @@ const Code = (props) => {
       showLineNumbers={props.lineNumbers}
       lineNumberStyle={{ opacity: 0.5 }}
       useInlineStyles
-      className="syntax"
     >
       {children}
     </Syntax>
   )
 }
-
-
-export default Code
