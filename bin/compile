@@ -52,3 +52,5 @@ do
 
   zip -j $ZIP $OUT.exe
 done
+
+rm -r $TMP_DIR
