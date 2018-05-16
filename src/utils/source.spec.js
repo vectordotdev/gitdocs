@@ -1,3 +1,3 @@
-const test = require('ava')
-
-test.todo('default')
+describe('unit: utils/source', () => {
+  it('default()')
+})

@@ -1,3 +1,4 @@
-const test = require('ava')
-
-test.todo('ask')
+describe('unit: utils/readline', () => {
+  it('ask()')
+  it('confirm()')
+})

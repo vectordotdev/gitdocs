@@ -1,3 +1,3 @@
-const test = require('ava')
-
-test.todo('all')
+describe('unit: utils/system', () => {
+  it('addToNodePath()')
+})

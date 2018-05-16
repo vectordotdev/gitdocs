@@ -1,17 +1,19 @@
-const test = require('ava')
+const { expect } = require('chai')
 const { run } = require('./helpers')
 
-test('shows help menu with command', async t => {
-  const res = await run('help')
-  t.regex(res.stdout, /usage/)
-})
+describe('integration: help', () => {
+  it('shows help menu with command', async () => {
+    const res = await run('help')
+    expect(res.stdout).to.match(/usage/)
+  })
 
-test('shows help submenu with command', async t => {
-  const res = await run('help build')
-  t.regex(res.stdout, /gitdocs build/)
-})
+  it('shows help submenu with command', async () => {
+    const res = await run('help build')
+    expect(res.stdout).to.match(/gitdocs build/)
+  })
 
-test('shows help submenu with flag', async t => {
-  const res = await run('build -h')
-  t.regex(res.stdout, /gitdocs build/)
+  it('shows help submenu with flag', async () => {
+    const res = await run('build -h')
+    expect(res.stdout).to.match(/gitdocs build/)
+  })
 })

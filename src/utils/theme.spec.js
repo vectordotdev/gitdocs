@@ -1,3 +1,3 @@
-const test = require('ava')
+describe('unit: utils/theme', () => {
 
-test.todo('getTheme')
+})

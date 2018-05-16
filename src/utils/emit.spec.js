@@ -1,13 +1,11 @@
-const test = require('ava')
-const sinon = require('sinon')
-
-test.beforeEach(t => {
-  t.context.write = process.stderr.write
-  process.stderr.write = sinon.spy()
+describe('unit: utils/emit', () => {
+  it('styles')
+  it('chars')
+  it('hideCursor()')
+  it('fullScreen()')
+  it('log()')
+  it('warn()')
+  it('error()')
+  it('progress()')
+  it('hijackConsole()')
 })
-
-test.afterEach(t => {
-  process.stderr.write = t.context.write
-})
-
-test.todo('all')

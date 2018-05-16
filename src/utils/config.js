@@ -90,12 +90,7 @@ async function getConfig (customFile) {
   return masterConfig
 }
 
-module.exports = {
-  getConfig,
-  getExternalConfig
-}
-
-module.exports.createConfig = async (name, root) => {
+async function createConfig (name, root) {
   if (getConfigFilename()) {
     throw new Error('GitDocs is already initialized in this folder!')
   }
@@ -109,4 +104,10 @@ module.exports.createConfig = async (name, root) => {
   await fs.outputJson(configFile, newConfig, JSON_FORMAT)
 
   return configFile
+}
+
+module.exports = {
+  getConfig,
+  getExternalConfig,
+  createConfig,
 }

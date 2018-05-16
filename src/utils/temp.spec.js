@@ -1,3 +1,4 @@
-const test = require('ava')
-
-test.todo('all')
+describe('unit: utils/temp', () => {
+  it('namespaces()')
+  it('tempDir()')
+})

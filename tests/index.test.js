@@ -1,18 +1,20 @@
-const test = require('ava')
+const { expect } = require('chai')
 const { run } = require('./helpers')
 
-test('defaults to help command', async t => {
-  const res = await run()
-  t.regex(res.stdout, /usage/)
-})
+describe('integration: index', () => {
+  it('defaults to help command', async () => {
+    const res = await run()
+    expect(res.stdout).to.match(/usage/)
+  })
 
-test('shows package version', async t => {
-  const res = await run('-v')
-  t.regex(res.stdout, /v[0-9]/)
-})
+  it('shows package version', async () => {
+    const res = await run('-v')
+    expect(res.stdout).to.match(/v[0-9]/)
+  })
 
-test('throws on invalid command', async t => {
-  const res = await run('foobar', true)
-  t.is(res.code, 1)
-  t.regex(res.stderr, /not a valid/)
+  it('throws on invalid command', async () => {
+    const res = await run('foobar', true)
+    expect(res.code).to.equal(1)
+    expect(res.stderr).to.match(/not a valid/)
+  })
 })

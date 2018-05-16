@@ -1,3 +1,5 @@
-const test = require('ava')
-
-test.todo('everything')
+describe('unit: utils/config', () => {
+  it('getConfig()')
+  it('getExternalConfig()')
+  it('createConfig()')
+})
