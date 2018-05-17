@@ -4,27 +4,33 @@ const matter = require('gray-matter')
 
 const DELIMITER = '---'
 
-function _parseFrontmatter (str) {
+function _parse (str) {
   return matter(str, {
     language: 'yaml',
     delimiters: DELIMITER,
   })
 }
 
+/**
+ * only read file until end of the front matter.
+ * prevents having to read an entire file into
+ * memory just to get the metadata.
+ */
 function getFrontmatter (file) {
   const lines = []
   const input = fs.createReadStream(file)
   const reader = readline.createInterface({ input })
 
+  // whether we have found the start of the front matter block
   let delimSeen = false
 
+  // read the file stream line by line
   reader.on('line', line => {
-    // no frontmatter was found
+    // found some content in the file, but it's not front matter,
+    // so assuming file has no front matter
     if (!delimSeen && line !== '' && line !== DELIMITER) {
       reader.close()
     }
-
-    lines.push(line)
 
     if (line === DELIMITER) {
       // end of frontmatter was found
@@ -35,24 +41,32 @@ function getFrontmatter (file) {
         delimSeen = true
       }
     }
+
+    lines.push(line)
   })
 
   return new Promise((resolve, reject) => {
     reader.on('error', err => reject(err))
     reader.on('close', () => input.close())
 
+    // done reading the front matter and read stream has been closed
     input.on('close', () => {
+      // concat the lines into a string to be parsed into an object
       const fm = lines.join('\n').trim()
-      const { data } = _parseFrontmatter(fm)
+      const { data } = _parse(fm)
 
       resolve(data)
     })
   })
 }
 
+/**
+ * reads an entire file into memory and
+ * extracts the front matter.
+ */
 async function getFrontmatterWithContent (file) {
   const fileContent = await fs.readFile(file, 'utf8')
-  return _parseFrontmatter(fileContent.trim())
+  return _parse(fileContent.trim())
 }
 
 module.exports = {
