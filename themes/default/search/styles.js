@@ -1,4 +1,4 @@
-import styled, { css } from 'react-emotion'
+import styled from 'react-emotion'
 
 export const Wrapper = styled('div')`
   flex: 1;
@@ -29,19 +29,21 @@ export const Results = styled('div')`
 `
 
 export const Result = styled('div')`
-  padding: 1rem;
-  ${props => props.selected && css`
-    background: #F7F8F9;
-  `}
+  padding: .5rem;
+  background: ${props => props.selected ? '#f6f5fb' : 'none'};
   :hover {
-    background: #F7F8F9;
+    background: #f6f5fb;
+    h4 { color: #6457DC; }
   }
-  h2 {
+  h4 {
     font-weight: bold;
     text-decoration: underline;
+    margin: 0;
+    color: ${props => props.selected ? '#6457DC' : '#0d2b3e'};
   }
   p {
-    color: #333;
+    color: rgba(0,0,0,0.85);
     text-decoration: none;
+    margin: 0;
   }
 `
