@@ -19,13 +19,12 @@ foo: bar
 const markdown3 = '# Hello There'
 
 describe('unit: utils/frontmatter', () => {
+  afterEach(mockFs.restore)
   beforeEach(() => mockFs({
     'file1.md': markdown1,
     'file2.md': markdown2,
     'file3.md': markdown3,
   }))
-
-  afterEach(() => mockFs.restore())
 
   describe('getFrontmatter()', () => {
     it('normal', async () => {
