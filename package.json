@@ -23,8 +23,8 @@
 	},
 	"scripts": {
 		"test:lint": "eslint src tests themes",
-		"test:unit": "mocha 'src/**/*.spec.js' -A -R progress",
-		"test:integration": "mocha 'tests/**/*.test.js' -A -R progress",
+		"test:unit": "./bin/test 'src/**/*.spec.js'",
+		"test:integration": "./bin/test 'tests/**/*.test.js'",
 		"test": "nyc npm-run-all test:*",
 		"posttest": "nyc report -r=lcov",
 		"coveralls": "cat coverage/lcov.info | coveralls",

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mocha \
+  --async-only \
+  --reporter progress \
+  "$@"
