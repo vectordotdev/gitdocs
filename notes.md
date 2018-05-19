@@ -17,6 +17,8 @@
 * https://github.com/kentor/tiny-ssg
 * https://antwar.js.org
 * https://github.com/cuttlebelle/cuttlebelle
+* https://cuttlebelle.com/documentation
+* https://github.com/c8r/x0
 
 ### Inspiration
 

@@ -1,4 +1,4 @@
-const { expect } = require('chai')
+const { expect } = require('code')
 const mockFs = require('mock-fs')
 const frontmatter = require('./frontmatter')
 
@@ -25,36 +25,36 @@ foo: bar
   describe('getFrontmatter()', () => {
     it('normal', async () => {
       const data = await frontmatter.getFrontmatter('file1.md')
-      expect(data).to.deep.equal({ foo: 'bar', baz: 'qux' })
+      expect(data).to.equal({ foo: 'bar', baz: 'qux' })
     })
 
     it('with whitespace', async () => {
       const data = await frontmatter.getFrontmatter('file2.md')
-      expect(data).to.deep.equal({ foo: 'bar' })
+      expect(data).to.equal({ foo: 'bar' })
     })
 
     it('without frontmatter', async () => {
       const data = await frontmatter.getFrontmatter('file3.md')
-      expect(data).to.deep.equal({})
+      expect(data).to.equal({})
     })
   })
 
   describe('getFrontmatterWithContent()', () => {
     it('normal', async () => {
       const res = await frontmatter.getFrontmatterWithContent('file1.md')
-      expect(res.data).to.deep.equal({ foo: 'bar', baz: 'qux' })
+      expect(res.data).to.equal({ foo: 'bar', baz: 'qux' })
       expect(res.content).to.equal('# Hello There')
     })
 
     it('with whitespace', async () => {
       const res = await frontmatter.getFrontmatterWithContent('file2.md')
-      expect(res.data).to.deep.equal({ foo: 'bar' })
+      expect(res.data).to.equal({ foo: 'bar' })
       expect(res.content).to.equal('# Hi')
     })
 
     it('without frontmatter', async () => {
       const res = await frontmatter.getFrontmatterWithContent('file3.md')
-      expect(res.data).to.deep.equal({})
+      expect(res.data).to.equal({})
       expect(res.content).to.equal('# Hello There')
     })
   })

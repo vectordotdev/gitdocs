@@ -1,4 +1,4 @@
-const { expect } = require('chai')
+const { expect } = require('code')
 const promise = require('./promise')
 
 describe('unit: utils/promise', () => {
@@ -17,7 +17,7 @@ describe('unit: utils/promise', () => {
     const after = Date.now()
     const diff = after - before
 
-    expect(diff > 300 && diff < 400).to.be.true
-    expect(res).to.deep.equal([1, 2, 3, 4, 5, 6])
+    expect(diff > 300 && diff < 400).to.be.true()
+    expect(res).to.equal([1, 2, 3, 4, 5, 6])
   })
 })
