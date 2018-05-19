@@ -22,10 +22,19 @@ const style = {
   display: 'inline-block'
 }
 
+const levels = {
+  1: 'h1',
+  2: 'h2',
+  3: 'h3',
+  4: 'h4',
+  5: 'h5',
+  6: 'h6',
+}
+
 export default function (props) {
   const {
     id,
-    el,
+    level = 1,
     children,
   } = props
 
@@ -34,13 +43,9 @@ export default function (props) {
     .split(' ')
     .join('-')
 
-  if (!el) {
-    return <h1>{children}</h1>
-  }
-
   return (
     <Link href={`#${itemId}`} id={itemId}>
-      {React.createElement(el, { style }, children)}
+      {React.createElement(levels[level], { style }, children)}
     </Link>
   )
 }
