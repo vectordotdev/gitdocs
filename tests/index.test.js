@@ -1,4 +1,4 @@
-const { expect } = require('chai')
+const { expect } = require('code')
 const { run } = require('./helpers')
 
 describe('integration: index', () => {

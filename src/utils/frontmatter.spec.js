@@ -1,4 +1,4 @@
-const { expect } = require('chai')
+const { expect } = require('code')
 const mockFs = require('mock-fs')
 const frontmatter = require('./frontmatter')
 
@@ -31,21 +31,21 @@ describe('unit: utils/frontmatter', () => {
     it('normal', async () => {
       const data = await frontmatter.getFrontmatter('file1.md')
       const withContent = await frontmatter.getFrontmatterWithContent('file1.md')
-      expect(data).to.deep.equal({ foo: 'bar', baz: 'qux' })
+      expect(data).to.equal({ foo: 'bar', baz: 'qux' })
       expect(withContent.content).to.equal('# Hello There')
     })
 
     it('with whitespace', async () => {
       const data = await frontmatter.getFrontmatter('file2.md')
       const withContent = await frontmatter.getFrontmatterWithContent('file2.md')
-      expect(data).to.deep.equal({ foo: 'bar' })
+      expect(data).to.equal({ foo: 'bar' })
       expect(withContent.content).to.equal('# Hi')
     })
 
     it('without frontmatter', async () => {
       const data = await frontmatter.getFrontmatter('file3.md')
       const withContent = await frontmatter.getFrontmatterWithContent('file3.md')
-      expect(data).to.deep.equal({})
+      expect(data).to.equal({})
       expect(withContent.content).to.equal('# Hello There')
     })
   })

@@ -31,7 +31,7 @@
 		"compile": "./bin/compile"
 	},
 	"devDependencies": {
-		"chai": "^4.1.2",
+		"code": "^5.2.0",
 		"coveralls": "^3.0.1",
 		"eslint": "^4.19.1",
 		"eslint-config-timber": "^1.0.21",
