@@ -2,16 +2,9 @@ import React from 'react'
 import Syntax from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 
-const CODE_BLOCK_FENCED = /^\s*(`{3,}|~{3,}) *(\S+)? *\n([\s\S]+?)\s*\1 *(?:\n *)+\n/
-const CODE_BLOCK = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n/
-
 export default function (props) {
-  const {
-    className = '',
-    children,
-  } = props
-
-  let language = className.split('-')[1]
+  let { language } = props
+  const { value } = props
 
   if (language) {
     language = language // language name aliases
@@ -25,14 +18,6 @@ export default function (props) {
     }
   }
 
-  if (
-    !props.source.match(CODE_BLOCK_FENCED) &&
-    !props.source.match(CODE_BLOCK) &&
-    !language
-  ) {
-    return <code>{children}</code>
-  }
-
   return (
     <Syntax
       style={theme}
@@ -41,7 +26,7 @@ export default function (props) {
       lineNumberStyle={{ opacity: 0.5 }}
       useInlineStyles
     >
-      {children}
+      {value}
     </Syntax>
   )
 }

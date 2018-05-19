@@ -1,5 +1,5 @@
 import React from 'react'
-import Markdown from 'markdown-to-jsx'
+import Markdown from 'react-markdown'
 import { registerLanguage } from 'react-syntax-highlighter/prism-light'
 import { languages } from '@codegen/loadSyntax' // eslint-disable-line
 import { Wrapper } from './styles'
@@ -12,36 +12,16 @@ export default function (props) {
     registerLanguage(lang.name, lang.func))
 
   const options = {
-    overrides: {
-      code: {
-        props,
-        component: Code,
-      },
-      a: {
-        component: Link,
-      },
-      h1: {
-        props: { el: 'h1' },
-        component: Header
-      },
-      h2: {
-        props: { el: 'h2' },
-        component: Header
-      },
-      h3: {
-        props: { el: 'h3' },
-        component: Header
-      },
-      h4: {
-        props: { el: 'h4' },
-        component: Header
-      },
+    renderers: {
+      code: Code,
+      a: Link,
+      heading: Header,
     },
   }
 
   return (
     <Wrapper>
-      <Markdown options={options}>
+      <Markdown {...options}>
         {props.source}
       </Markdown>
     </Wrapper>
