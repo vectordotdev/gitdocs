@@ -7,6 +7,7 @@ import { Wrapper, Input, Results, Result } from './styles'
 const UP = 'ArrowUp'
 const DOWN = 'ArrowDown'
 const ENTER = 'Enter'
+const ESCAPE = 'Escape'
 
 class Search extends Component {
   constructor (props) {
@@ -16,7 +17,7 @@ class Search extends Component {
     this.state = {
       query: '',
       loading: false,
-      selectedIndex: null,
+      selectedIndex: 0,
       results: [],
     }
 
@@ -42,6 +43,10 @@ class Search extends Component {
   handleKeyUp = e => {
     const { key } = e
 
+    if (e.key === ESCAPE) {
+      return this.clearSearch()
+    }
+
     // Only listen for key up, down, and enter
     if (
       !key === UP &&
@@ -50,7 +55,7 @@ class Search extends Component {
     ) return false
 
     // Get the selected index if it exists
-    const { selectedIndex = -1, results } = this.state
+    const { selectedIndex = 0, results } = this.state
 
     if (key === ENTER) {
       const selected = results[selectedIndex]
@@ -59,10 +64,12 @@ class Search extends Component {
     }
 
     // Next selected index
-    let nextIndex
+    let nextIndex = selectedIndex
 
     if (key === UP) {
       if (selectedIndex === 0) {
+        nextIndex = results.length - 1
+      } else if (selectedIndex < 0) {
         nextIndex = results.length - 1
       } else {
         nextIndex = selectedIndex - 1
@@ -103,7 +110,7 @@ class Search extends Component {
         onClick={this.clearSearch}
       >
         <Link to={r.url}>
-          <h2>{r.title}</h2>
+          <h4>{r.title}</h4>
           <p>{r.url}</p>
         </Link>
       </Result>
