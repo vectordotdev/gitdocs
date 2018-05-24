@@ -2,60 +2,70 @@ const fs = require('fs-extra')
 const readline = require('readline')
 const matter = require('gray-matter')
 
-const DELIMITER = '---'
+const DELIMITER_OPEN = '---'
+const DELIMITER_CLOSE = '---'
 
-function _parseFrontmatter (str) {
-  return matter(str, {
+function parseFrontmatter (str) {
+  const content = typeof str !== 'string'
+    ? str.toString('utf8')
+    : str
+
+  return matter(content.trim(), {
     language: 'yaml',
-    delimiters: DELIMITER,
+    delimiters: [DELIMITER_OPEN, DELIMITER_CLOSE],
   })
 }
 
-function getFrontmatter (file) {
+/**
+ * only read file until end of the front matter.
+ * prevents having to read an entire file into
+ * memory just to get the metadata.
+ */
+function getFrontmatterOnly (file) {
   const lines = []
   const input = fs.createReadStream(file)
   const reader = readline.createInterface({ input })
 
+  // whether we have found the start of the front matter block
   let delimSeen = false
 
+  // read the file stream line by line
   reader.on('line', line => {
-    // no frontmatter was found
-    if (!delimSeen && line !== '' && line !== DELIMITER) {
+    // found some content in the file, but it's not front matter,
+    // so assuming file has no front matter
+    if (!delimSeen && line !== '' && line !== DELIMITER_OPEN) {
+      reader.close()
+    }
+
+    // start of frontmatter was found
+    if (line === DELIMITER_OPEN) {
+      delimSeen = true
+    }
+
+    // end of frontmatter was found
+    if (line === DELIMITER_CLOSE && delimSeen) {
       reader.close()
     }
 
     lines.push(line)
-
-    if (line === DELIMITER) {
-      // end of frontmatter was found
-      if (delimSeen) {
-        reader.close()
-      // start of frontmatter was found
-      } else {
-        delimSeen = true
-      }
-    }
   })
 
   return new Promise((resolve, reject) => {
     reader.on('error', err => reject(err))
     reader.on('close', () => input.close())
 
+    // done reading the front matter and read stream has been closed
     input.on('close', () => {
+      // concat the lines into a string to be parsed into an object
       const fm = lines.join('\n').trim()
-      const { data } = _parseFrontmatter(fm)
+      const { data } = parseFrontmatter(fm)
 
       resolve(data)
     })
   })
 }
 
-async function getFrontmatterWithContent (file) {
-  const fileContent = await fs.readFile(file, 'utf8')
-  return _parseFrontmatter(fileContent.trim())
-}
-
 module.exports = {
-  getFrontmatter,
-  getFrontmatterWithContent,
+  parseFrontmatter,
+  getFrontmatterOnly,
 }

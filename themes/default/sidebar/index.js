@@ -20,11 +20,13 @@ import {
 
 class Sidebar extends Component {
   static propTypes = {
-    links: PropTypes.array,
+    manifest: PropTypes.object,
   }
 
   static defaultProps = {
-    links: [],
+    manifest: {
+      items: [],
+    },
   }
 
   constructor () {
@@ -34,52 +36,84 @@ class Sidebar extends Component {
     }
   }
 
-  findActiveIndex (items = []) {
+  findActiveIndex = (items = []) => {
     const { pathname } = this.props.location
 
     return items.findIndex(item => {
-      return item.link === pathname ||
-        this.findActiveIndex(item.children) > -1
+      return item.url === pathname ||
+        this.findActiveIndex(item.items) > -1
     })
   }
 
-  navItems = (items, isFirst) => {
+  renderTrigger = ({ title, url, component }) => {
+    // @TODO: custom components
+    if (component) {
+      // return (
+      //   <div>{`<${component} />`}</div>
+      // )
+    }
+
+    if (!url) {
+      return <a href="#">{title}</a>
+    }
+
+    if (/^https?:\/\//i.test(url)) {
+      return (
+        <a
+          href={url}
+          target="_blank"
+        >
+          {title} <IconExternal />
+        </a>
+      )
+    }
+
+    return (
+      <NavLink
+        exact
+        to={url}
+        onClick={() => this.setState({ menuOpen: false })}
+      >
+        {title}
+      </NavLink>
+    )
+  }
+
+  renderNavItems = (items, isFirst) => {
     return (
       <NavList
         isFirst={isFirst}
         selectedIdx={this.findActiveIndex(items)}
       >
-        {items.map(item => (
-          <Reveal
-            key={`nav-item-${item.link}`}
-            trigger={() => item.link
-              ? (
-                <NavLink
-                  exact
-                  to={item.link}
-                  onClick={() => this.setState({ menuOpen: false })}
-                >
-                  {item.text}
-                </NavLink>
-              )
-              : <a>{item.text}</a>}
-          >
-            {item.children &&
-              this.navItems(item.children)}
-          </Reveal>
-        ))}
+        {items
+          .filter(i => !i.draft)
+          .map(item => {
+            return (
+              <Reveal
+                key={`nav-item-${item.url}`}
+                trigger={() => this.renderTrigger(item)}
+              >
+                {item.items &&
+                  this.renderNavItems(item.items)}
+              </Reveal>
+            )
+          })}
       </NavList>
     )
   }
 
   render () {
+    const {
+      manifest,
+    } = this.props
+
     return (
       <ConfigContext.Consumer>
         {config =>
           <Wrapper>
             <TopWrapper>
-              <Logo to="/">
-                {config.name}
+              <Logo to={manifest.url}>
+                {manifest.title}
               </Logo>
 
               <Hamburger
@@ -99,15 +133,7 @@ class Sidebar extends Component {
               </Close>
 
               <Nav>
-                {this.navItems(config.sidebar || this.props.navtree, true)}
-                {config.sidebar_links.map(({ text, ...rest }, key) => (
-                  <a
-                    {...rest}
-                    key={`nav-link-${key}`}
-                  >
-                    {text} <IconExternal />
-                  </a>
-                ))}
+                {this.renderNavItems(manifest.items, true)}
               </Nav>
 
               <Callout

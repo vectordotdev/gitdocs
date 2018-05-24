@@ -1,31 +1,28 @@
 const fs = require('fs-extra')
-const runCore = require('../core')
-const outputStatic = require('../core/output')
-const { styles, log, progress } = require('../utils/emit')
+const core = require('../core')
+const output = require('../core/output')
+const { buildBundle } = require('../core/compiler')
+const { styles, log } = require('../utils/emit')
 
 module.exports = async (args, config) => {
   log('Creating your documentation site', true)
 
-  const env = 'production'
-  const bundleBar = progress({ clear: true, total: 100 })
-
   log('Bundling the Javascript app')
-
   await fs.emptyDir(config.output)
-  const { props, compiler } = await runCore(env, config, bundleBar)
-  const stats = await compiler.build()
+
+  const {
+    props,
+    compiler,
+  } = await core('production', config)
+
+  const {
+    entrypoints,
+  } = await buildBundle(compiler)
 
   log('Rendering and outputting HTML pages')
 
-  const outputBar = progress({
-    clear: true,
-    total: props.manifest.files.length,
-    append: styles.inactive(':current/:total'),
-  })
-
-  const outputDir = await outputStatic(env, stats, props, outputBar)
-
-  log(`Site has been created at ${styles.note(`${outputDir}/`)}`)
+  await output(entrypoints, props)
+  log(`Site has been saved to ${styles.note(`${config.output}/`)}`)
 }
 
 module.exports.menu = `

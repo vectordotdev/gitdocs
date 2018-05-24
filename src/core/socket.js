@@ -1,9 +1,8 @@
 const fs = require('fs')
 const WebSocket = require('ws')
-const source = require('../utils/source')
-const { styles, log, error } = require('../utils/emit')
+const { getContent } = require('./filesystem')
 
-module.exports = (server, manifest) => {
+module.exports = (server) => {
   const socket = new WebSocket.Server({
     server
   })
@@ -11,27 +10,18 @@ module.exports = (server, manifest) => {
   socket.on('connection', client => {
     let watcher
 
-    client.sendContent = async (item, initial) => {
-      try {
-        const action = initial ? 'Loading' : 'Reloading'
-        log(`${action} ${styles.note(item.url)}`)
-
-        item.content = await source(item)
-        client.send(JSON.stringify(item))
-      } catch (err) {
-        error(err)
+    client.on('message', file => {
+      const send = async () => {
+        const content = await getContent(file)
+        client.send(content)
       }
-    }
 
-    client.on('message', evt => {
-      // console.log(evt)
-      const item = JSON.parse(evt)
-      client.sendContent(item, true)
+      send()
 
       if (!watcher) {
-        watcher = fs.watch(item.file, fileEvt => {
+        watcher = fs.watch(file, fileEvt => {
           if (fileEvt === 'change') {
-            client.sendContent(item)
+            send()
           }
         })
       }

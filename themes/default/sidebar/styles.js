@@ -106,16 +106,16 @@ export const NavList = styled(Accordion)`
     color: ${props => props.isFirst ? '#0d2b3e' : '#4c555a'};
     font-size: ${props => props.isFirst ? '1rem' : '.9rem'};
     font-weight: ${props => props.isFirst ? 600 : 400};
-    transition: ${props => props.isFirst ? 'none' : 'all 0.2s ease-in-out'};
     text-decoration: none;
     cursor: pointer;
     line-height: 24px;
     border-left: 3px solid transparent;
     padding: .1rem 1rem .1rem 0;
+    // transition: ${props => props.isFirst ? 'none' : 'all 0.2s ease-in-out'};
     &:hover {
       opacity: 0.7;
       ${props => !props.isFirst && css`
-        padding-left: 8px;
+        // padding-left: 8px;
       `}
     }
     &.active {

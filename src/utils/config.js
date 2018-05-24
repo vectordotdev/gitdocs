@@ -3,6 +3,7 @@ const syspath = require('path')
 const { tempDir } = require('./temp')
 const { addToNodePath } = require('./system')
 // const deepmerge = require('deepmerge')
+const { warn } = require('./emit')
 
 const FILENAMES = [
   '.gitdocs.json',
@@ -18,8 +19,9 @@ const DEFAULT_CONFIG = {
   // logo: '',
   root: '.',
   output: '.gitdocs_build',
+  static: '.static',
   temp: tempDir(),
-  static: '_static',
+  baseURL: '/',
   host: 'localhost',
   port: 8000,
   languages: ['bash', 'json'],
@@ -28,11 +30,7 @@ const DEFAULT_CONFIG = {
     syntaxTheme: 'prism',
     syntaxLineNumbers: false,
   },
-  // sidebar: [],
-  sidebar_links: [],
   header_links: [],
-  sources: [],
-  order: {},
 }
 
 function getConfigFilename () {
@@ -81,6 +79,11 @@ async function getConfig (customFile) {
   masterConfig.temp = syspath.resolve(masterConfig.temp)
   await fs.emptyDir(masterConfig.temp)
   addToNodePath(masterConfig.temp)
+
+  const { root } = masterConfig
+  if (/^\//.test(root)) {
+    warn(`Root is set to an absolute path! Did you mean ".${root}" instead of "${root}"?`)
+  }
 
   masterConfig.static = syspath.resolve(
     masterConfig.root,

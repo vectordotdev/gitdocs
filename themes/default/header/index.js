@@ -1,6 +1,6 @@
 import React from 'react'
 import { ConfigContext } from '../context'
-import Search from '../search'
+// import Search from '../search'
 import { Wrapper, Nav } from './styles'
 
 export default function (props) {
@@ -8,10 +8,10 @@ export default function (props) {
     <ConfigContext.Consumer>
       {config =>
         <Wrapper>
-          <Search
+          {/* <Search
             config={config}
             manifest={props.manifest}
-          />
+          /> */}
 
           <Nav>
             {config.header_links.map(({ text, ...rest }) => (

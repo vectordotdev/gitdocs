@@ -1,6 +1,6 @@
 const syspath = require('path')
 const fs = require('fs-extra')
-const { copyDir } = require('../utils/filesystem')
+const { copyDir } = require('../core/filesystem')
 const { ask, confirm } = require('../utils/readline')
 const { createConfig } = require('../utils/config')
 const { styles, log } = require('../utils/emit')

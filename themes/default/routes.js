@@ -3,39 +3,48 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 class Routes extends Component {
-  render () {
+  route = ({ items = [], ...data }) => {
     const {
-      routes,
       socketUrl,
       componentPage: Page,
+    } = this.props
+
+    return [
+      items.map(this.route),
+      data.url && [
+        <Route
+          exact
+          strict
+          key={`route-${data.url}`}
+          path={data.url}
+          render={({ staticContext }) => (
+            <Page
+              route={staticContext || data}
+              socketUrl={socketUrl}
+            />
+          )}
+        />,
+        data.url !== '/' &&
+          <Redirect
+            exact
+            strict
+            key={`redirect-${data.url}`}
+            from={data.url.slice(0, -1)}
+            to={data.url}
+          />,
+      ],
+    ]
+  }
+
+  render () {
+    const {
+      manifest,
       component404: NotFound,
     } = this.props
 
-    const pageProps = {
-      socketUrl,
-    }
-
     return (
       <Switch>
-        {routes.map((route, idx) => ([
-          <Route
-            exact
-            strict
-            key={`route-${idx}`}
-            path={route.url}
-            render={() =>
-              <Page {...pageProps} route={route} />}
-          />,
-          route.url !== '/' &&
-            <Redirect
-              exact
-              strict
-              key={`redirect-${idx}`}
-              from={route.url.slice(0, -1)}
-              to={route.url}
-            />,
-        ]))}
-
+        {this.route(manifest)}
         <Route component={NotFound} />
       </Switch>
     )
@@ -43,7 +52,7 @@ class Routes extends Component {
 }
 
 Routes.propTypes = {
-  routes: PropTypes.array.isRequired,
+  manifest: PropTypes.object.isRequired,
   componentPage: PropTypes.func.isRequired,
   component404: PropTypes.func.isRequired,
   socketUrl: PropTypes.string.isRequired,

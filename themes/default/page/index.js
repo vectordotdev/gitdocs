@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
+// import axios from 'axios'
 import Markdown from '../markdown'
 import Loading from '../loading'
 import { ConfigContext } from '../context'
@@ -10,26 +11,30 @@ export default class extends Component {
     super(props)
     this.state = {
       loading: !props.route.content,
-      route: props.route,
+      content: props.route.content,
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     if (process.env.NODE_ENV === 'development') {
       this._socket = new WebSocket(this.props.socketUrl)
 
       this._socket.addEventListener('open', evt => {
-        const payload = JSON.stringify(this.props.route)
-        this._socket.send(payload)
-
+        this._socket.send(this.props.route.input)
         this.setState({ loading: true })
       })
 
       this._socket.addEventListener('message', evt => {
-        const payload = JSON.parse(evt.data)
-
-        this.setState({ route: payload, loading: false })
+        this.setState({
+          content: evt.data,
+          loading: false,
+        })
       })
+    } else {
+      // const { data } = await axios.get('index.json')
+      // this.setState({
+      //   content: data.content,
+      // })
     }
   }
 
@@ -41,21 +46,22 @@ export default class extends Component {
 
   render () {
     const {
+      route,
+    } = this.props
+
+    const {
       loading,
-      route: {
-        title,
-        content,
-      },
+      content,
     } = this.state
 
-    const defaultContent = '###### _You don\'t have any content here yet!_'
+    const defaultContent = '##### _You don\'t have any content here yet!_'
 
     return (
       <ConfigContext.Consumer>
         {config =>
           <Wrapper>
             <Helmet>
-              <title>{title}</title>
+              <title>{route.title}</title>
             </Helmet>
 
             <div>

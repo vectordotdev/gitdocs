@@ -6,10 +6,10 @@ const { babelOptions } = require('../utils/babel')
 const THEMES_DIR = syspath.resolve(__dirname, '../../themes')
 const NODE_MODS_DIR = syspath.resolve(__dirname, '../../node_modules')
 
-module.exports = async (env, props) => {
+async function getCompiler (env, props) {
   const isDev = env === 'development'
 
-  const compiler = webpack({
+  return webpack({
     mode: env,
     context: syspath.resolve(__dirname, '../../'),
     devtool: isDev
@@ -62,31 +62,35 @@ module.exports = async (env, props) => {
       }),
     ].filter(Boolean),
   })
+}
 
-  compiler.onProgress = (func) => {
-    let progressLimit = 0
+function getCompilerProgress (compiler, cb) {
+  let progressLimit = 0
 
-    new ProgressPlugin((p, msg) => {
-      const percentage = Math.floor(p * 100)
+  new ProgressPlugin((p, msg) => {
+    const percentage = Math.floor(p * 100)
 
-      if (percentage > progressLimit) {
-        func(percentage - progressLimit, msg)
-        progressLimit = percentage
-      }
-    }).apply(compiler)
-  }
+    if (percentage > progressLimit) {
+      cb(percentage - progressLimit, msg)
+      progressLimit = percentage
+    }
+  }).apply(compiler)
+}
 
-  compiler.build = async () => {
-    return new Promise((resolve, reject) => {
-      compiler.run((err, stats) => {
-        const info = stats.toJson()
+function buildBundle (compiler) {
+  return new Promise((resolve, reject) => {
+    compiler.run((err, stats) => {
+      const info = stats.toJson()
 
-        err || stats.hasErrors()
-          ? reject(info.errors.length ? info.errors : err)
-          : resolve(info)
-      })
+      err || stats.hasErrors()
+        ? reject(info.errors.length ? info.errors : err)
+        : resolve(info)
     })
-  }
+  })
+}
 
-  return compiler
+module.exports = {
+  getCompiler,
+  getCompilerProgress,
+  buildBundle,
 }
