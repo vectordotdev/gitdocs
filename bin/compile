@@ -19,7 +19,7 @@ PATHS=(
   "package.json" "yarn.lock"
 )
 
-rm -r $TMP_DIR $BUILDS_DIR
+rm -rf $TMP_DIR $BUILDS_DIR
 mkdir $TMP_DIR
 
 for path in "${PATHS[@]}"

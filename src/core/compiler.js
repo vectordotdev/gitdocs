@@ -38,7 +38,8 @@ async function getCompiler (env, props) {
       rules: [
         {
           test: /\.js$/,
-          exclude: /node_modules/,
+          include: THEMES_DIR,
+          exclude: NODE_MODS_DIR,
           use: {
             loader: 'babel-loader',
             options: babelOptions(),
