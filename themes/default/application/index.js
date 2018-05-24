@@ -36,7 +36,10 @@ class App extends Component {
           </Helmet>
 
           <WrapperNav>
-            <Sidebar manifest={manifest} />
+            <Sidebar
+              manifest={manifest}
+              customLogo={config.logo}
+            />
           </WrapperNav>
 
           <WrapperPage>

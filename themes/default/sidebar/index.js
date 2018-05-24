@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter, NavLink } from 'react-router-dom'
 import { Reveal } from '@timberio/ui'
+import Logo from '../logo'
 import IconHamburger from '../icons/hamburger'
 import IconClose from '../icons/close'
 import IconExternal from '../icons/external'
@@ -12,7 +13,6 @@ import {
   MenuWrapper,
   Hamburger,
   Close,
-  Logo,
   Nav,
   NavList,
   Callout,
@@ -21,6 +21,7 @@ import {
 class Sidebar extends Component {
   static propTypes = {
     manifest: PropTypes.object,
+    customLogo: PropTypes.string,
   }
 
   static defaultProps = {
@@ -105,6 +106,7 @@ class Sidebar extends Component {
   render () {
     const {
       manifest,
+      customLogo,
     } = this.props
 
     return (
@@ -112,9 +114,11 @@ class Sidebar extends Component {
         {config =>
           <Wrapper>
             <TopWrapper>
-              <Logo to={manifest.url}>
-                {manifest.title}
-              </Logo>
+              <Logo
+                logo={customLogo}
+                title={manifest.title}
+                url={manifest.url}
+              />
 
               <Hamburger
                 onClick={() => this.setState({ menuOpen: true })}

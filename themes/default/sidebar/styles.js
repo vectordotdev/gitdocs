@@ -73,16 +73,6 @@ export const Close = styled('div')`
   }
 `
 
-export const Logo = styled(Link)`
-  color: #6457DF;
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-decoration: none;
-  :hover {
-    opacity: 0.5;
-  }
-`
-
 export const Hamburger = styled('div')`
   display: none;
   @media (max-width: 850px) {

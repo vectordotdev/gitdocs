@@ -16,7 +16,6 @@ const JSON_FORMAT = {
 
 const DEFAULT_CONFIG = {
   name: 'GitDocs',
-  // logo: '',
   root: '.',
   output: '.gitdocs_build',
   static: '.static',
@@ -25,12 +24,12 @@ const DEFAULT_CONFIG = {
   host: 'localhost',
   port: 8000,
   languages: ['bash', 'json'],
+  header_links: [],
   theme: 'default',
   theme_custom: {
     syntaxTheme: 'prism',
     syntaxLineNumbers: false,
   },
-  header_links: [],
 }
 
 function getConfigFilename () {
