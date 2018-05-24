@@ -1,20 +1,19 @@
-module.exports = function(md, options) {
-  options = options || {};
-  options.listUnicodeChar = options.hasOwnProperty('listUnicodeChar') ? options.listUnicodeChar : false;
-  options.stripListLeaders = options.hasOwnProperty('stripListLeaders') ? options.stripListLeaders : true;
-  options.gfm = options.hasOwnProperty('gfm') ? options.gfm : true;
+/* modified from https://github.com/stiang/remove-markdown */
+/* eslint-disable */
+module.exports = function (md, options) {
+  options = options || {}
+  options.listUnicodeChar = options.hasOwnProperty('listUnicodeChar') ? options.listUnicodeChar : false
+  options.stripListLeaders = options.hasOwnProperty('stripListLeaders') ? options.stripListLeaders : true
+  options.gfm = options.hasOwnProperty('gfm') ? options.gfm : true
 
-  var output = md || '';
+  let output = md || ''
 
   // Remove horizontal rules (stripListHeaders conflict with this rule, which is why it has been moved to the top)
-  output = output.replace(/^(-\s*?|\*\s*?|_\s*?){3,}\s*$/gm, '');
+  output = output.replace(/^(-\s*?|\*\s*?|_\s*?){3,}\s*$/gm, '')
 
   try {
     if (options.stripListLeaders) {
-      if (options.listUnicodeChar)
-        output = output.replace(/^([\s\t]*)([\*\-\+]|\d+\.)\s+/gm, options.listUnicodeChar + ' $1');
-      else
-        output = output.replace(/^([\s\t]*)([\*\-\+]|\d+\.)\s+/gm, '$1');
+      if (options.listUnicodeChar) { output = output.replace(/^([\s\t]*)([\*\-\+]|\d+\.)\s+/gm, `${options.listUnicodeChar} $1`) } else { output = output.replace(/^([\s\t]*)([\*\-\+]|\d+\.)\s+/gm, '$1') }
     }
     if (options.gfm) {
       output = output
@@ -25,7 +24,7 @@ module.exports = function(md, options) {
         // Strikethrough
         .replace(/~~/g, '')
         // Fenced codeblocks
-        .replace(/`{3}.*\n/g, '');
+        .replace(/`{3}.*\n/g, '')
     }
     output = output
       // Remove HTML tags
@@ -53,10 +52,10 @@ module.exports = function(md, options) {
       // Remove inline code
       .replace(/`(.+?)`/g, '$1')
       // Replace two or more newlines with exactly two? Not entirely sure this belongs here...
-      .replace(/\n{2,}/g, '\n\n');
-  } catch(e) {
-    console.error(e);
-    return md;
+      .replace(/\n{2,}/g, '\n\n')
+  } catch (e) {
+    console.error(e)
+    return md
   }
-  return output;
-};
+  return output
+}
