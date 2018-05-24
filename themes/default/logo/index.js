@@ -11,7 +11,7 @@ export default function (props) {
     <Wrapper>
       <Link to={props.url}>
         {props.logo
-          ? <CustomLogo><img src={props.logo} /></CustomLogo>
+          ? <CustomLogo><img src={props.logo} alt="Logo" /></CustomLogo>
           : <GeneratedLogo>{props.title}</GeneratedLogo>}
       </Link>
     </Wrapper>

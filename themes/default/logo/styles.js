@@ -1,5 +1,4 @@
 import styled from 'react-emotion'
-import { Link } from 'react-router-dom'
 
 export const Wrapper = styled('div')`
   :hover {

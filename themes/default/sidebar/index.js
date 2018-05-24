@@ -25,6 +25,7 @@ class Sidebar extends Component {
   }
 
   static defaultProps = {
+    customLogo: null,
     manifest: {
       items: [],
     },

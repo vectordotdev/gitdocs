@@ -1,5 +1,4 @@
 import styled, { css } from 'react-emotion'
-import { Link } from 'react-router-dom'
 import { Accordion } from '@timberio/ui'
 
 const _iconBase = css`

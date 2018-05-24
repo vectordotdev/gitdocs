@@ -34,7 +34,7 @@ export default class Page extends Component {
       })
     } else {
       const { data } = await axios.get('index.json')
-      this.setState({
+      this.setState({ // eslint-disable-line
         content: data.content,
         loading: false,
       })
