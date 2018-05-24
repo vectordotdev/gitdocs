@@ -3,11 +3,11 @@ const connect = require('connect')
 const serveStatic = require('serve-static')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const renderTemplate = require('./template')
-const attachSocket = require('./socket')
 const { namespaces } = require('../utils/temp')
+const { templateForDevelopment } = require('./template')
+const attachSocket = require('./socket')
 
-module.exports = (env, compiler, props) => {
+module.exports = (props, compiler) => {
   const {
     host,
     port,
@@ -36,16 +36,8 @@ module.exports = (env, compiler, props) => {
 
   app.use(async (req, res, next) => {
     try {
-      const stats = res.locals.webpackStats.toJson()
-      const bundleFiles = stats.entrypoints.main.assets
-      const routeIdx = props.manifest.urlmap[req.url]
-      const route = props.manifest.files[routeIdx]
-
-      const rendered = await renderTemplate(env, route, props, bundleFiles)
-
-      if (!route) {
-        res.statusCode = 404
-      }
+      const { entrypoints } = res.locals.webpackStats.toJson()
+      const rendered = await templateForDevelopment(entrypoints)
 
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
       res.end(rendered)
@@ -64,7 +56,7 @@ module.exports = (env, compiler, props) => {
   })
 
   const server = http.createServer(app)
-  attachSocket(server, props.manifest)
+  attachSocket(server)
 
   return new Promise((resolve, reject) => {
     server.listen(port, host, err => {

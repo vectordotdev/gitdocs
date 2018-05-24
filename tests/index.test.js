@@ -3,7 +3,7 @@ const { run } = require('./helpers')
 
 describe('integration: index', () => {
   it('defaults to help command', async () => {
-    const res = await run()
+    const res = await run('')
     expect(res.stdout).to.match(/usage/)
   })
 
@@ -13,7 +13,7 @@ describe('integration: index', () => {
   })
 
   it('throws on invalid command', async () => {
-    const res = await run('foobar', true)
+    const res = await run('foobar', { reject: false })
     expect(res.code).to.equal(1)
     expect(res.stderr).to.match(/not a valid/)
   })

@@ -1,35 +1,32 @@
-const { expect } = require('chai')
+const { expect } = require('code')
 const path = require('./path')
 
 describe('unit: utils/path', () => {
-  it('routify()', async () => {
-    expect(path.routify('foo/bar')).to.equal('/foo/bar/')
-    expect(path.routify('/foo/bar')).to.equal('/foo/bar/')
-    expect(path.routify('/foo/bar/index')).to.equal('/foo/bar/')
-    expect(path.routify('/foo/bar/index.md')).to.equal('/foo/bar/')
-    expect(path.routify('/foo/bar/index.html')).to.equal('/foo/bar/')
-    expect(path.routify('/foo/bar/baz.md')).to.equal('/foo/bar/baz/')
-    expect(path.routify('/foo/bar/')).to.equal('/foo/bar/')
-    expect(path.routify('foo')).to.equal('/foo/')
-    expect(path.routify('/')).to.equal('/')
-    expect(path.routify('')).to.equal('/')
+  it('escapeForRegex()', async () => {
+    expect(path.escapeForRegex('foo.bar')).to.equal('foo\\.bar')
   })
 
-  it('outputify()', async () => {
-    expect(path.outputify('/foo.md', { ext: 'html' })).to.equal('/foo/index.html')
-    expect(path.outputify('/foo.md', { ext: 'js' })).to.equal('/foo/index.js')
-    expect(path.outputify('/foo/index.md')).to.equal('/foo/')
-    expect(path.outputify('/foo/bar.md', { ext: 'html' })).to.equal('/foo/bar/index.html')
-    expect(path.outputify('/foo/bar/index.md', { ext: 'html' })).to.equal('/foo/bar/index.html')
-    expect(path.outputify('/foo/bar/index.html', { ext: 'html' })).to.equal('/foo/bar/index.html')
-    expect(path.outputify('/foo/bar', { ext: 'html' })).to.equal('/foo/bar/index.html')
-    expect(path.outputify('/foo/bar/', { ext: 'html' })).to.equal('/foo/bar/index.html')
-    expect(path.outputify('/foo/bar/', { replace: ['/foo', '/baz'] })).to.equal('/baz/bar/')
-    expect(path.outputify('foo/bar')).to.equal('foo/bar/')
-    expect(path.outputify('/', { ext: 'html' })).to.equal('/index.html')
-    expect(path.outputify('/')).to.equal('/')
-    expect(path.outputify('', { ext: 'html' })).to.equal('/index.html')
-    expect(path.outputify('')).to.equal('/')
+  it('removeExt()', async () => {
+    expect(path.removeExt('foo.md')).to.equal('foo')
+    expect(path.removeExt('foo/bar.md')).to.equal('foo/bar')
+    expect(path.removeExt('foo')).to.equal('foo')
+  })
+
+  it('removeIndex()', async () => {
+    expect(path.removeIndex('foo/index')).to.equal('foo/')
+    expect(path.removeIndex('foo/readme')).to.equal('foo/')
+    expect(path.removeIndex('foo/index.md')).to.equal('foo/')
+    expect(path.removeIndex('foo/readme.md')).to.equal('foo/')
+    expect(path.removeIndex('foo')).to.equal('foo')
+    expect(path.removeIndex('foo/bar')).to.equal('foo/bar')
+    expect(path.removeIndex('foo/bar.md')).to.equal('foo/bar.md')
+  })
+
+  it('removeSlashes()', async () => {
+    expect(path.removeSlashes('/foo/bar/')).to.equal('foo/bar')
+    expect(path.removeSlashes('foo/bar/')).to.equal('foo/bar')
+    expect(path.removeSlashes('/foo/bar')).to.equal('foo/bar')
+    expect(path.removeSlashes('foo/bar')).to.equal('foo/bar')
   })
 
   it('titlify()', async () => {
@@ -44,5 +41,19 @@ describe('unit: utils/path', () => {
     expect(path.titlify('/foo-bar/baz-qux/')).to.equal('Baz Qux')
   })
 
-  it('slugify()')
+  it('routify()', async () => {
+    expect(path.routify('foo bar')).to.equal('/foo-bar/')
+    expect(path.routify('Foo Bar/Baz')).to.equal('/foo-bar/baz/')
+    expect(path.routify('foo/bar')).to.equal('/foo/bar/')
+    expect(path.routify('foo/bar.md')).to.equal('/foo/bar/')
+    expect(path.routify('/foo/bar')).to.equal('/foo/bar/')
+    expect(path.routify('/foo/bar/index')).to.equal('/foo/bar/')
+    expect(path.routify('/foo/bar/index.md')).to.equal('/foo/bar/')
+    expect(path.routify('/foo/bar/index.html')).to.equal('/foo/bar/')
+    expect(path.routify('/foo/bar/baz.md')).to.equal('/foo/bar/baz/')
+    expect(path.routify('/foo/bar/')).to.equal('/foo/bar/')
+    expect(path.routify('foo')).to.equal('/foo/')
+    expect(path.routify('/')).to.equal('/')
+    expect(path.routify('')).to.equal('/')
+  })
 })

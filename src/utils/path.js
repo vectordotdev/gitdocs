@@ -1,58 +1,64 @@
 const syspath = require('path')
+const { indexFilenames } = require('../core/filesystem')
 
-function _escapeForRegex (str) {
+function escapeForRegex (str) {
   return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-function _removeBase (str, base, replaceWith = '') {
-  const pattern = new RegExp(`^${_escapeForRegex(base)}`)
-  return str.replace(pattern, replaceWith)
+function removeExt (str) {
+  return str.replace(/\.[^/.]+$/, '')
 }
 
-function _removeExtAndIdx (str) {
-  const ext = syspath.extname(str).slice(1)
+function removeIndex (str) {
+  const files = indexFilenames.map(removeExt).join('|')
+  const pattern = new RegExp(`(.*)(${files})(\\.)?.*$`)
 
-  const patternIdx = /(.*?)\/(?:index)?$/
-  const patternExt = new RegExp(`\\.${_escapeForRegex(ext)}$`)
-
-  return str
-    .replace(patternExt, '')
-    .replace(patternIdx, '$1')
+  return str.replace(pattern, '$1')
 }
 
-function routify (str, base = '') {
-  const route = _removeBase(_removeExtAndIdx(str), base)
-  const prepend = route.charAt(0) !== '/' && route !== '' ? '/' : ''
-  const append = route.slice(-1) !== '/' && route !== '/' ? '/' : ''
-
-  return `${prepend}${route.toLowerCase()}${append}`
+/**
+ * removes leading and trailing slashes so
+ * we can normalize them later on.
+ */
+function removeSlashes (str) {
+  return str.replace(/^\/|\/$/g, '')
 }
 
-function outputify (str, opts = {}) {
-  const outputDir = _removeExtAndIdx(str)
-  const output = opts.ext
-    ? `${outputDir}/index.${opts.ext}`
-    : `${outputDir}/`
-
-  return opts.replace
-    ? _removeBase(output, opts.replace[0], opts.replace[1])
-    : output
-}
-
+/**
+ * turns a file path into a formatted title,
+ * removing any index files and symbols. e.g.
+ * some-path/index.md ==> Some Path
+ */
 function titlify (str) {
-  return syspath.basename(_removeExtAndIdx(str))
+  // trim stuff from the end of the string
+  const trimmed = removeIndex(removeExt(str))
+
+  // capitalize each word of the filename
+  return syspath.basename(trimmed)
     .split('-')
     .map(i => `${i.charAt(0).toUpperCase()}${i.substr(1)}`)
     .join(' ')
 }
 
-function slugify (str) {
-  return str.toLowerCase().split(' ').join('-')
+function routify (str, base = '') {
+  // turn string into a slug
+  const slug = str
+    .trim()
+    .toLowerCase()
+    .replace(/ /g, '-')
+
+  // trim stuff from the string
+  const normalized = removeSlashes(removeIndex(removeExt(slug)))
+
+  // wrap in leading and trailing slashes
+  return `/${normalized}${normalized !== '' ? '/' : ''}`
 }
 
 module.exports = {
-  routify,
-  outputify,
+  escapeForRegex,
+  removeExt,
+  removeIndex,
+  removeSlashes,
   titlify,
-  slugify,
+  routify,
 }

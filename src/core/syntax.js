@@ -14,6 +14,7 @@ module.exports = async (config) => {
   } = config
 
   const langs = languages
+    .filter(lang => fs.pathExistsSync(`${PATH}/languages/prism/${lang}`))
     .map(lang => `{ name: '${lang}', func: require('${PATH}/languages/prism/${lang}').default },`)
     .join('\n')
 

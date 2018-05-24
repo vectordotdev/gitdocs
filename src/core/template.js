@@ -3,30 +3,34 @@ const { minify } = require('html-minifier')
 const { renderToString } = require('react-dom/server')
 const { extractCritical } = require('emotion-server')
 const { Helmet } = require('react-helmet')
-const babelRequire = require('../utils/babel')
 const { hijackConsole } = require('../utils/emit')
+const babelRequire = require('../utils/babel')
 
-module.exports = async (env, route, props, bundleFiles) => {
-  const scripts = bundleFiles
+function getScriptTags (entrypoints) {
+  const files = entrypoints.main.assets
+
+  return files
     .filter(bundle => syspath.extname(bundle) === '.js')
     .map(bundle => `<script type="text/javascript" src="/${bundle}"></script>`)
     .join('\n')
+}
 
-  if (env === 'development') {
-    return `
-      <!doctype html>
-      <html>
-        <body>
-          <div id="gitdocs-app"></div>
-          ${scripts}
-        </body>
-      </html>
-    `
-  }
+function templateForDevelopment (entrypoints) {
+  return `
+    <!doctype html>
+    <html>
+      <body>
+        <div id="gitdocs-app"></div>
+        ${getScriptTags(entrypoints)}
+      </body>
+    </html>
+  `.trim()
+}
 
+function templateForProduction (entrypoints, props, route) {
   const hijacked = hijackConsole()
   const serverEntry = babelRequire('../../themes/server.js')
-  const app = serverEntry.default(route, props)
+  const app = serverEntry.default(props, route)
   const rendered = extractCritical(renderToString(app))
 
   hijacked.restore()
@@ -51,7 +55,7 @@ module.exports = async (env, route, props, bundleFiles) => {
         <div id="gitdocs-app">${rendered.html}</div>
 
         <script>window._EMOTION_IDS_ = ${JSON.stringify(rendered.ids)}</script>
-        ${scripts}
+        ${getScriptTags(entrypoints)}
       </body>
     </html>
   `
@@ -61,4 +65,10 @@ module.exports = async (env, route, props, bundleFiles) => {
     collapseWhitespace: true,
     removeComments: true,
   })
+}
+
+module.exports = {
+  getScriptTags,
+  templateForDevelopment,
+  templateForProduction,
 }

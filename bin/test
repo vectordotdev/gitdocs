@@ -3,4 +3,5 @@
 mocha \
   --async-only \
   --reporter progress \
+  --timeout 10000 \
   "$@"

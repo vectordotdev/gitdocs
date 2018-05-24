@@ -1,34 +1,31 @@
 const loadSyntax = require('./syntax')
-const getExternals = require('./externals')
-const getManifest = require('./manifest')
 const staticAssets = require('./static')
-const getCompiler = require('./compiler')
-const mergeConfig = require('./merge')
+const { dirTree } = require('./filesystem')
+const { hydrateTree } = require('./hydrate')
+const { getCompiler } = require('./compiler')
+const { log } = require('../utils/emit')
 
-module.exports = async (env, localConfig, bar) => {
+module.exports = async (env, localConfig) => {
   // Load only supported syntaxes to reduce bundle size
   await loadSyntax(localConfig)
-
-  // Fetch any external docs sources
-  const externals = await getExternals(localConfig)
-
-  // Merge current and extenal configs
-  const config = mergeConfig(localConfig, externals)
 
   // Load static assets like images, scripts, css, etc.
   await staticAssets(localConfig, env === 'development')
 
-  // Build the documentation manifest
-  const manifest = await getManifest(env, config)
+  // generate and hydrate the manifest
+  const tree = await dirTree(localConfig.root)
+  const manifest = await hydrateTree(tree, localConfig)
 
-  // this gets passed to the theme app
-  const props = {
-    config,
-    manifest,
-  }
+  log('Generated and hydrated manifest')
 
+  // this gets passed to the theme
+  const props = { manifest, config: localConfig }
+
+  // setup webpack compiler so we can build (or watch)
   const compiler = await getCompiler(env, props)
-  bar && compiler.onProgress(i => bar.tick(i))
 
-  return { props, compiler }
+  return {
+    props,
+    compiler,
+  }
 }

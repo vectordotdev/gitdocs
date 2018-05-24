@@ -1,19 +1,17 @@
-const runCore = require('../core')
+const core = require('../core')
 const startServer = require('../core/server')
-const { styles, log, progress, fullScreen } = require('../utils/emit')
+const { styles, log, fullScreen } = require('../utils/emit')
 
 module.exports = async (args, config) => {
   fullScreen()
   log('Starting local development server', true)
 
-  const env = 'development'
-  const bar = progress({ total: 100, clear: true })
+  const {
+    props,
+    compiler,
+  } = await core('development', config)
 
-  log('Bundling the Javascript app')
-
-  const { props, compiler } = await runCore(env, config, bar)
-  const server = await startServer(env, compiler, props)
-
+  const server = await startServer(props, compiler)
   log(`[\u2713] Docs are live at ${styles.url(server.url)}`)
 }
 

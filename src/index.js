@@ -21,6 +21,10 @@ module.exports = async () => {
         await require('./cmds/build')(args, config)
         break
 
+      case 'manifest':
+        await require('./cmds/manifest')(args, config)
+        break
+
       case 'version':
         await require('./cmds/version')(args, config)
         break

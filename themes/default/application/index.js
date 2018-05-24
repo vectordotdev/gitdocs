@@ -20,8 +20,8 @@ class App extends Component {
       <ConfigContext.Provider value={config}>
         <Wrapper>
           <Helmet
-            defaultTitle={config.name}
-            titleTemplate={`%s · ${config.name}`}
+            defaultTitle={manifest.title}
+            titleTemplate={`%s · ${manifest.title}`}
           >
             <html lang="en" />
             <meta charSet="utf-8" />
@@ -36,14 +36,14 @@ class App extends Component {
           </Helmet>
 
           <WrapperNav>
-            <Sidebar navtree={manifest.navtree} />
+            <Sidebar manifest={manifest} />
           </WrapperNav>
 
           <WrapperPage>
             <Header manifest={manifest} />
 
             <Routes
-              routes={manifest.files}
+              manifest={manifest}
               componentPage={Page}
               component404={NotFound}
               socketUrl={`ws://${config.host}:${config.port}`}

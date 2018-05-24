@@ -38,7 +38,7 @@ export default function (props) {
     children,
   } = props
 
-  const itemId = id || children[0]
+  const itemId = children[0] || id
     .toLowerCase()
     .split(' ')
     .join('-')
