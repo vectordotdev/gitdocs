@@ -126,15 +126,20 @@
     samsam "1.3.0"
 
 "@timberio/ui@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@timberio/ui/-/ui-1.0.2.tgz#2149b89e39505969d2e9e61d6bc9611f8af3afde"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@timberio/ui/-/ui-1.0.3.tgz#2cf1be87d156a21bb6ae901440c1e7e180dad240"
   dependencies:
+    clean-tag "^1.0.4"
+    deepmerge "^2.1.0"
     emotion "^9.1.3"
+    emotion-theming "^9.1.2"
+    object-path "^0.11.4"
     polished "^1.9.2"
     prop-types "^15.6.1"
     react-dom "^16.3.2"
     react-emotion "^9.1.3"
     react-show "^2.0.4"
+    styled-system "^2.2.5"
 
 "@webassemblyjs/ast@1.4.3":
   version "1.4.3"
@@ -1662,6 +1667,14 @@ clean-css@4.1.x, clean-css@^4.1.9:
   dependencies:
     source-map "0.5.x"
 
+clean-tag@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/clean-tag/-/clean-tag-1.0.4.tgz#9b407b306fadce114e6dffa774e7b61bdfc0c190"
+  dependencies:
+    html-tags "^2.0.0"
+    react ">=16.0.0"
+    styled-system ">=1.1 || >=2.0"
+
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
@@ -2316,6 +2329,12 @@ emotion-server@^9.1.3:
   resolved "https://registry.yarnpkg.com/emotion-server/-/emotion-server-9.1.3.tgz#2bec3695870f6efcc636c6c6b22f1e0cefc79941"
   dependencies:
     create-emotion-server "^9.1.3"
+
+emotion-theming@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/emotion-theming/-/emotion-theming-9.1.2.tgz#f044b03d00f44e4b19cfaa2165bdf72affa40080"
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
 
 emotion@^9.1.3:
   version "9.1.3"
@@ -3551,7 +3570,7 @@ hoek@5.x.x:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.3.tgz#b71d40d943d0a95da01956b547f83c4a5b4a34ac"
 
-hoist-non-react-statics@^2.3.0:
+hoist-non-react-statics@^2.3.0, hoist-non-react-statics@^2.3.1:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
 
@@ -3581,6 +3600,10 @@ html-minifier@^3.5.16:
     param-case "2.1.x"
     relateurl "0.2.x"
     uglify-js "3.3.x"
+
+html-tags@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/html-tags/-/html-tags-2.0.0.tgz#10b30a386085f43cede353cc8fa7cb0deeea668b"
 
 html-tokenize@^2.0.0:
   version "2.0.0"
@@ -4932,6 +4955,10 @@ object-keys@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-0.4.0.tgz#28a6aae7428dd2c3a92f3d95f21335dd204e0336"
 
+object-path@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.4.tgz#370ae752fbf37de3ea70a861c23bba8915691949"
+
 object-visit@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/object-visit/-/object-visit-1.0.1.tgz#f79c4493af0c5377b59fe39d395e41042dd045bb"
@@ -5624,7 +5651,7 @@ react-syntax-highlighter@^7.0.4:
     prismjs "^1.8.4"
     refractor "^2.4.1"
 
-react@^16.4.0:
+react@>=16.0.0, react@^16.4.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
   dependencies:
@@ -6530,6 +6557,12 @@ strip-outer@^1.0.0:
   resolved "https://registry.yarnpkg.com/strip-outer/-/strip-outer-1.0.1.tgz#b2fd2abf6604b9d1e6013057195df836b8a9d631"
   dependencies:
     escape-string-regexp "^1.0.2"
+
+"styled-system@>=1.1 || >=2.0", styled-system@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-2.2.5.tgz#95f1e2c2c9ddc5c462cc56237cf039aa9ecfd27d"
+  dependencies:
+    prop-types "^15.6.0"
 
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"
