@@ -14,7 +14,7 @@ export default function (props) {
   const options = {
     renderers: {
       code: Code,
-      a: Link,
+      link: Link,
       heading: Header,
     },
   }

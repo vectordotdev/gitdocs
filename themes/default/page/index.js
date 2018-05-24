@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-// import axios from 'axios'
+import axios from 'axios'
 import Markdown from '../markdown'
 import Loading from '../loading'
 import { ConfigContext } from '../context'
 import { Wrapper } from './styles'
 
-export default class extends Component {
+export default class Page extends Component {
+  static displayName = 'Page'
+
   constructor (props) {
     super(props)
     this.state = {
@@ -31,10 +33,11 @@ export default class extends Component {
         })
       })
     } else {
-      // const { data } = await axios.get('index.json')
-      // this.setState({
-      //   content: data.content,
-      // })
+      const { data } = await axios.get('index.json')
+      this.setState({
+        content: data.content,
+        loading: false,
+      })
     }
   }
 

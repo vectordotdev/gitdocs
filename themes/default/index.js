@@ -7,7 +7,10 @@ import App from './application'
 
 const { _EMOTION_IDS_ } = window
 const isDev = process.env.NODE_ENV === 'development'
-const render = isDev ? ReactDOM.render : ReactDOM.hydrate
+
+// https://github.com/timberio/gitdocs/issues/114
+// const render = isDev ? ReactDOM.render : ReactDOM.hydrate
+const render = ReactDOM.render
 
 isDev && module.hot && module.hot.accept()
 _EMOTION_IDS_ && hydrate(_EMOTION_IDS_)

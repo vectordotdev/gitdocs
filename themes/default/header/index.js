@@ -14,8 +14,8 @@ export default function (props) {
           /> */}
 
           <Nav>
-            {config.header_links.map(({ text, ...rest }) => (
-              <a {...rest} key={`nav-${text}`}>{text}</a>
+            {config.header_links.map(({ title, ...rest }) => (
+              <a {...rest} key={`nav-${title}`}>{title}</a>
             ))}
           </Nav>
         </Wrapper>
@@ -23,7 +23,3 @@ export default function (props) {
     </ConfigContext.Consumer>
   )
 }
-
-// const logo = props.logo
-//   ? <img src={require(`docs/${props.logo}`)} />
-//   : props.name
