@@ -30,8 +30,9 @@ export const Results = styled('div')`
 
 export const Result = styled('div')`
   padding: .5rem;
-  background: ${props => props.selected ? '#f6f5fb' : 'none'};
-  :hover {
+  background: ${props => props.selected ? '#f6f5fb' : '#FFF'};
+  a { text-decoration: none }
+  &:hover {
     background: #f6f5fb;
     h4 { color: #6457DC; }
   }
@@ -45,5 +46,9 @@ export const Result = styled('div')`
     color: rgba(0,0,0,0.85);
     text-decoration: none;
     margin: 0;
+  }
+  p .highlight { background: #d1ccec }
+  .url {
+    font-size: 12px;
   }
 `

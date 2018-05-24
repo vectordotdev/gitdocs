@@ -5,6 +5,7 @@
 * https://github.com/SBoudrias/Inquirer.js
 * https://github.com/tj/commander.js/
 * https://github.com/markdown-it/markdown-it#syntax-extensions
+* https://github.com/nuxt/webpackbar
 
 ### Static site generators:
 * https://github.com/phenomic/phenomic
@@ -35,10 +36,12 @@
 * https://docs.smooch.io/changelog/
 * https://help.helpjuice.com/Internal-Knowledge-Bases/can-i-hide-some-categories-questions-from-public
 * https://stripe.com/atlas/guides
+* https://javascript.info/callbacks?map (tree search view)
 * https://stripe.com/docs
 * https://www.prisma.io/docs/reference/
 * https://docs.bugsnag.com/
 
+>>>>>>> master
 
 ### Resources
 

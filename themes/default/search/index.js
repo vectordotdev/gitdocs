@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import Highlight from 'react-highlight-words'
 import { createDB } from './db'
+import strip from './strip'
 import history from '../history'
 import { Wrapper, Input, Results, Result } from './styles'
 
@@ -8,6 +11,16 @@ const UP = 'ArrowUp'
 const DOWN = 'ArrowDown'
 const ENTER = 'Enter'
 const ESCAPE = 'Escape'
+
+function ellipsify (text, limit) {
+  if (!text) return ''
+
+  if (text.length <= limit) {
+    return text
+  }
+
+  return `${text.substring(0, limit)}...`
+}
 
 class Search extends Component {
   constructor (props) {
@@ -21,11 +34,17 @@ class Search extends Component {
       results: [],
     }
 
+    // Index docs for search results
+    this.loadResults()
+  }
+
+  async loadResults () {
     // Initialize search instance and set indices
+    const resp = await axios.get('/db.json')
     this.db = createDB({
       ref: 'url',
-      indices: ['title'],
-      items: props.manifest.files,
+      indices: ['title', 'content'],
+      items: resp.data,
     })
   }
 
@@ -89,7 +108,9 @@ class Search extends Component {
 
   fetchResults (query) {
     return new Promise((resolve, reject) => {
-      const results = this.db.search(query)
+      const results = this.db
+        .search(query)
+        .slice(0, 10)
       resolve(results)
     })
   }
@@ -111,7 +132,15 @@ class Search extends Component {
       >
         <Link to={r.url}>
           <h4>{r.title}</h4>
-          <p>{r.url}</p>
+          <p>
+            <Highlight
+              highlightClassName="highlight"
+              searchWords={this.state.query.split(' ')}
+              autoEscape
+              textToHighlight={strip(ellipsify(r.content, 400))}
+            />
+          </p>
+          <span className="url">{r.url}</span>
         </Link>
       </Result>
     )
