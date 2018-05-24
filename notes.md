@@ -35,6 +35,10 @@
 * https://docs.smooch.io/changelog/
 * https://help.helpjuice.com/Internal-Knowledge-Bases/can-i-hide-some-categories-questions-from-public
 * https://stripe.com/atlas/guides
+* https://stripe.com/docs
+* https://www.prisma.io/docs/reference/
+* https://docs.bugsnag.com/
+
 
 ### Resources
 
