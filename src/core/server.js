@@ -4,6 +4,7 @@ const serveStatic = require('serve-static')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const { namespaces } = require('../utils/temp')
+const { generateDatabase } = require('./database')
 const { templateForDevelopment } = require('./template')
 const attachSocket = require('./socket')
 
@@ -34,6 +35,17 @@ module.exports = (props, compiler) => {
     index: false,
   }))
 
+  app.use('/db.json', async (req, res, next) => {
+    try {
+      const db = await generateDatabase(props.manifest)
+
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify(db))
+    } catch (err) {
+      next(err)
+    }
+  })
+
   app.use(async (req, res, next) => {
     try {
       const { entrypoints } = res.locals.webpackStats.toJson()
@@ -41,8 +53,6 @@ module.exports = (props, compiler) => {
 
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
       res.end(rendered)
-
-      next()
     } catch (err) {
       next(err)
     }

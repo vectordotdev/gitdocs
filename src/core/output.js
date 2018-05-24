@@ -1,9 +1,15 @@
 const fs = require('fs-extra')
 const syspath = require('path')
+const { generateDatabase } = require('./database')
 const { templateForProduction } = require('./template')
 const { getContent } = require('./filesystem')
 
 module.exports = async (entrypoints, props) => {
+  const db = await generateDatabase(props.manifest)
+  const outputDB = syspath.join(props.config.output, 'db.json')
+
+  await fs.outputJson(outputDB, db)
+
   const _recursive = async ({ items, ...item }) => {
     if (item.outputDir) {
       item.content = await getContent(item.input)
