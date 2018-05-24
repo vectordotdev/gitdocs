@@ -1,5 +1,4 @@
 import styled, { css } from 'react-emotion'
-import { Link } from 'react-router-dom'
 import { Accordion } from '@timberio/ui'
 
 const _iconBase = css`
@@ -70,16 +69,6 @@ export const Close = styled('div')`
   padding: 0 20px;
   @media (max-width: 850px) {
     display: flex;
-  }
-`
-
-export const Logo = styled(Link)`
-  color: #6457DF;
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-decoration: none;
-  :hover {
-    opacity: 0.5;
   }
 `
 
