@@ -2,11 +2,17 @@ import styled from 'react-emotion'
 
 export const Wrapper = styled('div')`
   word-wrap: break-word;
-  a { text-decoration: none }
+  color: #2f3138;
+  
+  a {
+    text-decoration: none;
+    color: #5944CC;
+  }
   h1, h2, h3, h4 {
     font-weight: bold;
     text-decoration: none;
     margin: 0;
+    color: #0D0A2B;
   }
 
   p {
@@ -39,11 +45,12 @@ export const Wrapper = styled('div')`
 
   code {
     border-radius: 4px;
-    padding: .25rem .5rem;
+    padding: .15rem .25rem;
     display: inline;
     line-height: 1.5;
     word-break: break-all;
-    background: #F4F5F6;
+    background: #EEEAFE;
+    color: #5742CA;
   }
 
   pre code {
