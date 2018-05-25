@@ -3,7 +3,7 @@
   "root": "docs",
   "header_links": [
     {
-      "text": "About Us",
+      "title": "About Us",
       "href": "https://timber.io/about",
       "target": "_blank"
     }
