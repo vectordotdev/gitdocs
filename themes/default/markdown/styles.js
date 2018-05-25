@@ -2,6 +2,7 @@ import styled from 'react-emotion'
 
 export const Wrapper = styled('div')`
   word-wrap: break-word;
+  a { text-decoration: none }
   h1, h2, h3, h4 {
     font-weight: bold;
     text-decoration: none;

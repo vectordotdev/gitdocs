@@ -33,15 +33,18 @@ const levels = {
 
 export default function (props) {
   const {
-    id,
     level = 1,
     children,
   } = props
 
-  const itemId = children[0] || id
-    .toLowerCase()
-    .split(' ')
-    .join('-')
+  // Turn headers into linkable IDs
+  const text = children[0]
+  const itemId = typeof text === 'string'
+    ? text
+      .toLowerCase()
+      .split(' ')
+      .join('-')
+    : ''
 
   return (
     <Link href={`#${itemId}`} id={itemId}>

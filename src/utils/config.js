@@ -26,9 +26,10 @@ const DEFAULT_CONFIG = {
   languages: ['bash', 'json'],
   header_links: [],
   theme: 'default',
-  theme_custom: {
-    syntaxTheme: 'prism',
-    syntaxLineNumbers: false,
+  syntax: {
+    theme: 'atom-one-light',
+    renderer: 'hljs',
+    lineNumbers: true,
   },
 }
 

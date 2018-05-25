@@ -73,7 +73,7 @@ export default class Page extends Component {
                 : (
                   <Markdown
                     source={content || defaultContent}
-                    lineNumbers={config.theme_custom.syntaxLineNumbers}
+                    {...config.syntax}
                   />
                 )}
             </div>

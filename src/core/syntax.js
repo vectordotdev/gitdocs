@@ -7,17 +7,17 @@ module.exports = async (config) => {
   const {
     temp,
     languages,
-    theme_custom,
+    syntax,
   } = config
 
   const rsh = syspath.dirname(require.resolve('react-syntax-highlighter'))
   const langs = languages
-    .filter(lang => fs.pathExistsSync(`${rsh}/languages/prism/${lang}`))
-    .map(lang => `{ name: '${lang}', func: require('${rsh}/languages/prism/${lang}').default },`)
+    .filter(lang => fs.pathExistsSync(`${rsh}/languages/${syntax.renderer}/${lang}.js`))
+    .map(lang => `{ name: '${lang}', func: require('${rsh}/languages/${syntax.renderer}/${lang}').default },`)
     .join('\n')
 
   const content = `module.exports = {
-    theme: require('${rsh}/styles/prism/${theme_custom.syntaxTheme}').default,
+    theme: require('${rsh}/styles/${syntax.renderer}/${syntax.theme}').default,
     languages: [${langs}]
   }`
 

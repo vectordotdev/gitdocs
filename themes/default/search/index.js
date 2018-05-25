@@ -135,7 +135,7 @@ class Search extends Component {
           <p>
             <Highlight
               highlightClassName="highlight"
-              searchWords={query.length > 3 ? query.split(' ') : []}
+              searchWords={query.length > 2 ? query.split(' ') : []}
               autoEscape
               textToHighlight={strip(ellipsify(r.content, 400))}
             />
