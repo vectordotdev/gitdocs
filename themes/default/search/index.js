@@ -196,7 +196,7 @@ class Search extends Component {
     return (
       <Results innerRef={ref => this.results = ref}>
         {items.length !== 0 && !loading && items}
-        {items.length === 0 && !loading && <Center>No Results Found matching "{query}"...</Center>}
+        {items.length === 0 && !loading && <Center>No Results Found matching {`"${query}"`}...</Center>}
         {loading && <span>Loading...</span>}
       </Results>
     )
