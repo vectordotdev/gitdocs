@@ -8,6 +8,7 @@ import { Wrapper, ContentWrapper, TOC } from './styles'
 
 const TableOfContents = ({ toc }) => {
   // Don't show this if there aren't enough headers
+  if (!toc) return null
   if (toc.length < 2) return null
 
   // Create TOC hierarchy and link to headers
