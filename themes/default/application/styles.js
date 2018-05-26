@@ -36,6 +36,7 @@ export const Wrapper = styled('div')`
 export const WrapperNav = styled('nav')`
   flex: 1;
   background: linear-gradient(90deg, #F0F2F4 0%, #F5F7F9 100%);
+  background: #FAFAFD;
   border-right: 1px solid #E6E9EB;
   box-shadow: inset -4px 0px 2px -2px rgba(202, 209, 226, 0.2);
   text-align: right;
