@@ -28,7 +28,7 @@ export default function (props) {
       style={theme}
       language={language}
       showLineNumbers={props.lineNumbers}
-      lineNumberStyle={{ opacity: 0.5 }}
+      lineNumberStyle={{ opacity: 0.3 }}
       useInlineStyles
     >
       {value}

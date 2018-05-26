@@ -4,7 +4,6 @@ import axios from 'axios'
 import Markdown from '../markdown'
 import Loading from '../loading'
 import { ConfigContext } from '../context'
-import { ellipsify } from '../utils'
 import { Wrapper, TOC } from './styles'
 
 const TableOfContents = ({ toc }) => {
@@ -15,10 +14,10 @@ const TableOfContents = ({ toc }) => {
   const items = toc.map(t => (
     <li
       key={`${toc}-${t.slug}`}
-      style={{ marginLeft: (t.lvl - 2) * 10 }}
+      style={{ marginLeft: (t.lvl - 3) * 10 }}
     >
       <a href={`#${t.slug}`}>
-        {ellipsify(t.content, 20)}
+        {t.content}
       </a>
     </li>
   ))

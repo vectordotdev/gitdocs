@@ -52,7 +52,6 @@ export const Wrapper = styled('div')`
     border-radius: 4px;
     padding: .15rem .25rem;
     display: inline;
-    line-height: 1.5;
     word-break: break-all;
     background: #EEEAFE;
     color: #5742CA;
@@ -135,10 +134,6 @@ export const Wrapper = styled('div')`
 
   .syntax-shell {
     padding-left: 5px !important;
-  }
-
-  .react-syntax-highlighter-line-number {
-    font-size: .85rem;
   }
 
   .syntax-shell .react-syntax-highlighter-line-number {

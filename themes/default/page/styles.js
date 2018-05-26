@@ -32,9 +32,6 @@ export const TOC = styled('nav')`
   }
 
   li {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     font-size: 13px;
     line-height: 30px;
     display: block;
@@ -44,6 +41,10 @@ export const TOC = styled('nav')`
     text-decoration: none;
     color: #626469;
     display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
     &:hover {
       color: #5742C7;
     }
