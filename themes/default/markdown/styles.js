@@ -2,10 +2,22 @@ import styled from 'react-emotion'
 
 export const Wrapper = styled('div')`
   word-wrap: break-word;
+  color: #2f3138;
+  
+  a {
+    text-decoration: none;
+    color: #5944CC;
+  }
+  
   h1, h2, h3, h4 {
     font-weight: bold;
     text-decoration: none;
     margin: 0;
+    color: #0D0A2B;
+  }
+
+  a:first-of-type {
+    margin-top: 0;
   }
 
   p {
@@ -29,35 +41,34 @@ export const Wrapper = styled('div')`
 
   pre {
     overflow-x: scroll;
+    background: #FAFAFD !important;
   }
 
   pre, code {
-    font-family: monospace;
-    -webkit-font-smoothing: initial !important;
+    // -webkit-font-smoothing: initial;
   }
 
   code {
     border-radius: 4px;
-    padding: .25rem .5rem;
+    padding: .15rem .25rem;
     display: inline;
-    line-height: 1.5;
     word-break: break-all;
-    background: #F4F5F6;
+    background: #EEEAFE;
+    color: #5742CA;
   }
 
   pre code {
-    font-size: 1.1rem;
     border: none;
     word-break: break-all;
     white-space: pre-wrap;
     display: inline-block !important;
     background: inherit;
-    color: rgb(52, 50, 64);
+    color: #485672;
   }
 
   pre {
     border-radius: 4px;
-    font-family: Roboto Mono, monospace;
+    // font-family: Roboto Mono, monospace;
     border-radius: 3px;
     line-height: 19px;
   }
@@ -123,10 +134,6 @@ export const Wrapper = styled('div')`
 
   .syntax-shell {
     padding-left: 5px !important;
-  }
-
-  .react-syntax-highlighter-line-number {
-    font-size: .85rem;
   }
 
   .syntax-shell .react-syntax-highlighter-line-number {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter, NavLink } from 'react-router-dom'
+import styled from 'react-emotion'
 import { Reveal } from '@timberio/ui'
 import Logo from '../logo'
 import IconHamburger from '../icons/hamburger'
@@ -17,6 +18,15 @@ import {
   NavList,
   Callout,
 } from './styles'
+
+const Divider = styled('div')`
+  border-bottom: 1px solid #dfe2e6;
+  margin: .5rem 1rem .5rem 0;
+`
+
+const componentMap = {
+  Divider
+}
 
 class Sidebar extends Component {
   static propTypes = {
@@ -50,9 +60,7 @@ class Sidebar extends Component {
   renderTrigger = ({ title, url, component }) => {
     // @TODO: custom components
     if (component) {
-      // return (
-      //   <div>{`<${component} />`}</div>
-      // )
+      return React.createElement(componentMap[component])
     }
 
     if (!url) {
@@ -140,15 +148,14 @@ class Sidebar extends Component {
               <Nav>
                 {this.renderNavItems(manifest.items, true)}
               </Nav>
-
-              <Callout
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://github.com/timberio/gitdocs"
-              >
-                Powered by GitDocs
-              </Callout>
             </MenuWrapper>
+            <Callout
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/timberio/gitdocs"
+            >
+              Powered by GitDocs
+            </Callout>
           </Wrapper>
         }
       </ConfigContext.Consumer>

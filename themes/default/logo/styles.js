@@ -7,11 +7,9 @@ export const Wrapper = styled('div')`
 `
 
 export const CustomLogo = styled('div')`
-  padding: 30px;
   img {
     display: block;
-    width: 100%;
-    height: 100%;
+    height: 35px;
   }
 `
 

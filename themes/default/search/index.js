@@ -1,26 +1,19 @@
 import React, { Component } from 'react'
+import enhanceClickOutside from 'react-click-outside'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Highlight from 'react-highlight-words'
+import { Search as SearchIcon, ChevronRight } from 'react-feather'
 import { createDB } from './db'
 import strip from './strip'
 import history from '../history'
-import { Wrapper, Input, Results, Result } from './styles'
+import { ellipsify } from '../utils'
+import { Wrapper, Input, Results, Result, Center } from './styles'
 
 const UP = 'ArrowUp'
 const DOWN = 'ArrowDown'
 const ENTER = 'Enter'
 const ESCAPE = 'Escape'
-
-function ellipsify (text, limit) {
-  if (!text) return ''
-
-  if (text.length <= limit) {
-    return text
-  }
-
-  return `${text.substring(0, limit)}...`
-}
 
 class Search extends Component {
   constructor (props) {
@@ -38,6 +31,33 @@ class Search extends Component {
     this.loadResults()
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.selectedIndex !== prevState.selectedIndex) {
+      this.ensureActiveItemVisible()
+    }
+  }
+
+  ensureActiveItemVisible () {
+    if (!this.activeItem) return false
+
+    const distanceFromTop = this.activeItem.offsetTop
+    const height = this.activeItem.offsetHeight
+    const scrollTop = this.results.scrollTop
+    const clientHeight = this.results.clientHeight
+
+    if (distanceFromTop === 0) {
+      return this.results.scrollTop = 0
+    }
+
+    if (distanceFromTop < scrollTop) {
+      return this.results.scrollTop = distanceFromTop
+    }
+
+    if ((distanceFromTop + height) > (scrollTop + clientHeight)) {
+      return this.results.scrollTop = distanceFromTop - height
+    }
+  }
+
   async loadResults () {
     // Initialize search instance and set indices
     const resp = await axios.get('/db.json')
@@ -52,7 +72,8 @@ class Search extends Component {
     const { value } = e.target
     this.setState({
       query: value,
-      loading: value.length !== 0
+      loading: value.length !== 0,
+      selectedIndex: 0,
     }, async () => {
       const results = await this.fetchResults(value)
       this.setState({ results, loading: false })
@@ -106,6 +127,10 @@ class Search extends Component {
     this.setState({ selectedIndex: nextIndex })
   }
 
+  handleClickOutside () {
+    this.clearSearch()
+  }
+
   fetchResults (query) {
     return new Promise((resolve, reject) => {
       const results = this.db
@@ -116,7 +141,36 @@ class Search extends Component {
   }
 
   clearSearch = () => {
-    this.setState({ loading: false, query: '', results: [] })
+    this.setState({
+      loading: false,
+      query: '',
+      results: [],
+      selectedIndex: 0,
+    })
+  }
+
+  renderBreadCrumb (result) {
+    return result
+      .breadcrumb
+      .slice(1, result.breadcrumb.length)
+      .concat(result.title)
+      .map((b, i) => (
+        <span key={`${b}-${i}`}>
+          {
+            i !== 0 &&
+            <ChevronRight
+              size={14}
+              style={{
+                display: 'inline-block',
+                padding: '0 .25rem',
+                position: 'relative',
+                top: 2,
+              }}
+            />
+          }
+          {b}
+        </span>
+      ))
   }
 
   renderResults () {
@@ -128,16 +182,17 @@ class Search extends Component {
       <Result
         key={r.file}
         selected={i === selectedIndex}
+        innerRef={ref => i === selectedIndex ? this.activeItem = ref : null}
         onClick={this.clearSearch}
       >
         <Link to={r.url}>
-          <h4>{r.title}</h4>
+          <h4>{this.renderBreadCrumb(r)}</h4>
           <p>
             <Highlight
               highlightClassName="highlight"
-              searchWords={query.length > 3 ? query.split(' ') : []}
+              searchWords={query.length > 2 ? query.split(' ') : []}
               autoEscape
-              textToHighlight={strip(ellipsify(r.content, 400))}
+              textToHighlight={strip(ellipsify(r.content, 200))}
             />
           </p>
           <span className="url">{r.url}</span>
@@ -146,9 +201,9 @@ class Search extends Component {
     )
 
     return (
-      <Results>
+      <Results innerRef={ref => this.results = ref}>
         {items.length !== 0 && !loading && items}
-        {items.length === 0 && !loading && <span>No Results...</span>}
+        {items.length === 0 && !loading && <Center>No Results Found matching {`"${query}"`}...</Center>}
         {loading && <span>Loading...</span>}
       </Results>
     )
@@ -157,6 +212,7 @@ class Search extends Component {
   render () {
     return (
       <Wrapper>
+        <SearchIcon color="#BCBFC1" size={20} />
         <Input
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}
@@ -169,4 +225,4 @@ class Search extends Component {
   }
 }
 
-export default Search
+export default enhanceClickOutside(Search)

@@ -1,10 +1,11 @@
 import React from 'react'
-import Syntax from 'react-syntax-highlighter/prism-light'
+import Highlight from 'react-syntax-highlighter/light'
+import Prism from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 
 export default function (props) {
   let { language } = props
-  const { value } = props
+  const { value, renderer } = props
 
   if (language) {
     language = language // language name aliases
@@ -18,12 +19,16 @@ export default function (props) {
     }
   }
 
+  const Syntax = renderer === 'prism'
+    ? Prism
+    : Highlight
+
   return (
     <Syntax
       style={theme}
       language={language}
       showLineNumbers={props.lineNumbers}
-      lineNumberStyle={{ opacity: 0.5 }}
+      lineNumberStyle={{ opacity: 0.3 }}
       useInlineStyles
     >
       {value}
