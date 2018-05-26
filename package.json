@@ -82,6 +82,7 @@
 		"progress": "^2.0.0",
 		"prop-types": "^15.6.1",
 		"react": "^16.4.0",
+		"react-click-outside": "^3.0.1",
 		"react-content-loader": "^3.1.2",
 		"react-dom": "^16.4.0",
 		"react-emotion": "^9.1.3",

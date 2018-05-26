@@ -10,7 +10,6 @@ import { Wrapper, TOC } from './styles'
 const TableOfContents = ({ toc }) => {
   // Don't show this if there aren't enough headers
   if (toc.length < 2) return null
-  console.log(toc)
 
   // Create TOC hierarchy and link to headers
   const items = toc.map(t => (
