@@ -19,7 +19,7 @@ class Routes extends Component {
           path={data.url}
           render={({ staticContext }) => (
             <Page
-              route={staticContext ? JSON.parse(staticContext) : data}
+              route={staticContext || data}
               socketUrl={socketUrl}
             />
           )}

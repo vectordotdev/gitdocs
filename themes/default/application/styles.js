@@ -15,7 +15,6 @@ const fontMain = css`
 
 const fontMono = css`
   font-family: "Menlo", "Source Code Pro", "Inconsolata","monospace", serif;
-  line-height: 1;
   font-size: 13px;
   line-height: 21px;
 `
@@ -38,6 +37,7 @@ export const WrapperNav = styled('nav')`
   flex: 1;
   background: linear-gradient(90deg, #F0F2F4 0%, #F5F7F9 100%);
   border-right: 1px solid #E6E9EB;
+  box-shadow: inset -4px 0px 2px -2px rgba(202, 209, 226, 0.2);
   text-align: right;
   overflow: auto;
 

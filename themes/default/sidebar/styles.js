@@ -42,9 +42,11 @@ export const TopWrapper = styled('div')`
 `
 
 export const MenuWrapper = styled('div')`
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+
   @media (max-width: 850px) {
     background: #F5F7F9;
     box-shadow: -2px 0 3px rgba(0, 0, 0, .2);
@@ -83,7 +85,6 @@ export const Hamburger = styled('div')`
 
 export const Nav = styled('nav')`
   flex: 1 0 auto;
-  border-bottom: 1px solid #E6E9EB;
   padding: 20px 0 20px 15px;
 `
 
@@ -135,6 +136,7 @@ export const Callout = styled('a')`
   padding: 20px 0;
   text-decoration: none;
   text-align: center;
+  border-top: 1px solid #E6E9EB;
   :hover {
     color: rgba(0, 0, 0, .3);
   }

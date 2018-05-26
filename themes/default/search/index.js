@@ -72,7 +72,8 @@ class Search extends Component {
     const { value } = e.target
     this.setState({
       query: value,
-      loading: value.length !== 0
+      loading: value.length !== 0,
+      selectedIndex: 0,
     }, async () => {
       const results = await this.fetchResults(value)
       this.setState({ results, loading: false })

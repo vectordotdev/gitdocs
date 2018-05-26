@@ -14,7 +14,7 @@ const TableOfContents = ({ toc }) => {
   const items = toc.map(t => (
     <li
       key={`${toc}-${t.slug}`}
-      style={{ marginLeft: (t.lvl - 3) * 10 }}
+      style={{ marginLeft: (t.lvl - 2) * 10 }}
     >
       <a href={`#${t.slug}`}>
         {t.content}
@@ -37,7 +37,7 @@ const Content = ({ content, config, route }) => {
 
   // Prepend route title to content if `prependTitles` is set to true in config
   let md = content
-  if (config.prefixTitles) {
+  if (config.prefix_titles) {
     md = `# ${route.title} \n ${content}`
   }
 
@@ -128,7 +128,7 @@ export default class Page extends Component {
             }
             {
               !loading &&
-              config.tableOfContents &&
+              config.table_of_contents &&
               <TableOfContents toc={toc} />
             }
           </Wrapper>

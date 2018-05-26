@@ -148,15 +148,14 @@ class Sidebar extends Component {
               <Nav>
                 {this.renderNavItems(manifest.items, true)}
               </Nav>
-
-              <Callout
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://github.com/timberio/gitdocs"
-              >
-                Powered by GitDocs
-              </Callout>
             </MenuWrapper>
+            <Callout
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/timberio/gitdocs"
+            >
+              Powered by GitDocs
+            </Callout>
           </Wrapper>
         }
       </ConfigContext.Consumer>
