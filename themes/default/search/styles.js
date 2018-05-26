@@ -4,16 +4,17 @@ export const Wrapper = styled('div')`
   flex: 1;
   display: flex;
   position: relative;
+  align-items: center;
 `
 
 export const Input = styled('input')`
   outline: none;
   font-size: .9rem;
   padding: 8px 15px;
-  border: 1px solid #E6E9EB;
   border-radius: 30px;
   display: block;
-  flex: 1;
+  width: 200px;
+  border: none;
   ::placeholder {
     color: #ACB0B2;
   }
@@ -23,7 +24,7 @@ export const Results = styled('div')`
   position: absolute;
   width: 100%;
   top: 75px;
-  height: calc(100vh - 75px);
+  height: 100vh;
   background: #FFF;
   z-index: 99;
 `

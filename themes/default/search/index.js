@@ -2,25 +2,17 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Highlight from 'react-highlight-words'
+import { Search as SearchIcon } from 'react-feather'
 import { createDB } from './db'
 import strip from './strip'
 import history from '../history'
+import { ellipsify } from '../utils'
 import { Wrapper, Input, Results, Result } from './styles'
 
 const UP = 'ArrowUp'
 const DOWN = 'ArrowDown'
 const ENTER = 'Enter'
 const ESCAPE = 'Escape'
-
-function ellipsify (text, limit) {
-  if (!text) return ''
-
-  if (text.length <= limit) {
-    return text
-  }
-
-  return `${text.substring(0, limit)}...`
-}
 
 class Search extends Component {
   constructor (props) {
@@ -119,6 +111,13 @@ class Search extends Component {
     this.setState({ loading: false, query: '', results: [] })
   }
 
+  renderBreadCrumb (result) {
+    return result
+      .breadcrumb
+      .slice(1)
+      .map((b, i) => <span key={`${b}-${i}`}>{b} {">"}</span>)
+  }
+
   renderResults () {
     const { query, loading, selectedIndex, results } = this.state
     if (!query.length) return null
@@ -131,7 +130,7 @@ class Search extends Component {
         onClick={this.clearSearch}
       >
         <Link to={r.url}>
-          <h4>{r.title}</h4>
+          <h4>{this.renderBreadCrumb(r)}</h4>
           <p>
             <Highlight
               highlightClassName="highlight"
@@ -157,6 +156,7 @@ class Search extends Component {
   render () {
     return (
       <Wrapper>
+        <SearchIcon color="#BCBFC1" size={20} />
         <Input
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}

@@ -6,7 +6,6 @@ import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 export default function (props) {
   let { language } = props
   const { value, renderer } = props
-  console.log(props)
 
   if (language) {
     language = language // language name aliases

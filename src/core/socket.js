@@ -1,5 +1,6 @@
 const fs = require('fs')
 const WebSocket = require('ws')
+const toc = require('markdown-toc')
 const { getContent } = require('./filesystem')
 
 module.exports = (server) => {
@@ -13,7 +14,10 @@ module.exports = (server) => {
     client.on('message', file => {
       const send = async () => {
         const content = await getContent(file)
-        client.send(content)
+        client.send(JSON.stringify({
+          content,
+          toc: toc(content).json,
+        }))
       }
 
       send()

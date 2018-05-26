@@ -37,9 +37,19 @@ export const WrapperNav = styled('nav')`
   flex: 1;
   background: linear-gradient(90deg, #F0F2F4 0%, #F5F7F9 100%);
   border-right: 1px solid #E6E9EB;
-  min-width: 250px;
   text-align: right;
   overflow: auto;
+
+  @media (min-width: 850px) {
+    min-width: 270px;
+    max-width: 270px;
+  }
+
+  @media (min-width: 1440px) {
+    min-width: initial;
+    max-width: initial;
+  }
+
   @media (max-width: 850px) {
     flex: 0 auto;
     overflow: hidden;

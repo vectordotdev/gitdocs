@@ -15,8 +15,9 @@ export const Wrapper = styled('div')`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  max-width: 250px;
   margin-left: auto;
+  min-width: 270px;
+  max-width: 270px;
   text-align: left;
   @media (max-width: 850px) {
     max-width: 100%;
@@ -30,10 +31,11 @@ export const Wrapper = styled('div')`
 export const TopWrapper = styled('div')`
   flex-shrink: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 70px;
   padding: 0 20px;
+  border-bottom: 1px solid #E6E9EB;
   @media (max-width: 850px) {
     justify-content: space-between;
   }
@@ -81,9 +83,8 @@ export const Hamburger = styled('div')`
 
 export const Nav = styled('nav')`
   flex: 1 0 auto;
-  border-top: 1px solid #E6E9EB;
   border-bottom: 1px solid #E6E9EB;
-  padding: 30px 0 30px 15px;
+  padding: 20px 0 20px 15px;
 `
 
 export const NavList = styled(Accordion)`

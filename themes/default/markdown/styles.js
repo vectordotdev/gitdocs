@@ -8,11 +8,16 @@ export const Wrapper = styled('div')`
     text-decoration: none;
     color: #5944CC;
   }
+  
   h1, h2, h3, h4 {
     font-weight: bold;
     text-decoration: none;
     margin: 0;
     color: #0D0A2B;
+  }
+
+  a:first-of-type {
+    margin-top: 0;
   }
 
   p {

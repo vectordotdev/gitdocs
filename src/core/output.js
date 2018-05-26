@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const syspath = require('path')
+const toc = require('markdown-toc')
 const { generateDatabase } = require('./database')
 const { templateForProduction } = require('./template')
 const { getContent } = require('./filesystem')
@@ -19,7 +20,10 @@ module.exports = async (entrypoints, props) => {
       const outputJson = syspath.join(item.outputDir, 'index.json')
 
       await fs.outputFile(outputHtml, template)
-      await fs.outputJson(outputJson, { content: item.content })
+      await fs.outputJson(outputJson, {
+        content: item.content,
+        toc: toc(item.content).json
+      })
     }
 
     if (items) {
