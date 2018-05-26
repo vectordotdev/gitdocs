@@ -46,7 +46,7 @@ export const WrapperNav = styled('nav')`
     max-width: 270px;
   }
 
-  @media (min-width: 1440px) {
+  @media (min-width: 1450px) {
     min-width: initial;
     max-width: initial;
   }

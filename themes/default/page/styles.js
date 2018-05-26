@@ -5,19 +5,20 @@ export const Wrapper = styled('div')`
   max-width: 1024px;
   box-sizing: border-box;
   display: flex;
+
   @media(max-width: 1024px) {
     flex-direction: column-reverse;
     nav { margin-left: 0 }
   }
 
-  @media(min-width: 1440px) {
+  @media(min-width: 1450px) {
     max-width: 1200px;
   }
 `
 
 export const TOC = styled('nav')`
   margin-left: 2rem;
-  min-width: 150px;
+  width: 150px;
   flex-grow: 0;
 
   ul {
@@ -51,6 +52,6 @@ export const TOC = styled('nav')`
   }
 `
 
-export const Body = styled('div')`
-
+export const ContentWrapper = styled('div')`
+  padding: 0 50px;
 `

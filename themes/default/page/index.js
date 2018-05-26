@@ -4,7 +4,7 @@ import axios from 'axios'
 import Markdown from '../markdown'
 import Loading from '../loading'
 import { ConfigContext } from '../context'
-import { Wrapper, TOC } from './styles'
+import { Wrapper, ContentWrapper, TOC } from './styles'
 
 const TableOfContents = ({ toc }) => {
   // Don't show this if there aren't enough headers
@@ -42,12 +42,12 @@ const Content = ({ content, config, route }) => {
   }
 
   return (
-    <div>
+    <ContentWrapper>
       <Markdown
         source={md || defaultContent}
         {...config.syntax}
       />
-    </div>
+    </ContentWrapper>
   )
 }
 
