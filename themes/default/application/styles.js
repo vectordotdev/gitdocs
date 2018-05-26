@@ -14,9 +14,10 @@ const fontMain = css`
 `
 
 const fontMono = css`
-  font-family: 'Menlo', monospace;
+  font-family: "Menlo", "Source Code Pro", "Inconsolata","monospace", serif;
   line-height: 1;
-  font-size: 1.1rem;
+  font-size: 13.5px;
+  line-height: 22px;
 `
 
 export const Wrapper = styled('div')`

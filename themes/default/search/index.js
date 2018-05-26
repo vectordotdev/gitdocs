@@ -39,6 +39,7 @@ class Search extends Component {
 
   ensureActiveItemVisible () {
     if (!this.activeItem) return false
+
     const distanceFromTop = this.activeItem.offsetTop
     const height = this.activeItem.offsetHeight
     const scrollTop = this.results.scrollTop
@@ -139,7 +140,12 @@ class Search extends Component {
   }
 
   clearSearch = () => {
-    this.setState({ loading: false, query: '', results: [] })
+    this.setState({
+      loading: false,
+      query: '',
+      results: [],
+      selectedIndex: 0,
+    })
   }
 
   renderBreadCrumb (result) {
