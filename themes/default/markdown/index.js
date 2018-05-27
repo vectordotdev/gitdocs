@@ -21,7 +21,31 @@ export default function (props) {
         component: Code,
         props: { renderer: props.renderer, lineNumbers: props.lineNumbers }
       },
-      h1: Header,
+      h1: {
+        component: Header,
+        props: { level: 1 },
+      },
+      h2: {
+        component: Header,
+        props: { level: 2 },
+      },
+      h3: {
+        component: Header,
+        props: { level: 3 },
+      },
+      h4: {
+        component: Header,
+        props: { level: 4 },
+      },
+      h5: {
+        component: Header,
+        props: { level: 5 },
+      },
+      h6: {
+        component: Header,
+        props: { level: 6 },
+      },
+      a: Link,
     }
   }
 

@@ -77,6 +77,7 @@ class Search extends Component {
     }, async () => {
       const results = await this.fetchResults(value)
       this.setState({ results, loading: false })
+      this.results.scrollTop = 0
     })
   }
 
