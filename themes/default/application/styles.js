@@ -47,8 +47,7 @@ export const WrapperNav = styled('nav')`
     max-width: 270px;
   }
 
-  @media (min-width: 1450px) {
-    min-width: initial;
+  @media (min-width: 1480px) {
     max-width: initial;
   }
 
@@ -63,4 +62,7 @@ export const WrapperPage = styled('div')`
   flex: 2;
   overflow: auto;
   position: relative;
+  @media (max-width: 500px) {
+    max-width: 100%;
+  }
 `
