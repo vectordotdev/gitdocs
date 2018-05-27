@@ -19,7 +19,16 @@ export const Wrapper = styled('div')`
 export const TOC = styled('nav')`
   margin-left: 2rem;
   width: 150px;
+  max-width: 150px;
+  min-width: 150px;
   flex-grow: 0;
+
+  @media (min-width: 1024px) {
+    ul {
+      position: ${props => props.sticky ? 'fixed' : 'initial'};
+      top: 30px;
+    }
+  }
 
   ul {
     list-style: none;

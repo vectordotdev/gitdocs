@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 class Routes extends Component {
   route = ({ items = [], ...data }) => {
     const {
+      sticky,
       socketUrl,
       componentPage: Page,
     } = this.props
@@ -21,6 +22,7 @@ class Routes extends Component {
             <Page
               route={staticContext || data}
               socketUrl={socketUrl}
+              sticky={sticky}
             />
           )}
         />,

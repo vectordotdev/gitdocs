@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import raf from 'raf'
 import Header from '../header'
 import Sidebar from '../sidebar'
 import Page from '../page'
@@ -10,6 +11,26 @@ import { ConfigContext } from '../context'
 import { Wrapper, WrapperNav, WrapperPage } from './styles'
 
 class App extends Component {
+  state = { sticky: false }
+
+  handleScroll = e => {
+    if (!this.framePending) {
+      const { currentTarget } = e
+
+      raf(() => {
+        this.framePending = false
+        const { sticky } = this.state
+
+        if (!sticky && currentTarget.scrollTop > 70) {
+          this.setState({ sticky: true })
+        } else if (sticky && currentTarget.scrollTop < 70) {
+          this.setState({ sticky: false })
+        }
+      })
+      this.framePending = true
+    }
+  }
+
   render () {
     const {
       config,
@@ -42,7 +63,7 @@ class App extends Component {
             />
           </WrapperNav>
 
-          <WrapperPage>
+          <WrapperPage onScroll={this.handleScroll}>
             <Header manifest={manifest} />
 
             <Routes
@@ -50,6 +71,7 @@ class App extends Component {
               componentPage={Page}
               component404={NotFound}
               socketUrl={`ws://${config.host}:${config.port}`}
+              sticky={this.state.sticky}
             />
           </WrapperPage>
         </Wrapper>

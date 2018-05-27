@@ -6,7 +6,7 @@ import Loading from '../loading'
 import { ConfigContext } from '../context'
 import { Wrapper, ContentWrapper, TOC } from './styles'
 
-const TableOfContents = ({ toc }) => {
+const TableOfContents = ({ toc, sticky }) => {
   // Don't show this if there aren't enough headers
   if (!toc) return null
   if (toc.length < 2) return null
@@ -24,7 +24,7 @@ const TableOfContents = ({ toc }) => {
   ))
 
   return (
-    <TOC>
+    <TOC sticky={sticky}>
       <ul>
         <h5>Contents</h5>
         {items}
@@ -100,6 +100,7 @@ export default class Page extends Component {
   render () {
     const {
       route,
+      sticky,
     } = this.props
 
     const {
@@ -130,7 +131,10 @@ export default class Page extends Component {
             {
               !loading &&
               config.table_of_contents &&
-              <TableOfContents toc={toc} />
+              <TableOfContents
+                toc={toc}
+                sticky={sticky}
+              />
             }
           </Wrapper>
         }
