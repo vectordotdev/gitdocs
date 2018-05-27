@@ -76,6 +76,7 @@
 		"history": "^4.7.2",
 		"html-minifier": "^3.5.16",
 		"js-search": "^1.4.2",
+		"markdown-to-jsx": "^6.6.5",
 		"markdown-toc": "^1.2.0",
 		"minimist": "^1.2.0",
 		"ncp": "^2.0.0",

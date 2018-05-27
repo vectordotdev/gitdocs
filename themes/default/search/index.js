@@ -186,7 +186,7 @@ class Search extends Component {
         onClick={this.clearSearch}
       >
         <Link to={r.url}>
-          <h4>{this.renderBreadCrumb(r)}</h4>
+          <h5>{this.renderBreadCrumb(r)}</h5>
           <p>
             <Highlight
               highlightClassName="highlight"
