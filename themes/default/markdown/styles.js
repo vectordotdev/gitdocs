@@ -67,7 +67,6 @@ export const Wrapper = styled('div')`
   pre code {
     border: none;
     word-break: break-all;
-    white-space: pre-wrap;
     display: block;
     background: inherit;
     color: #485672;
