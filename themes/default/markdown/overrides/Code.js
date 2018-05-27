@@ -4,8 +4,11 @@ import Prism from 'react-syntax-highlighter/prism-light'
 import { theme, languages } from '@codegen/loadSyntax' // eslint-disable-line
 
 export default function (props) {
-  let { language } = props
-  const { value, renderer } = props
+  const { children, renderer, className, lineNumbers } = props
+
+  if (!className) return <code>{children}</code>
+
+  let language = className.split('-')[1]
 
   if (language) {
     language = language // language name aliases
@@ -27,11 +30,11 @@ export default function (props) {
     <Syntax
       style={theme}
       language={language}
-      showLineNumbers={props.lineNumbers}
+      showLineNumbers={lineNumbers}
       lineNumberStyle={{ opacity: 0.3 }}
       useInlineStyles
     >
-      {value}
+      {children}
     </Syntax>
   )
 }

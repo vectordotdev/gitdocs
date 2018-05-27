@@ -23,24 +23,25 @@ export const Input = styled('input')`
 export const Results = styled('div')`
   position: absolute;
   width: 100%;
-  top: 70px;
+  top: 65px;
   height: 50vh;
+  max-width: 700px;
   max-height: 700px;
   overflow: scroll;
-  box-shadow: 0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1);
+  border: 1px solid rgba(0,0,0,.1);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.175);
   background: #FFF;
   z-index: 99;
 `
 
 export const Result = styled('div')`
-  padding: 1rem;
-  background: ${props => props.selected ? '#f6f5fb' : '#FFF'};
+  padding: .5rem 1rem;
+  background: ${props => props.selected ? '#f7f7fb' : '#FFF'};
   a { text-decoration: none }
   &:hover {
-    background: #f6f5fb;
-    h4 { color: #6457DC; text-decoration: underline; }
+    h5 { color: #6457DC; text-decoration: underline; }
   }
-  h4 {
+  h5 {
     font-weight: bold;
     text-decoration: none;
     margin: 0;
@@ -51,11 +52,18 @@ export const Result = styled('div')`
     color: rgba(0,0,0,0.75);
     text-decoration: none;
     margin: 0;
-    font-size: 1rem;
+    font-size: .9rem;
   }
-  p .highlight { background: #d1ccec }
+  p .highlight {
+    // text-decoration: underline;
+    // text-decoration-color: #d1ccec
+    border-bottom: 2px solid #b1a9da;
+    display: inline-block;
+    background: transparent;
+  }
   .url {
     font-size: 12px;
+    color: #5343a2;
   }
 `
 

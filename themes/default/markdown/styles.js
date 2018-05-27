@@ -42,7 +42,14 @@ export const Wrapper = styled('div')`
   pre {
     overflow-x: scroll;
     background: #FAFAFD !important;
+    border-radius: 4px;
+    border-radius: 3px;
+    line-height: 19px;
+    padding: .25rem;
   }
+
+  // We need this since react-syntax-highlighter adds a pre
+  pre pre { margin: 0; }
 
   pre, code {
     // -webkit-font-smoothing: initial;
@@ -50,8 +57,8 @@ export const Wrapper = styled('div')`
 
   code {
     border-radius: 4px;
-    padding: .15rem .25rem;
-    display: inline;
+    padding: 0 .15rem;
+    display: inline-block;
     word-break: break-all;
     background: #EEEAFE;
     color: #5742CA;
@@ -61,16 +68,9 @@ export const Wrapper = styled('div')`
     border: none;
     word-break: break-all;
     white-space: pre-wrap;
-    display: inline-block !important;
+    display: block;
     background: inherit;
     color: #485672;
-  }
-
-  pre {
-    border-radius: 4px;
-    // font-family: Roboto Mono, monospace;
-    border-radius: 3px;
-    line-height: 19px;
   }
 
   table {
