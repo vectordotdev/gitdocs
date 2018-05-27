@@ -40,6 +40,7 @@
 * https://stripe.com/docs
 * https://www.prisma.io/docs/reference/
 * https://docs.bugsnag.com/
+* https://zeit.co/docs
 
 >>>>>>> master
 
