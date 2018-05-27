@@ -11,7 +11,10 @@ export default function (props) {
     overrides: {
       code: {
         component: Code,
-        props: { renderer: props.renderer, lineNumbers: props.lineNumbers }
+        props: {
+          renderer: props.renderer,
+          lineNumbers: props.lineNumbers
+        }
       },
       h1: {
         component: Header,
