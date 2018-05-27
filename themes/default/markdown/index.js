@@ -5,6 +5,7 @@ import { Wrapper } from './styles'
 import Code from './overrides/Code'
 import Header from './overrides/Header'
 import Link from './overrides/Link'
+import Tip from './overrides/Tip'
 
 export default function (props) {
   const options = {
@@ -39,6 +40,9 @@ export default function (props) {
       h6: {
         component: Header,
         props: { level: 6 },
+      },
+      Tip: {
+        component: Tip,
       },
       a: Link,
     }
