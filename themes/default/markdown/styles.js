@@ -51,10 +51,6 @@ export const Wrapper = styled('div')`
   // We need this since react-syntax-highlighter adds a pre
   pre pre { margin: 0; }
 
-  pre, code {
-    // -webkit-font-smoothing: initial;
-  }
-
   code {
     border-radius: 4px;
     padding: 0 .15rem;
@@ -136,7 +132,6 @@ export const Wrapper = styled('div')`
   }
 
   .syntax-shell .react-syntax-highlighter-line-number {
-    opacity: 0.5;
     visibility: hidden;
     position: absolute;
     height: 0;
