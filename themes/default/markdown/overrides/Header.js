@@ -37,8 +37,6 @@ export default function (props) {
     children,
   } = props
 
-  console.log(props)
-
   // Turn headers into linkable IDs
   const text = children[0]
   const itemId = typeof text === 'string'

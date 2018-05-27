@@ -7,14 +7,6 @@ import Header from './overrides/Header'
 import Link from './overrides/Link'
 
 export default function (props) {
-  // const options = {
-  //   renderers: {
-  //     code: p => <Code {...props} {...p} />,
-  //     link: Link,
-  //     heading: Header,
-  //   },
-  // }
-
   const options = {
     overrides: {
       code: {
