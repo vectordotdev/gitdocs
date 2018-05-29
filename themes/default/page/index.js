@@ -81,13 +81,18 @@ export default class Page extends Component {
           loading: false,
         })
       })
-    } else {
-      const { data } = await axios.get('index.json')
-      this.setState({ // eslint-disable-line
-        content: data.content,
-        toc: data.toc,
-        loading: false,
-      })
+    } else if (!this.state.content) {
+      try {
+        const { data } = await axios.get('index.json')
+
+        this.setState({
+          content: data.content,
+          toc: data.toc,
+          loading: false,
+        })
+      } catch (err) {
+        console.error(`Could not get page content: ${err}`)
+      }
     }
   }
 
