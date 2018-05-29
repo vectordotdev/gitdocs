@@ -181,7 +181,7 @@ class Search extends Component {
     // Map over search results and create links
     const items = results.map((r, i) =>
       <Result
-        key={r.file}
+        key={r.input}
         selected={i === selectedIndex}
         innerRef={ref => i === selectedIndex ? this.activeItem = ref : null}
         onClick={this.clearSearch}
