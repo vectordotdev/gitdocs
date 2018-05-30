@@ -24,7 +24,7 @@ describe('integration: manifest', () => {
     expect(res.items[4].path).to.equal('external.md')
     expect(res.items[4].title).to.equal('GitDocs')
     expect(res.items[4].url).to.equal('/gitdocs/')
-    expect(res.items[4].input).to.match(/^\/var\/folders.*\/@repos\/gitdocs/)
+    expect(res.items[4].input).to.match(/\/@repos\/gitdocs/)
     expect(res.items[4].outputDir).to.equal('.gitdocs_build/gitdocs/')
     expect(res.items[4].items).to.have.length(1)
     expect(res.items[4].items[0].path).to.equal('externals.md')
