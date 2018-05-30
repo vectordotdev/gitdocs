@@ -4,6 +4,7 @@ const ourpath = require('../utils/path')
 const { getFrontmatterOnly } = require('../utils/frontmatter')
 const { mergeLeftByKey } = require('../utils/merge')
 const { walkSource } = require('./source')
+const Sitemap = require('./sitemap')
 
 async function getMetaData (item, parentItems) {
   const data = item.type === 'file'
@@ -49,6 +50,7 @@ function normalizeItems (data) {
 
 async function hydrateTree (tree, config, onRegenerate) {
   const urls = {}
+  const sitemap = new Sitemap()
 
   if (tree.childrenIndex === undefined) {
     throw new Error('No index file was found! Create a `readme.md` at the root of your project.')
@@ -119,6 +121,10 @@ async function hydrateTree (tree, config, onRegenerate) {
       } else {
         // url is now taken, like most women
         urls[hydratedItem.url] = hoistedItem.path
+        
+        // add url to the sitemap
+        const fullUrl = `${config.domain}${hydratedItem.url}`
+        sitemap.addUrl(fullUrl, metaData.sitemap)
       }
     }
 
@@ -154,7 +160,10 @@ async function hydrateTree (tree, config, onRegenerate) {
     return hydratedItem
   }
 
-  return _recursive(tree)
+  return {
+    manifest: await _recursive(tree),
+    sitemap: sitemap.generate(),
+  }
 }
 
 // async function hydrateContent (manifest) {
