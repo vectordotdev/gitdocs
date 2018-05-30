@@ -10,7 +10,7 @@ export default function (props, route) {
       context={route}
       location={route.url}
     >
-      <App {...props} />
+      <App ssr {...props} />
     </StaticRouter>
   )
 }

@@ -8,10 +8,10 @@ export default function (props) {
     <ConfigContext.Consumer>
       {config =>
         <Wrapper>
-          <Search
+          {!props.isSSR && <Search
             config={config}
             manifest={props.manifest}
-          />
+          />}
           <Nav>
             {config.header_links.map(({ title, ...rest }) => (
               <a {...rest} key={`nav-${title}`}>{title}</a>

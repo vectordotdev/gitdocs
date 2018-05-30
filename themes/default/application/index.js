@@ -64,7 +64,10 @@ class App extends Component {
           </WrapperNav>
 
           <WrapperPage onScroll={this.handleScroll}>
-            <Header manifest={manifest} />
+            <Header
+              isSSR={this.props.ssr}
+              manifest={manifest}
+            />
 
             <Routes
               manifest={manifest}
