@@ -35,11 +35,21 @@ module.exports = (props, compiler) => {
     index: false,
   }))
 
+  app.use('/robots.txt', (req, res, next) => {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+    res.end(props.robots)
+  })
+
+  app.use('/sitemap.xml', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8')
+    res.end(props.sitemap)
+  })
+
   app.use('/db.json', async (req, res, next) => {
     try {
       const db = await generateDatabase(props.manifest)
 
-      res.setHeader('Content-Type', 'application/json')
+      res.setHeader('Content-Type', 'application/json; charset=utf-8')
       res.end(JSON.stringify(db))
     } catch (err) {
       next(err)

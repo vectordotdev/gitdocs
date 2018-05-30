@@ -21,6 +21,8 @@ const DEFAULT_CONFIG = {
   static: '.static',
   temp: tempDir(),
   baseURL: '/',
+  domain: '',
+  crawlable: true,
   host: 'localhost',
   port: 8000,
   languages: ['bash', 'json'],
