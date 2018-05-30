@@ -121,7 +121,7 @@ async function hydrateTree (tree, config, onRegenerate) {
       } else {
         // url is now taken, like most women
         urls[hydratedItem.url] = hoistedItem.path
-        
+
         // add url to the sitemap
         const fullUrl = `${config.domain}${hydratedItem.url}`
         sitemap.addUrl(fullUrl, metaData.sitemap)

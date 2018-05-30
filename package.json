@@ -108,6 +108,9 @@
 			"it": true,
 			"beforeEach": true,
 			"afterEach": true
+		},
+		"rules": {
+			"react/no-did-mount-set-state": 0
 		}
 	},
 	"pkg": {
