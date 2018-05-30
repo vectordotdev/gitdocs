@@ -4,6 +4,7 @@ items:
   - garply
   - xyzzy
   - thud.md
+  - external.md
   - path: qux
     title: The Quux
     items_prepend:

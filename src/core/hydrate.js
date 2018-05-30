@@ -64,7 +64,7 @@ async function hydrateTree (tree, config, onRegenerate) {
     const {
       path_relative,
       childrenIndex,
-      children,
+      children = [],
     } = item
 
     // hoist the index file and use it instead of the current item,
@@ -97,24 +97,35 @@ async function hydrateTree (tree, config, onRegenerate) {
         )
       )
 
+      hydratedItem.input = metaData.input || hoistedItem.path
+      hydratedItem.outputDir = syspath.join(config.output, hydratedItem.url)
+
       // ensure there are no duplicated urls
       if (urls[hydratedItem.url]) {
         const duplicated = [hydratedItem.url, hoistedItem.path, urls[hydratedItem.url]]
         throw new Error(`Duplicated URL was found: ${duplicated.join('\n\t- ')}`)
       }
 
-      // url is now taken, like most women
-      urls[hydratedItem.url] = hoistedItem.path
+      // pull in source items if one exists
+      if (metaData.source) {
+        const source = await walkSource(config.temp, hoistedItem.path, metaData)
+        const sourceHydrated = await _recursive(source, hydratedItem)
 
-      // add url to the sitemap
-      const fullUrl = `${config.domain}${hydratedItem.url}`
-      sitemap.addUrl(fullUrl, metaData.sitemap)
+        // don't inherit these items from the source
+        delete sourceHydrated.path
+        delete sourceHydrated.title
 
-      hydratedItem.input = metaData.input || hoistedItem.path
-      hydratedItem.outputDir = syspath.join(
-        config.output,
-        hydratedItem.url,
-      )
+        // replace current item data with the source data
+        Object.assign(hydratedItem, sourceHydrated)
+      // don't register the url when there is a source (since item gets replaced)
+      } else {
+        // url is now taken, like most women
+        urls[hydratedItem.url] = hoistedItem.path
+
+        // add url to the sitemap
+        const fullUrl = `${config.domain}${hydratedItem.url}`
+        sitemap.addUrl(fullUrl, metaData.sitemap)
+      }
     }
 
     // get sub items from the front matter
@@ -123,29 +134,11 @@ async function hydrateTree (tree, config, onRegenerate) {
       strategy: mergeStrategy,
     } = normalizeItems(metaData)
 
-    // @TODO: inherit front matter from root source item
-    // pull in source items if one exists
-    const sourced = metaData.source
-      // fetch the source and walk the resulting directory
-      ? await walkSource(config.temp, hoistedItem.path, metaData)
-      // no source on this item
-      : {}
-
-    // don't allow a source if there are already children. @TODO: merge instead?
-    if (children && sourced.children) {
-      throw new Error(`Cannot use a source when there are sub items:\n\t- ${hoistedItem.path}`)
-    }
-
     // recurse sub items from the dir tree
-    const childrenItems = sourced.children || children || []
     const childrenItemsUnsorted = await Promise.all(
-      childrenItems
+      children
         .filter(({ index }) => !index)
-        .map(childItem => _recursive(
-          childItem,
-          hydratedItem,
-          metaDataItems,
-        ))
+        .map(childItem => _recursive(childItem, hydratedItem, metaDataItems))
     )
 
     // sort alphabetically by default
@@ -153,11 +146,16 @@ async function hydrateTree (tree, config, onRegenerate) {
       .sort((a, b) => a.title.localeCompare(b.title))
 
     // @TODO: figure out how to remove items_pre/append from the result
-    hydratedItem.items = mergeLeftByKey(metaDataItems, childrenSorted, {
+    const mergedItems = mergeLeftByKey(metaDataItems, childrenSorted, {
       key: 'path',
       name: hoistedItem.path,
       strategy: mergeStrategy,
     })
+
+    hydratedItem.items = [
+      ...mergedItems || [],
+      ...hydratedItem.items || [],
+    ]
 
     return hydratedItem
   }

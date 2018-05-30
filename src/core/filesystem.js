@@ -86,6 +86,7 @@ async function dirTree (baseDir, opts = {}) {
       // resolve the path to an absolute path
       path: syspath.resolve(path),
       // keep the relative path so we can easily construct a url
+      // NOTE: needs to be an empty string for the base dir, so it doesn't become part of the url
       path_relative: syspath.basename(path === baseDir ? '' : path),
     }
 
