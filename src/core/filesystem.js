@@ -1,7 +1,6 @@
 const fs = require('fs-extra')
 const syspath = require('path')
 const { ncp } = require('ncp')
-const toc = require('markdown-toc')
 const { parseFrontmatter } = require('../utils/frontmatter')
 
 const INDEX_FILES = ['index', 'readme']
@@ -156,10 +155,6 @@ async function getContent (path) {
   return content
 }
 
-function getTableOfContents (content) {
-  return toc(content).json
-}
-
 /**
  * because of https://github.com/zeit/pkg/issues/420
  */
@@ -177,7 +172,6 @@ module.exports = {
   checkForConflicts,
   dirTree,
   getContent,
-  getTableOfContents,
   copyDir,
 }
 

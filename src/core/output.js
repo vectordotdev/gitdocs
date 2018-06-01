@@ -3,7 +3,7 @@ const syspath = require('path')
 const { warn } = require('../utils/emit')
 const { generateDatabase } = require('./database')
 const { templateForProduction } = require('./template')
-const { getContent, getTableOfContents } = require('./filesystem')
+const { getContent } = require('./filesystem')
 
 module.exports = async (entrypoints, props) => {
   const outputDB = syspath.join(props.config.output, 'db.json')
@@ -28,7 +28,6 @@ module.exports = async (entrypoints, props) => {
       await fs.outputFile(outputHtml, template)
       await fs.outputJson(outputJson, {
         content: item.content,
-        toc: getTableOfContents(item.content),
       })
     }
 

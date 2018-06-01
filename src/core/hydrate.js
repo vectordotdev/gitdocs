@@ -1,8 +1,10 @@
 const syspath = require('path')
 // const chokidar = require('chokidar')
+const markdownToc = require('markdown-toc')
 const ourpath = require('../utils/path')
 const { getFrontmatterOnly } = require('../utils/frontmatter')
 const { mergeLeftByKey } = require('../utils/merge')
+const { getContent } = require('./filesystem')
 const { walkSource } = require('./source')
 const Sitemap = require('./sitemap')
 
@@ -48,6 +50,34 @@ function normalizeItems (data) {
   }
 }
 
+async function tableOfContents ({ toc, input, items }) {
+  // only add items that have a file associated with it
+  if (input) {
+    if (toc.page) {
+      const content = await getContent(input)
+      toc.page = markdownToc(content).json
+    }
+
+    if (toc.folder) {
+      toc.folder = items
+        // only want children items that have an input
+        .filter(item => item.input)
+        // reduced data, since we don't need everything
+        .map(item => ({
+          title: item.title,
+          description: item.description,
+          url: item.url,
+        }))
+    }
+  }
+
+  // dont keep empty arrays
+  if (!toc.page || !toc.page.length) delete toc.page
+  if (!toc.folder || !toc.folder.length) delete toc.folder
+
+  return toc
+}
+
 async function hydrateTree (tree, config, onRegenerate) {
   const urls = {}
   const sitemap = new Sitemap()
@@ -80,6 +110,8 @@ async function hydrateTree (tree, config, onRegenerate) {
     const hydratedItem = {
       path: path_relative,
       draft: metaData.draft || false,
+      description: metaData.description || '',
+      toc: Object.assign({}, config.table_of_contents, metaData.table_of_contents),
       title: metaData.title || (itemParent.path !== undefined
         // convert the file path into the title
         ? ourpath.titlify(hoistedItem.path)
@@ -157,6 +189,14 @@ async function hydrateTree (tree, config, onRegenerate) {
       ...hydratedItem.items || [],
     ]
 
+    // don't keep an empty items array
+    if (!hydratedItem.items.length) {
+      delete hydratedItem.items.length
+    }
+
+    // add table of contents, if applicable
+    hydratedItem.toc = await tableOfContents(hydratedItem)
+
     return hydratedItem
   }
 
@@ -195,6 +235,7 @@ async function hydrateTree (tree, config, onRegenerate) {
 module.exports = {
   getMetaData,
   normalizeItems,
+  tableOfContents,
   hydrateTree,
   // hydrateContent,
 }

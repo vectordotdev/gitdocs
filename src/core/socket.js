@@ -1,6 +1,6 @@
 const fs = require('fs')
 const WebSocket = require('ws')
-const { getContent, getTableOfContents } = require('./filesystem')
+const { getContent } = require('./filesystem')
 
 module.exports = (server) => {
   const socket = new WebSocket.Server({
@@ -15,7 +15,6 @@ module.exports = (server) => {
         const content = await getContent(file)
         client.send(JSON.stringify({
           content,
-          toc: getTableOfContents(content),
         }))
       }
 

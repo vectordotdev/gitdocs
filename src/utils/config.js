@@ -29,7 +29,10 @@ const DEFAULT_CONFIG = {
   header_links: [],
   theme: 'default',
   prefix_titles: true,
-  table_of_contents: true,
+  table_of_contents: {
+    page: true,
+    folder: true,
+  },
   syntax: {
     theme: 'atom-one-light',
     renderer: 'hljs',

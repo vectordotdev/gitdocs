@@ -20,51 +20,6 @@ export const Wrapper = styled('div')`
   }
 `
 
-export const TOC = styled('nav')`
-  margin-left: 2rem;
-  width: 150px;
-  max-width: 150px;
-  min-width: 150px;
-  flex-grow: 0;
-
-  @media (min-width: 1200px) {
-    ul {
-      position: ${props => props.sticky ? 'fixed' : 'initial'};
-      top: 30px;
-    }
-  }
-
-  ul {
-    list-style: none;
-    border-left: 1px solid #E6E9EB;
-    padding-left: 2rem;
-  }
-
-  h5 {
-    color: #848B8E;
-    margin: 0;
-  }
-
-  li {
-    font-size: 13px;
-    line-height: 30px;
-    display: block;
-  }
-
-  a {
-    text-decoration: none;
-    color: #626469;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    
-    &:hover {
-      color: #5742C7;
-    }
-  }
-`
-
 export const ContentWrapper = styled('div')`
   padding: 0 50px;
 
