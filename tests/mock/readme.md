@@ -5,6 +5,7 @@ items:
   - xyzzy
   - thud.md
   - external.md
+  - component: Divider
   - path: qux
     title: The Quux
     items_prepend:

@@ -3,35 +3,10 @@ import Helmet from 'react-helmet'
 import axios from 'axios'
 import Markdown from '../markdown'
 import Loading from '../loading'
+import TocPage from '../toc/page'
+import TocFolder from '../toc/folder'
 import { ConfigContext } from '../context'
-import { Wrapper, ContentWrapper, TOC } from './styles'
-
-const TableOfContents = ({ toc, sticky }) => {
-  // Don't show this if there aren't enough headers
-  if (!toc) return null
-  if (toc.length < 2) return null
-
-  // Create TOC hierarchy and link to headers
-  const items = toc.map(t => (
-    <li
-      key={`${toc}-${t.slug}`}
-      style={{ marginLeft: (t.lvl - 2) * 10 }}
-    >
-      <a href={`#${t.slug}`}>
-        {t.content}
-      </a>
-    </li>
-  ))
-
-  return (
-    <TOC sticky={sticky}>
-      <ul>
-        <h5>Contents</h5>
-        {items}
-      </ul>
-    </TOC>
-  )
-}
+import { Wrapper, ContentWrapper } from './styles'
 
 const Content = ({ content, config, route }) => {
   const defaultContent = '##### _You don\'t have any content here yet!_'
@@ -60,7 +35,6 @@ export default class Page extends Component {
     this.state = {
       loading: !props.route.content,
       content: props.route.content,
-      toc: props.route.toc,
     }
   }
 
@@ -74,22 +48,15 @@ export default class Page extends Component {
       })
 
       this._socket.addEventListener('message', evt => {
-        const { content, toc } = JSON.parse(evt.data)
-        this.setState({
-          content,
-          toc,
-          loading: false,
-        })
+        const { content } = JSON.parse(evt.data)
+        this.setState({ content, loading: false })
       })
     } else if (!this.state.content) {
       try {
-        const { data } = await axios.get('index.json')
-
-        this.setState({
-          content: data.content,
-          toc: data.toc,
-          loading: false,
-        })
+        const {
+          data: { content },
+        } = await axios.get('index.json')
+        this.setState({ content, loading: false })
       } catch (err) {
         console.error(`Could not get page content: ${err}`)
       }
@@ -111,7 +78,6 @@ export default class Page extends Component {
     const {
       loading,
       content,
-      toc,
     } = this.state
 
     return (
@@ -121,26 +87,24 @@ export default class Page extends Component {
             <Helmet>
               <title>{route.title}</title>
             </Helmet>
-            {
-              loading &&
-              <Loading />
-            }
-            {
-              !loading &&
-              <Content
-                content={content}
-                config={config}
-                route={route}
-              />
-            }
-            {
-              !loading &&
-              config.table_of_contents &&
-              <TableOfContents
-                toc={toc}
-                sticky={sticky}
-              />
-            }
+
+            {loading
+              ? <Loading />
+              : (
+                <div>
+                  <Content
+                    content={content}
+                    config={config}
+                    route={route}
+                  />
+
+                  {route.toc.page &&
+                    <TocPage items={route.toc.page} sticky={sticky} />}
+
+                  {route.toc.folder &&
+                    <TocFolder items={route.toc.folder} />}
+                </div>
+              )}
           </Wrapper>
         }
       </ConfigContext.Consumer>
