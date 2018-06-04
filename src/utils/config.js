@@ -28,7 +28,7 @@ const DEFAULT_CONFIG = {
   languages: ['bash', 'json'],
   header_links: [],
   theme: 'default',
-  prefix_titles: true,
+  prefix_titles: false,
   table_of_contents: {
     page: true,
     folder: true,
