@@ -109,8 +109,6 @@ async function hydrateTree (tree, config, onRegenerate) {
     // start hydrating the current item
     const hydratedItem = {
       path: path_relative,
-      draft: metaData.draft || false,
-      description: metaData.description || '',
       toc: Object.assign({}, config.table_of_contents, metaData.table_of_contents),
       title: metaData.title || (itemParent.path !== undefined
         // convert the file path into the title
@@ -118,6 +116,10 @@ async function hydrateTree (tree, config, onRegenerate) {
         // use the project name as the title if we are at the root
         : config.name),
     }
+
+    // add these items from metadata, but only if not undefined
+    if (metaData.draft) hydratedItem.draft = true
+    if (metaData.description) hydratedItem.description = metaData.description
 
     // only files should have a url, input and output value
     if (hoistedItem.type === 'file') {

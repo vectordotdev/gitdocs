@@ -56,8 +56,8 @@ export const PageItem = styled('nav')`
 export const FolderItem = styled(Link)`
   display: inline-block;
   width: 230px;
-  margin-right: 20px;
-  margin-bottom: 50px;
+  margin-right: 50px;
+  margin-bottom: 70px;
   vertical-align: top;
   text-decoration: none;
   color: #4c555a;
