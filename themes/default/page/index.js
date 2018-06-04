@@ -106,7 +106,7 @@ export default class Page extends Component {
                   </ContentWrapper>
 
                   {route.toc.folder &&
-                      <TocFolder items={route.toc.folder} />}
+                    <TocFolder items={route.toc.folder} />}
                 </div>
               )}
           </Wrapper>
