@@ -54,8 +54,8 @@ async function tableOfContents ({ toc, input, items }) {
   // only add items that have a file associated with it
   if (input) {
     if (toc.page) {
-      const content = await getContent(input)
-      toc.page = markdownToc(content).json
+      toc.page = markdownToc(await getContent(input))
+        .json.filter(i => i.lvl <= 2)
     }
 
     if (toc.folder) {

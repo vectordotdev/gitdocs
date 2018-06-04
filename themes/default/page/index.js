@@ -6,7 +6,7 @@ import Loading from '../loading'
 import TocPage from '../toc/page'
 import TocFolder from '../toc/folder'
 import { ConfigContext } from '../context'
-import { Wrapper, ContentWrapper } from './styles'
+import { Wrapper, ContentWrapper, MarkdownWrapper } from './styles'
 
 const Content = ({ content, config, route }) => {
   const defaultContent = '##### _You don\'t have any content here yet!_'
@@ -18,12 +18,12 @@ const Content = ({ content, config, route }) => {
   }
 
   return (
-    <ContentWrapper>
+    <MarkdownWrapper>
       <Markdown
         source={md || defaultContent}
         {...config.syntax}
       />
-    </ContentWrapper>
+    </MarkdownWrapper>
   )
 }
 
@@ -39,8 +39,10 @@ export default class Page extends Component {
   }
 
   async componentDidMount () {
+    const { socketUrl } = this.props.pageData
+
     if (process.env.NODE_ENV === 'development') {
-      this._socket = new WebSocket(this.props.socketUrl)
+      this._socket = new WebSocket(socketUrl)
 
       this._socket.addEventListener('open', evt => {
         this._socket.send(this.props.route.input)
@@ -72,7 +74,7 @@ export default class Page extends Component {
   render () {
     const {
       route,
-      sticky,
+      pageData: { sticky },
     } = this.props
 
     const {
@@ -92,14 +94,16 @@ export default class Page extends Component {
               ? <Loading />
               : (
                 <div>
-                  <Content
-                    content={content}
-                    config={config}
-                    route={route}
-                  />
+                  <ContentWrapper>
+                    <Content
+                      content={content}
+                      config={config}
+                      route={route}
+                    />
 
-                  {route.toc.page &&
-                    <TocPage items={route.toc.page} sticky={sticky} />}
+                    {route.toc.page &&
+                      <TocPage items={route.toc.page} sticky={sticky} />}
+                  </ContentWrapper>
 
                   {route.toc.folder &&
                     <TocFolder items={route.toc.folder} />}

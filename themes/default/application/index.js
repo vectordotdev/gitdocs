@@ -73,8 +73,10 @@ class App extends Component {
               manifest={manifest}
               componentPage={Page}
               component404={NotFound}
-              socketUrl={`ws://${config.host}:${config.port}`}
-              sticky={this.state.sticky}
+              pageData={{
+                sticky: this.state.sticky,
+                socketUrl: `ws://${config.host}:${config.port}`,
+              }}
             />
           </WrapperPage>
         </Wrapper>

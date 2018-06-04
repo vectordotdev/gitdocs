@@ -5,8 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 class Routes extends Component {
   route = ({ items = [], ...data }) => {
     const {
-      sticky,
-      socketUrl,
+      pageData,
       componentPage: Page,
     } = this.props
 
@@ -20,9 +19,8 @@ class Routes extends Component {
           path={data.url}
           render={({ staticContext }) => (
             <Page
+              pageData={pageData}
               route={staticContext || data}
-              socketUrl={socketUrl}
-              sticky={sticky}
             />
           )}
         />,
@@ -57,7 +55,7 @@ Routes.propTypes = {
   manifest: PropTypes.object.isRequired,
   componentPage: PropTypes.func.isRequired,
   component404: PropTypes.func.isRequired,
-  socketUrl: PropTypes.string.isRequired,
+  pageData: PropTypes.object.isRequired,
 }
 
 export default Routes

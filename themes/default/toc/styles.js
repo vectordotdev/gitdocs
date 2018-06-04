@@ -1,36 +1,41 @@
-import styled from 'react-emotion'
+import styled, { css } from 'react-emotion'
 import { Link } from 'react-router-dom'
 
 export const Wrapper = styled('nav')`
-  border-top: 1px solid #E6E9EB;
-  margin-top: 60px;
-  padding: 60px;
+  margin: 60px 0 0 30px;
+  position: relative;
 `
 
 export const PageItem = styled('nav')`
-  margin-left: 2rem;
+  position: relative;
+  margin: 0 0 30px 30px;
   width: 150px;
-  max-width: 150px;
-  min-width: 150px;
-  flex-grow: 0;
 
-  @media (min-width: 1200px) {
-    ul {
-      position: ${props => props.sticky ? 'fixed' : 'initial'};
-      top: 30px;
-      right: 30px;
+  ${props => props.sticky && css`
+    @media (min-width: 1180px) {
+      div {
+        position: fixed;
+        top: 30px;
+      }
     }
-  }
+  `}
 
-  ul {
-    list-style: none;
-    border-left: 1px solid #E6E9EB;
-    padding-left: 2rem;
+  @media (max-width: 1180px) {
+    width: 100%;
   }
 
   h5 {
     color: #848B8E;
+    margin: 0 0 10px 0;
+    opacity: .5;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
+    border-left: 1px solid #E6E9EB;
+    padding-left: 20px;
   }
 
   li {
@@ -63,6 +68,7 @@ export const FolderItem = styled(Link)`
   color: #4c555a;
   position: relative;
   font-size: .9rem;
+  transition: opacity .1s;
   b {
     display: block;
     font-weight: 600;

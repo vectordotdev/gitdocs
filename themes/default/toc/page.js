@@ -4,15 +4,11 @@ import { PageItem } from './styles'
 
 const Toc = (props) => {
   // Don't show this if there aren't enough headers
-  if (!props.items) return null
   if (props.items.length < 2) return null
 
   // Create TOC hierarchy and link to headers
   const items = props.items.map(t => (
-    <li
-      key={`${props.items}-${t.slug}`}
-      style={{ marginLeft: (t.lvl - 2) * 10 }}
-    >
+    <li key={`${props.items}-${t.slug}`}>
       <a href={`#${t.slug}`}>
         {t.content}
       </a>
@@ -21,10 +17,10 @@ const Toc = (props) => {
 
   return (
     <PageItem sticky={props.sticky}>
-      <ul>
-        <h5>Contents</h5>
-        {items}
-      </ul>
+      <div>
+        <h5>Table of Contents</h5>
+        <ul>{items}</ul>
+      </div>
     </PageItem>
   )
 }
