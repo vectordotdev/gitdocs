@@ -94,6 +94,7 @@ export const NavList = styled(Accordion)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
     color: ${props => props.isFirst ? '#0d2b3e' : '#4c555a'};
     font-size: ${props => props.isFirst ? '1rem' : '.9rem'};
     font-weight: ${props => props.isFirst ? 600 : 400};

@@ -57,14 +57,15 @@ class Sidebar extends Component {
     })
   }
 
-  renderTrigger = ({ title, url, component }) => {
+  renderTrigger = ({ title, url, input, component }) => {
     // @TODO: custom components
     if (component) {
       return React.createElement(componentMap[component])
     }
 
-    if (!url) {
-      return <a href="#">{title}</a>
+    // no index page, just children
+    if (!input) {
+      return <a>{title}</a>
     }
 
     if (/^https?:\/\//i.test(url)) {
