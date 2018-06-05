@@ -73,6 +73,7 @@ class Sidebar extends Component {
         <a
           href={url}
           target="_blank"
+          rel="noopener noreferrer"
         >
           {title} <IconExternal />
         </a>
