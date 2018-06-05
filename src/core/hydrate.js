@@ -140,6 +140,22 @@ async function hydrateTree (tree, config, onRegenerate) {
         throw new Error(`Duplicated URL was found: ${duplicated.join('\n\t- ')}`)
       }
 
+      // continue the breadcrumb from parent
+      if (config.breadcrumbs && metaData.breadcrumbs !== false) {
+        const breadcrumbs = []
+        const breadcrumbsParent = itemParent.breadcrumbs || []
+
+        breadcrumbsParent
+          .concat({ title: hydratedItem.title, url: hydratedItem.url })
+          // only add unique urls to the breadcrumb
+          .forEach(crumb =>
+            breadcrumbs.findIndex(i => i.url === crumb.url) === -1 &&
+            breadcrumbs.push(crumb)
+          )
+
+        hydratedItem.breadcrumbs = breadcrumbs
+      }
+
       // pull in source items if one exists
       if (metaData.source) {
         const source = await walkSource(config.temp, hoistedItem.path, metaData)

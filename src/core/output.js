@@ -27,6 +27,7 @@ module.exports = async (entrypoints, props) => {
 
       await fs.outputFile(outputHtml, template)
       await fs.outputJson(outputJson, {
+        title: item.title,
         content: item.content,
       })
     }
