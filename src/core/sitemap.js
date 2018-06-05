@@ -3,9 +3,11 @@ const { minify } = require('html-minifier')
 class Sitemap {
   constructor () {
     this.urls = []
+    this.urlMap = {}
   }
 
   addUrl (url, data = {}) {
+    const filename = data.filename || 'unknown_file'
     const merged = Object.assign({}, {
       loc: url,
       priority: 0.5,
@@ -13,6 +15,12 @@ class Sitemap {
       lastmod: null,
     }, data)
 
+    if (this.urlMap[url]) {
+      const duplicated = [url, filename, this.urlMap[url]]
+      throw new Error(`Duplicated URL was found: ${duplicated.join('\n\t- ')}`)
+    }
+
+    this.urlMap[url] = filename
     this.urls.push(merged)
   }
 

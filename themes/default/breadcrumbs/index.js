@@ -4,6 +4,7 @@ import {
   Wrapper,
   CrumbWrapper,
   Crumb,
+  CrumbInactive,
   Seperator,
 } from './styles'
 
@@ -15,10 +16,12 @@ const Breadcrumbs = (props) => {
 
   return (
     <Wrapper>
-      {props.items.map((item, i) => item.url && (
+      {props.items.map((item, i) => (
         <CrumbWrapper key={`breadcrumbs-${item.title}`}>
           {i > 0 && <Seperator size={14} />}
-          <Crumb to={item.url}>{item.title}</Crumb>
+          {item.url
+            ? <Crumb to={item.url}>{item.title}</Crumb>
+            : <CrumbInactive>{item.title}</CrumbInactive>}
         </CrumbWrapper>
       ))}
     </Wrapper>

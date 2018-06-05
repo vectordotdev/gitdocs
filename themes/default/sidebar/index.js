@@ -97,10 +97,10 @@ class Sidebar extends Component {
       >
         {items
           .filter(i => !i.draft)
-          .map(item => {
+          .map((item, i) => {
             return (
               <Reveal
-                key={`nav-item-${item.url}`}
+                key={`nav-item-${item.title}-${i}`}
                 trigger={() => this.renderTrigger(item)}
               >
                 {item.items &&

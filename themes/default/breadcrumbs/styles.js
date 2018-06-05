@@ -22,6 +22,12 @@ export const Crumb = styled(Link)`
   }
 `
 
+export const CrumbInactive = styled(Crumb.withComponent('span'))`
+  &:hover {
+    opacity: .5;
+  }
+`
+
 export const Seperator = styled(ChevronRight)`
   display: inline-block;
   opacity: .2;

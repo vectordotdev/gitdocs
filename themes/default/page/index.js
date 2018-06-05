@@ -91,7 +91,7 @@ export default class Page extends Component {
               <title>{route.title}</title>
             </Helmet>
 
-            {route.breadcrumbs &&
+            {Array.isArray(route.breadcrumbs) &&
               <Breadcrumbs items={route.breadcrumbs} />}
 
             {loading

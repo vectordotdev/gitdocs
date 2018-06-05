@@ -11,7 +11,7 @@ class Routes extends Component {
 
     return [
       items.map(this.route),
-      data.url && [
+      data.input && [
         <Route
           exact
           strict

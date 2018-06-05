@@ -50,7 +50,7 @@ function normalizeItems (data) {
   }
 }
 
-async function tableOfContents ({ toc, input, items }) {
+async function tableOfContents (toc, { input, items }) {
   // only add items that have a file associated with it
   if (input) {
     if (toc.page) {
@@ -79,7 +79,6 @@ async function tableOfContents ({ toc, input, items }) {
 }
 
 async function hydrateTree (tree, config, onRegenerate) {
-  const urls = {}
   const sitemap = new Sitemap()
 
   if (tree.childrenIndex === undefined) {
@@ -109,52 +108,52 @@ async function hydrateTree (tree, config, onRegenerate) {
     // start hydrating the current item
     const hydratedItem = {
       path: path_relative,
-      toc: Object.assign({}, config.table_of_contents, metaData.table_of_contents),
-      title: metaData.title || (itemParent.path !== undefined
-        // convert the file path into the title
-        ? ourpath.titlify(hoistedItem.path)
-        // use the project name as the title if we are at the root
-        : config.name),
+      title: metaData.title || (
+        itemParent.path !== undefined
+          // convert the file path into the title
+          ? ourpath.titlify(hoistedItem.path)
+          // use the project name as the title if we are at the root
+          : config.name
+      ),
+      url: ourpath.routify(
+        syspath.resolve(
+          '/', // don't resolve from the cwd
+          itemParent.url || itemParent.path || config.baseURL,
+          metaData.url || path_relative,
+        )
+      ),
     }
 
     // add these items from metadata, but only if not undefined
     if (metaData.draft) hydratedItem.draft = true
     if (metaData.description) hydratedItem.description = metaData.description
 
-    // only files should have a url, input and output value
-    if (hoistedItem.type === 'file') {
-      hydratedItem.url = ourpath.routify(
-        syspath.resolve(
-          '/', // don't resolve from the cwd
-          itemParent.url || itemParent.path || config.baseURL,
-          metaData.url || hydratedItem.path,
-        )
-      )
+    // continue the breadcrumb from parent
+    if (config.breadcrumbs && metaData.breadcrumbs !== false) {
+      const breadcrumb = { title: hydratedItem.title }
 
+      const breadcrumbs = []
+      const breadcrumbsParent = itemParent.breadcrumbs || []
+
+      if (hoistedItem.type === 'file') {
+        breadcrumb.url = hydratedItem.url
+      }
+
+      breadcrumbsParent
+        .concat(breadcrumb)
+        // only add unique urls to the breadcrumb
+        .forEach(crumb =>
+          breadcrumbs.findIndex(i => i.url === crumb.url) === -1 &&
+          breadcrumbs.push(crumb)
+        )
+
+      hydratedItem.breadcrumbs = breadcrumbs
+    }
+
+    // only files should have an input and output value
+    if (hoistedItem.type === 'file') {
       hydratedItem.input = metaData.input || hoistedItem.path
       hydratedItem.outputDir = syspath.join(config.output, hydratedItem.url)
-
-      // ensure there are no duplicated urls
-      if (urls[hydratedItem.url]) {
-        const duplicated = [hydratedItem.url, hoistedItem.path, urls[hydratedItem.url]]
-        throw new Error(`Duplicated URL was found: ${duplicated.join('\n\t- ')}`)
-      }
-
-      // continue the breadcrumb from parent
-      if (config.breadcrumbs && metaData.breadcrumbs !== false) {
-        const breadcrumbs = []
-        const breadcrumbsParent = itemParent.breadcrumbs || []
-
-        breadcrumbsParent
-          .concat({ title: hydratedItem.title, url: hydratedItem.url })
-          // only add unique urls to the breadcrumb
-          .forEach(crumb =>
-            breadcrumbs.findIndex(i => i.url === crumb.url) === -1 &&
-            breadcrumbs.push(crumb)
-          )
-
-        hydratedItem.breadcrumbs = breadcrumbs
-      }
 
       // pull in source items if one exists
       if (metaData.source) {
@@ -169,12 +168,11 @@ async function hydrateTree (tree, config, onRegenerate) {
         Object.assign(hydratedItem, sourceHydrated)
       // don't register the url when there is a source (since item gets replaced)
       } else {
-        // url is now taken, like most women
-        urls[hydratedItem.url] = hoistedItem.path
-
         // add url to the sitemap
-        const fullUrl = `${config.domain}${hydratedItem.url}`
-        sitemap.addUrl(fullUrl, metaData.sitemap)
+        sitemap.addUrl(`${config.domain}${hydratedItem.url}`, {
+          ...metaData.sitemap,
+          filename: hoistedItem.path,
+        })
       }
     }
 
@@ -213,7 +211,10 @@ async function hydrateTree (tree, config, onRegenerate) {
     }
 
     // add table of contents, if applicable
-    hydratedItem.toc = await tableOfContents(hydratedItem)
+    hydratedItem.toc = await tableOfContents(
+      Object.assign({}, config.table_of_contents, metaData.table_of_contents),
+      hydratedItem,
+    )
 
     return hydratedItem
   }
