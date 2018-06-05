@@ -2,7 +2,7 @@ import styled, { css } from 'react-emotion'
 import { Link } from 'react-router-dom'
 
 export const Wrapper = styled('nav')`
-  margin: 60px 0 0 30px;
+  margin: 60px 0 0 5px;
   position: relative;
 `
 
