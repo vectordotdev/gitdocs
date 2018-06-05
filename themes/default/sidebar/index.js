@@ -63,11 +63,6 @@ class Sidebar extends Component {
       return React.createElement(componentMap[component])
     }
 
-    // no index page, just children
-    if (!input) {
-      return <a>{title}</a>
-    }
-
     if (/^https?:\/\//i.test(url)) {
       return (
         <a
@@ -78,6 +73,11 @@ class Sidebar extends Component {
           {title} <IconExternal />
         </a>
       )
+    }
+
+    // no index page, just children
+    if (!input) {
+      return <a>{title}</a>
     }
 
     return (
