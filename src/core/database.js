@@ -8,7 +8,7 @@ async function generateDatabase (manifest) {
       db.push({
         url: item.url,
         title: item.title,
-        breadcrumb: item.breadcrumb,
+        breadcrumbs: item.breadcrumbs,
         content: await getContent(item.input),
       })
     }

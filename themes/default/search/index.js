@@ -151,8 +151,8 @@ class Search extends Component {
   }
 
   renderBreadCrumb (result) {
-    return result.breadcrumb
-      .slice(1, result.breadcrumb.length)
+    return result.breadcrumbs
+      .slice(1, result.breadcrumbs.length)
       .map(({ title }, i) => (
         <span key={`${title}-${i}`}>
           {i !== 0 && <ChevronRight
