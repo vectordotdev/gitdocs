@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 import axios from 'axios'
 import Markdown from '../markdown'
-import Breadcrumb from '../breadcrumb'
+import Breadcrumbs from '../breadcrumbs'
 import Loading from '../loading'
 import TocPage from '../toc/page'
 import TocFolder from '../toc/folder'
@@ -91,8 +91,8 @@ export default class Page extends Component {
               <title>{route.title}</title>
             </Helmet>
 
-            {route.breadcrumb &&
-              <Breadcrumb items={route.breadcrumb} />}
+            {route.breadcrumbs &&
+              <Breadcrumbs items={route.breadcrumbs} />}
 
             {loading
               ? <Loading />

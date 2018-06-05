@@ -7,7 +7,7 @@ import {
   Seperator,
 } from './styles'
 
-const Breadcrumb = (props) => {
+const Breadcrumbs = (props) => {
   // don't show breadcrumbs if there is only one item
   if (props.items.length < 2) {
     return <div />
@@ -16,7 +16,7 @@ const Breadcrumb = (props) => {
   return (
     <Wrapper>
       {props.items.map((item, i) => item.url && (
-        <CrumbWrapper key={`breadcrumb-${item.title}`}>
+        <CrumbWrapper key={`breadcrumbs-${item.title}`}>
           {i > 0 && <Seperator size={14} />}
           <Crumb to={item.url}>{item.title}</Crumb>
         </CrumbWrapper>
@@ -25,12 +25,12 @@ const Breadcrumb = (props) => {
   )
 }
 
-Breadcrumb.propTypes = {
+Breadcrumbs.propTypes = {
   items: PropTypes.array,
 }
 
-Breadcrumb.defaultProps = {
+Breadcrumbs.defaultProps = {
   items: [],
 }
 
-export default Breadcrumb
+export default Breadcrumbs

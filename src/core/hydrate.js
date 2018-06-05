@@ -141,9 +141,19 @@ async function hydrateTree (tree, config, onRegenerate) {
       }
 
       // continue the breadcrumb from parent
-      if (config.breadcrumb && metaData.breadcrumb !== false) {
-        hydratedItem.breadcrumb = (itemParent.breadcrumb || [])
+      if (config.breadcrumbs && metaData.breadcrumbs !== false) {
+        const breadcrumbs = []
+        const breadcrumbsParent = itemParent.breadcrumbs || []
+
+        breadcrumbsParent
           .concat({ title: hydratedItem.title, url: hydratedItem.url })
+          // only add unique urls to the breadcrumb
+          .forEach(crumb =>
+            breadcrumbs.findIndex(i => i.url === crumb.url) === -1 &&
+            breadcrumbs.push(crumb)
+          )
+
+        hydratedItem.breadcrumbs = breadcrumbs
       }
 
       // pull in source items if one exists
