@@ -91,7 +91,7 @@ export default class Page extends Component {
               <title>{route.title}</title>
             </Helmet>
 
-            {config.breadcrumbs &&
+            {route.breadcrumb &&
               <Breadcrumb items={route.breadcrumb} />}
 
             {loading

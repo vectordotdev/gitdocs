@@ -141,8 +141,10 @@ async function hydrateTree (tree, config, onRegenerate) {
       }
 
       // continue the breadcrumb from parent
-      hydratedItem.breadcrumb = (itemParent.breadcrumb || [])
-        .concat({ title: hydratedItem.title, url: hydratedItem.url })
+      if (config.breadcrumb && metaData.breadcrumb !== false) {
+        hydratedItem.breadcrumb = (itemParent.breadcrumb || [])
+          .concat({ title: hydratedItem.title, url: hydratedItem.url })
+      }
 
       // pull in source items if one exists
       if (metaData.source) {
