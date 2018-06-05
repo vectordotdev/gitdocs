@@ -88,7 +88,8 @@ export default class Page extends Component {
         {config =>
           <Wrapper>
             <Helmet>
-              <title>{route.title}</title>
+              {config.name !== route.title &&
+                <title>{route.title}</title>}
             </Helmet>
 
             {Array.isArray(route.breadcrumbs) &&

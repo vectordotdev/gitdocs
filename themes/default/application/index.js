@@ -50,6 +50,10 @@ class App extends Component {
               name="viewport"
               content="width=device-width, initial-scale=1"
             />
+            {manifest.description && <meta
+              name="description"
+              content={manifest.description}
+            />}
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600"
