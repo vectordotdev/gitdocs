@@ -3,20 +3,19 @@ const { getContent } = require('./filesystem')
 async function generateDatabase (manifest) {
   const db = []
 
-  const _recursive = async ({ items, ...item }, bc = []) => {
+  const _recursive = async ({ items, ...item }) => {
     if (item.input) {
       db.push({
         url: item.url,
-        breadcrumb: bc,
         title: item.title,
+        breadcrumb: item.breadcrumb,
         content: await getContent(item.input),
       })
     }
 
     if (items) {
-      const breadcrumb = bc.concat(item.title)
       await Promise.all(
-        items.map(i => _recursive(i, breadcrumb))
+        items.map(i => _recursive(i))
       )
     }
   }

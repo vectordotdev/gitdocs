@@ -151,25 +151,21 @@ class Search extends Component {
   }
 
   renderBreadCrumb (result) {
-    return result
-      .breadcrumb
+    return result.breadcrumb
       .slice(1, result.breadcrumb.length)
-      .concat(result.title)
-      .map((b, i) => (
-        <span key={`${b}-${i}`}>
-          {
-            i !== 0 &&
-            <ChevronRight
-              size={14}
-              style={{
-                display: 'inline-block',
-                padding: '0 .25rem',
-                position: 'relative',
-                top: 2,
-              }}
-            />
-          }
-          {b}
+      .map(({ title }, i) => (
+        <span key={`${title}-${i}`}>
+          {i !== 0 && <ChevronRight
+            size={14}
+            style={{
+              display: 'inline-block',
+              padding: '0 .25rem',
+              position: 'relative',
+              top: 2,
+            }}
+          />}
+
+          {title}
         </span>
       ))
   }
@@ -181,7 +177,7 @@ class Search extends Component {
     // Map over search results and create links
     const items = results.map((r, i) =>
       <Result
-        key={r.input}
+        key={r.url}
         selected={i === selectedIndex}
         innerRef={ref => i === selectedIndex ? this.activeItem = ref : null}
         onClick={this.clearSearch}

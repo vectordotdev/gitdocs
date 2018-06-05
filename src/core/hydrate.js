@@ -140,6 +140,10 @@ async function hydrateTree (tree, config, onRegenerate) {
         throw new Error(`Duplicated URL was found: ${duplicated.join('\n\t- ')}`)
       }
 
+      // continue the breadcrumb from parent
+      hydratedItem.breadcrumb = (itemParent.breadcrumb || [])
+        .concat({ title: hydratedItem.title, url: hydratedItem.url })
+
       // pull in source items if one exists
       if (metaData.source) {
         const source = await walkSource(config.temp, hoistedItem.path, metaData)
