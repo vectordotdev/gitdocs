@@ -1,4 +1,7 @@
+import { normalize } from '@timberio/ui'
 import styled, { css } from 'react-emotion'
+
+normalize()
 
 const fontMain = css`
   font-family: 'Source Sans Pro', sans-serif;

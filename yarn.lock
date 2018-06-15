@@ -144,9 +144,9 @@
   dependencies:
     samsam "1.3.0"
 
-"@timberio/ui@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@timberio/ui/-/ui-1.0.7.tgz#a007dc122ff02ed86d53e9e4268488dbd37a4a18"
+"@timberio/ui@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@timberio/ui/-/ui-1.0.8.tgz#8254e455f3fe250367a4c197b9028aba85d3b8a4"
   dependencies:
     clean-element "^1.0.0"
     deepmerge "^2.1.1"
