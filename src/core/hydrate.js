@@ -127,6 +127,7 @@ async function hydrateTree (tree, config, onRegenerate) {
     // add these items from metadata, but only if not undefined
     if (metaData.draft) hydratedItem.draft = true
     if (metaData.description) hydratedItem.description = metaData.description
+    if (metaData.tags) hydratedItem.tags = metaData.tags.split(',').map(i => i.trim())
 
     // continue the breadcrumb from parent
     if (config.breadcrumbs && metaData.breadcrumbs !== false) {
