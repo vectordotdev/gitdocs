@@ -1,5 +1,6 @@
 import styled, { css } from 'react-emotion'
 import { Accordion } from '@timberio/ui'
+import { filterProps } from '../utils'
 
 const _iconBase = css`
   width: 30px;
@@ -88,7 +89,7 @@ export const Nav = styled('nav')`
   padding: 20px 0 20px 15px;
 `
 
-export const NavList = styled(Accordion)`
+export const NavList = styled(filterProps(Accordion, ['isFirst']))`
   padding-left: ${props => props.isFirst ? 0 : '20px'};
   a {
     display: flex;
@@ -106,9 +107,6 @@ export const NavList = styled(Accordion)`
     // transition: ${props => props.isFirst ? 'none' : 'all 0.2s ease-in-out'};
     &:hover {
       opacity: 0.7;
-      ${props => !props.isFirst && css`
-        // padding-left: 8px;
-      `}
     }
     &.active {
       font-weight: 600;
