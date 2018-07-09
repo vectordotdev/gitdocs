@@ -1,6 +1,15 @@
-# GitDocs
+![GitDocs Logo](docs/.static/logo-markdown.png)
 
-> GitDocs v2.0 is coming soon. Stay tuned.
+GitDocs helps you create beautiful, SEO-friendly documentation sites from markdown files that live alongside your source code. Cross-compile from multiple git repos and run locally for an amazing writing experience.
+
+## Features
+
+- Syntax highlighting out of the box.
+- Fast static searching of all your docs.
+- Cross-compile from multiple git repos.
+- Static JSON data for every page.
+- Automatically generated table of contents.
+- SEO-friendly--everything is static!
 
 <div align="center">
   <br /> <br /> <br />

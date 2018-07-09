@@ -1,6 +1,7 @@
 {
   "name": "GitDocs",
   "root": "docs",
+  "logo": "logo.svg",
   "header_links": [
     {
       "title": "About Us",
