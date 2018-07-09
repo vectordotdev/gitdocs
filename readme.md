@@ -11,6 +11,10 @@ GitDocs helps you create beautiful, SEO-friendly documentation sites from markdo
 - Automatically generated table of contents.
 - SEO-friendly--everything is static!
 
+## Example Sites
+
+- https://docs.timber.io
+
 <br/>
 <br/>
 <br/>

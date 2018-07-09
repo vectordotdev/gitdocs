@@ -1,2 +1,0 @@
-{ "name": "Node", "url": "https://github.com/timberio/timber-node.git", "branch": "docs/gitdocs", "root": "docs/" },
-{ "name": "Elixir", "url": "https://github.com/timberio/timber-elixir.git", "branch": "master", "root": "docs/" }

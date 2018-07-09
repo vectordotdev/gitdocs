@@ -4,8 +4,8 @@
   "logo": "logo.svg",
   "header_links": [
     {
-      "title": "About Us",
-      "href": "https://timber.io/about",
+      "title": "GitHub",
+      "href": "https://github.com/timberio/gitdocs",
       "target": "_blank"
     }
   ]
