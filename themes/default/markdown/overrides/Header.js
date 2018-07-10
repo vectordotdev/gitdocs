@@ -46,9 +46,9 @@ export default function (props) {
       .join('-')
     : ''
 
-  return (
-    <Link href={`#${itemId}`} id={itemId}>
-      {React.createElement(levels[level], { style }, children)}
-    </Link>
-  )
+  const element = React.createElement(levels[level], { style }, children)
+
+  return level <= 2
+    ? <Link href={`#${itemId}`} id={itemId}>{element}</Link>
+    : element
 }

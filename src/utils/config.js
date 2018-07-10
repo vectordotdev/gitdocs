@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const syspath = require('path')
 const { tempDir } = require('./temp')
 const { addToNodePath } = require('./system')
-// const deepmerge = require('deepmerge')
+const deepmerge = require('deepmerge')
 const { warn } = require('./emit')
 
 const FILENAMES = [
@@ -77,12 +77,7 @@ async function getConfig (customFile) {
 
   const configFile = getConfigFilename()
   const userConfig = configFile ? await readConfigFile(configFile) : {}
-
-  // return deepmerge(DEFAULT_CONFIG, userConfig)
-  const masterConfig = {
-    ...DEFAULT_CONFIG,
-    ...userConfig,
-  }
+  const masterConfig = deepmerge(DEFAULT_CONFIG, userConfig)
 
   masterConfig.temp = syspath.resolve(masterConfig.temp)
   await fs.emptyDir(masterConfig.temp)
