@@ -1,6 +1,6 @@
 ![GitDocs Logo](docs/.static/logo-markdown.png)
 
-GitDocs helps you create beautiful, SEO-friendly documentation sites from markdown files that live alongside your source code. Cross-compile from multiple git repos and run locally for an amazing writing experience.
+GitDocs helps you create beautiful, SEO-friendly documentation sites from markdown files that live alongside your source code. Cross-compile from multiple git repos and run locally for a great publishing experience.
 
 ## Features
 
@@ -13,6 +13,7 @@ GitDocs helps you create beautiful, SEO-friendly documentation sites from markdo
 
 ## Example Sites
 
+- https://gitdocs.netlify.com
 - https://docs.timber.io
 
 <br/>

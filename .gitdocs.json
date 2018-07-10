@@ -2,6 +2,10 @@
   "name": "GitDocs",
   "root": "docs",
   "logo": "logo.svg",
+  "languages": ["yaml"],
+  "syntax": {
+    "lineNumbers": false
+  },
   "header_links": [
     {
       "title": "GitHub",
