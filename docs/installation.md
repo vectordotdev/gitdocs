@@ -33,6 +33,8 @@ You can now use the `gitdocs` command in your terminal. Running without any comm
     --version, -v ........... show the version number
 ```
 
+---
+
 <div align="right">
   <h3><a href="/getting-started">Getting Started →</a></h3>
 </div>

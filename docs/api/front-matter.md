@@ -15,7 +15,3 @@
 - items
 - items_prepend
 - items_append
-
-## Changing Link Order
-
-## Sources

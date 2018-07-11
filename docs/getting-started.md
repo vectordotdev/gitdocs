@@ -27,6 +27,8 @@ These commands will also work in an existing project, just point it to the locat
 
 The filesystem will always be the source of truth for routes defined in your site. For example, if you want a page located at `mydocs.com/foo/bar`, your docs will need to have a `docs/foo/bar.md` file. This becomes more apparent when you start using [sources](/using-sources).
 
+---
+
 <div align="right">
   <h3><a href="/running-locally">Running Locally →</a></h3>
 </div>

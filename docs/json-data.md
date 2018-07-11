@@ -14,10 +14,6 @@ _Note: These files will only exist when you [build for production](/production-b
 
 ### db.json
 
-Your build will also include an overall database file, containing content for your entire site as well as breadcrumbs, tags, etc. This is how the GitDocs search works--by making a network request for this file and statically searching titles and content.
+Your build will also include a main database file, containing content for your entire site as well as breadcrumbs, tags, etc. This is how the GitDocs search works--by making a network request for this file and statically searching titles and content.
 
-This file can be accessed at the root of your site: <a href="/db.json" target="_blank">`/db.json`</a>
-
-<div align="right">
-  <h3><a href="/troubleshooting">Troubleshooting →</a></h3>
-</div>
+This file is basically a concatenation of all the `index.json` files, and can be found at <a href="/db.json" target="_blank">`/db.json`</a>.

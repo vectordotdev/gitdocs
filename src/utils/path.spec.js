@@ -17,6 +17,8 @@ describe('unit: utils/path', () => {
     expect(path.removeIndex('foo/readme')).to.equal('foo/')
     expect(path.removeIndex('foo/index.md')).to.equal('foo/')
     expect(path.removeIndex('foo/readme.md')).to.equal('foo/')
+    expect(path.removeIndex('foo/index-test')).to.equal('foo/index-test')
+    expect(path.removeIndex('foo/readme-test')).to.equal('foo/readme-test')
     expect(path.removeIndex('foo')).to.equal('foo')
     expect(path.removeIndex('foo/bar')).to.equal('foo/bar')
     expect(path.removeIndex('foo/bar.md')).to.equal('foo/bar.md')

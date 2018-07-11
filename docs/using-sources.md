@@ -49,8 +49,14 @@ docs/
 
 See how the `node.md` file was replaced by the contents of `node.git/docs/`? You can think of the file as a placeholder for the contents of the source.
 
-[Learn more about defining sources.](/api/front-matter/#sources)
+[Learn more about defining sources.](/api/front-matter)
+
+## Best Practices
+
+Since external sources cannot be live reloaded, it's best to work on each repo's documentation as a self-contained documentation site and merge into the "main" repo when it is ready to go. This lets you take advantage of the [dev environment](/running-locally).
+
+---
 
 <div align="right">
-  <h3><a href="/customizing-sidebar">Customizing Sidebar →</a></h3>
+  <h3><a href="/index-files">Index Files →</a></h3>
 </div>

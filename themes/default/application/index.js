@@ -14,6 +14,12 @@ import { Wrapper, WrapperNav, WrapperPage } from './styles'
 class App extends Component {
   state = { sticky: false }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this._wrapper.scrollTo(0, 0)
+    }
+  }
+
   handleScroll = e => {
     if (!this.framePending) {
       const { currentTarget } = e
@@ -69,7 +75,10 @@ class App extends Component {
               />
             </WrapperNav>
 
-            <WrapperPage onScroll={this.handleScroll}>
+            <WrapperPage
+              innerRef={ref => this._wrapper = ref}
+              onScroll={this.handleScroll}
+            >
               <Header
                 isSSR={this.props.ssr}
                 manifest={manifest}

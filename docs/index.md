@@ -8,13 +8,19 @@ items:
   - production-builds.md
   - static-files.md
   - using-sources.md
+  - index-files.md
   - customizing-sidebar.md
   - syntax-highlighting.md
   - theming.md
   - json-data.md
+  - component: Divider
   - troubleshooting
   - path: api
     title: API
+    items:
+      - front-matter.md
+      - config-file.md
+      - commands.md
 ---
 # Welcome to GitDocs
 

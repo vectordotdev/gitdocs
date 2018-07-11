@@ -11,7 +11,7 @@ function removeExt (str) {
 
 function removeIndex (str) {
   const files = indexFilenames.map(removeExt).join('|')
-  const pattern = new RegExp(`(.*)(${files})(\\.)?.*$`)
+  const pattern = new RegExp(`(.*)(${files})(\\.|$).*$`)
 
   return str.replace(pattern, '$1')
 }

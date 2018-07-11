@@ -9,11 +9,13 @@ When you are ready to deploy your site to the internets, you'll want to bundle a
 $ gitdocs build
 ```
 
-This will output your site to `.gitdocs_build/`, which can now be deployed to S3, GitHub Pages, Netlify, etc.
+Once the process completes, you will have a bundled, static site located at `.gitdocs_build/`. This can be deployed to S3, GitHub Pages, Netlify, etc.
 
 #### robots.txt and sitemap.xml
 
-Both of these files are created for you automagically and are available at <a href="/robots.txt" target="_blank">/robots.txt</a> and <a href="/sitemap.xml" target="_blank">/sitemap.xml</a>. You can customize certain in the [config file](/api/config-file).
+Both of these files are created for you automagically and are available at <a href="/robots.txt" target="_blank">/robots.txt</a> and <a href="/sitemap.xml" target="_blank">/sitemap.xml</a>. You can change whether or not your robots.txt file allows your site to be crawled by editing a value in the [config file](/api/config-file).
+
+---
 
 <div align="right">
   <h3><a href="/static-files">Static Files →</a></h3>
