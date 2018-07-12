@@ -18,15 +18,9 @@ function mergeLeftByKey (items1, items2, opts = {}) {
   const merged = items1.map(item => {
     const itemSrc = items2.find(i => i[opts.key] === item[opts.key])
 
-    // ensure all items defined in front matter actually exist
-    if (item[opts.key] && !itemSrc) {
-      throw new Error(`"${item[opts.key]}" was not found in ${opts.name}`)
-    }
-
-    return {
-      ...item,
-      ...itemSrc,
-    }
+    return itemSrc
+      ? { ...item, ...itemSrc }
+      : item
   })
 
   const filtered = items2.filter(i =>

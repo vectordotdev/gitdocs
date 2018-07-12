@@ -36,7 +36,7 @@ describe('integration: manifest', () => {
     expect(res.items[0].breadcrumbs[1].url).to.equal('/foo/')
     expect(res.items[0].items).to.have.length(3)
     expect(res.items[1].title).to.equal('Garply')
-    expect(res.items[1].items[1].draft).to.be.true()
+    expect(res.items[1].items[1].hidden).to.be.true()
     expect(res.items[2].title).to.equal('XYZZY')
     expect(res.items[2].items[0].draft).to.be.true()
     expect(res.items[3].title).to.equal('Thud')

@@ -15,7 +15,9 @@ module.exports = async (env, localConfig) => {
 
   // generate and hydrate the manifest
   const tree = await dirTree(localConfig.root)
-  const hydrated = await hydrateTree(tree, localConfig)
+  const hydrated = await hydrateTree(tree, localConfig, {
+    includeDrafts: env === 'development',
+  })
 
   log('Generated and hydrated manifest')
 

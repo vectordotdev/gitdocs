@@ -4,6 +4,7 @@
 - description
 - url
 - draft
+- hidden
 - tags
 - breadcrumbs
 - table_of_contents
