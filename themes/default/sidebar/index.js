@@ -98,7 +98,7 @@ class Sidebar extends Component {
         selectedIdx={this.findActiveIndex(items)}
       >
         {items
-          .filter(i => !i.draft)
+          .filter(i => !i.hidden)
           .map((item, i) => {
             return (
               <Reveal

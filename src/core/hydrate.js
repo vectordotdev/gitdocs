@@ -1,5 +1,4 @@
 const syspath = require('path')
-// const chokidar = require('chokidar')
 const markdownToc = require('markdown-toc')
 const ourpath = require('../utils/path')
 const { getFrontmatterOnly } = require('../utils/frontmatter')
@@ -78,7 +77,7 @@ async function tableOfContents (toc, { input, items }) {
   return toc
 }
 
-async function hydrateTree (tree, config, onRegenerate) {
+async function hydrateTree (tree, config, opts = {}) {
   const sitemap = new Sitemap()
 
   if (tree.childrenIndex === undefined) {
@@ -124,8 +123,12 @@ async function hydrateTree (tree, config, onRegenerate) {
       ),
     }
 
+    if (metaData.draft && !opts.includeDrafts) {
+      return
+    }
+
     // add these items from metadata, but only if not undefined
-    if (metaData.draft) hydratedItem.draft = true
+    if (metaData.hidden) hydratedItem.hidden = true
     if (metaData.description) hydratedItem.description = metaData.description
     if (metaData.tags) hydratedItem.tags = metaData.tags.split(',').map(i => i.trim())
 
@@ -192,6 +195,7 @@ async function hydrateTree (tree, config, onRegenerate) {
 
     // sort alphabetically by default
     const childrenSorted = childrenItemsUnsorted
+      .filter(Boolean)
       .sort((a, b) => a.title.localeCompare(b.title))
 
     // @TODO: figure out how to remove items_pre/append from the result
@@ -243,14 +247,6 @@ async function hydrateTree (tree, config, onRegenerate) {
 //
 //   return _recursive(manifest)
 // }
-
-//   if (typeof onRegenerate === 'function') {
-//     const watcher = chokidar.watch(config.root, {
-//       ignoreInitial: true,
-//     })
-//
-//     watcher.on('all', onRegenerate)
-//   }
 
 module.exports = {
   getMetaData,

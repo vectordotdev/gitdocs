@@ -84,9 +84,12 @@ items:
 ---
 ```
 
-## Hiding Pages
+## Hidden Pages
 
-TBD
+If a page is not ready to be published or you simply want to omit the link from the sidebar, you have a few options:
+
+* `draft: true` in the front matter will include the page normally when you run the [local server](/running-locally), but _not_ when you [build for production](/production-builds).
+* `hidden: true` in the front matter will include the page in production and the URL will be publicly accessible, but there will be no link in the sidebar.
 
 ---
 
