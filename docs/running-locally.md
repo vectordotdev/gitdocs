@@ -3,13 +3,13 @@ description: Get a live preview of changes you make by running the local server.
 ---
 # Running Locally
 
-To have a live preview of your docs as you're writing them, you can run our local development server. While in the root directory of your project (where the `.gitdocs.json` file is), simply run this:
+To get a live preview of your docs as you write them, you can run our local development server. While in the root directory of your project (where the `.gitdocs.json` lives), simply run this:
 
 ```bash
 $ gitdocs serve
 ```
 
-You can now access your documentation site at <a href="http://localhost:8000" target="_blank">http://localhost:8000</a>. How nice is that? Try changing some text in one of the markdown files and watch it instantly live reload in your browser.
+You can now access your documentation at <a href="http://localhost:8000" target="_blank">http://localhost:8000</a>. How nice is that? Try changing some text in one of the markdown files and watch it instantly live reload in your browser.
 
 ## Live Reloading
 

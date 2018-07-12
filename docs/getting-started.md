@@ -3,11 +3,11 @@ description: How to initialize the example files and build your first documentat
 ---
 # Getting Started
 
-GitDocs is meant to live unobtrusively alongside your source code. If you don't already have documentation, we will create some example files for you. If you do already have documentation, just point to the correct folder and you will be ready to go! Once you have GitDocs [installed](/installation), you can run these commands:
+GitDocs is meant to live unobtrusively alongside your source code. If you don't already have documentation, we will create some example files for you. If you do already have documentation, just point to the correct folder when asked and you will be ready to go! Once you have GitDocs [installed](/installation), run these commands:
 
 ```bash
-# if you don't already have a project folder
-$ mkdir my-project && cd my-project
+$ mkdir my-project # if you're starting fresh with a new project
+$ cd my-project
 ```
 
 ```bash
@@ -21,11 +21,9 @@ $ gitdocs init
   ❯ Ready to go! Run gitdocs serve to get started
 ```
 
-These commands will also work in an existing project, just point it to the location of your markdown files when it asks for them. If you don't already have documentation, we will create some example files for you.
-
 ## Routing and File Structure
 
-The filesystem will always be the source of truth for routes defined in your site. For example, if you want a page located at `mydocs.com/foo/bar`, your docs will need to have a `docs/foo/bar.md` file. This becomes more apparent when you start using [sources](/using-sources).
+The filesystem will always be the source of truth for routes defined in your site. For example, if you want a page located at `mydocs.com/foo/bar`, your docs will need to have a `docs/foo/bar.md` file. This becomes more apparent when you start using [sources](/using-sources). The only exception to this is if you define `url` in the [front matter](/api/front-matter), which will create a permalink.
 
 ---
 

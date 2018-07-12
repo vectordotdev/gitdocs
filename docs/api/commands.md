@@ -14,6 +14,6 @@ See [Running Locally](/running-locally) for more info.
 
 ### `gitdocs build`
 
-This will generate a static, minified, production-ready version of your documentation site. It will output to `.gitdocs_build` (or whatever your [output folder](/api/config-file/#output) is set to), and is ready to be uploaded to S3, GitHub Pages, Netlify, Surge or any other static hosting service.
+This will generate a static, minified, production-ready version of your documentation site. It will output to `.gitdocs_build` (or whatever your output folder is set to), and is ready to be uploaded to S3, GitHub Pages, Netlify, Surge or any other static hosting service.
 
 See [Production Builds](/production-builds) for more info.

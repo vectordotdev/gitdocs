@@ -156,7 +156,7 @@ async function hydrateTree (tree, config, opts = {}) {
 
     // only files should have an input and output value
     if (hoistedItem.type === 'file') {
-      hydratedItem.input = metaData.input || hoistedItem.path
+      hydratedItem.input = hoistedItem.path
       hydratedItem.outputDir = syspath.join(config.output, hydratedItem.url)
 
       // pull in source items if one exists

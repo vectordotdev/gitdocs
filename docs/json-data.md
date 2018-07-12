@@ -8,7 +8,7 @@ It can often be useful to have access to your raw documentation data for the pur
 
 ### index.json
 
-When your site is built, you get an `index.html` and `index.json` for every page. The HTML file is used by default for web browsers when you go to a URL (e.g. `mydocs.com/foo/bar/` will use `/foo/bar/index.html`), but you can also make a request to `mydocs.com/foo/bar/index.json` for the raw data.
+When your site is built, you get an `index.html` and `index.json` for every page. The HTML file is used by web browsers when you go to a URL (e.g. `mydocs.com/foo/bar/` will use `/foo/bar/index.html`), but you can also make a request to `mydocs.com/foo/bar/index.json` for the raw data.
 
 _Note: These files will only exist when you [build for production](/production-builds), not when running the local server._
 
@@ -16,4 +16,4 @@ _Note: These files will only exist when you [build for production](/production-b
 
 Your build will also include a main database file, containing content for your entire site as well as breadcrumbs, tags, etc. This is how the GitDocs search works--by making a network request for this file and statically searching titles and content.
 
-This file is basically a concatenation of all the `index.json` files, and can be found at <a href="/db.json" target="_blank">`/db.json`</a>.
+This file is basically a concatenation of all the `index.json` files, and can be found at the root of your site.

@@ -3,7 +3,7 @@ description: Installing GitDocs onto your machine is a simple process using NPM.
 ---
 # Installation
 
-We currently publish GitDocs as an NPM package. After [installing Node and NPM](https://www.npmjs.com/get-npm) (we require at least Node v8.9), run the following to install GitDocs as a global:
+We currently publish GitDocs as an NPM package. After [installing Node and NPM](https://www.npmjs.com/get-npm) (we require Node v8.9 or greater), run the following to install the GitDocs beta as a global:
 
 ```bash
 $ npm install -g gitdocs@next

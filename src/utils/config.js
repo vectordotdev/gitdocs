@@ -20,6 +20,7 @@ const DEFAULT_CONFIG = {
   output: '.gitdocs_build',
   static: '.static',
   temp: tempDir(),
+  logo: null,
   baseURL: '/',
   domain: '',
   crawlable: true,

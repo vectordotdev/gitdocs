@@ -3,7 +3,7 @@ description: How to customize the link order and titles of items in the sidebar.
 ---
 # Customizing the Sidebar
 
-At times you may want to customize how the sidebar looks and add additional items to it--whether it's external links, dividers or changing the link order. This can all be done in the front matter of an [index file](/index-files), using the `items` key.
+At times you may want to customize how the sidebar looks and add additional items to it--whether it's external links, dividers or changing the link order. This can all be done in the front matter of an [index file](/index-files), using the `items` key which is a list of the current item's children.
 
 ```yaml
 ---
@@ -17,24 +17,6 @@ items:
   - foo.md
   - bar.md
   - baz.md
----
-```
-
-`items` is simply a list of the current item's children. You can define any valid [front matter value](/api/front-matter) in the item, just as you would in the file itself. GitDocs will automatically merge a file's front matter with data from the parent. For example, if you want to change the title of a page, these two options will produce the same result:
-
-```yaml
-# foo/bar.md
----
-title: BAR
----
-```
-
-```yaml
-# foo/index.md
----
-items:
-  - path: bar.md
-    title: BAR
 ---
 ```
 
@@ -55,6 +37,26 @@ items:
       - baz.md
 ```
 
+### Defining front matter for children
+
+You can define any valid [front matter value](/api/front-matter) in the item, just as you would in the file itself. GitDocs will automatically merge a file's front matter with data from the parent (which will take priority.) For example, if you want to change the title of a page, these two options will produce the same result:
+
+```yaml
+# foo/bar.md
+---
+title: BAR
+---
+```
+
+```yaml
+# foo/index.md
+---
+items:
+  - path: bar.md
+    title: BAR
+---
+```
+
 ## Changing the Order
 
 Following the structure explained above, changing the order of sidebar links is as simple defining `items`/`items_prepend`/`items_append` and listing the children in the order you'd like. GitDocs will always respect the order of your list.
@@ -73,7 +75,7 @@ items:
 
 ## Components
 
-You can specify a component in place of a link by using `component` instead of `path`. Supported components are defined in the theme itself, and currently the only valid option is `Divider`. This can be useful to visually seperate items in your sidebar.
+You can specify a component in place of a link by using `component` instead of `path`. This can be useful to visually seperate items in your sidebar.
 
 ```yaml
 ---
@@ -84,15 +86,20 @@ items:
 ---
 ```
 
+Available components:
+
+* `Divider`
+
 ## Hidden Pages
 
 If a page is not ready to be published or you simply want to omit the link from the sidebar, you have a few options:
 
 * `draft: true` in the front matter will include the page normally when you run the [local server](/running-locally), but _not_ when you [build for production](/production-builds).
 * `hidden: true` in the front matter will include the page in production and the URL will be publicly accessible, but there will be no link in the sidebar.
+* Define `items` in the front matter and intentionally leave out your hidden pages.
 
 ---
 
 <div align="right">
-  <h3><a href="/syntax-highlighting">Syntax Highlighting →</a></h3>
+  <h3><a href="/header-links">Header Links →</a></h3>
 </div>
