@@ -1,5 +1,4 @@
 ---
-draft: true
 description: How to customize the link order and titles of items in the sidebar.
 ---
 # Customizing the Sidebar
