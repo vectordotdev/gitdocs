@@ -1,6 +1,6 @@
 {
 	"name": "gitdocs",
-	"version": "2.0.0-beta22",
+	"version": "2.0.0-beta23",
 	"description": "Easy to use, SEO-friendly, beautiful documentation that lives in your git repo.",
 	"license": "MIT",
 	"homepage": "https://github.com/timberio/gitdocs#readme",
