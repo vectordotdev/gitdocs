@@ -14,6 +14,7 @@ You can also define front matter in the `items` array of the parent index page (
 | draft | boolean | `false` | If a page is in draft mode, it will show up when running locally but will not be included in the production build. |
 | hidden | boolean | `false` | If a page is hidden, it will build as normal but not show up in the sidebar. |
 | tags | array | `[]` | A comma-seperated list of tags for the page. |
+| related | list | `[]` | A list of related docs, must use the relate url. |
 | breadcrumbs | boolean | `true` | Whether to display breadcrumb links on the page. |
 | table\_of_contents | object | | Follows the same format as the [config file](/api/config-file), but will only toggle the table of contents for the current page. |
 | source | string | | See [using sources](/using-sources). |
