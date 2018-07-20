@@ -9,6 +9,7 @@ async function generateDatabase (manifest) {
         url: item.url,
         title: item.title,
         tags: item.tags,
+        related: item.related,
         breadcrumbs: item.breadcrumbs,
         content: await getContent(item.input),
       })
