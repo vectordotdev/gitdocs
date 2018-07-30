@@ -164,9 +164,9 @@
   dependencies:
     samsam "1.3.0"
 
-"@timberio/ui@^1.0.8":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@timberio/ui/-/ui-1.1.3.tgz#ffa1948f6a6cf9153e12316cffd8ba6c7c7d02d9"
+"@timberio/ui@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@timberio/ui/-/ui-2.0.1.tgz#4bd34a65fad7330b1e82994558bf3a390bba29a1"
   dependencies:
     blacklist "^1.1.4"
     classnames "^2.2.6"
@@ -182,11 +182,11 @@
     react-emotion "^9.2.1"
     react-feather "^1.1.0"
     react-popover "^0.5.7"
-    react-select "2.0.0-beta.6"
+    react-select "^2.0.0-beta.7"
     react-show "2.0.4"
     react-text-mask "^5.4.2"
     resize-observer-polyfill "^1.5.0"
-    styled-system "^2.3.2"
+    styled-system "3.0.1"
     unfetch "^3.0.0"
 
 "@webassemblyjs/ast@1.5.13":
@@ -4721,6 +4721,10 @@ mem@^1.1.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+memoize-one@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-4.0.0.tgz#fc5e2f1427a216676a62ec652cf7398cfad123db"
+
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
@@ -6000,12 +6004,13 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-select@2.0.0-beta.6:
-  version "2.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.0.0-beta.6.tgz#87ac27831f348cb9535dfd825534934adcfb7e97"
+react-select@^2.0.0-beta.7:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.0.0.tgz#7e7ba31eff360b37ffc52b343a720f4248bd9b3b"
   dependencies:
     classnames "^2.2.5"
     emotion "^9.1.2"
+    memoize-one "^4.0.0"
     prop-types "^15.6.0"
     raf "^3.4.0"
     react-input-autosize "^2.2.1"
@@ -7004,11 +7009,11 @@ strip-outer@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-styled-system@^2.3.2:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-2.3.3.tgz#c503c7d3f2ca58548bdd7f92457d7d12f591087c"
+styled-system@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-3.0.1.tgz#fde623de598882a8b2272811b88b73f4b9179d8a"
   dependencies:
-    prop-types "^15.6.0"
+    prop-types "^15.6.2"
 
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"
