@@ -131,7 +131,10 @@ async function hydrateTree (tree, config, opts = {}) {
     if (metaData.hidden) hydratedItem.hidden = true
     if (metaData.description) hydratedItem.description = metaData.description
     if (metaData.tags) hydratedItem.tags = metaData.tags.split(',').map(i => i.trim())
-    if (metaData.related) hydratedItem.related = metaData.related.map(url => ({ title: ourpath.titlify(url), url }))
+    if (metaData.related) {
+      hydratedItem.related = metaData.related
+        .map(url => ({ title: ourpath.titlify(url), url }))
+    }
 
     // continue the breadcrumb from parent
     if (config.breadcrumbs && metaData.breadcrumbs !== false) {
@@ -171,7 +174,7 @@ async function hydrateTree (tree, config, opts = {}) {
 
         // replace current item data with the source data
         Object.assign(hydratedItem, sourceHydrated)
-      // don't register the url when there is a source (since item gets replaced)
+        // don't register the url when there is a source (since item gets replaced)
       } else {
         // add url to the sitemap
         sitemap.addUrl(`${config.domain}${hydratedItem.url}`, {
