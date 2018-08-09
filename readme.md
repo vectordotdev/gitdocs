@@ -15,6 +15,7 @@ GitDocs helps you create beautiful, SEO-friendly documentation sites from markdo
 
 - https://gitdocs.netlify.com
 - https://docs.timber.io
+- https://docs.dev.to
 
 <br/>
 <br/>
