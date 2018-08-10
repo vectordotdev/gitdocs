@@ -14,6 +14,7 @@ export const Wrapper = styled('div')`
     text-decoration: none;
     margin: 0;
     color: #0D0A2B;
+    line-height: initial;
   }
 
   a:first-of-type {

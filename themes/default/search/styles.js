@@ -25,6 +25,7 @@ export const Results = styled('div')`
   width: 100%;
   top: 65px;
   height: 50vh;
+  min-width: 400px;
   max-width: 700px;
   max-height: 700px;
   overflow: scroll;
