@@ -28,7 +28,7 @@ const DEFAULT_CONFIG = {
   port: 8000,
   languages: ['bash', 'json'],
   header_links: [],
-  theme: 'default',
+  theme: '~default',
   breadcrumbs: true,
   prefix_titles: false,
   table_of_contents: {
@@ -65,6 +65,28 @@ function getExternalConfig (dir, name) {
   return file ? readConfigFile(file) : {}
 }
 
+function resolveThemeDirectory (config) {
+  const theme = config.theme
+  if (theme.indexOf('/') === 0) {
+    return theme
+  } else if (theme.indexOf('.') === 0) {
+    // local path
+    return syspath.resolve(
+      config.root,
+      theme
+    )
+  } else if (theme.indexOf('~') === 0) {
+    // gitdocs built-in theme
+    return syspath.resolve(
+      __dirname,
+      '../../themes',
+      theme.substr(1)
+    )
+  }
+  // package theme
+  return require.resolve(theme)
+}
+
 async function getConfig (customFile) {
   // prioritize custom config file if passed,
   // but still fallback to default files
@@ -93,6 +115,8 @@ async function getConfig (customFile) {
     masterConfig.root,
     masterConfig.static,
   )
+
+  masterConfig.theme = resolveThemeDirectory(masterConfig)
 
   return masterConfig
 }
