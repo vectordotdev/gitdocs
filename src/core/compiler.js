@@ -3,7 +3,6 @@ const webpack = require('webpack')
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
 const { babelOptions } = require('../utils/babel')
 
-const THEMES_DIR = syspath.resolve(__dirname, '../../themes')
 const NODE_MODS_DIR = syspath.resolve(__dirname, '../../node_modules')
 
 async function getCompiler (env, props) {
@@ -18,7 +17,7 @@ async function getCompiler (env, props) {
     entry: {
       main: [
         isDev && 'webpack-hot-middleware/client',
-        `${THEMES_DIR}/${props.config.theme}/index.js`,
+        `${props.config.theme}/index.js`,
       ].filter(Boolean),
     },
     output: {
@@ -38,7 +37,7 @@ async function getCompiler (env, props) {
       rules: [
         {
           test: /\.js$/,
-          include: THEMES_DIR,
+          include: syspath.dirname(props.config.theme),
           exclude: NODE_MODS_DIR,
           use: {
             loader: 'babel-loader',
