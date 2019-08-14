@@ -23,6 +23,7 @@ const DEFAULT_CONFIG = {
   logo: null,
   baseURL: '/',
   domain: '',
+  buildForRoot: true,
   crawlable: true,
   host: 'localhost',
   port: 8000,
