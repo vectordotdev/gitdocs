@@ -61,8 +61,8 @@ class Search extends Component {
   async loadResults () {
     // Initialize search instance and set indices
 
-    let constructedRequestEndpoint = `/db.json`
-    if(process.env.NODE_ENV === 'production' && (!this.props.config.buildForRoot && this.props.config.baseURL)) {
+    let constructedRequestEndpoint = '/db.json'
+    if (process.env.NODE_ENV === 'production' && (!this.props.config.buildForRoot && this.props.config.baseURL)) {
       constructedRequestEndpoint = `/${this.props.config.baseURL}/db.json`
     }
 

@@ -163,7 +163,9 @@ async function hydrateTree (tree, config, opts = {}) {
       hydratedItem.input = hoistedItem.path
 
       if (!config.buildForRoot && config.baseURL) {
-        hydratedItem.outputDir = syspath.join(config.output, hydratedItem.url.substring(config.baseURL.length + 1))
+        hydratedItem.outputDir = syspath.join(
+          config.output,
+          hydratedItem.url.substring(config.baseURL.length + 1))
       } else {
         hydratedItem.outputDir = syspath.join(config.output, hydratedItem.url)
       }
