@@ -44,6 +44,16 @@ class App extends Component {
       manifest,
     } = this.props
 
+    /**
+     * Determine if we are building for production, and have buildForRoot set to false, and
+     * the config contains a baseURL. If these conditions are met, we will build the logo URL
+     * with the baseURL prepended in order to have a build that is relative to the baseURL.
+     */
+    let constructedLogoURL = config.logo
+    if (process.env.NODE_ENV === 'production' && (!config.buildForRoot && config.baseURL)) {
+      constructedLogoURL = `${config.baseURL}/${config.logo}`
+    }
+
     return (
       <ConfigContext.Provider value={config}>
         <Theme>
@@ -71,7 +81,7 @@ class App extends Component {
             <WrapperNav>
               <Sidebar
                 manifest={manifest}
-                customLogo={config.logo}
+                customLogo={constructedLogoURL}
               />
             </WrapperNav>
 

@@ -6,12 +6,19 @@ const { Helmet } = require('react-helmet')
 const { hijackConsole } = require('../utils/emit')
 const babelRequire = require('../utils/babel')
 
-function getScriptTags (entrypoints) {
+function getScriptTags (entrypoints, props) {
   const files = entrypoints.main.assets
 
   return files
     .filter(bundle => syspath.extname(bundle) === '.js')
-    .map(bundle => `<script type="text/javascript" src="/${bundle}"></script>`)
+    .map(bundle => {
+      let constructedBundleURL = bundle
+      if (process.env.NODE_ENV === 'production' && (!props.config.buildForRoot && props.config.baseURL)) {
+        constructedBundleURL = `${props.config.baseURL}/${bundle}`
+      }
+
+      return `<script type="text/javascript" src="/${constructedBundleURL}"></script>`
+    })
     .join('\n')
 }
 
@@ -57,7 +64,7 @@ function templateForProduction (entrypoints, props, route) {
         <div id="gitdocs-app">${rendered.html}</div>
 
         <script>window._EMOTION_IDS_ = ${JSON.stringify(rendered.ids)}</script>
-        ${getScriptTags(entrypoints)}
+        ${getScriptTags(entrypoints, props)}
       </body>
     </html>
   `
