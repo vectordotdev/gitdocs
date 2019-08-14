@@ -50,7 +50,7 @@ class App extends Component {
      * with the baseURL prepended in order to have a build that is relative to the baseURL.
      */
     let constructedLogoURL = config.logo
-    if (process.env.NODE_ENV !== 'development' && (!config.buildForRoot && config.baseURL)) {
+    if (process.env.NODE_ENV === 'production' && (!config.buildForRoot && config.baseURL)) {
       constructedLogoURL = `${config.baseURL}/${config.logo}`
     }
 
