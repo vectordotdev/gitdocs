@@ -52,30 +52,30 @@ function normalizeItems (data) {
 
 async function tableOfContents (toc, { input, items }) {
   // only add items that have a file associated with it
-    if (input) {
-      if (toc.page) {
-        toc.page = markdownToc(await getContent(input))
-          .json.filter(i => i.lvl <= (toc.max_depth || DEFAULT_TOC_DEPTH))
-      }
-
-      if (toc.folder) {
-        toc.folder = items
-          // only want children items that have an input
-          .filter(item => item.input)
-          // reduced data, since we don't need everything
-          .map(item => ({
-            title: item.title,
-            description: item.description,
-            url: item.url,
-          }))
-      }
+  if (input) {
+    if (toc.page) {
+      toc.page = markdownToc(await getContent(input))
+        .json.filter(i => i.lvl <= (toc.max_depth || DEFAULT_TOC_DEPTH))
     }
 
-    // dont keep empty arrays
-    if (!toc.page || !toc.page.length) delete toc.page
-    if (!toc.folder || !toc.folder.length) delete toc.folder
+    if (toc.folder) {
+      toc.folder = items
+        // only want children items that have an input
+        .filter(item => item.input)
+        // reduced data, since we don't need everything
+        .map(item => ({
+          title: item.title,
+          description: item.description,
+          url: item.url,
+        }))
+    }
+  }
 
-    return toc
+  // dont keep empty arrays
+  if (!toc.page || !toc.page.length) delete toc.page
+  if (!toc.folder || !toc.folder.length) delete toc.folder
+
+  return toc
 }
 
 async function hydrateTree (tree, config, opts = {}) {
