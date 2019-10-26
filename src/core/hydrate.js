@@ -6,6 +6,7 @@ const { mergeLeftByKey } = require('../utils/merge')
 const { getContent } = require('./filesystem')
 const { walkSource } = require('./source')
 const Sitemap = require('./sitemap')
+const DEFAULT_TOC_DEPTH = 2
 
 async function getMetaData (item, parentItems) {
   const data = item.type === 'file'
@@ -51,30 +52,30 @@ function normalizeItems (data) {
 
 async function tableOfContents (toc, { input, items }) {
   // only add items that have a file associated with it
-  if (input) {
-    if (toc.page) {
-      toc.page = markdownToc(await getContent(input))
-        .json.filter(i => i.lvl <= 2)
+    if (input) {
+      if (toc.page) {
+        toc.page = markdownToc(await getContent(input))
+          .json.filter(i => i.lvl <= (toc.max_depth || DEFAULT_TOC_DEPTH))
+      }
+
+      if (toc.folder) {
+        toc.folder = items
+          // only want children items that have an input
+          .filter(item => item.input)
+          // reduced data, since we don't need everything
+          .map(item => ({
+            title: item.title,
+            description: item.description,
+            url: item.url,
+          }))
+      }
     }
 
-    if (toc.folder) {
-      toc.folder = items
-        // only want children items that have an input
-        .filter(item => item.input)
-        // reduced data, since we don't need everything
-        .map(item => ({
-          title: item.title,
-          description: item.description,
-          url: item.url,
-        }))
-    }
-  }
+    // dont keep empty arrays
+    if (!toc.page || !toc.page.length) delete toc.page
+    if (!toc.folder || !toc.folder.length) delete toc.folder
 
-  // dont keep empty arrays
-  if (!toc.page || !toc.page.length) delete toc.page
-  if (!toc.folder || !toc.folder.length) delete toc.folder
-
-  return toc
+    return toc
 }
 
 async function hydrateTree (tree, config, opts = {}) {

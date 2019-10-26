@@ -38,6 +38,7 @@ module.exports = new Promise((resolve, reject) => {
 | table\_of_contents | object | | |
 | table\_of_contents.page | boolean | `true` | Whether to enable the table of contents for headers in the page. |
 | table\_of_contents.folder | boolean | `true` | Whether to enable the table of contents for pages in a folder (shown in the [index page](/index-files).) |
+| table\_of_contents.max_depth | number | `2` | Defines a maximum header level depth to render in the TOC. |
 | syntax | object | | |
 | syntax.theme | string | `atom-one-light` | The [syntax highlighting theme](/syntax-highlighting/#choosing-a-style) to use. |
 | syntax.renderer | string | `hljs` | The [syntax highlighting renderer](/syntax-highlighting/#choosing-a-renderer) to use. Options are `hljs` or `prism`. |
