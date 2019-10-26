@@ -8,7 +8,7 @@ const Toc = (props) => {
 
   // Create TOC hierarchy and link to headers
   const items = props.items.map(t => (
-    <li key={`${props.items}-${t.slug}`}>
+    <li key={`${props.items}-${t.slug}`} className={`level-${t.lvl}`}>
       <a href={`#${t.slug}`}>
         {t.content}
       </a>
@@ -16,7 +16,7 @@ const Toc = (props) => {
   ))
 
   return (
-    <PageItem sticky={props.sticky}>
+    <PageItem sticky={props.sticky} items={props.items}>
       <div>
         <h5>Table of Contents</h5>
         <ul>{items}</ul>

@@ -6,6 +6,7 @@ const { mergeLeftByKey } = require('../utils/merge')
 const { getContent } = require('./filesystem')
 const { walkSource } = require('./source')
 const Sitemap = require('./sitemap')
+const DEFAULT_TOC_DEPTH = 2
 
 async function getMetaData (item, parentItems) {
   const data = item.type === 'file'
@@ -54,7 +55,7 @@ async function tableOfContents (toc, { input, items }) {
   if (input) {
     if (toc.page) {
       toc.page = markdownToc(await getContent(input))
-        .json.filter(i => i.lvl <= 2)
+        .json.filter(i => i.lvl <= (toc.max_depth || DEFAULT_TOC_DEPTH))
     }
 
     if (toc.folder) {

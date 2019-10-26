@@ -5,6 +5,10 @@ export const Wrapper = styled('nav')`
   margin: 60px 0 0 5px;
   position: relative;
 `
+const generateListItemLevels = items => items.map(({ lvl }) => `
+  li.level-${lvl} {
+    padding-left: ${(lvl - 1) * 8}px;
+  }`).join(' ')
 
 export const PageItem = styled('nav')`
   position: relative;
@@ -43,6 +47,8 @@ export const PageItem = styled('nav')`
     line-height: 30px;
     display: block;
   }
+
+  ${props => props.items && generateListItemLevels(props.items)}
 
   a {
     text-decoration: none;
