@@ -27,6 +27,10 @@ export const MarkdownWrapper = styled('div')`
   flex: 1;
   max-width: 850px;
 
+  @media(max-width: 1440px) {
+    max-width: 800px;
+  }
+
   @media(max-width: 1200px) {
     padding: 0 50px 0 0;
   }
